@@ -10,20 +10,20 @@ However, this isn't meant to replace any form validation or mask library, you sh
 
 ## How does it work?
 
-### Credit card numbers
+#### Credit card numbers
 It detects credit card type dynamically by checking card [IIN](https://en.wikipedia.org/wiki/Payment_card_number#Issuer_identification_number_.28IIN.29). Based on different card types, lengths and grouping rules, it then separates the card number into blocks. 
 
-### Phone numbers
+#### Phone numbers
 It uses `AsYouTypeFormatter` from google [libphonenumber](https://github.com/googlei18n/libphonenumber/) library to separate the phone number. Since the original lib includes patterns metadata of all the countries, the size is relatively large (gzipped 50K). Cleave.js separates the module for each country, so that you can include any of them as an extension (gzipped 5KB). 
 
-### Date
+#### Date
 It revises invalid date input, and applies formatting with the pattern you passed in.
 
-### General
+#### General
 It can also separate the text content by customized block pattern, max length and delimiter.
 
 
-## Install
+## Installation
 
 ### npm
 
