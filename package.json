@@ -9,7 +9,7 @@
     "form",
     "input"
   ],
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": {
     "name": "Max Huang",
     "url": "http://github.com/nosir",
@@ -32,6 +32,7 @@
     "gulp-concat": "^2.6.0",
     "gulp-mocha": "^2.2.0",
     "gulp-rimraf": "^0.2.0",
+    "gulp-sync": "^0.1.4",
     "require-dir": "^0.3.0",
     "should": "^9.0.0",
     "uglify-js": "^2.6.2",

@@ -6,11 +6,10 @@ var paths = {
     src:       './src',
     build:     'build',
     shortcuts: 'shortcuts',
-
-    dist: './dist'
+    dist:      './dist'
 };
 
-gulp.task('concat', function () {
+gulp.task('build', function () {
     return gulp.src([
             path.join(paths.src, paths.build, 'prefix.js'),
             path.join(paths.src, 'Cleave.js'),

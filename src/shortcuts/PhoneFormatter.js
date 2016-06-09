@@ -3,7 +3,7 @@
 
 'use strict';
 
-var PhoneNumberFormatter = function (formatter, delimiter) {
+var PhoneFormatter = function (formatter, delimiter) {
     var owner = this;
 
     owner.delimiter = delimiter || ' ';
@@ -11,7 +11,7 @@ var PhoneNumberFormatter = function (formatter, delimiter) {
     owner.formatter = formatter;
 };
 
-PhoneNumberFormatter.prototype = {
+PhoneFormatter.prototype = {
     setFormatter: function (formatter) {
         this.formatter = formatter;
     },
@@ -58,8 +58,8 @@ PhoneNumberFormatter.prototype = {
 
 if (typeof module === 'object' && typeof module.exports === 'object') {
     // CommonJS
-    module.exports = exports = PhoneNumberFormatter;
+    module.exports = exports = PhoneFormatter;
 } else if (typeof window === 'object') {
     // Normal way
-    window.Cleave.PhoneNumberFormatter = PhoneNumberFormatter;
+    window.Cleave.PhoneFormatter = PhoneFormatter;
 }

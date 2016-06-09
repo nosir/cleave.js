@@ -1,17 +1,17 @@
 var _ = require('underscore');
 var should = require('should');
 
-var PhoneNumberFormatter = require('../src/shortcuts/PhoneNumberFormatter');
+var PhoneFormatter = require('../src/shortcuts/PhoneFormatter');
 // this one only exports the module for CommonJS mode
 // which is different from the prod one
 var PhoneTypeFormatter = require('./lib/phone-type-formatter.full.js');
 
 var phones = require('./fixtures/phone.json');
 
-describe('PhoneNumberFormatter', function () {
+describe('PhoneFormatter', function () {
     describe('format', function () {
         _.mapObject(phones.format, function (formats, key) {
-            var phoneNumberFormatter = new PhoneNumberFormatter(new PhoneTypeFormatter.Cleave.AsYouTypeFormatter(key));
+            var phoneNumberFormatter = new PhoneFormatter(new PhoneTypeFormatter.Cleave.AsYouTypeFormatter(key));
 
             _.each(formats, function (format) {
                 it('should format ' + key + ' phone number ' + format[0] + ' to ' + format[1], function () {
@@ -24,7 +24,7 @@ describe('PhoneNumberFormatter', function () {
     describe('delimiter', function () {
         var delimiter = phones.delimiter;
 
-        var phoneNumberFormatter = new PhoneNumberFormatter(new PhoneTypeFormatter.Cleave.AsYouTypeFormatter(delimiter.region), delimiter.sign);
+        var phoneNumberFormatter = new PhoneFormatter(new PhoneTypeFormatter.Cleave.AsYouTypeFormatter(delimiter.region), delimiter.sign);
 
         _.each(delimiter.format, function (format) {
             it('should format ' + delimiter.region + ' phone number ' + format[0] + ' to ' + format[1], function () {

@@ -29,19 +29,26 @@ var Cleave = function (element, opts) {
 
     opts = opts || {};
 
-    owner.prefix = opts.prefix || '';
-
-    owner.delimiter = opts.delimiter || ' ';
-    owner.delimiterRE = new RegExp(owner.delimiter, "g");
-
-    owner.regionCode = opts.regionCode || '';
-
+    // credit card
     owner.creditCard = !!opts.creditCard;
     owner.creditCardStrictMode = !!opts.creditCardStrictMode;
 
-    owner.numericOnly = owner.creditCard || !!owner.numericOnly;
-
+    // phone
     owner.phone = !!opts.phone;
+    owner.phoneRegionCode = opts.phoneRegionCode || '';
+    owner.phoneFormatter = {};
+
+    // date
+    owner.date = !!opts.date;
+    owner.datePattern = opts.datePattern || ['d', 'm', 'Y'];
+    owner.dateFormatter = {};
+
+    owner.numericOnly = owner.creditCard || owner.date || !!opts.numericOnly;
+
+    owner.prefix = opts.prefix || '';
+
+    owner.delimiter = opts.delimiter || (owner.date ? '/' : ' ');
+    owner.delimiterRE = new RegExp(owner.delimiter, "g");
 
     owner.blocks = opts.blocks || [];
     owner.blocksLength = owner.blocks.length;
@@ -69,7 +76,7 @@ Cleave.prototype = {
         var owner = this;
 
         // so no need for this lib at all
-        if (!owner.phone && !owner.creditCard && owner.blocks.length === 0) {
+        if (!owner.phone && !owner.creditCard && !owner.date && owner.blocks.length === 0) {
             return;
         }
 
@@ -78,12 +85,26 @@ Cleave.prototype = {
 
         owner.element.value = owner.prefix;
 
-        owner.initPhoneNumberFormatter();
+        owner.initPhoneFormatter();
+        owner.initDateFormatter();
 
         owner.onInput();
     },
 
-    initPhoneNumberFormatter: function () {
+    initDateFormatter: function () {
+        var owner = this;
+
+        if (!owner.date) {
+            return;
+        }
+
+        owner.dateFormatter = new Cleave.DateFormatter(owner.datePattern);
+        owner.blocks = owner.dateFormatter.getBlocks();
+        owner.blocksLength = owner.blocks.length;
+        owner.maxLength = owner.getMaxLength();
+    },
+
+    initPhoneFormatter: function () {
         var owner = this;
 
         if (!owner.phone) {
@@ -93,8 +114,8 @@ Cleave.prototype = {
         // Cleave.AsYouTypeFormatter should be provided by
         // external google closure lib
         try {
-            owner.phoneNumberFormatter = new Cleave.PhoneNumberFormatter(
-                new window.Cleave.AsYouTypeFormatter(owner.regionCode),
+            owner.phoneFormatter = new Cleave.PhoneFormatter(
+                new window.Cleave.AsYouTypeFormatter(owner.phoneRegionCode),
                 owner.delimiter
             );
         } catch (ex) {
@@ -138,9 +159,14 @@ Cleave.prototype = {
 
         // phone formatter
         if (owner.phone) {
-            owner.element.value = owner.phoneNumberFormatter.format(value);
+            owner.element.value = owner.phoneFormatter.format(value);
 
             return;
+        }
+
+        // date
+        if (owner.date) {
+            value = owner.dateFormatter.getValidatedDate(value);
         }
 
         // strip delimiters
@@ -188,11 +214,11 @@ Cleave.prototype = {
         owner.element.value = owner.result;
     },
 
-    setRegionCode: function (regionCode) {
+    setPhoneRegionCode: function (phoneRegionCode) {
         var owner = this;
 
-        owner.regionCode = regionCode;
-        owner.initPhoneNumberFormatter();
+        owner.phoneRegionCode = phoneRegionCode;
+        owner.initPhoneFormatter();
         owner.onInput();
     },
 
@@ -222,7 +248,8 @@ Cleave.prototype = {
 if (typeof module === 'object' && typeof module.exports === 'object') {
     // CommonJS
     Cleave.CreditCardDetector = require('./shortcuts/CreditCardDetector');
-    Cleave.PhoneNumberFormatter = require('./shortcuts/PhoneNumberFormatter');
+    Cleave.PhoneFormatter = require('./shortcuts/PhoneFormatter');
+    Cleave.DateFormatter = require('./shortcuts/DateFormatter');
 
     module.exports = exports = Cleave;
 
@@ -311,7 +338,78 @@ if (typeof module === 'object' && typeof module.exports === 'object') {
 
 'use strict';
 
-var PhoneNumberFormatter = function (formatter, delimiter) {
+var DateFormatter = function (datePattern) {
+    var owner = this;
+
+    owner.blocks = [];
+    owner.datePattern = datePattern;
+    owner.initBlocks();
+};
+
+DateFormatter.prototype = {
+    initBlocks: function () {
+        var owner = this;
+        owner.datePattern.forEach(function (value) {
+            if (value === 'Y') {
+                owner.blocks.push(4);
+            } else {
+                owner.blocks.push(2);
+            }
+        });
+    },
+
+    getBlocks: function () {
+        return this.blocks;
+    },
+
+    getValidatedDate: function (value) {
+        var owner = this, result = '';
+
+        value = value.replace(/[^\d]/g, '');
+
+        owner.blocks.forEach(function (length, index) {
+            if (value.length > 0) {
+                var sub = value.slice(0, length),
+                    rest = value.slice(length);
+
+                switch (owner.datePattern[index]) {
+                case 'd':
+                    if (parseInt(sub, 10) > 31) {
+                        sub = '31';
+                    }
+                    break;
+                case 'm':
+                    if (parseInt(sub, 10) > 12) {
+                        sub = '12';
+                    }
+                    break;
+                }
+
+                result += sub;
+
+                // update remaining string
+                value = rest;
+            }
+        });
+
+        return result;
+    }
+};
+
+if (typeof module === 'object' && typeof module.exports === 'object') {
+    // CommonJS
+    module.exports = exports = DateFormatter;
+} else if (typeof window === 'object') {
+    // Normal way
+    window.Cleave.DateFormatter = DateFormatter;
+}
+
+/*jslint node: true */
+/* global window: true, module: true, exports: true */
+
+'use strict';
+
+var PhoneFormatter = function (formatter, delimiter) {
     var owner = this;
 
     owner.delimiter = delimiter || ' ';
@@ -319,7 +417,7 @@ var PhoneNumberFormatter = function (formatter, delimiter) {
     owner.formatter = formatter;
 };
 
-PhoneNumberFormatter.prototype = {
+PhoneFormatter.prototype = {
     setFormatter: function (formatter) {
         this.formatter = formatter;
     },
@@ -366,10 +464,10 @@ PhoneNumberFormatter.prototype = {
 
 if (typeof module === 'object' && typeof module.exports === 'object') {
     // CommonJS
-    module.exports = exports = PhoneNumberFormatter;
+    module.exports = exports = PhoneFormatter;
 } else if (typeof window === 'object') {
     // Normal way
-    window.Cleave.PhoneNumberFormatter = PhoneNumberFormatter;
+    window.Cleave.PhoneFormatter = PhoneFormatter;
 }
 
 })(window, document);
