@@ -1,7 +1,7 @@
 ;(function(window, document, undefined) {
 
 /* jslint node: true */
-/* global window: true, module: true, exports: true */
+/* global window: true, module: true, exports: true, define: true */
 
 'use strict';
 
@@ -253,7 +253,10 @@ if (typeof module === 'object' && typeof module.exports === 'object') {
 
     module.exports = exports = Cleave;
 
-} else if (typeof window === 'object') {
+} else if (typeof define === 'function' && define.amd) {
+    // AMD support
+    define(function () { return Cleave; });
+}  else if (typeof window === 'object') {
     // normal way
     window.Cleave = Cleave;
 }

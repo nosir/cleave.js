@@ -1,5 +1,5 @@
 /*jslint node: true */
-/* global window: true, module: true, exports: true */
+/* global window: true, module: true, exports: true, define: true */
 
 'use strict';
 var CreditCardDetector = {
@@ -68,6 +68,11 @@ var CreditCardDetector = {
 if (typeof module === 'object' && typeof module.exports === 'object') {
     // CommonJS
     module.exports = exports = CreditCardDetector;
+} else if (typeof define === 'function' && define.amd) {
+    // AMD
+    define(function () {
+        return CreditCardDetector;
+    });
 } else if (typeof window === 'object') {
     // Normal way
     window.Cleave.CreditCardDetector = CreditCardDetector;

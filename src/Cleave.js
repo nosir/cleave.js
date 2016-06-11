@@ -1,5 +1,5 @@
 /* jslint node: true */
-/* global window: true, module: true, exports: true */
+/* global window: true, module: true, exports: true, define: true */
 
 'use strict';
 
@@ -251,7 +251,21 @@ if (typeof module === 'object' && typeof module.exports === 'object') {
 
     module.exports = exports = Cleave;
 
+} else if (typeof define === 'function' && define.amd) {
+    // AMD
+    define([
+        './shortcuts/CreditCardDetector',
+        './shortcuts/PhoneFormatter',
+        './shortcuts/DateFormatter'
+    ], function (CreditCardDetector, PhoneFormatter, DateFormatter) {
+        Cleave.CreditCardDetector = CreditCardDetector;
+        Cleave.PhoneFormatter = PhoneFormatter;
+        Cleave.DateFormatter = DateFormatter;
+
+        return Cleave;
+    });
+
 } else if (typeof window === 'object') {
-    // normal way
+    // Normal way
     window.Cleave = Cleave;
 }

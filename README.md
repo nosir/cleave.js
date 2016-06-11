@@ -6,7 +6,9 @@ Cleave.js has a simple purpose: to help you separate text input content automati
 
 The idea is to provide an easy way to increase readability when you are typing. By using the library, you won't need to write any mind-blowing regular expressions or mask patterns to format input text.
 
-However, this isn't meant to replace any form validation or mask library, you should still do validation when submitting data.
+However, this isn't meant to replace any form validation or mask library, you should still validate your data before submitting.
+
+**tl;dr** [the demo page]()
 
 ## How does it work?
 
@@ -65,23 +67,30 @@ var cleavePhone = new Cleave('.input-phone', {
 });
 ```
 
-More examples: [demo page](https://github.com)
+More examples: [the demo page](https://github.com)
 
-### CommonJS / NodeJS
+### CommonJS / AMD
 
 ```javascript
+// CommonJS
 var Cleave = require('cleave.js');
 require('cleave.js/dist/ext/cleave-phone.{country}');
 ```
 
-## Build & Run tests
+```javascript
+// AMD
+var Cleave = require('cleave.js');
+require('cleave.js/dist/ext/cleave-phone.{country}');
+```
+
+## Building & Running tests
 
 ```
-gulp build
+npm install
 ```
 
 ```
-gulp test
+gulp build & gulp test
 ```
 
 ## References

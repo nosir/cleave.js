@@ -1,5 +1,5 @@
 /*jslint node: true */
-/* global window: true, module: true, exports: true */
+/* global window: true, module: true, exports: true, define: true */
 
 'use strict';
 
@@ -59,6 +59,11 @@ PhoneFormatter.prototype = {
 if (typeof module === 'object' && typeof module.exports === 'object') {
     // CommonJS
     module.exports = exports = PhoneFormatter;
+} else if (typeof define === 'function' && define.amd) {
+    // AMD
+    define(function () {
+        return PhoneFormatter;
+    });
 } else if (typeof window === 'object') {
     // Normal way
     window.Cleave.PhoneFormatter = PhoneFormatter;
