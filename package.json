@@ -1,7 +1,7 @@
 {
   "name": "cleave.js",
   "title": "cleave.js",
-  "description": "JavaScript Library for",
+  "description": "JavaScript library to separate input text content when you are typing",
   "keywords": [
     "cleave",
     "javascript",
@@ -9,7 +9,7 @@
     "form",
     "input"
   ],
-  "version": "0.0.4",
+  "version": "0.0.5",
   "author": {
     "name": "Max Huang",
     "url": "http://github.com/nosir",
@@ -19,7 +19,7 @@
   "bugs": "https://github.com/nosir/cleave.js/issues",
   "homepage": "https://github.com/nosir/cleave.js",
   "docs": "https://github.com/nosir/cleave.js/blob/master/README.md",
-  "main": "src/Cleave.js",
+  "main": "dist/cleave.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/nosir/cleave.js.git"

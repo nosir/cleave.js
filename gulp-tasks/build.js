@@ -14,9 +14,9 @@ gulp.task('build', function () {
             path.join(paths.src, paths.build, 'prefix.js'),
             path.join(paths.src, 'Cleave.js'),
             path.join(paths.src, paths.shortcuts, '**/*.js'),
-            path.join(paths.src, paths.build, 'suffix.js'),
+            path.join(paths.src, paths.build, 'expose.js'),
+            path.join(paths.src, paths.build, 'suffix.js')
         ])
         .pipe(concat('cleave.js'))
         .pipe(gulp.dest(paths.dist));
 });
-

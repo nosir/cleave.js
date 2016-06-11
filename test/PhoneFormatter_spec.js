@@ -4,7 +4,7 @@ var should = require('should');
 var PhoneFormatter = require('../src/shortcuts/PhoneFormatter');
 // this one only exports the module for CommonJS mode
 // which is different from the prod one
-var PhoneTypeFormatter = require('./lib/phone-type-formatter.full.js');
+var PhoneTypeFormatter = require('./vendor/phone-type-formatter.full.js');
 
 var phones = require('./fixtures/phone.json');
 

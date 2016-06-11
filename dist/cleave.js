@@ -1,7 +1,7 @@
 ;(function(window, document, undefined) {
 
 /* jslint node: true */
-/* global window: true, module: true, exports: true, define: true */
+/* global window: true */
 
 'use strict';
 
@@ -245,24 +245,8 @@ Cleave.prototype = {
     }
 };
 
-if (typeof module === 'object' && typeof module.exports === 'object') {
-    // CommonJS
-    Cleave.CreditCardDetector = require('./shortcuts/CreditCardDetector');
-    Cleave.PhoneFormatter = require('./shortcuts/PhoneFormatter');
-    Cleave.DateFormatter = require('./shortcuts/DateFormatter');
-
-    module.exports = exports = Cleave;
-
-} else if (typeof define === 'function' && define.amd) {
-    // AMD support
-    define(function () { return Cleave; });
-}  else if (typeof window === 'object') {
-    // normal way
-    window.Cleave = Cleave;
-}
-
 /*jslint node: true */
-/* global window: true, module: true, exports: true */
+/* global module: true, exports: true */
 
 'use strict';
 var CreditCardDetector = {
@@ -328,16 +312,14 @@ var CreditCardDetector = {
     }
 };
 
-if (typeof module === 'object' && typeof module.exports === 'object') {
-    // CommonJS
+// for unit tests spec to load module easily
+if (typeof global !== "undefined" && {}.toString.call(global) === '[object global]' &&
+    typeof module === 'object' && typeof module.exports === 'object') {
     module.exports = exports = CreditCardDetector;
-} else if (typeof window === 'object') {
-    // Normal way
-    window.Cleave.CreditCardDetector = CreditCardDetector;
 }
 
 /*jslint node: true */
-/* global window: true, module: true, exports: true */
+/* global module: true, exports: true */
 
 'use strict';
 
@@ -399,16 +381,14 @@ DateFormatter.prototype = {
     }
 };
 
-if (typeof module === 'object' && typeof module.exports === 'object') {
-    // CommonJS
+// for unit tests spec to load module easily
+if (typeof global !== "undefined" && {}.toString.call(global) === '[object global]' &&
+    typeof module === 'object' && typeof module.exports === 'object') {
     module.exports = exports = DateFormatter;
-} else if (typeof window === 'object') {
-    // Normal way
-    window.Cleave.DateFormatter = DateFormatter;
 }
 
 /*jslint node: true */
-/* global window: true, module: true, exports: true */
+/* global module: true, exports: true */
 
 'use strict';
 
@@ -465,12 +445,29 @@ PhoneFormatter.prototype = {
     }
 };
 
+// for unit tests spec to load module easily
+if (typeof global !== "undefined" && {}.toString.call(global) === '[object global]' &&
+    typeof module === 'object' && typeof module.exports === 'object') {
+    module.exports = exports = PhoneFormatter;
+}
+
+Cleave.DateFormatter = DateFormatter;
+Cleave.PhoneFormatter = PhoneFormatter;
+Cleave.CreditCardDetector = CreditCardDetector;
+
 if (typeof module === 'object' && typeof module.exports === 'object') {
     // CommonJS
-    module.exports = exports = PhoneFormatter;
+    module.exports = exports = Cleave;
+
+} else if (typeof define === 'function' && define.amd) {
+    // AMD support
+    define(function () {
+        return Cleave;
+    });
+
 } else if (typeof window === 'object') {
     // Normal way
-    window.Cleave.PhoneFormatter = PhoneFormatter;
+    window.Cleave = Cleave;
 }
 
 })(window, document);

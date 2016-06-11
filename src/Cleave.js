@@ -1,5 +1,5 @@
 /* jslint node: true */
-/* global window: true, module: true, exports: true, define: true */
+/* global window: true */
 
 'use strict';
 
@@ -242,30 +242,3 @@ Cleave.prototype = {
         return '[Cleave Object]';
     }
 };
-
-if (typeof module === 'object' && typeof module.exports === 'object') {
-    // CommonJS
-    Cleave.CreditCardDetector = require('./shortcuts/CreditCardDetector');
-    Cleave.PhoneFormatter = require('./shortcuts/PhoneFormatter');
-    Cleave.DateFormatter = require('./shortcuts/DateFormatter');
-
-    module.exports = exports = Cleave;
-
-} else if (typeof define === 'function' && define.amd) {
-    // AMD
-    define([
-        './shortcuts/CreditCardDetector',
-        './shortcuts/PhoneFormatter',
-        './shortcuts/DateFormatter'
-    ], function (CreditCardDetector, PhoneFormatter, DateFormatter) {
-        Cleave.CreditCardDetector = CreditCardDetector;
-        Cleave.PhoneFormatter = PhoneFormatter;
-        Cleave.DateFormatter = DateFormatter;
-
-        return Cleave;
-    });
-
-} else if (typeof window === 'object') {
-    // Normal way
-    window.Cleave = Cleave;
-}

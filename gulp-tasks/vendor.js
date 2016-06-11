@@ -5,23 +5,24 @@ var rimraf = require('gulp-rimraf');
 var gulpsync = require('gulp-sync')(gulp);
 
 var paths = {
-    lib:  './lib',
-    dist: './dist'
+    src:    './src',
+    vendor: 'vendor',
+    dist:   './dist'
 };
 
-gulp.task('ext:clean', function () {
+gulp.task('vendor:clean', function () {
     return gulp.src([
-            path.join(paths.dist, 'ext/*.js')
+            path.join(paths.dist, paths.vendor, '*.js')
         ])
         .pipe(rimraf());
 });
 
-gulp.task('ext:build', function () {
-    return gulp.src(path.join(paths.lib, '*.js'))
+gulp.task('vendor:build', function () {
+    return gulp.src(path.join(paths.src, paths.vendor, '*.js'))
         .pipe(rename(function (path) {
             path.basename = path.basename.replace('phone-type-formatter', 'cleave-phone');
         }))
-        .pipe(gulp.dest(path.join(paths.dist, 'ext')));
+        .pipe(gulp.dest(path.join(paths.dist, paths.vendor)));
 });
 
-gulp.task('ext', gulpsync.sync(['ext:clean', 'ext:build']));
+gulp.task('vendor', gulpsync.sync(['vendor:clean', 'vendor:build']));

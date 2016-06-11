@@ -1,5 +1,5 @@
 /*jslint node: true */
-/* global window: true, module: true, exports: true, define: true */
+/* global module: true, exports: true */
 
 'use strict';
 var CreditCardDetector = {
@@ -65,15 +65,8 @@ var CreditCardDetector = {
     }
 };
 
-if (typeof module === 'object' && typeof module.exports === 'object') {
-    // CommonJS
+// for unit tests spec to load module easily
+if (typeof global !== "undefined" && {}.toString.call(global) === '[object global]' &&
+    typeof module === 'object' && typeof module.exports === 'object') {
     module.exports = exports = CreditCardDetector;
-} else if (typeof define === 'function' && define.amd) {
-    // AMD
-    define(function () {
-        return CreditCardDetector;
-    });
-} else if (typeof window === 'object') {
-    // Normal way
-    window.Cleave.CreditCardDetector = CreditCardDetector;
 }
