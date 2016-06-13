@@ -2,7 +2,7 @@
 
 [![Travis](https://img.shields.io/travis/nosir/cleave.js.svg?maxAge=2592000)](https://travis-ci.org/nosir/cleave.js)
 
-Cleave.js has a simple purpose: to help you separate input text content automatically.
+Cleave.js has a simple purpose: to help you format input text content automatically.
 
 The idea is to provide an easy way to increase readability when you are typing. By using the library, you won't need to write any mind-blowing regular expressions or mask patterns to format input text.
 
@@ -12,7 +12,7 @@ However, this isn't meant to replace any form validation or mask library, you sh
 
 ## Features
 - Credit card number formatting
-- Phone number formatting (country specify support)
+- Phone number formatting (lib separated by countries to reduce size)
 - Date formatting
 - Customize delimiter, prefix and blocks pattern
 - CommonJS / AMD support
@@ -31,7 +31,7 @@ npm install --save cleave.js
 bower install --save cleave.js
 ```
 
-#### Manually download
+#### TBT
 Grab the file from [dist](https://github.com/nosir/cleave.js/tree/master/dist) folder
 
 ## Usage
@@ -43,7 +43,7 @@ Simply include
 <script src="cleave-phone.{country}.js"></script>
 ```
 
-> `cleave-phone.js` is only required when phone number formatting option is enabled. This is same for CommonJS and AMD mode below
+> `cleave-phone.js` is only required when phone shortcut mode is enabled. See more at: [Phone lib usage](https://github.com/nosir/cleave.js/blob/master/doc/phone-lib-usage.md)
 
 Then have a text field
 
@@ -89,16 +89,10 @@ npm install
 gulp build & gulp test
 ```
 
-## How does it work?
+## Documentation
 
-#### Credit card numbers
-It detects credit card type dynamically by checking card [IIN](https://en.wikipedia.org/wiki/Payment_card_number#Issuer_identification_number_.28IIN.29). Based on different card types, lengths and grouping rules, it then separates the card number into blocks. 
-
-#### Phone numbers
-It uses `AsYouTypeFormatter` from google [libphonenumber](https://github.com/googlei18n/libphonenumber/) library to separate the phone number. Since the original lib includes patterns metadata of all the countries, the size is relatively large (gzipped 50K). Cleave.js separates the module for each country, so that you can include any of them as an extension (gzipped 5KB). 
-
-#### Date
-It revises invalid date input, and applies formatting with the pattern you passed in.
+- [JavaScript API](https://github.com/nosir/cleave.js/blob/master/doc/js-api.md)
+- [Phone lib usage](https://github.com/nosir/cleave.js/blob/master/doc/phone-lib-usage.md)
 
 ## References
 
