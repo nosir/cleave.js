@@ -45,7 +45,8 @@ var Cleave = function (element, opts) {
 
     owner.numericOnly = owner.creditCard || owner.date || !!opts.numericOnly;
 
-    owner.prefix = opts.prefix || '';
+    owner.prefix = (owner.creditCard || owner.phone || owner.date) ? '' : (opts.prefix || '');
+    owner.prefixLength = owner.prefix.length;
 
     owner.delimiter = opts.delimiter || (owner.date ? '/' : ' ');
     owner.delimiterRE = new RegExp(owner.delimiter, "g");
@@ -146,7 +147,8 @@ Cleave.prototype = {
     onInput: function () {
         var owner = this,
             value = owner.element.value,
-            prev = value;
+            prev = value,
+            prefixLengthValue;
 
         // case 1: delete one more character "4"
         // 1234*| -> hit backspace -> 123|
@@ -171,6 +173,17 @@ Cleave.prototype = {
 
         // strip delimiters
         value = Cleave.utils.strip(value, owner.delimiterRE);
+
+        // prefix
+        if (owner.prefix.length > 0) {
+            prefixLengthValue = Cleave.utils.headStr(value, owner.prefixLength);
+
+            if (prefixLengthValue.length < owner.prefixLength) {
+                value = owner.prefix;
+            } else if (prefixLengthValue !== owner.prefix) {
+                value = owner.prefix + value.slice(owner.prefixLength);
+            }
+        }
 
         // strip non-numeric characters
         if (owner.numericOnly) {

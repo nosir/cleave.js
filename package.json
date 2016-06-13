@@ -1,15 +1,16 @@
 {
   "name": "cleave.js",
   "title": "cleave.js",
-  "description": "JavaScript library to separate input text content when you are typing",
+  "description": "JavaScript library to format input text content when you are typing",
   "keywords": [
     "cleave",
     "javascript",
     "html",
+    "format",
     "form",
     "input"
   ],
-  "version": "0.0.5",
+  "version": "0.0.6",
   "author": {
     "name": "Max Huang",
     "url": "http://github.com/nosir",

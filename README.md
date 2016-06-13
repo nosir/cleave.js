@@ -31,7 +31,7 @@ npm install --save cleave.js
 bower install --save cleave.js
 ```
 
-#### TBT
+#### throwback
 Grab the file from [dist](https://github.com/nosir/cleave.js/tree/master/dist) folder
 
 ## Usage
@@ -43,7 +43,7 @@ Simply include
 <script src="cleave-phone.{country}.js"></script>
 ```
 
-> `cleave-phone.js` is only required when phone shortcut mode is enabled. See more at: [Phone lib usage](https://github.com/nosir/cleave.js/blob/master/doc/phone-lib-usage.md)
+> `cleave-phone.js` is only required when phone shortcut mode is enabled. See more in documentation: [phone lib usage](https://github.com/nosir/cleave.js/blob/master/doc/phone-lib-usage.md) section
 
 Then have a text field
 
@@ -74,7 +74,7 @@ var cleave = new Cleave(...)
 #### AMD
 
 ```javascript
-require(['cleave.min', 'vendor/cleave-phone.{country}'], function (Cleave) {
+require(['dist/cleave.min', 'dist/vendor/cleave-phone.{country}'], function (Cleave) {
     var cleavePhone = new Cleave(...)
 });
 ```

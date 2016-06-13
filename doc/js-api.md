@@ -49,7 +49,7 @@ Sets / Changes country region code.
 
 You will only need to call this when dealing with country switching for a phone input field.
 
-e.g. user selected a different country option via a form `<select>`, which triggered the country change. See more in [Phone formatter usage](https://github.com/nosir/cleave.js/blob/master/doc/phone-lib-usage.md)
+e.g. user selected a different country option via a form `<select>`, which triggered the country change. See more in documentation [phone lib usage](https://github.com/nosir/cleave.js/blob/master/doc/phone-lib-usage.md) section.
 
 
 ## Options
@@ -66,6 +66,15 @@ It detects credit card type dynamically and automatically by checking card [IIN]
 new Cleave('.my-input', {
     creditCard: true
 });
+```
+
+```
+// Visa:        XXXX XXXX XXXX XXXX
+// Amex:        XXXX XXXXXX XXXXX
+// MasterCard:  XXXX XXXX XXXX XXXX
+// Diners Club: XXXX XXXXXX XXXX
+// UATP:        XXXX XXXXX XXXXXX
+...
 ```
 
 ### `creditCardStrictMode`
@@ -106,6 +115,13 @@ new Cleave('.my-input', {
 });
 ```
 
+```
+// +61 4XX XXX XXX
+// +61 2 XXXX XXXX
+// 04XX XXX XXX
+// 02 XXXX XXXX
+```
+
 ### `date`
 
 A `Boolean` value indicates if this is a date input field. Enable to trigger date shortcut mode.
@@ -118,12 +134,6 @@ An `Array` value indicates the date pattern.
 
 Since it's an input field, leading `0` before date and month is required. To indicate what patterns it should apply, you can use: 'Y', 'y', 'm' and 'd'.
 
-```
-['d', 'm', 'Y']: 26/04/1965
-['d', 'm', 'y']: 26/04/65
-['Y', 'm', 'd']: 1965/04/26
-```
-
 **Default value**: `['d', 'm', 'Y']`
 
 ```js
@@ -131,6 +141,12 @@ new Cleave('.my-input', {
     date: true,
     datePattern: ['Y', 'm', 'd']
 });
+```
+
+```
+['d', 'm', 'Y']: 26/04/1965
+['d', 'm', 'y']: 26/04/65
+['Y', 'm', 'd']: 1965/04/26
 ```
 
 ### `numericOnly`
@@ -154,9 +170,13 @@ new Cleave('.my-input', {
 });
 ```
 
+```
+// XXXX-XXXX-XXXX-XXXX
+```
+
 ### `blocks`
 
-An `Array` value indicates the groups to format the input value.
+An `Array` value indicates the groups to format the input value. It will insert delimiters in between these groups.
 
 Ignored by `creditCard`, `phone` and `date` shortcuts mode, the value will be set internally.
 
@@ -164,6 +184,27 @@ Ignored by `creditCard`, `phone` and `date` shortcuts mode, the value will be se
 
 ```js
 new Cleave('.my-input', {
-    blocks: [3, 3, 3]
+    blocks: [2, 5, 5]
 });
+```
+
+```
+// XX XXXXX XXXXX
+```
+
+### `prefix`
+
+A `String` value indicates the prepend string. It can't be removed or changed in the input field.
+
+**Default value**: `null`
+
+```js
+new Cleave('.my-input', {
+    blocks: [6, 3, 3],
+    prefix: '253874'
+});
+```
+
+```
+// 253874 XXX XXX
 ```
