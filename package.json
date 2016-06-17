@@ -1,7 +1,7 @@
 {
   "name": "cleave.js",
   "title": "cleave.js",
-  "description": "JavaScript library to format input text content when you are typing",
+  "description": "JavaScript library for formatting input text content when you are typing",
   "keywords": [
     "cleave",
     "javascript",
@@ -10,7 +10,7 @@
     "form",
     "input"
   ],
-  "version": "0.0.6",
+  "version": "0.0.7",
   "author": {
     "name": "Max Huang",
     "url": "http://github.com/nosir",
@@ -29,15 +29,24 @@
     "test": "gulp test"
   },
   "devDependencies": {
+    "browserify": "^13.0.1",
+    "errorify": "^0.3.1",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.0",
+    "gulp-jshint": "^2.0.1",
     "gulp-mocha": "^2.2.0",
     "gulp-rename": "^1.2.2",
     "gulp-rimraf": "^0.2.0",
     "gulp-sync": "^0.1.4",
+    "gulp-uglify": "^1.5.3",
+    "jshint-stylish": "^2.2.0",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0",
+    "reactify": "^1.1.1",
     "require-dir": "^0.3.0",
     "should": "^9.0.0",
-    "uglify-js": "^2.6.2",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.7.0"
   }
 }

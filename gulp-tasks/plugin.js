@@ -6,23 +6,23 @@ var gulpsync = require('gulp-sync')(gulp);
 
 var paths = {
     src:    './src',
-    vendor: 'vendor',
+    plugin: 'plugin',
     dist:   './dist'
 };
 
-gulp.task('vendor:clean', function () {
+gulp.task('plugin:clean', function () {
     return gulp.src([
-            path.join(paths.dist, paths.vendor, '*.js')
+            path.join(paths.dist, paths.plugin, '*.js')
         ])
         .pipe(rimraf());
 });
 
-gulp.task('vendor:build', function () {
-    return gulp.src(path.join(paths.src, paths.vendor, '*.js'))
+gulp.task('plugin:build', function () {
+    return gulp.src(path.join(paths.src, paths.plugin, '*.js'))
         .pipe(rename(function (path) {
             path.basename = path.basename.replace('phone-type-formatter', 'cleave-phone');
         }))
-        .pipe(gulp.dest(path.join(paths.dist, paths.vendor)));
+        .pipe(gulp.dest(path.join(paths.dist, paths.plugin)));
 });
 
-gulp.task('vendor', gulpsync.sync(['vendor:clean', 'vendor:build']));
+gulp.task('plugin', gulpsync.sync(['plugin:clean', 'plugin:build']));

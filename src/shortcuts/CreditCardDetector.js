@@ -2,6 +2,7 @@
 /* global module: true, exports: true */
 
 'use strict';
+
 var CreditCardDetector = {
     blocks: {
         uatp:          [4, 5, 6],
@@ -40,8 +41,13 @@ var CreditCardDetector = {
 
     getBlocksByPAN: function (value, strictMode) {
         var blocks = CreditCardDetector.blocks,
-            re = CreditCardDetector.re,
-            strict = !!strictMode;
+            re = CreditCardDetector.re;
+
+        // In theory, credit card can have up to 19 digits number.
+        // Set strictMode to true will remove the 16 max-length restrain,
+        // however, I never found any website validate card number like
+        // this, hence probably you don't need to enable this option.
+        strictMode = !!strictMode;
 
         if (re.amex.test(value)) {
             return blocks.amex;
@@ -57,7 +63,7 @@ var CreditCardDetector = {
             return blocks.instapayment;
         } else if (re.jcb.test(value)) {
             return blocks.jcb;
-        } else if (strict) {
+        } else if (strictMode) {
             return blocks.generalStrict;
         } else {
             return blocks.generalLoose;
@@ -66,7 +72,7 @@ var CreditCardDetector = {
 };
 
 // for unit tests spec to load module easily
-if (typeof global !== "undefined" && {}.toString.call(global) === '[object global]' &&
+if (typeof global !== 'undefined' && {}.toString.call(global) === '[object global]' &&
     typeof module === 'object' && typeof module.exports === 'object') {
     module.exports = exports = CreditCardDetector;
 }

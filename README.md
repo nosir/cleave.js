@@ -6,7 +6,7 @@ Cleave.js has a simple purpose: to help you format input text content automatica
 
 The idea is to provide an easy way to increase readability when you are typing. By using the library, you won't need to write any mind-blowing regular expressions or mask patterns to format input text.
 
-However, this isn't meant to replace any form validation or mask library, you should still validate your data before submitting.
+However, this isn't meant to replace any form validation or mask library, you should still sanitize and validate your data in backend.
 
 **tl;dr** [the demo page]()
 
@@ -14,6 +14,7 @@ However, this isn't meant to replace any form validation or mask library, you sh
 - Credit card number formatting
 - Phone number formatting (lib separated by countries to reduce size)
 - Date formatting
+- Numeral formatting
 - Customize delimiter, prefix and blocks pattern
 - CommonJS / AMD support
 
@@ -66,7 +67,6 @@ More examples: [the demo page](https://github.com)
 
 ```javascript
 var Cleave = require('cleave.js');
-require('cleave.js/dist/vendor/cleave-phone.{country}');
 
 var cleave = new Cleave(...)
 ```
@@ -74,10 +74,18 @@ var cleave = new Cleave(...)
 #### AMD
 
 ```javascript
-require(['dist/cleave.min', 'dist/vendor/cleave-phone.{country}'], function (Cleave) {
-    var cleavePhone = new Cleave(...)
+require(['dist/cleave.min', 'dist/plugin/cleave-phone.{country}'], function (Cleave) {
+    var cleave = new Cleave(...)
 });
 ```
+
+## Documentation
+
+- [JavaScript API](https://github.com/nosir/cleave.js/blob/master/doc/js-api.md)
+    - [Constructor](https://github.com/nosir/cleave.js/blob/master/doc/constructor.md)
+    - [Options](https://github.com/nosir/cleave.js/blob/master/doc/options.md)
+    - [Public methods](https://github.com/nosir/cleave.js/blob/master/doc/public-methods.md)
+- [Phone lib usage](https://github.com/nosir/cleave.js/blob/master/doc/phone-lib-usage.md)
 
 ## Building & Running tests
 
@@ -85,19 +93,23 @@ require(['dist/cleave.min', 'dist/vendor/cleave-phone.{country}'], function (Cle
 npm install
 ```
 
+Build assets
+
 ```
-gulp build & gulp test
+gulp build
 ```
 
-## Documentation
+Run unit tests and js code validation 
 
-- [JavaScript API](https://github.com/nosir/cleave.js/blob/master/doc/js-api.md)
-- [Phone lib usage](https://github.com/nosir/cleave.js/blob/master/doc/phone-lib-usage.md)
+```
+gulp mocha && gulp jshint
+```
 
 ## References
 
 - Payment credit card number IIN https://en.wikipedia.org/wiki/Payment_card_number#Issuer_identification_number_.28IIN.29
 - Google phone numbers formatting https://github.com/googlei18n/libphonenumber
+- Decimal mark and thousands separating style https://en.wikipedia.org/wiki/Decimal_mark#Examples_of_use
 
 ## Licence
 

@@ -1,10 +1,12 @@
-# Phone lib usage
+# Documentation 
+
+[Cleave.js](https://github.com/nosir/cleave.js) > Phone lib usage
 
 ## Steps
 
 - Include `cleave-phone.{country}.js` as a shortcut extension.
 
-- Enable [phone option](https://github.com/nosir/cleave.js/blob/master/doc/js-api.md#phone) to create Cleave instance.
+- Enable [phone option](https://github.com/nosir/cleave.js/blob/master/doc/options.md#phonenumbers) to create Cleave instance.
 
 ## Why separate phone lib
 
@@ -14,7 +16,7 @@ Since the original lib includes patterns for all the countries, the file size is
 
 ## How to include phone lib
 
-Under `dist/vendor` folder, you can find:
+Under `dist/plugin` folder, you can find:
 
 - Individual `cleave-phone.{country}.js` for every single country
 - All-in-one `cleave-phone.full.js` but with large size
@@ -32,7 +34,7 @@ Under `dist/vendor` folder, you can find:
 
 ```javascript
 var Cleave = require('cleave.js');
-require('cleave.js/dist/vendor/cleave-phone.{country}');
+require('cleave.js/dist/plugin/cleave-phone.{country}');
 
 var cleave = new Cleave(...)
 ```
@@ -40,7 +42,7 @@ var cleave = new Cleave(...)
 ### AMD
 
 ```javascript
-require(['cleave.min', 'vendor/cleave-phone.{country}'], function (Cleave) {
+require(['cleave.min', 'plugin/cleave-phone.{country}'], function (Cleave) {
     var cleavePhone = new Cleave(...)
 });
 ```

@@ -1,5 +1,5 @@
 /* jslint node: true */
-/* global window: true */
+/* global window: true, document: true */
 
 'use strict';
 
@@ -41,12 +41,18 @@ var Cleave = function (element, opts) {
     owner.datePattern = opts.datePattern || ['d', 'm', 'Y'];
     owner.dateFormatter = {};
 
+    // numeral
+    owner.numeral = !!opts.numeral;
+    owner.numeralDecimalScale = opts.numeralDecimalScale || 2;
+    owner.numeralDecimalMark = opts.numeralDecimalMark || '.';
+    owner.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
+
     owner.numericOnly = owner.creditCard || owner.date || !!opts.numericOnly;
 
     owner.prefix = (owner.creditCard || owner.phone || owner.date) ? '' : (opts.prefix || '');
     owner.prefixLength = owner.prefix.length;
 
-    owner.delimiter = opts.delimiter || (owner.date ? '/' : ' ');
+    owner.delimiter = opts.delimiter || (owner.date ? '/' : (owner.numeral ? ',' : ' '));
     owner.delimiterRE = new RegExp(owner.delimiter, "g");
 
     owner.blocks = opts.blocks || [];
@@ -75,7 +81,7 @@ Cleave.prototype = {
         var owner = this;
 
         // so no need for this lib at all
-        if (!owner.phone && !owner.creditCard && !owner.date && owner.blocks.length === 0) {
+        if (!owner.numeral && !owner.phone && !owner.creditCard && !owner.date && owner.blocks.length === 0) {
             return;
         }
 
@@ -86,8 +92,24 @@ Cleave.prototype = {
 
         owner.initPhoneFormatter();
         owner.initDateFormatter();
+        owner.initNumeralFormatter();
 
         owner.onInput();
+    },
+
+    initNumeralFormatter: function () {
+        var owner = this;
+
+        if (!owner.numeral) {
+            return;
+        }
+
+        owner.numeralFormatter = new Cleave.NumeralFormatter(
+            owner.numeralDecimalMark,
+            owner.numeralDecimalScale,
+            owner.numeralThousandsGroupStyle,
+            owner.delimiter
+        );
     },
 
     initDateFormatter: function () {
@@ -160,6 +182,13 @@ Cleave.prototype = {
         // phone formatter
         if (owner.phone) {
             owner.element.value = owner.phoneFormatter.format(value);
+
+            return;
+        }
+
+        // numeral formatter
+        if (owner.numeral) {
+            owner.element.value = owner.numeralFormatter.format(value);
 
             return;
         }

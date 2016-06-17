@@ -1,3 +1,4 @@
+Cleave.NumeralFormatter = NumeralFormatter;
 Cleave.DateFormatter = DateFormatter;
 Cleave.PhoneFormatter = PhoneFormatter;
 Cleave.CreditCardDetector = CreditCardDetector;
