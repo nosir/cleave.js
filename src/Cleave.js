@@ -25,119 +25,73 @@ var Cleave = function (element, opts) {
         owner.element = element.length > 0 ? element[0] : element;
     }
 
-    opts = opts || {};
-
-    // credit card
-    owner.creditCard = !!opts.creditCard;
-    owner.creditCardStrictMode = !!opts.creditCardStrictMode;
-
-    // phone
-    owner.phone = !!opts.phone;
-    owner.phoneRegionCode = opts.phoneRegionCode || '';
-    owner.phoneFormatter = {};
-
-    // date
-    owner.date = !!opts.date;
-    owner.datePattern = opts.datePattern || ['d', 'm', 'Y'];
-    owner.dateFormatter = {};
-
-    // numeral
-    owner.numeral = !!opts.numeral;
-    owner.numeralDecimalScale = opts.numeralDecimalScale || 2;
-    owner.numeralDecimalMark = opts.numeralDecimalMark || '.';
-    owner.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
-
-    owner.numericOnly = owner.creditCard || owner.date || !!opts.numericOnly;
-
-    owner.prefix = (owner.creditCard || owner.phone || owner.date) ? '' : (opts.prefix || '');
-    owner.prefixLength = owner.prefix.length;
-
-    owner.delimiter = opts.delimiter || (owner.date ? '/' : (owner.numeral ? ',' : ' '));
-    owner.delimiterRE = new RegExp(owner.delimiter, "g");
-
-    owner.blocks = opts.blocks || [];
-    owner.blocksLength = owner.blocks.length;
-
-    owner.maxLength = owner.getMaxLength();
-
-    owner.backspace = false;
-    owner.result = '';
+    owner.properties = Cleave.DefaultProperties.assign({}, opts);
 
     owner.init();
 };
 
-Cleave.utils = {
-    strip: function (value, re) {
-        return value.replace(re, '');
-    },
-
-    headStr: function (str, length) {
-        return str.slice(0, length);
-    }
-};
-
 Cleave.prototype = {
     init: function () {
-        var owner = this;
+        var owner = this, pps = owner.properties;
 
-        // so no need for this lib at all
-        if (!owner.numeral && !owner.phone && !owner.creditCard && !owner.date && owner.blocks.length === 0) {
+        // no need to use this lib
+        if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.date && pps.blocks.length === 0) {
             return;
         }
 
-        owner.element.addEventListener('input', owner.onInput.bind(owner));
-        owner.element.addEventListener('keydown', owner.onKeydown.bind(owner));
+        pps.maxLength = Cleave.Util.getMaxLength(pps.blocks);
 
-        owner.element.value = owner.prefix;
+        owner.element.addEventListener('input', owner.onChange.bind(owner));
+        owner.element.addEventListener('keydown', owner.onKeydown.bind(owner));
 
         owner.initPhoneFormatter();
         owner.initDateFormatter();
         owner.initNumeralFormatter();
 
-        owner.onInput();
+        owner.onInput(owner.element.value);
     },
 
     initNumeralFormatter: function () {
-        var owner = this;
+        var owner = this, pps = owner.properties;
 
-        if (!owner.numeral) {
+        if (!pps.numeral) {
             return;
         }
 
-        owner.numeralFormatter = new Cleave.NumeralFormatter(
-            owner.numeralDecimalMark,
-            owner.numeralDecimalScale,
-            owner.numeralThousandsGroupStyle,
-            owner.delimiter
+        pps.numeralFormatter = new Cleave.NumeralFormatter(
+            pps.numeralDecimalMark,
+            pps.numeralDecimalScale,
+            pps.numeralThousandsGroupStyle,
+            pps.delimiter
         );
     },
 
     initDateFormatter: function () {
-        var owner = this;
+        var owner = this, pps = owner.properties;
 
-        if (!owner.date) {
+        if (!pps.date) {
             return;
         }
 
-        owner.dateFormatter = new Cleave.DateFormatter(owner.datePattern);
-        owner.blocks = owner.dateFormatter.getBlocks();
-        owner.blocksLength = owner.blocks.length;
-        owner.maxLength = owner.getMaxLength();
+        pps.dateFormatter = new Cleave.DateFormatter(pps.datePattern);
+        pps.blocks = pps.dateFormatter.getBlocks();
+        pps.blocksLength = pps.blocks.length;
+        pps.maxLength = Cleave.Util.getMaxLength(pps.blocks);
     },
 
     initPhoneFormatter: function () {
-        var owner = this;
+        var owner = this, pps = owner.properties;
 
-        if (!owner.phone) {
+        if (!pps.phone) {
             return;
         }
 
         // Cleave.AsYouTypeFormatter should be provided by
         // external google closure lib
         try {
-            owner.phoneFormatter = new Cleave.PhoneFormatter(
-                new window.Cleave.AsYouTypeFormatter(owner.phoneRegionCode),
-                owner.delimiter
+            pps.phoneFormatter = new Cleave.PhoneFormatter(
+                new window.Cleave.AsYouTypeFormatter(pps.phoneRegionCode),
+                pps.delimiter
             );
         } catch (ex) {
             throw new Error('Please include phone-type-formatter.{country}.js lib');
@@ -145,138 +99,120 @@ Cleave.prototype = {
     },
 
     onKeydown: function (event) {
-        var owner = this,
+        var owner = this, pps = owner.properties,
             charCode = event.which || event.keyCode;
 
         // hit backspace when last character is delimiter
-        if (charCode === 8 && owner.element.value.slice(-1) === owner.delimiter) {
-            owner.backspace = true;
+        if (charCode === 8 && owner.element.value.slice(-1) === pps.delimiter) {
+            pps.backspace = true;
 
             return;
         }
 
-        owner.backspace = false;
+        pps.backspace = false;
     },
 
-    getMaxLength: function () {
-        return this.blocks.reduce(function (previous, current) {
-            return previous + current;
-        }, 0);
+    onChange: function () {
+        this.onInput(this.element.value);
     },
 
-    onInput: function () {
-        var owner = this,
-            value = owner.element.value,
+    onInput: function (value) {
+        var owner = this, pps = owner.properties,
             prev = value,
-            prefixLengthValue;
+            Util = Cleave.Util;
 
         // case 1: delete one more character "4"
         // 1234*| -> hit backspace -> 123|
         // case 2: last character is not delimiter which is:
         // 12|34* -> hit backspace -> 1|34*
 
-        if (owner.backspace && value.slice(-1) !== owner.delimiter) {
-            value = Cleave.utils.headStr(value, value.length - 1);
+        if (pps.backspace && value.slice(-1) !== pps.delimiter) {
+            value = Util.headStr(value, value.length - 1);
         }
 
         // phone formatter
-        if (owner.phone) {
-            owner.element.value = owner.phoneFormatter.format(value);
+        if (pps.phone) {
+            pps.result = pps.phoneFormatter.format(value);
+            owner.updateValueState();
 
             return;
         }
 
         // numeral formatter
-        if (owner.numeral) {
-            owner.element.value = owner.numeralFormatter.format(value);
+        if (pps.numeral) {
+            pps.result = pps.numeralFormatter.format(value);
+            owner.updateValueState();
 
             return;
         }
 
         // date
-        if (owner.date) {
-            value = owner.dateFormatter.getValidatedDate(value);
+        if (pps.date) {
+            value = pps.dateFormatter.getValidatedDate(value);
         }
 
         // strip delimiters
-        value = Cleave.utils.strip(value, owner.delimiterRE);
+        value = Util.strip(value, pps.delimiterRE);
 
         // prefix
-        if (owner.prefix.length > 0) {
-            prefixLengthValue = Cleave.utils.headStr(value, owner.prefixLength);
-
-            if (prefixLengthValue.length < owner.prefixLength) {
-                value = owner.prefix;
-            } else if (prefixLengthValue !== owner.prefix) {
-                value = owner.prefix + value.slice(owner.prefixLength);
-            }
-        }
+        value = Util.getPrefixAppliedValue(value, pps.prefix);
 
         // strip non-numeric characters
-        if (owner.numericOnly) {
-            value = Cleave.utils.strip(value, /[^\d]/g);
+        if (pps.numericOnly) {
+            value = Util.strip(value, /[^\d]/g);
         }
 
         // update credit card blocks
         // and at least one of first 4 characters has changed
-        if (owner.creditCard && Cleave.utils.headStr(owner.result, 4) !== Cleave.utils.headStr(value, 4)) {
-            owner.blocks = Cleave.CreditCardDetector.getBlocksByPAN(value, owner.creditCardStrictMode);
-            owner.blocksLength = owner.blocks.length;
-            owner.maxLength = owner.getMaxLength();
+        if (pps.creditCard && Util.headStr(pps.result, 4) !== Util.headStr(value, 4)) {
+            pps.blocks = Cleave.CreditCardDetector.getBlocksByPAN(value, pps.creditCardStrictMode);
+            pps.blocksLength = pps.blocks.length;
+            pps.maxLength = Util.getMaxLength(pps.blocks);
         }
 
         // strip over length characters
-        value = Cleave.utils.headStr(value, owner.maxLength);
+        value = Util.headStr(value, pps.maxLength);
 
         // apply blocks
-        owner.result = '';
+        pps.result = Util.getFormattedValue(value, pps.blocks, pps.blocksLength, pps.delimiter);
 
-        owner.blocks.forEach(function (length, index) {
-            if (value.length > 0) {
-                var sub = value.slice(0, length),
-                    rest = value.slice(length);
-
-                owner.result += sub;
-
-                if (sub.length === length && index < owner.blocksLength - 1) {
-                    owner.result += owner.delimiter;
-                }
-
-                // update remaining string
-                value = rest;
-            }
-        });
-
-        if (prev === owner.result) {
+        // nothing changed
+        // prevent update value to avoid caret position change
+        if (prev === pps.result) {
             return;
         }
 
-        owner.element.value = owner.result;
+        owner.updateValueState();
+    },
+
+    updateValueState: function () {
+        var owner = this;
+
+        owner.element.value = owner.properties.result;
     },
 
     setPhoneRegionCode: function (phoneRegionCode) {
-        var owner = this;
+        var owner = this, pps = owner.properties;
 
-        owner.phoneRegionCode = phoneRegionCode;
+        pps.phoneRegionCode = phoneRegionCode;
         owner.initPhoneFormatter();
-        owner.onInput();
+        owner.onChange();
     },
 
     setValue: function (value) {
-        var owner = this;
-
-        owner.element.value = value;
-        owner.onInput();
+        this.onInput(value);
     },
 
     getValue: function () {
-        return Cleave.utils.strip(this.element.value, this.delimiterRE);
+        var owner = this, pps = owner.properties;
+
+        return Cleave.Util.strip(owner.element.value, pps.delimiterRE);
     },
 
     destroy: function () {
         var owner = this;
 
-        owner.element.removeEventListener('input', owner.onInput.bind(owner));
+        owner.element.removeEventListener('input', owner.onChange.bind(owner));
         owner.element.removeEventListener('keydown', owner.onKeydown.bind(owner));
     },
 
@@ -290,6 +226,8 @@ if (typeof module === 'object' && typeof module.exports === 'object') {
     Cleave.DateFormatter = require('./shortcuts/DateFormatter');
     Cleave.PhoneFormatter = require('./shortcuts/PhoneFormatter');
     Cleave.CreditCardDetector = require('./shortcuts/CreditCardDetector');
+    Cleave.Util = require('./utils/Util');
+    Cleave.DefaultProperties = require('./common/DefaultProperties');
 
     // CommonJS
     module.exports = exports = Cleave;

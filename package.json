@@ -29,7 +29,8 @@
     "test": "gulp test"
   },
   "browserify-shim": {
-    "react": "global:React"
+    "react": "global:React",
+    "react-dom": "global:ReactDOM"
   },
   "browserify": {
     "transform": [

@@ -2,6 +2,8 @@ Cleave.NumeralFormatter = NumeralFormatter;
 Cleave.DateFormatter = DateFormatter;
 Cleave.PhoneFormatter = PhoneFormatter;
 Cleave.CreditCardDetector = CreditCardDetector;
+Cleave.Util = Util;
+Cleave.DefaultProperties = DefaultProperties;
 
 if (typeof module === 'object' && typeof module.exports === 'object') {
     // CommonJS
