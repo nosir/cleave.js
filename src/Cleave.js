@@ -284,3 +284,13 @@ Cleave.prototype = {
         return '[Cleave Object]';
     }
 };
+
+if (typeof module === 'object' && typeof module.exports === 'object') {
+    Cleave.NumeralFormatter = require('./shortcuts/NumeralFormatter');
+    Cleave.DateFormatter = require('./shortcuts/DateFormatter');
+    Cleave.PhoneFormatter = require('./shortcuts/PhoneFormatter');
+    Cleave.CreditCardDetector = require('./shortcuts/CreditCardDetector');
+
+    // CommonJS
+    module.exports = exports = Cleave;
+}

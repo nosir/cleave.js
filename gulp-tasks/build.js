@@ -14,7 +14,8 @@ var paths = {
 
 gulp.task('min', function () {
     return gulp.src([
-            path.join(paths.dist, 'cleave.js')
+            path.join(paths.dist, 'cleave.js'),
+            path.join(paths.dist, 'cleave-react.js')
         ])
         .pipe(uglify())
         .pipe(rename({suffix: '.min'}))
@@ -33,4 +34,4 @@ gulp.task('js', function () {
         .pipe(gulp.dest(paths.dist));
 });
 
-gulp.task('build', gulpsync.sync(['js', 'min']));
+gulp.task('build', gulpsync.sync(['js', 'js:react', 'min']));

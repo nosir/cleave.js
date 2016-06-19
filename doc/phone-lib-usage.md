@@ -6,7 +6,7 @@
 
 - Include `cleave-phone.{country}.js` as a shortcut extension.
 
-- Enable [phone option](https://github.com/nosir/cleave.js/blob/master/doc/options.md#phonenumbers) to create Cleave instance.
+- Enable [phone option](https://github.com/nosir/cleave.js/blob/master/doc/options.md#phone-numbers) to create Cleave instance.
 
 ## Why separate phone lib
 

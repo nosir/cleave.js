@@ -71,8 +71,6 @@ var CreditCardDetector = {
     }
 };
 
-// for unit tests spec to load module easily
-if (typeof global !== 'undefined' && {}.toString.call(global) === '[object global]' &&
-    typeof module === 'object' && typeof module.exports === 'object') {
+if (typeof module === 'object' && typeof module.exports === 'object') {
     module.exports = exports = CreditCardDetector;
 }

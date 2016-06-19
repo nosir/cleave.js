@@ -63,10 +63,10 @@ var cleave = new Cleave('.input-phone', {
 
 More examples: [the demo page](https://github.com)
 
-#### CommonJS
-
+#### CommonJS (Node.js)
 ```javascript
 var Cleave = require('cleave.js');
+require('cleave.js/dist/plugin/cleave-phone.{country}');
 
 var cleave = new Cleave(...)
 ```
@@ -74,7 +74,7 @@ var cleave = new Cleave(...)
 #### AMD
 
 ```javascript
-require(['dist/cleave.min', 'dist/plugin/cleave-phone.{country}'], function (Cleave) {
+require(['cleave.js/dist/cleave.min', 'cleave.js/dist/plugin/cleave-phone.{country}'], function (Cleave) {
     var cleave = new Cleave(...)
 });
 ```

@@ -287,6 +287,16 @@ Cleave.prototype = {
     }
 };
 
+if (typeof module === 'object' && typeof module.exports === 'object') {
+    Cleave.NumeralFormatter = require('./shortcuts/NumeralFormatter');
+    Cleave.DateFormatter = require('./shortcuts/DateFormatter');
+    Cleave.PhoneFormatter = require('./shortcuts/PhoneFormatter');
+    Cleave.CreditCardDetector = require('./shortcuts/CreditCardDetector');
+
+    // CommonJS
+    module.exports = exports = Cleave;
+}
+
 /*jslint node: true */
 /* global module: true, exports: true */
 
@@ -360,9 +370,7 @@ var CreditCardDetector = {
     }
 };
 
-// for unit tests spec to load module easily
-if (typeof global !== 'undefined' && {}.toString.call(global) === '[object global]' &&
-    typeof module === 'object' && typeof module.exports === 'object') {
+if (typeof module === 'object' && typeof module.exports === 'object') {
     module.exports = exports = CreditCardDetector;
 }
 
@@ -429,9 +437,7 @@ DateFormatter.prototype = {
     }
 };
 
-// for unit tests spec to load module easily
-if (typeof global !== 'undefined' && {}.toString.call(global) === '[object global]' &&
-    typeof module === 'object' && typeof module.exports === 'object') {
+if (typeof module === 'object' && typeof module.exports === 'object') {
     module.exports = exports = DateFormatter;
 }
 
@@ -501,9 +507,7 @@ NumeralFormatter.prototype = {
     }
 };
 
-// for unit tests spec to load module easily
-if (typeof global !== 'undefined' && {}.toString.call(global) === '[object global]' &&
-    typeof module === 'object' && typeof module.exports === 'object') {
+if (typeof module === 'object' && typeof module.exports === 'object') {
     module.exports = exports = NumeralFormatter;
 }
 
@@ -565,9 +569,7 @@ PhoneFormatter.prototype = {
     }
 };
 
-// for unit tests spec to load module easily
-if (typeof global !== 'undefined' && {}.toString.call(global) === '[object global]' &&
-    typeof module === 'object' && typeof module.exports === 'object') {
+if (typeof module === 'object' && typeof module.exports === 'object') {
     module.exports = exports = PhoneFormatter;
 }
 
