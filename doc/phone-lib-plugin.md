@@ -1,6 +1,6 @@
 # Documentation 
 
-[Cleave.js](https://github.com/nosir/cleave.js) > Phone lib plugin
+[Cleave.js](https://github.com/nosir/cleave.js#documentation) > Phone lib plugin
 
 ## Why separate phone lib as plugin
 

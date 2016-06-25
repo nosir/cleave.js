@@ -1,6 +1,7 @@
 # Cleave.js
 
 [![Travis](https://img.shields.io/travis/nosir/cleave.js.svg?maxAge=2592000)](https://travis-ci.org/nosir/cleave.js)
+[![Codacy branch grade](https://img.shields.io/codacy/grade/b1c0b0da42fa418f887076a3f7352aea/master.svg?maxAge=2592000)](https://www.codacy.com/app/nosir/cleave-js)
 
 Cleave.js has a simple purpose: to help you format input text content automatically.
 
@@ -83,7 +84,7 @@ require(['cleave.js/dist/cleave.min', 'cleave.js/dist/plugin/cleave-phone.{count
 });
 ```
 
-## ReactJS usage
+## ReactJS component usage
 
 ```js
 import React from 'react';
@@ -120,7 +121,7 @@ As you can see, here you simply use `<Cleave/>` as a normal `<input/>` field
 - Pass in the custom `options` prop
 - Add ReactJS `onChange` event listener
 
-See more in documentation: [ReactJS usage](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-usage.md) section
+See more in documentation: [ReactJS component usage](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-component-usage.md) section
 
 ## Documentation
 
@@ -129,7 +130,7 @@ See more in documentation: [ReactJS usage](https://github.com/nosir/cleave.js/bl
     - [Options](https://github.com/nosir/cleave.js/blob/master/doc/options.md)
     - [Public methods](https://github.com/nosir/cleave.js/blob/master/doc/public-methods.md)
 - [Phone lib plugin](https://github.com/nosir/cleave.js/blob/master/doc/phone-lib-plugin.md)
-- [ReactJS usage](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-usage.md)
+- [ReactJS component usage](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-component-usage.md)
 
 ## Building & Running tests
 

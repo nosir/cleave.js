@@ -1,6 +1,6 @@
 # Documentation 
 
-[Cleave.js](https://github.com/nosir/cleave.js) > ReactJS usage
+[Cleave.js](https://github.com/nosir/cleave.js#documentation) > ReactJS component usage
 
 ## Usage
 
@@ -46,8 +46,6 @@ class MyComponent extends React.Component {
         this.state = {
             creditCardRawValue: '',
             phoneRawValue:      '',
-            dateRawValue:       '',
-            numeralRawValue:    '',
             customRawValue:     ''
         };
     }
@@ -60,14 +58,6 @@ class MyComponent extends React.Component {
         this.setState({phoneRawValue: event.target.rawValue});
     }
 
-    onDateChange(event) {
-        this.setState({dateRawValue: event.target.rawValue});
-    }
-
-    onNumeralChange(event) {
-        this.setState({numeralRawValue: event.target.rawValue});
-    }
-
     onCustomChange(event) {
         this.setState({customRawValue: event.target.rawValue});
     }
@@ -75,17 +65,11 @@ class MyComponent extends React.Component {
     render() {
         return (
             <div>
-                <Cleave placeholder="credit card" options={{creditCard: true}}
+                <Cleave placeholder="Enter your credit card number" options={{creditCard: true}}
                         onChange={this.onCreditCardChange.bind(this)}/>
 
-                <Cleave placeholder="phone" options={{phone: true, phoneRegionCode: 'AU'}}
+                <Cleave className="css-phone" options={{phone: true, phoneRegionCode: 'AU'}}
                         onChange={this.onPhoneChange.bind(this)}/>
-
-                <Cleave placeholder="date" options={{date: true}}
-                        onChange={this.onDateChange.bind(this)}/>
-
-                <Cleave className="input-numeral" value="1234" options={{numeral: true}}
-                        onChange={this.onNumeralChange.bind(this)}/>
 
                 <Cleave options={{blocks: [4,3,3], delimiter: '-', numericOnly: true}}
                         onChange={this.onCustomChange.bind(this)}/>
@@ -93,8 +77,6 @@ class MyComponent extends React.Component {
                 <div>
                     <p>credit card: {this.state.creditCardRawValue}</p>
                     <p>phone: {this.state.phoneRawValue}</p>
-                    <p>date: {this.state.dateRawValue}</p>
-                    <p>numeral: {this.state.numeralRawValue}</p>
                     <p>custom: {this.state.customRawValue}</p>
                 </div>
             </div>
@@ -177,10 +159,8 @@ As you can see, here you simply use `<Cleave/>` as a normal `<input/>` field
 
 - browserify: http://browserify.org/
 - babelify: https://github.com/babel/babelify
-
 - browserify-shim: https://github.com/thlorenz/browserify-shim
 - webpack shim: http://webpack.github.io/docs/shimming-modules.html
-
 - webpack: http://webpack.github.io/
 - babel: http://babeljs.io/
 - babel-loader: https://github.com/babel/babel-loader
