@@ -60,22 +60,21 @@ This phone mode has to be used together with `phoneRegionCode` below.
 
 A `String` value indicates the country region code for phone number formatting.
 
-You can find your country code in the [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements) list.
+You can find country code in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements) list.
 
-**Default value**: `null`
+**Default value**: `AU`
 
 ```js
 new Cleave('.my-input', {
     phone: true,
-    phoneRegionCode: 'AU'
+    phoneRegionCode: 'US'
 });
 ```
 
 ```js
-// +61 4XX XXX XXX
-// +61 2 XXXX XXXX
-// 04XX XXX XXX
-// 02 XXXX XXXX
+// +1 4XX XXX XXXX
+// 408 XXX XXXX
+// 202 XXX XXXX
 ```
 
 ## Date

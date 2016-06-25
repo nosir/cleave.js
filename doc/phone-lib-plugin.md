@@ -12,8 +12,8 @@ Since the original lib includes patterns for all the countries, the file size is
 
 Under `dist/plugin` directory, you can find:
 
-- Individual `cleave-phone.{country}.js` for every single country
-- All-in-one `cleave-phone.full.js` but with large size
+- Individual `cleave-phone.{country}.js` for each country
+- i18n all-in-one `cleave-phone.full.js` but with large size
 
 ### Simply HTML include
 

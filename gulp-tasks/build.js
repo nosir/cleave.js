@@ -16,6 +16,8 @@ var packageInfo = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 var paths = {
     src:       './src',
     build:     'build',
+    utils:     'utils',
+    common:    'common',
     shortcuts: 'shortcuts',
     dist:      './dist'
 };
@@ -38,6 +40,8 @@ gulp.task('js', function () {
     return gulp.src([
             path.join(paths.src, paths.build, 'prefix.js'),
             path.join(paths.src, 'Cleave.js'),
+            path.join(paths.src, paths.utils, '**/*.js'),
+            path.join(paths.src, paths.common, '**/*.js'),
             path.join(paths.src, paths.shortcuts, '**/*.js'),
             path.join(paths.src, paths.build, 'expose.js'),
             path.join(paths.src, paths.build, 'suffix.js')

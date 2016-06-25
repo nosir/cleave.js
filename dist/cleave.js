@@ -240,6 +240,132 @@ if (typeof module === 'object' && typeof module.exports === 'object') {
 
 'use strict';
 
+var Util = {
+    noop: function () {
+    },
+
+    strip: function (value, re) {
+        return value.replace(re, '');
+    },
+
+    headStr: function (str, length) {
+        return str.slice(0, length);
+    },
+
+    getMaxLength: function (blocks) {
+        return blocks.reduce(function (previous, current) {
+            return previous + current;
+        }, 0);
+    },
+
+    getPrefixAppliedValue: function (value, prefix) {
+        var prefixLength = prefix.length,
+            prefixLengthValue;
+
+        if (prefixLength === 0) {
+            return value;
+        }
+
+        prefixLengthValue = value.slice(0, prefixLength);
+
+        if (prefixLengthValue.length < prefixLength) {
+            value = prefix;
+        } else if (prefixLengthValue !== prefix) {
+            value = prefix + value.slice(prefixLength);
+        }
+
+        return value;
+    },
+
+    getFormattedValue: function (value, blocks, blocksLength, delimiter) {
+        var result = '';
+
+        blocks.forEach(function (length, index) {
+            if (value.length > 0) {
+                var sub = value.slice(0, length),
+                    rest = value.slice(length);
+
+                result += sub;
+
+                if (sub.length === length && index < blocksLength - 1) {
+                    result += delimiter;
+                }
+
+                // update remaining string
+                value = rest;
+            }
+        });
+
+        return result;
+    }
+};
+
+if (typeof module === 'object' && typeof module.exports === 'object') {
+    module.exports = exports = Util;
+}
+
+'use strict';
+
+/**
+ * Props Assignment
+ *
+ * Separate this, so react module can share the usage
+ */
+var DefaultProperties = {
+    // Maybe change to object-assign
+    // for now just keep it as simple
+    assign: function (target, opts) {
+        target = target || {};
+        opts = opts || {};
+
+        // credit card
+        target.creditCard = !!opts.creditCard;
+        target.creditCardStrictMode = !!opts.creditCardStrictMode;
+
+        // phone
+        target.phone = !!opts.phone;
+        target.phoneRegionCode = opts.phoneRegionCode || 'AU';
+        target.phoneFormatter = {};
+
+        // date
+        target.date = !!opts.date;
+        target.datePattern = opts.datePattern || ['d', 'm', 'Y'];
+        target.dateFormatter = {};
+
+        // numeral
+        target.numeral = !!opts.numeral;
+        target.numeralDecimalScale = opts.numeralDecimalScale || 2;
+        target.numeralDecimalMark = opts.numeralDecimalMark || '.';
+        target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
+
+        // others
+        target.initValue = opts.initValue || '';
+
+        target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;
+
+        target.prefix = (target.creditCard || target.phone || target.date) ? '' : (opts.prefix || '');
+
+        target.delimiter = opts.delimiter || (target.date ? '/' : (target.numeral ? ',' : ' '));
+        target.delimiterRE = new RegExp(target.delimiter, 'g');
+
+        target.blocks = opts.blocks || [];
+        target.blocksLength = target.blocks.length;
+
+        target.maxLength = 0;
+
+        target.backspace = false;
+        target.result = '';
+
+        return target;
+    }
+};
+
+if (typeof module === 'object' && typeof module.exports === 'object') {
+    module.exports = exports = DefaultProperties;
+}
+
+'use strict';
+
 var CreditCardDetector = {
     blocks: {
         uatp:          [4, 5, 6],

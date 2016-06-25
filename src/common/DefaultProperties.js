@@ -18,7 +18,7 @@ var DefaultProperties = {
 
         // phone
         target.phone = !!opts.phone;
-        target.phoneRegionCode = opts.phoneRegionCode || '';
+        target.phoneRegionCode = opts.phoneRegionCode || 'AU';
         target.phoneFormatter = {};
 
         // date

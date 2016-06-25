@@ -2,13 +2,14 @@
 
 [![Travis](https://img.shields.io/travis/nosir/cleave.js.svg?maxAge=2592000)](https://travis-ci.org/nosir/cleave.js)
 [![Codacy branch grade](https://img.shields.io/codacy/grade/b1c0b0da42fa418f887076a3f7352aea/master.svg?maxAge=2592000)](https://www.codacy.com/app/nosir/cleave-js)
+[![npm version](https://badge.fury.io/js/cleave.js.svg)](https://badge.fury.io/js/cleave.js)
 
 Cleave.js has a simple purpose: to help you format input text content automatically.
 
 ## Features
 
 - Credit card number formatting
-- Phone number formatting (metadata pattern js separated by countries to reduce size)
+- Phone number formatting (i18n pattern js separated by countries to reduce size)
 - Date formatting
 - Numeral formatting
 - Custom delimiter, prefix and blocks pattern
@@ -37,8 +38,8 @@ npm install --save cleave.js
 bower install --save cleave.js
 ```
 
-#### throwback
-Grab the file from [dist](https://github.com/nosir/cleave.js/tree/master/dist) directory
+#### old school
+Grab file from [dist](https://github.com/nosir/cleave.js/tree/master/dist) directory
 
 ## Usage
 
@@ -68,7 +69,7 @@ var cleave = new Cleave('.input-phone', {
 
 More examples: [the demo page](https://github.com)
 
-#### CommonJS (Node.js)
+#### CommonJS
 ```js
 var Cleave = require('cleave.js');
 require('cleave.js/dist/plugin/cleave-phone.{country}');
@@ -151,6 +152,12 @@ gulp mocha && gulp eslint
 ```
 
 ## Todo
+- [x] ReactJS component port
+- [ ] AngularJS component port
+- [x] Mocha unit tests for formatter classes
+- [ ] PhantomJS / Jest browser tests
+
+## Get in touch
 - [x] ReactJS component port
 - [ ] AngularJS component port
 - [x] Mocha unit tests for formatter classes

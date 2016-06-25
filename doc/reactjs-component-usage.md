@@ -89,12 +89,12 @@ ReactDOM.render(<MyComponent/>, document.getElementById('content'));
 
 ### Legacy way
 
-If the project doesn't support compiling ES6, just include cleave lib like this. It will expose `Cleave` variable to global:
+If your project doesn't support ES6 compiling, just include cleave.js like this. It will expose `Cleave` variable to global:
 
 ```js
 var React = require('...');
 
-require('cleave.js/dist/cleave-react.min');
+require('cleave.js/dist/cleave-react');
 require('cleave.js/dist/plugin/cleave-phone.{country}.js');
 ```
 
