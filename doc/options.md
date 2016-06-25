@@ -37,7 +37,7 @@ new Cleave('.my-input', {
 });
 ```
 
-```
+```js
 // Visa:        XXXX XXXX XXXX XXXX
 // Amex:        XXXX XXXXXX XXXXX
 // MasterCard:  XXXX XXXX XXXX XXXX
@@ -71,7 +71,7 @@ new Cleave('.my-input', {
 });
 ```
 
-```
+```js
 // +61 4XX XXX XXX
 // +61 2 XXXX XXXX
 // 04XX XXX XXX
@@ -101,7 +101,7 @@ new Cleave('.my-input', {
 });
 ```
 
-```
+```js
 ['d', 'm', 'Y']: 26/04/1965
 ['d', 'm', 'y']: 26/04/65
 ['Y', 'm', 'd']: 1965/04/26
@@ -121,7 +121,7 @@ new Cleave('.my-input', {
 });
 ```
 
-```
+```js
 // 1,234,567.89
 ```
 
@@ -144,7 +144,7 @@ new Cleave('.my-input', {
 });
 ```
 
-```
+```js
 // 123,4567.89
 ```
 
@@ -161,7 +161,7 @@ new Cleave('.my-input', {
 });
 ```
 
-```
+```js
 // 12,345.6789
 ```
 
@@ -181,7 +181,7 @@ new Cleave('.my-input', {
 });
 ```
 
-```
+```js
 // 1.234.567,89
 ```
 
@@ -200,7 +200,7 @@ new Cleave('.my-input', {
 });
 ```
 
-```
+```js
 // XXXX-XXXX-XXXX-XXXX
 ```
 
@@ -218,7 +218,7 @@ new Cleave('.my-input', {
 });
 ```
 
-```
+```js
 // XX XXXXX XXXXX
 ```
 
@@ -235,7 +235,7 @@ new Cleave('.my-input', {
 });
 ```
 
-```
+```js
 // 253874 XXX XXX
 ```
 

@@ -26,13 +26,13 @@ However, this isn't meant to replace any validation or mask library, you should 
 
 #### npm
 
-```
+```bash
 npm install --save cleave.js
 ```
 
 #### bower
 
-```
+```bash
 bower install --save cleave.js
 ```
 
@@ -58,7 +58,7 @@ Then have a text field
 
 Now in your JavaScript
 
-```javascript
+```js
 var cleave = new Cleave('.input-phone', {
     phone:      true,
     regionCode: '{country}'
@@ -68,7 +68,7 @@ var cleave = new Cleave('.input-phone', {
 More examples: [the demo page](https://github.com)
 
 #### CommonJS (Node.js)
-```javascript
+```js
 var Cleave = require('cleave.js');
 require('cleave.js/dist/plugin/cleave-phone.{country}');
 
@@ -77,7 +77,7 @@ var cleave = new Cleave(...)
 
 #### AMD
 
-```javascript
+```js
 require(['cleave.js/dist/cleave.min', 'cleave.js/dist/plugin/cleave-phone.{country}'], function (Cleave) {
     var cleave = new Cleave(...)
 });
@@ -85,7 +85,7 @@ require(['cleave.js/dist/cleave.min', 'cleave.js/dist/plugin/cleave-phone.{count
 
 ## ReactJS usage
 
-```
+```js
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -94,7 +94,7 @@ import Cleave from 'cleave.js/react';
 
 Then in JSX:
 
-```
+```js
 class MyComponent extends React.Component {
     onCreditCardChange(event) {
         // formatted pretty value
@@ -133,19 +133,19 @@ See more in documentation: [ReactJS usage](https://github.com/nosir/cleave.js/bl
 
 ## Building & Running tests
 
-```
+```bash
 npm install
 ```
 
 Build assets
 
-```
+```bash
 gulp build
 ```
 
 Run unit tests and lint
 
-```
+```bash
 gulp mocha && gulp eslint
 ```
 

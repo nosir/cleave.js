@@ -10,17 +10,17 @@
 
 Cleave.js uses ES6 spread / rest feature, so you will need Babel compiler to transfer ES6 code.
 
-If your project doesn't support it, please refer to [Legacy way](#legacyway)
+If your project doesn't support it, please refer to [Legacy way](#legacy-way)
 
 First install babel presets:
 
-```
+```bash
 npm install --save babel-preset-es2015 babel-preset-react babel-preset-stage-0
 ```
 
 And in `.babelrc`:
 
-```
+```json
 {
   "presets": ["es2015", "stage-0", "react"]
 }
@@ -28,7 +28,7 @@ And in `.babelrc`:
 
 Now in your ReactJS app:
 
-```
+```js
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -38,7 +38,7 @@ import CleavePhone from 'cleave.js/dist/plugin/cleave-phone.{country}';
 
 And define the component:
 
-```
+```js
 class MyComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -109,7 +109,7 @@ ReactDOM.render(<MyComponent/>, document.getElementById('content'));
 
 If the project doesn't support compiling ES6, just include cleave lib like this. It will expose `Cleave` variable to global:
 
-```
+```js
 var React = require('...');
 
 require('cleave.js/dist/cleave-react.min');
@@ -118,7 +118,7 @@ require('cleave.js/dist/plugin/cleave-phone.{country}.js');
 
 And define the component:
 
-```
+```js
 var MyComponent = React.createClass({
     onCreditCardChange: function (event) {
         // formatted pretty value
@@ -142,7 +142,7 @@ var MyComponent = React.createClass({
 
 Alternatively you can shim `Cleave.js` module. In your html:
 
-```
+```html
 <script src="react/dist/react.min.js"></script>
 <script src="react-dom/dist/react-dom.min.js"></script>
 
