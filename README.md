@@ -158,10 +158,8 @@ gulp mocha && gulp eslint
 - [ ] PhantomJS / Jest browser tests
 
 ## Get in touch
-- [x] ReactJS component port
-- [ ] AngularJS component port
-- [x] Mocha unit tests for formatter classes
-- [ ] PhantomJS / Jest browser tests
+- Bugs / Suggestions: [open an issue](https://github.com/nosir/cleave.js/issues)
+- Twitter: [@rison](https://twitter.com/rison)
 
 ## References
 
