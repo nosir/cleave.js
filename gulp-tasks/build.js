@@ -3,7 +3,15 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var path = require('path');
+var header = require('gulp-header');
 var gulpsync = require('gulp-sync')(gulp);
+var fs = require('fs');
+
+var getLicense = function () {
+    return '' + fs.readFileSync('./src/build/license.txt');
+};
+
+var packageInfo = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 
 var paths = {
     src:       './src',
@@ -18,6 +26,10 @@ gulp.task('min', function () {
             path.join(paths.dist, 'cleave-react.js')
         ])
         .pipe(uglify())
+        .pipe(header(getLicense(), {
+            version: packageInfo.version,
+            build:   (new Date()).toUTCString()
+        }))
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest(path.join(paths.dist)));
 });

@@ -1,0 +1,64 @@
+[
+  {
+    "thousandsGroupStyle": "thousand",
+    "numbers": [
+      [
+        "1234567",
+        "1,234,567"
+      ]
+    ]
+  },
+  {
+    "thousandsGroupStyle": "lakh",
+    "numbers": [
+      [
+        "123456789",
+        "12,34,56,789"
+      ]
+    ]
+  },
+  {
+    "thousandsGroupStyle": "wan",
+    "numbers": [
+      [
+        "123456789",
+        "1,2345,6789"
+      ]
+    ]
+  },
+  {
+    "numeralDecimalScale": 3,
+    "numbers": [
+      [
+        "12.3456789",
+        "12.345"
+      ],
+      [
+        "12.3",
+        "12.3"
+      ]
+    ]
+  },
+  {
+    "numeralDecimalMark": ",",
+    "delimiter": ".",
+    "numbers": [
+      [
+        "1234567,89",
+        "1.234.567,89"
+      ]
+    ]
+  },
+  {
+    "thousandsGroupStyle": "lakh",
+    "numeralDecimalScale": 4,
+    "numeralDecimalMark": "'",
+    "delimiter": "|",
+    "numbers": [
+      [
+        "1234567'8901234",
+        "12|34|567'8901"
+      ]
+    ]
+  }
+]

@@ -1,5 +1,4 @@
 var _ = require('underscore');
-var should = require('should');
 var CreditCardDetector = require('../src/shortcuts/CreditCardDetector');
 var cards = require('./fixtures/credit-card.json');
 

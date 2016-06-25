@@ -1,0 +1,7 @@
+/*!
+ * cleave.js - <%= version %>
+ * https://github.com/nosir/cleave.js
+ * Apache License Version 2.0
+ *
+ * Copyright (C) 2012-2016 Max Huang https://github.com/nosir/
+ */

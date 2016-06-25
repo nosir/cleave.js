@@ -1,13 +1,10 @@
-/*jslint node: true */
-/* global module: true, exports: true */
-
 'use strict';
 
 var PhoneFormatter = function (formatter, delimiter) {
     var owner = this;
 
     owner.delimiter = delimiter || ' ';
-    owner.delimiterRE = new RegExp(owner.delimiter, "g");
+    owner.delimiterRE = new RegExp(owner.delimiter, 'g');
     owner.formatter = formatter;
 };
 

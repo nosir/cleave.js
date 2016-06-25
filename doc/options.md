@@ -169,6 +169,8 @@ new Cleave('.my-input', {
 
 A `String` value indicates the numeral decimal mark.
 
+Decimal mark can be different in handwriting, and for [delimiter](#delimiter) as well.
+
 **Default value**: `.`
 
 ```js

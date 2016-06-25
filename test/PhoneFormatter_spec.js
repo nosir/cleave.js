@@ -1,10 +1,9 @@
 var _ = require('underscore');
-var should = require('should');
-
 var PhoneFormatter = require('../src/shortcuts/PhoneFormatter');
-// this one only exports the module for CommonJS mode
-// which is different from the prod one
-var PhoneTypeFormatter = require('./vendor/phone-type-formatter.full.js');
+
+// this one exports the module for CommonJS mode
+// which is different from the prod ones
+var PhoneTypeFormatter = require('./plugin/phone-type-formatter.full.js');
 
 var phones = require('./fixtures/phone.json');
 
@@ -15,7 +14,7 @@ describe('PhoneFormatter', function () {
 
             _.each(formats, function (format) {
                 it('should format ' + key + ' phone number ' + format[0] + ' to ' + format[1], function () {
-                    phoneNumberFormatter.format(format[0]).should.be.exactly(format[1]);
+                    phoneNumberFormatter.format(format[0]).should.eql(format[1]);
                 });
             });
         });
@@ -28,7 +27,7 @@ describe('PhoneFormatter', function () {
 
         _.each(delimiter.format, function (format) {
             it('should format ' + delimiter.region + ' phone number ' + format[0] + ' to ' + format[1], function () {
-                phoneNumberFormatter.format(format[0]).should.be.exactly(format[1]);
+                phoneNumberFormatter.format(format[0]).should.eql(format[1]);
             });
         });
     });

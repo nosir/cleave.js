@@ -1,6 +1,3 @@
-/*jslint node: true */
-/* global module: true, exports: true */
-
 'use strict';
 
 var DateFormatter = function (datePattern) {

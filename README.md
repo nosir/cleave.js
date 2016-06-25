@@ -4,19 +4,23 @@
 
 Cleave.js has a simple purpose: to help you format input text content automatically.
 
-The idea is to provide an easy way to increase readability when you are typing. By using the library, you won't need to write any mind-blowing regular expressions or mask patterns to format input text.
-
-However, this isn't meant to replace any form validation or mask library, you should still sanitize and validate your data in backend.
-
-**tl;dr** [the demo page]()
-
 ## Features
+
 - Credit card number formatting
-- Phone number formatting (lib separated by countries to reduce size)
+- Phone number formatting (metadata pattern js separated by countries to reduce size)
 - Date formatting
 - Numeral formatting
-- Customize delimiter, prefix and blocks pattern
-- CommonJS / AMD support
+- Custom delimiter, prefix and blocks pattern
+- CommonJS / AMD mode
+- ReactJS component port
+
+**TL;DR** [the demo page]()
+
+## Why?
+
+The idea is to provide an easy way to increase readability when you are typing. By using the library, you won't need to write any mind-blowing regular expressions or mask patterns to format input text.
+
+However, this isn't meant to replace any validation or mask library, you should still sanitize and validate your data in backend.
 
 ## Installation
 
@@ -33,7 +37,7 @@ bower install --save cleave.js
 ```
 
 #### throwback
-Grab the file from [dist](https://github.com/nosir/cleave.js/tree/master/dist) folder
+Grab the file from [dist](https://github.com/nosir/cleave.js/tree/master/dist) directory
 
 ## Usage
 
@@ -44,7 +48,7 @@ Simply include
 <script src="cleave-phone.{country}.js"></script>
 ```
 
-> `cleave-phone.js` is only required when phone shortcut mode is enabled. See more in documentation: [phone lib usage](https://github.com/nosir/cleave.js/blob/master/doc/phone-lib-usage.md) section
+> `cleave-phone.js` plugin is only required when phone shortcut mode is enabled. See more in documentation: [phone lib plugin](https://github.com/nosir/cleave.js/blob/master/doc/phone-lib-plugin.md) section
 
 Then have a text field
 
@@ -79,13 +83,53 @@ require(['cleave.js/dist/cleave.min', 'cleave.js/dist/plugin/cleave-phone.{count
 });
 ```
 
+## ReactJS usage
+
+```
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+import Cleave from 'cleave.js/react';
+```
+
+Then in JSX:
+
+```
+class MyComponent extends React.Component {
+    onCreditCardChange(event) {
+        // formatted pretty value
+        console.log(event.target.value);
+        
+        // raw value
+        console.log(event.target.rawValue);
+    }
+
+    render() {
+        return (
+            <Cleave placeholder="Enter your credit card number"
+                options={{creditCard: true}}
+                onChange={this.onCreditCardChange.bind(this)} />
+        );
+    }
+}
+```
+
+As you can see, here you simply use `<Cleave/>` as a normal `<input/>` field 
+
+- Attach HTML `<input/>` attributes
+- Pass in the custom `options` prop
+- Add ReactJS `onChange` event listener
+
+See more in documentation: [ReactJS usage](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-usage.md) section
+
 ## Documentation
 
 - [JavaScript API](https://github.com/nosir/cleave.js/blob/master/doc/js-api.md)
     - [Constructor](https://github.com/nosir/cleave.js/blob/master/doc/constructor.md)
     - [Options](https://github.com/nosir/cleave.js/blob/master/doc/options.md)
     - [Public methods](https://github.com/nosir/cleave.js/blob/master/doc/public-methods.md)
-- [Phone lib usage](https://github.com/nosir/cleave.js/blob/master/doc/phone-lib-usage.md)
+- [Phone lib plugin](https://github.com/nosir/cleave.js/blob/master/doc/phone-lib-plugin.md)
+- [ReactJS usage](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-usage.md)
 
 ## Building & Running tests
 
@@ -99,11 +143,17 @@ Build assets
 gulp build
 ```
 
-Run unit tests and js code validation 
+Run unit tests and lint
 
 ```
-gulp mocha && gulp jshint
+gulp mocha && gulp eslint
 ```
+
+## Todo
+- [x] ReactJS component port
+- [ ] AngularJS component port
+- [x] Mocha unit tests for formatter classes
+- [ ] PhantomJS / Jest browser tests
 
 ## References
 

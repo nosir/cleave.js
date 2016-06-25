@@ -1,8 +1,5 @@
 ;(function(window, document, undefined) {
 
-/* jslint node: true */
-/* global window: true, document: true */
-
 'use strict';
 
 /**
@@ -27,6 +24,8 @@ var Cleave = function (element, opts) {
         owner.element = element.length > 0 ? element[0] : element;
     }
 
+    opts.initValue = owner.element.value;
+
     owner.properties = Cleave.DefaultProperties.assign({}, opts);
 
     owner.init();
@@ -50,7 +49,7 @@ Cleave.prototype = {
         owner.initDateFormatter();
         owner.initNumeralFormatter();
 
-        owner.onInput(owner.element.value);
+        owner.onInput(pps.initValue);
     },
 
     initNumeralFormatter: function () {
@@ -201,14 +200,18 @@ Cleave.prototype = {
         owner.onChange();
     },
 
-    setValue: function (value) {
+    setRawValue: function (value) {
         this.onInput(value);
     },
 
-    getValue: function () {
+    getRawValue: function () {
         var owner = this, pps = owner.properties;
 
         return Cleave.Util.strip(owner.element.value, pps.delimiterRE);
+    },
+
+    getFormattedValue: function () {
+        return this.element.value;
     },
 
     destroy: function () {
@@ -234,9 +237,6 @@ if (typeof module === 'object' && typeof module.exports === 'object') {
     // CommonJS
     module.exports = exports = Cleave;
 }
-
-/*jslint node: true */
-/* global module: true, exports: true */
 
 'use strict';
 
@@ -312,9 +312,6 @@ if (typeof module === 'object' && typeof module.exports === 'object') {
     module.exports = exports = CreditCardDetector;
 }
 
-/*jslint node: true */
-/* global module: true, exports: true */
-
 'use strict';
 
 var DateFormatter = function (datePattern) {
@@ -379,9 +376,6 @@ if (typeof module === 'object' && typeof module.exports === 'object') {
     module.exports = exports = DateFormatter;
 }
 
-/*jslint node: true */
-/* global module: true, exports: true */
-
 'use strict';
 
 var NumeralFormatter = function (numeralDecimalMark,
@@ -390,10 +384,10 @@ var NumeralFormatter = function (numeralDecimalMark,
                                  delimiter) {
     var owner = this;
 
-    owner.numeralDecimalMark = numeralDecimalMark;
-    owner.numeralDecimalScale = numeralDecimalScale;
-    owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle;
-    owner.delimiter = delimiter;
+    owner.numeralDecimalMark = numeralDecimalMark || '.';
+    owner.numeralDecimalScale = numeralDecimalScale || 2;
+    owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
+    owner.delimiter = delimiter || ',';
 };
 
 NumeralFormatter.groupStyle = {
@@ -449,16 +443,13 @@ if (typeof module === 'object' && typeof module.exports === 'object') {
     module.exports = exports = NumeralFormatter;
 }
 
-/*jslint node: true */
-/* global module: true, exports: true */
-
 'use strict';
 
 var PhoneFormatter = function (formatter, delimiter) {
     var owner = this;
 
     owner.delimiter = delimiter || ' ';
-    owner.delimiterRE = new RegExp(owner.delimiter, "g");
+    owner.delimiterRE = new RegExp(owner.delimiter, 'g');
     owner.formatter = formatter;
 };
 

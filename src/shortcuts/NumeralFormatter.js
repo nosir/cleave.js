@@ -1,6 +1,3 @@
-/*jslint node: true */
-/* global module: true, exports: true */
-
 'use strict';
 
 var NumeralFormatter = function (numeralDecimalMark,
@@ -9,10 +6,10 @@ var NumeralFormatter = function (numeralDecimalMark,
                                  delimiter) {
     var owner = this;
 
-    owner.numeralDecimalMark = numeralDecimalMark;
-    owner.numeralDecimalScale = numeralDecimalScale;
-    owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle;
-    owner.delimiter = delimiter;
+    owner.numeralDecimalMark = numeralDecimalMark || '.';
+    owner.numeralDecimalScale = numeralDecimalScale || 2;
+    owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
+    owner.delimiter = delimiter || ',';
 };
 
 NumeralFormatter.groupStyle = {

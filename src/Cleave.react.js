@@ -1,5 +1,3 @@
-/* jslint node: true */
-
 'use strict';
 
 var React = require('react');
@@ -29,8 +27,6 @@ var Cleave = React.createClass({
     },
 
     getInitialState: function () {
-        console.log('get ini state');
-
         var owner = this,
             { value, options, onKeydown, onChange, ...other } = owner.props;
 
@@ -38,6 +34,8 @@ var Cleave = React.createClass({
             onChange:  onChange || Util.noop,
             onKeydown: onKeydown || Util.noop
         };
+
+        options.initValue = value;
 
         owner.properties = DefaultProperties.assign({}, options);
 
@@ -62,7 +60,7 @@ var Cleave = React.createClass({
         owner.initDateFormatter();
         owner.initNumeralFormatter();
 
-        owner.onInput(pps.result);
+        owner.onInput(pps.initValue);
     },
 
     initNumeralFormatter: function () {
@@ -131,9 +129,12 @@ var Cleave = React.createClass({
     },
 
     onChange: function (event) {
-        var owner = this;
+        var owner = this, pps = owner.properties;
 
         owner.onInput(event.target.value);
+
+        event.target.rawValue = Util.strip(pps.result, pps.delimiterRE);
+
         owner.registeredEvents.onChange(event);
     },
 

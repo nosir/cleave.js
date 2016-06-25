@@ -1,11 +1,7 @@
 var _ = require('underscore');
-var should = require('should');
 var DateFormatter = require('../src/shortcuts/DateFormatter');
 var dateGroups = require('./fixtures/date.json');
 
-/**
- * Zanui date format globally
- */
 describe('DateFormatter', function () {
     _.each(dateGroups, function (dateGroup) {
         describe('pattern: ' + dateGroup.datePattern.join(', '), function () {
