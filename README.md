@@ -172,3 +172,5 @@ gulp mocha && gulp eslint
 Cleave.js is licensed under the [Apache License Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
 - Google [libphonenumber](https://github.com/googlei18n/libphonenumber) is included under its [Apache License Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
+
+[![Analytics](https://ga-beacon.appspot.com/UA-79828599-1/cleave.js?pixel)](https://github.com/igrigorik/ga-beacon)

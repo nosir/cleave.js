@@ -240,7 +240,7 @@ new Cleave('.my-input', {
 
 ### `numericOnly`
 
-A `Boolean` value indicates if this only allows numeric input.
+A `Boolean` value indicates if it only allows numeric input.
 
 Ignored by `creditCard` and `date` shortcuts mode, the value will always be `true`.
 
