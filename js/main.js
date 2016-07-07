@@ -82,7 +82,7 @@ selectNumeral.addEventListener('change', function () {
 // delimiter
 var cleaveDelimeter = new Cleave('.input-delimiter', {
     delimiter:  '·',
-    creditCard: true
+    blocks: [3, 3, 3]
 });
 
 // blocks
