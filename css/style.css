@@ -1,0 +1,420 @@
+html, body {
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    height: 100%;
+    margin: 0;
+    background: url("../images/bg.gif");
+    color: #272822;
+}
+
+a, a:hover, a:visited {
+    color: #272822;
+    text-decoration: none;
+}
+
+* {
+    -webkit-text-size-adjust: none;
+    box-sizing: border-box;
+}
+
+li {
+    list-style-type: none;
+}
+
+p, ul, li {
+    margin: 0;
+    padding: 0;
+}
+
+.code {
+    margin-top: 15px;
+}
+
+.lt-ie10 .code {
+    background: #272822;
+    text-align: left;
+    padding: 5px 20px;
+}
+
+.input-title {
+    display: none;
+}
+
+.lt-ie10 .input-title {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input {
+    outline: none;
+    -webkit-appearance: none;
+    border: 3px solid #e6e6e6;
+    border-radius: 5px;
+    background-color: #fff;
+    line-height: 60px;
+    vertical-align: middle;
+    height: 66px;
+    font-size: 32px;
+    width: 100%;
+    padding: 0 15px;
+}
+
+.clearfix:before, .clearfix:after {
+    content: " ";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+input, .font-pathway {
+    font-family: 'Pathway Gothic One', sans-serif;
+}
+
+/* header */
+header {
+    padding-bottom: 10%;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: table;
+}
+
+header .demos-btn {
+    position: absolute;
+    bottom: 80px;
+    width: 100%;
+    cursor: pointer;
+}
+
+header .demos-btn .icon {
+    margin-top: 5px;
+    font-size: 20px;
+}
+
+.title-bar {
+    padding: 0 20px;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.title-bar .logo {
+    font-size: 148px;
+}
+
+.title-bar .subtitle {
+    margin-top: 30px;
+    font-size: 22px;
+}
+
+.title-bar .input-txt {
+    padding: 6px;
+    /*padding: 12px;*/
+    /*font-size: 85%;*/
+    /*background-color: #ECECEC;*/
+    border-radius: 3px;
+}
+
+.btn-bar {
+    margin-top: 40px;
+    display: block;
+}
+
+.btn-bar a {
+    display: inline-block;
+    padding: 0 10px;
+}
+
+.btn-bar .btn .title {
+    display: inline-block;
+    position: relative;
+    top: -3px;
+}
+
+.btn-bar .btn .icon {
+    display: inline-block;
+    margin-right: 5px;
+    font-size: 20px;
+}
+
+.green {
+    color: #63a35c;
+}
+
+/* demos */
+.demos {
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.demos section {
+    padding: 60px 0;
+    border-top: 1px dashed #ccc;
+}
+
+.demos .demo {
+    margin-bottom: 40px;
+}
+
+.demos h3 {
+    font-size: 36px;
+    margin: 0;
+    padding: 0;
+    padding-bottom: 30px;
+    line-height: 1.5;
+}
+
+.cards {
+    font-size: 14px;
+    margin-bottom: 25px;
+    color: #AAA;
+    text-align: left;
+}
+
+.link-number a {
+    color: #AAA;
+    text-decoration: none;
+}
+
+.cards {
+    padding: 0 5px;
+}
+
+.cards .icon {
+    font-size: 36px;
+}
+
+.cards .dots {
+    position: relative;
+    top: -2px;
+    font-size: 6px;
+    margin-left: 1px;
+    color: #BBB;
+}
+
+.cards .dot-offset {
+    margin-left: 8px;
+}
+
+.cards .dot-offset-minus-gap {
+    margin-left: 6px;
+}
+
+.cards .col-left {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.cards .col-right {
+    padding-left: 60px;
+}
+
+.cards > li {
+    position: relative;
+    margin-top: 20px;
+    width: 50%;
+    float: left;
+}
+
+.cards > li p {
+    font-size: 14px;
+    line-height: 18px;
+}
+
+.field {
+    width: 100%;
+    position: relative;
+}
+
+.btn-clear {
+    font-family: sans-serif;
+    position: absolute;
+    z-index: 100;
+    top: 18px;
+    right: 14px;
+    text-transform: uppercase;
+    background-color: #BBB;
+    line-height: 1;
+    font-size: 12px;
+    border-radius: 3px;
+    color: #fff;
+    padding: 10px 12px;
+    font-weight: bold;
+    -webkit-transition: all 200ms ease;
+    transition: all 200ms ease;
+    cursor: pointer;
+}
+
+.btn-clear.hidden-right {
+    -webkit-transform: translateX(10px);
+    transform: translateX(10px);
+    -ms-transform: translateX(10px);
+    opacity: 0;
+}
+
+/* region selector */
+.selector {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 200px;
+}
+
+.selector .select-cover {
+    background-color: #fff;
+    display: inline-block;
+}
+
+.selector .select-cover .title {
+    width: 150px;
+    line-height: 46px;
+    float: left;
+    text-align: center;
+    background-color: #f3f3f3;
+    border-radius: 5px 0 0 5px;
+    font-size: 18px;
+}
+
+.selector .select-cover .side {
+    background-color: #e5e5e5;
+    width: 50px;
+    float: left;
+    line-height: 46px;
+    border-radius: 0 5px 5px 0;
+}
+
+.selector .select-cover .arrow {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 7px 7px 0 7px;
+    border-color: #333 transparent transparent transparent;
+    position: absolute;
+    top: 20px;
+    right: 18px;
+}
+
+.selector .select-box {
+    cursor: pointer;
+    width: 200px;
+    height: 46px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-appearance: menulist-button;
+    -moz-appearance: menulist-button;
+    appearance: menulist-button;
+    opacity: 0;
+    z-index: 100;
+}
+
+.input-phone, .input-numeral {
+    padding-left: 220px;
+}
+
+.input-numeral {
+    text-align: right;
+}
+
+.input-prefix {
+    text-transform: uppercase;
+}
+
+.see-more {
+    font-size: 18px;
+}
+
+.see-more .icon {
+    font-size: 20px;
+}
+
+.footer{
+    padding: 40px 0;
+    background: #272822;
+    color: #BBB;
+    font-size: 14px;
+    margin-top: 60px;
+}
+
+.footer .sep-dot {
+    padding: 0 5px;
+}
+
+.footer a, .footer a:visited {
+    color: #BBB;
+    border-bottom: 1px dotted #BBB;
+    -webkit-transition: all 200ms ease;
+    transition: all 200ms ease;
+}
+
+.footer a.btn-icon {
+    border-bottom: none;
+    font-size: 18px;
+    position: relative;
+    top: 2px;
+    margin-right: 2px;
+}
+.footer a:hover {
+    color: #FFF;
+}
+
+.footer .project {
+    margin-top: 10px;
+}
+
+@media (max-width: 640px) {
+    .demos {
+        padding: 0 20px;
+    }
+
+    .title-bar .logo {
+        font-size: 86px;
+    }
+
+    .title-bar .subtitle {
+        font-size: 16px;
+    }
+
+    .cards > li {
+        width: 100%;
+        float: none;
+    }
+
+    .cards {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .input-phone, .input-numeral {
+        padding-left: 170px;
+    }
+
+    .selector {
+        width: 150px;
+    }
+
+    .selector .select-cover .title {
+        width: 110px;
+        font-size: 14px;
+    }
+
+    .selector .select-cover .side {
+        width: 40px;
+    }
+
+    .selector .select-cover .arrow {
+        right: 14px;
+    }
+
+    .selector .select-box {
+        width: 150px;
+    }
+
+    input {
+        font-size: 24px;
+    }
+}
