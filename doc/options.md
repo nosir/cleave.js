@@ -1,6 +1,6 @@
-# Documentation 
+# Cleave.js Documentation 
 
-[Cleave.js](https://github.com/nosir/cleave.js#documentation) > [JavaScript API](https://github.com/nosir/cleave.js/blob/master/doc/js-api.md) > Options
+[Documentation](https://github.com/nosir/cleave.js/blob/master/doc/doc.md) > [JavaScript API](https://github.com/nosir/cleave.js/blob/master/doc/js-api.md) > Options
 
 - Credit card numbers:
     - [creditCard](#creditcard)
@@ -60,7 +60,7 @@ This phone mode has to be used together with `phoneRegionCode` below.
 
 A `String` value indicates the country region code for phone number formatting.
 
-You can find country code in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements) list.
+You can find your country code in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements) list.
 
 **Default value**: `AU`
 

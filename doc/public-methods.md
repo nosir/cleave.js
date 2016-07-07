@@ -1,6 +1,6 @@
-# Documentation 
+# Cleave.js Documentation 
 
-[Cleave.js](https://github.com/nosir/cleave.js#documentation) > [JavaScript API](https://github.com/nosir/cleave.js/blob/master/doc/js-api.md) > Public methods
+[Documentation](https://github.com/nosir/cleave.js/blob/master/doc/doc.md) > [JavaScript API](https://github.com/nosir/cleave.js/blob/master/doc/js-api.md) > Public methods
 
 - [getRawValue](#getrawvalue)
 - [setRawValue](#setrawvaluevalue)
@@ -46,5 +46,5 @@ Sets / Changes country region code.
 
 You will only need to call this when dealing with country switching for a phone input field.
 
-e.g. user selected a different country option via a form `<select>`, which triggered the country change. See more in documentation [phone lib plugin](https://github.com/nosir/cleave.js/blob/master/doc/phone-lib-plugin.md) section.
+e.g. user selected a different country option via a form `<select>`, which triggered the country change. See more in documentation [phone lib addon](https://github.com/nosir/cleave.js/blob/master/doc/phone-lib-addon.md) section.
 

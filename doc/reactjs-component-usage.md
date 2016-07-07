@@ -1,6 +1,6 @@
-# Documentation 
+# Cleave.js Documentation 
 
-[Cleave.js](https://github.com/nosir/cleave.js#documentation) > ReactJS component usage
+[Documentation](https://github.com/nosir/cleave.js/blob/master/doc/doc.md) > ReactJS component usage
 
 ## Usage
 
@@ -33,7 +33,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Cleave from 'cleave.js/react';
-import CleavePhone from 'cleave.js/dist/plugin/cleave-phone.{country}';
+import CleavePhone from 'cleave.js/dist/addons/cleave-phone.{country}';
 ```
 
 And define the component:
@@ -95,7 +95,7 @@ If your project doesn't support ES6 compiling, just include cleave.js like this.
 var React = require('...');
 
 require('cleave.js/dist/cleave-react');
-require('cleave.js/dist/plugin/cleave-phone.{country}.js');
+require('cleave.js/dist/addons/cleave-phone.{country}.js');
 ```
 
 And define the component:
@@ -129,7 +129,7 @@ Alternatively you can shim `Cleave.js` module. In your html:
 <script src="react-dom/dist/react-dom.min.js"></script>
 
 <script src="cleave.js/dist/cleave-react.min.js"></script>
-<script src="cleave.js/dist/plugin/cleave-phone.{country}.js"></script>
+<script src="cleave.js/dist/addons/cleave-phone.{country}.js"></script>
 ```
 
 The global expose name is `Cleave`

@@ -9,18 +9,18 @@ Cleave.js has a simple purpose: to help you format input text content automatica
 ## Features
 
 - Credit card number formatting
-- Phone number formatting (i18n pattern js separated by countries to reduce size)
+- Phone number formatting (i18n js lib separated by country to reduce size)
 - Date formatting
 - Numeral formatting
 - Custom delimiter, prefix and blocks pattern
 - CommonJS / AMD mode
 - ReactJS component port
 
-**TL;DR** [the demo page]()
+**TL;DR** [the demo page](https://nosir.github.io/cleave.js)
 
 ## Why?
 
-The idea is to provide an easy way to increase readability when you are typing. By using the library, you won't need to write any mind-blowing regular expressions or mask patterns to format input text.
+The idea is to provide an easy way to increase input field readability by formatting your typed data. By using this library, you won't need to write any mind-blowing regular expressions or mask patterns to format input text.
 
 However, this isn't meant to replace any validation or mask library, you should still sanitize and validate your data in backend.
 
@@ -50,7 +50,7 @@ Simply include
 <script src="cleave-phone.{country}.js"></script>
 ```
 
-> `cleave-phone.js` plugin is only required when phone shortcut mode is enabled. See more in documentation: [phone lib plugin](https://github.com/nosir/cleave.js/blob/master/doc/phone-lib-plugin.md) section
+> `cleave-phone.{country}.js` addon is only required when phone shortcut mode is enabled. See more in documentation: [phone lib addon](https://github.com/nosir/cleave.js/blob/master/doc/phone-lib-addon.md) section
 
 Then have a text field
 
@@ -67,12 +67,12 @@ var cleave = new Cleave('.input-phone', {
 });
 ```
 
-More examples: [the demo page](https://github.com)
+More examples: [the demo page](https://nosir.github.io/cleave.js)
 
 #### CommonJS
 ```js
 var Cleave = require('cleave.js');
-require('cleave.js/dist/plugin/cleave-phone.{country}');
+require('cleave.js/dist/addons/cleave-phone.{country}');
 
 var cleave = new Cleave(...)
 ```
@@ -80,7 +80,7 @@ var cleave = new Cleave(...)
 #### AMD
 
 ```js
-require(['cleave.js/dist/cleave.min', 'cleave.js/dist/plugin/cleave-phone.{country}'], function (Cleave) {
+require(['cleave.js/dist/cleave.min', 'cleave.js/dist/addons/cleave-phone.{country}'], function (Cleave) {
     var cleave = new Cleave(...)
 });
 ```
@@ -130,7 +130,7 @@ See more in documentation: [ReactJS component usage](https://github.com/nosir/cl
     - [Constructor](https://github.com/nosir/cleave.js/blob/master/doc/constructor.md)
     - [Options](https://github.com/nosir/cleave.js/blob/master/doc/options.md)
     - [Public methods](https://github.com/nosir/cleave.js/blob/master/doc/public-methods.md)
-- [Phone lib plugin](https://github.com/nosir/cleave.js/blob/master/doc/phone-lib-plugin.md)
+- [Phone lib addon](https://github.com/nosir/cleave.js/blob/master/doc/phone-lib-addon.md)
 - [ReactJS component usage](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-component-usage.md)
 
 ## Building & Running tests
