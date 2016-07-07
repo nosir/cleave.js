@@ -190,7 +190,7 @@ new Cleave('.my-input', {
 
 A `String` value indicates the delimiter to use in formatting.
 
-**Default value**: a space (`/` if date shortcut mode is enabled)
+**Default value**: a space (`/` for `date` shortcut mode, and `,` for `numeral` shortcut mode)
 
 ```js
 new Cleave('.my-input', {

@@ -150,9 +150,11 @@ As you can see, here you simply use `<Cleave/>` as a normal `<input/>` field
 
 - Add ReactJS `onChange` event listener
 
-    Internally it only interpolates native React `onChange` and `onKeydown` events, but doesn't overwrite them, which means you can still attach the event listener, and do whatever you want in the handler.
-
-    In the example above, we get the `rawValue` and update its `state` in handler, eventually will pass it to backend or `store` layer.
+    Internally it interpolates native React `onChange` and `onKeydown` events, does all the formatting magic and triggers the event callback.
+    
+    The only thing getting added to the event object is the `rawValue` (delimiter stripped value) of the input field, that you might be interested in.
+    
+    In the example above, we get the `rawValue` and update its `state` in handler, eventually it will be passed to backend or `store` layer.
 
 
 ## References

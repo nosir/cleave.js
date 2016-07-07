@@ -11,17 +11,10 @@
 var Cleave = function (element, opts) {
     var owner = this;
 
-    // selector
     if (typeof element === 'string') {
         owner.element = document.querySelector(element);
-    }
-    // nothing
-    else if (typeof element.length === 'undefined') {
-        return;
-    }
-    // first element
-    else {
-        owner.element = element.length > 0 ? element[0] : element;
+    } else {
+        owner.element = ((typeof element.length !== 'undefined') && element.length > 0) ? element[0] : element;
     }
 
     opts.initValue = owner.element.value;
@@ -201,7 +194,10 @@ Cleave.prototype = {
     },
 
     setRawValue: function (value) {
-        this.onInput(value);
+        var owner = this;
+
+        owner.element.value = value;
+        owner.onInput(value);
     },
 
     getRawValue: function () {
