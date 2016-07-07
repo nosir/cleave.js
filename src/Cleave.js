@@ -199,7 +199,10 @@ Cleave.prototype = {
     },
 
     setRawValue: function (value) {
-        this.onInput(value);
+        var owner = this;
+
+        owner.element.value = value;
+        owner.onInput(value);
     },
 
     getRawValue: function () {
