@@ -318,8 +318,21 @@ header .demos-btn .icon {
     text-align: right;
 }
 
-.input-prefix {
+.input-prefix, .input-blocks, .input-delimiter {
     text-transform: uppercase;
+}
+
+input::-webkit-input-placeholder {
+    text-transform: none;
+}
+
+input:-ms-input-placeholder {
+    text-transform: none;
+}
+
+input:-moz-placeholder,
+input::-moz-placeholder {
+    text-transform: none;
 }
 
 .see-more {
@@ -337,7 +350,7 @@ header .demos-btn .icon {
     margin-right: 10px;
 }
 
-.footer{
+.footer {
     padding: 40px 0;
     background: #272822;
     color: #BBB;
@@ -363,6 +376,7 @@ header .demos-btn .icon {
     top: 2px;
     margin-right: 2px;
 }
+
 .footer a:hover {
     color: #FFF;
 }
