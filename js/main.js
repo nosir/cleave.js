@@ -9,12 +9,13 @@ var cleaveCreditCard = new Cleave('.input-credit-card', {
 
 var btnClear = DOM.select('.btn-clear');
 var creditCardInput = DOM.select('.input-credit-card');
-creditCardInput.addEventListener('focus', function(){
+creditCardInput.addEventListener('focus', function () {
     DOM.removeClass(btnClear, 'hidden-right');
 });
 btnClear.addEventListener('click', function () {
     cleaveCreditCard.setRawValue('');
     DOM.addClass(btnClear, 'hidden-right');
+    creditCardInput.focus();
 });
 
 // phone
@@ -32,7 +33,7 @@ for (var i = 0, html = '', iMax = countries.length; i < iMax; i++) {
 
 selectCountry.innerHTML = html;
 
-var cleavePhone = new Cleave(inputPhone, {
+var cleavePhone = new Cleave('.input-phone', {
     phone:           true,
     phoneRegionCode: 'US'
 });
@@ -67,7 +68,7 @@ var cleaveNumeral = new Cleave(inputNumeral, {
 });
 
 selectNumeral.addEventListener('change', function () {
-    cleaveNumeral = new Cleave('.input-numeral', {
+    cleaveNumeral = new Cleave(inputNumeral, {
         numeral:                    true,
         numeralThousandsGroupStyle: this.value
     });

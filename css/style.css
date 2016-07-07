@@ -90,7 +90,7 @@ header .demos-btn {
 
 header .demos-btn .icon {
     margin-top: 5px;
-    font-size: 20px;
+    font-size: 24px;
 }
 
 .title-bar {
@@ -129,13 +129,13 @@ header .demos-btn .icon {
 .btn-bar .btn .title {
     display: inline-block;
     position: relative;
-    top: -3px;
+    top: -4px;
 }
 
 .btn-bar .btn .icon {
     display: inline-block;
-    margin-right: 5px;
-    font-size: 20px;
+    margin-right: 8px;
+    font-size: 24px;
 }
 
 .green {
@@ -327,7 +327,14 @@ header .demos-btn .icon {
 }
 
 .see-more .icon {
-    font-size: 20px;
+    font-size: 24px;
+}
+
+.see-more .title {
+    display: inline-block;
+    position: relative;
+    top: -2px;
+    margin-right: 10px;
 }
 
 .footer{

@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-    <title>Title</title>
+    <title>Cleave.js - Format input text content when you are typing</title>
     <link href="./lib/prism.css" rel="stylesheet"/>
     <script src="./lib/prism.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
@@ -171,7 +171,7 @@
                         <div class="icon icon-cc-jcb"></div>
                     </div>
                     <div class="col-right">
-                        <p>JCB: starts with 2131/18/35</p>
+                        <p>JCB: starts with 2131/1800/35</p>
                         <p>2131<span class="dots">
 
                                 <span class="icon-circle dot-offset-minus-gap"></span>
@@ -195,7 +195,7 @@
             </ul>
 
             <div class="code">
-<pre><code class="language-javascript">var cleave = new Cleave('.element', {
+<pre><code class="language-javascript">var cleave = new Cleave('.input-element', {
     creditCard: true
 });</code></pre>
             </div>
@@ -222,7 +222,7 @@
             </div>
 
             <div class="code code-phone">
-<pre><code class="language-javascript">var cleave = new Cleave('.element', {
+<pre><code class="language-javascript">var cleave = new Cleave('.input-element', {
     phone: true,
     phoneRegionCode: '{country}'
 });</code></pre>
@@ -241,7 +241,7 @@
             </div>
 
             <div class="code">
-<pre><code class="language-javascript">var cleave = new Cleave('.element', {
+<pre><code class="language-javascript">var cleave = new Cleave('.input-element', {
     date: true,
     datePattern: ['Y', 'm', 'd']
 });</code></pre>
@@ -256,7 +256,7 @@
             </div>
 
             <div class="code">
-<pre><code class="language-javascript">var cleave = new Cleave('.element', {
+<pre><code class="language-javascript">var cleave = new Cleave('.input-element', {
     date: true,
     datePattern: ['m', 'y']
 });</code></pre>
@@ -287,7 +287,7 @@
             </div>
 
             <div class="code code-numeral">
-<pre><code class="language-javascript">var cleave = new Cleave('.element', {
+<pre><code class="language-javascript">var cleave = new Cleave('.input-element', {
     numeral: true,
     numeralThousandsGroupStyle: 'thousand'
 });</code></pre>
@@ -306,7 +306,7 @@
             </div>
 
             <div class="code">
-<pre><code class="language-javascript">var cleave = new Cleave('.element', {
+<pre><code class="language-javascript">var cleave = new Cleave('.input-element', {
     delimiter: '·',
     creditCard: true
 });</code></pre>
@@ -321,7 +321,7 @@
             </div>
 
             <div class="code">
-<pre><code class="language-javascript">var cleave = new Cleave('.element', {
+<pre><code class="language-javascript">var cleave = new Cleave('.input-element', {
     blocks: [2, 3, 3, 3]
 });</code></pre>
             </div>
@@ -335,7 +335,7 @@
             </div>
 
             <div class="code">
-<pre><code class="language-javascript">var cleave = new Cleave('.element', {
+<pre><code class="language-javascript">var cleave = new Cleave('.input-element', {
     prefix: 'PREFIX',
     blocks: [6, 4, 4, 4],
     delimiter: '-',
@@ -344,7 +344,7 @@
         </div>
     </section>
 
-    <div class="see-more"><a href="https://github.com/nosir/cleave.js">See more on Github <span class="icon icon-github"></span></a></div>
+    <div class="see-more"><a href="https://github.com/nosir/cleave.js"><div class="title">See more on Github</div><span class="icon icon-github"></span></a></div>
 
 </div>
 
