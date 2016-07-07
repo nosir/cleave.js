@@ -7,26 +7,26 @@ var gulpsync = require('gulp-sync')(gulp);
 
 var paths = {
     src:    './src',
-    plugin: 'plugin',
+    addons: 'addons',
     dist:   './dist'
 };
 
-gulp.task('plugin:clean', function () {
+gulp.task('addon:clean', function () {
     return gulp.src([
-            path.join(paths.dist, paths.plugin, '*.js')
+            path.join(paths.dist, paths.addons, '*.js')
         ])
         .pipe(rimraf());
 });
 
-gulp.task('plugin:build', function () {
-    return gulp.src(path.join(paths.src, paths.plugin, '*.js'))
+gulp.task('addon:build', function () {
+    return gulp.src(path.join(paths.src, paths.addons, '*.js'))
         .pipe(rename(function (path) {
             path.basename = path.basename.replace('phone-type-formatter', 'cleave-phone');
         }))
         .pipe(uglify({
             preserveComments: 'all'
         }))
-        .pipe(gulp.dest(path.join(paths.dist, paths.plugin)));
+        .pipe(gulp.dest(path.join(paths.dist, paths.addons)));
 });
 
-gulp.task('plugin', gulpsync.sync(['plugin:clean', 'plugin:build']));
+gulp.task('addon', gulpsync.sync(['addon:clean', 'addon:build']));

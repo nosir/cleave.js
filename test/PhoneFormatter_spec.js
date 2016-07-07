@@ -3,7 +3,7 @@ var PhoneFormatter = require('../src/shortcuts/PhoneFormatter');
 
 // this one exports the module for CommonJS mode
 // which is different from the prod ones
-var PhoneTypeFormatter = require('./plugin/phone-type-formatter.full.js');
+var PhoneTypeFormatter = require('./addons/phone-type-formatter.i18n.js');
 
 var phones = require('./fixtures/phone.json');
 

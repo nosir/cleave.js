@@ -1,6 +1,6 @@
-# Documentation 
+# Cleave.js Documentation 
 
-[Cleave.js](https://github.com/nosir/cleave.js#documentation) > [JavaScript API](https://github.com/nosir/cleave.js/blob/master/doc/js-api.md) > Constructor
+[Documentation](https://github.com/nosir/cleave.js/blob/master/doc/doc.md) > [JavaScript API](https://github.com/nosir/cleave.js/blob/master/doc/js-api.md) > Constructor
 
 ## Constructor
 
