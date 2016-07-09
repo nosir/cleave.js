@@ -539,7 +539,10 @@ NumeralFormatter.prototype = {
             .replace(/[^\dM]/g, '')
 
             // replace mark
-            .replace('M', owner.numeralDecimalMark);
+            .replace('M', owner.numeralDecimalMark)
+
+            // strip leading 0
+            .replace(/^(-)?0+(?=\d)/, '$1');
 
         partInteger = value;
 
