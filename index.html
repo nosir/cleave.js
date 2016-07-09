@@ -19,11 +19,11 @@
 <!-- ribbon -->
 <a href="https://github.com/nosir/cleave.js"><img
         style="position: absolute; z-index: 999; top: 0; right: 0; border: 0; width: 149px; height: 149px;"
-        src="http://aral.github.com/fork-me-on-github-retina-ribbons/right-graphite@2x.png" alt="Fork me on GitHub"></a>
+        src="https://aral.github.com/fork-me-on-github-retina-ribbons/right-graphite@2x.png" alt="Fork me on GitHub"></a>
 
 <!-- logo -->
 <header>
-    <div class="demos-btn">
+    <div class="btn-demos">
         <div>DEMOS</div>
         <div class="icon icon-arrow-circle-down"></div>
     </div>
@@ -32,7 +32,7 @@
         <div class="subtitle">Format your <span class="input-txt">&lt;<span class="green">input</span>&sol;&gt;</span> content when you are typing</div>
         <div class="btn-bar">
             <a class="btn" href="https://github.com/nosir/cleave.js">
-                <span class="icon icon-github"></span><div class="title">Source</div>
+                <span class="icon icon-github"></span><div class="title">Github Repo</div>
             </a>
 
             <a class="btn" href="https://github.com/nosir/cleave.js/blob/master/doc/doc.md">
@@ -307,7 +307,8 @@
 
             <div class="code">
 <pre><code class="language-javascript">var cleave = new Cleave('.input-element', {
-    blocks: [2, 3, 3, 3]
+    blocks: [2, 3, 3, 3],
+    uppercase: true
 });</code></pre>
             </div>
         </div>
@@ -322,7 +323,8 @@
             <div class="code">
 <pre><code class="language-javascript">var cleave = new Cleave('.input-element', {
     delimiter: '·',
-    blocks: [3, 3, 3, 3]
+    blocks: [3, 3, 3, 3],
+    uppercase: true
 });</code></pre>
             </div>
         </div>
@@ -337,14 +339,61 @@
             <div class="code">
 <pre><code class="language-javascript">var cleave = new Cleave('.input-element', {
     prefix: 'PREFIX',
-    blocks: [6, 4, 4, 4],
     delimiter: '-',
+    blocks: [6, 4, 4, 4],
+    uppercase: true
 });</code></pre>
             </div>
         </div>
     </section>
 
-    <div class="see-more"><a href="https://github.com/nosir/cleave.js"><div class="title">See more on Github</div><span class="icon icon-github"></span></a></div>
+    <section>
+        <h3>ReactJS component</h3>
+
+        <div class="demo">
+            <div class="code code-phone">
+<pre><code class="language-javascript">import React from 'react';
+import ReactDOM from 'react-dom';
+import Cleave from 'cleave.js/react';
+
+class MyComponent extends React.Component {
+    onChange(event) {
+        // formatted pretty value
+        console.log(event.target.value);
+
+        // raw value
+        console.log(event.target.rawValue);
+    }
+
+    render() {
+        return (
+        &lt;Cleave placeholder="Enter your credit card number"
+                options={{creditCard: true}}
+                onChange={this.onChange.bind(this)} /&gt;
+        );
+    }
+}
+</code></pre>
+            </div>
+
+            <div class="btn-try-in">Try demo in the playground<div class="icon icon-arrow-circle-down"></div></div>
+        </div>
+    </section>
+
+    <section class="section-playground">
+        <h3>Playground</h3>
+
+        <div class="demo">
+            <div class="field">
+                <a href="https://jsfiddle.net/nosir/kbaxx64s/" target="_blank">Plain JSFiddle</a>
+                <a class="btn-react-jsfiddle" href="https://jsfiddle.net/nosir/gLLsrxxf/" target="_blank">React JSFiddle</a>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="see-more"><a href="https://github.com/nosir/cleave.js"><div class="title">See more on Github</div><span class="icon icon-github"></span></a></div>
+    </section>
 
 </div>
 
@@ -373,7 +422,7 @@
     </div>
 </div>
 
-<script src="./lib/cleave-0.3.0.min.js"></script>
+<script src="./lib/cleave-0.3.1.min.js"></script>
 <script src="./lib/cleave-phone.i18n.js"></script>
 <script src="./js/lib.js"></script>
 <script src="./js/main.js"></script>

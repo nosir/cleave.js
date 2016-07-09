@@ -1,5 +1,9 @@
-DOM.select('.demos-btn').addEventListener('click', function () {
+DOM.select('.btn-demos').addEventListener('click', function () {
     Animate.scrollTo(document, DOM.offset(DOM.select('.demos')).top, 500);
+});
+
+DOM.select('.btn-try-in').addEventListener('click', function () {
+    Animate.scrollTo(document, DOM.offset(DOM.select('.section-playground')).top, 500);
 });
 
 // credit card
@@ -81,18 +85,21 @@ selectNumeral.addEventListener('change', function () {
 
 // delimiter
 var cleaveDelimeter = new Cleave('.input-delimiter', {
-    delimiter:  '·',
-    blocks: [3, 3, 3, 3]
+    delimiter: '·',
+    uppercase: true,
+    blocks:    [3, 3, 3, 3]
 });
 
 // blocks
 var cleaveBlocks = new Cleave('.input-blocks', {
-    blocks: [2, 3, 3, 3]
+    blocks: [2, 3, 3, 3],
+    uppercase: true
 });
 
 // prefix
 var cleavePrefix = new Cleave('.input-prefix', {
     prefix:    'PREFIX',
     blocks:    [6, 4, 4, 4],
-    delimiter: '-'
+    delimiter: '-',
+    uppercase: true
 });

@@ -81,14 +81,14 @@ header {
     display: table;
 }
 
-header .demos-btn {
+header .btn-demos {
     position: absolute;
     bottom: 80px;
     width: 100%;
     cursor: pointer;
 }
 
-header .demos-btn .icon {
+header .btn-demos .icon {
     margin-top: 5px;
     font-size: 24px;
 }
@@ -318,21 +318,20 @@ header .demos-btn .icon {
     text-align: right;
 }
 
-.input-prefix, .input-blocks, .input-delimiter {
-    text-transform: uppercase;
+.btn-try-in {
+    margin-top: 30px;
+    font-size: 18px;
+    cursor: pointer;
+    display: inline-block;
 }
 
-input::-webkit-input-placeholder {
-    text-transform: none;
+.btn-try-in .icon {
+    font-size: 24px;
+    margin-top: 5px;
 }
 
-input:-ms-input-placeholder {
-    text-transform: none;
-}
-
-input:-moz-placeholder,
-input::-moz-placeholder {
-    text-transform: none;
+.btn-react-jsfiddle {
+    margin-left: 20px;
 }
 
 .see-more {
