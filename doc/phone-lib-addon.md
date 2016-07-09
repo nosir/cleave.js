@@ -6,7 +6,7 @@
 
 Phone lib uses google [libphonenumber](https://github.com/googlei18n/libphonenumber/) `AsYouTypeFormatter` feature to format phone numbers. 
 
-Since the original i18n lib includes patterns for all the countries, the file size is relatively large (Minified: 254K, gzipped 50K). In order to reduce the size, Cleave.js helped you separate the module based on countries, so that you can include any of them as an addon (Minified: 14K, gzipped 5KB each).
+Since the original i18n lib includes patterns for all the countries, the file size is relatively large (minified: 254K, gzipped 50K). In order to reduce the size, Cleave.js helped you separate the module based on countries, so that you can include any of them as an addon (minified: 14K, gzipped 5KB each).
 
 ## How to include phone lib addon
 
@@ -57,6 +57,6 @@ Sometimes you might want to use phone lib addon for multiple counties. Please be
 
 Don't include addons one by one, instead, you should build your owner country combination lib like `(US & CA).js`
 
-To build it by yourself, please see [here](https://github.com/nosir/libphonenumber-country-metadata#build-phone-type-formatterjs-for-cleavejs)
+To build it by yourself, please see [here](https://github.com/nosir/libphonenumber-country-metadata#build-phone-type-formatterjs-for-cleavejs).
 
 Alternatively, just create an issue [here](https://github.com/nosir/cleave.js/issues), specify which ones you would like to build in.

@@ -167,6 +167,10 @@ Cleave.prototype = {
         // strip over length characters
         value = Util.headStr(value, pps.maxLength);
 
+        // convert case
+        value = pps.uppercase ? value.toUpperCase() : value;
+        value = pps.lowercase ? value.toLowerCase() : value;
+
         // apply blocks
         pps.result = Util.getFormattedValue(value, pps.blocks, pps.blocksLength, pps.delimiter);
 
@@ -338,6 +342,9 @@ var DefaultProperties = {
         target.initValue = opts.initValue || '';
 
         target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;
+
+        target.uppercase = !!opts.uppercase;
+        target.lowercase = !!opts.lowercase;
 
         target.prefix = (target.creditCard || target.phone || target.date) ? '' : (opts.prefix || '');
 

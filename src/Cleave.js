@@ -165,6 +165,10 @@ Cleave.prototype = {
         // strip over length characters
         value = Util.headStr(value, pps.maxLength);
 
+        // convert case
+        value = pps.uppercase ? value.toUpperCase() : value;
+        value = pps.lowercase ? value.toLowerCase() : value;
+
         // apply blocks
         pps.result = Util.getFormattedValue(value, pps.blocks, pps.blocksLength, pps.delimiter);
 

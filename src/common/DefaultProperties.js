@@ -37,6 +37,9 @@ var DefaultProperties = {
 
         target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;
 
+        target.uppercase = !!opts.uppercase;
+        target.lowercase = !!opts.lowercase;
+
         target.prefix = (target.creditCard || target.phone || target.date) ? '' : (opts.prefix || '');
 
         target.delimiter = opts.delimiter || (target.date ? '/' : (target.numeral ? ',' : ' '));
