@@ -16,7 +16,7 @@ Cleave.js has a simple purpose: to help you format input text content automatica
 - CommonJS / AMD mode
 - ReactJS component port
 
-**TL;DR** [the demo page](https://nosir.github.io/cleave.js)
+**TL;DR** [the demo page](https://nosir.github.io/cleave.js/)
 
 ## Why?
 
@@ -67,7 +67,7 @@ var cleave = new Cleave('.input-phone', {
 });
 ```
 
-More examples: [the demo page](https://nosir.github.io/cleave.js)
+More examples: [the demo page](https://nosir.github.io/cleave.js/)
 
 #### CommonJS
 ```js
@@ -124,6 +124,12 @@ As you can see, here you simply use `<Cleave/>` as a normal `<input/>` field
 
 See more in documentation: [ReactJS component usage](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-component-usage.md) section
 
+## Playground
+
+- [Plain JSFiddle](https://jsfiddle.net/nosir/kbaxx64s/)
+- [React JSFiddle](https://jsfiddle.net/nosir/gLLsrxxf/)
+- [Demo page](https://nosir.github.io/cleave.js/)
+
 ## Documentation
 
 - [JavaScript API](https://github.com/nosir/cleave.js/blob/master/doc/js-api.md)
@@ -153,8 +159,8 @@ gulp mocha && gulp eslint
 
 ## Todo
 - [x] ReactJS component port
-- [ ] AngularJS component port
 - [x] Mocha unit tests for formatter classes
+- [ ] AngularJS component port
 - [ ] PhantomJS / Jest browser tests
 
 ## Get in touch

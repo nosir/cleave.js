@@ -20,6 +20,8 @@
     - [blocks](#blocks)
     - [prefix](#prefix)
     - [numericOnly](#numericonly)
+    - [uppercase](#uppercase)
+    - [lowercase](#lowercase)
 
 ## Credit card numbers
 
@@ -240,8 +242,20 @@ new Cleave('.my-input', {
 
 ### `numericOnly`
 
-A `Boolean` value indicates if it only allows numeric input.
+A `Boolean` value indicates if it only allows numeric letters (0-9).
 
 Ignored by `creditCard` and `date` shortcuts mode, the value will always be `true`.
+
+**Default value**: `false`
+
+### `uppercase`
+
+A `Boolean` value indicates if it converts value to uppercase letters.
+
+**Default value**: `false`
+
+### `lowercase`
+
+A `Boolean` value indicates if it converts value to lowercase letters.
 
 **Default value**: `false`
