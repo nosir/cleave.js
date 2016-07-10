@@ -57,7 +57,7 @@
             <ul class="cards clearfix">
                 <li>
                     <div class="col-left">
-                        <div class="icon icon-cc-amex"></div>
+                        <div class="icon-amex icon icon-cc-amex"></div>
                     </div>
                     <div class="col-right">
                         <p>American Express: starts with <span class="link-number">34/37</span></p>
@@ -84,7 +84,7 @@
 
                 <li>
                     <div class="col-left">
-                        <div class="icon icon-cc-visa"></div>
+                        <div class="icon-visa icon icon-cc-visa"></div>
                     </div>
                     <div class="col-right">
                         <p>VISA: starts with <span class="link-number">4</span></p>
@@ -114,7 +114,7 @@
 
                 <li>
                     <div class="col-left">
-                        <div class="icon icon-cc-diners-club"></div>
+                        <div class="icon-diners icon icon-cc-diners-club"></div>
                     </div>
                     <div class="col-right">
                         <p>Diners Club: starts with <span class="link-number">300-305/309...</span></p>
@@ -139,7 +139,7 @@
 
                 <li>
                     <div class="col-left">
-                        <div class="icon icon-cc-mastercard"></div>
+                        <div class="icon-mastercard icon icon-cc-mastercard"></div>
                     </div>
                     <div class="col-right">
                         <p>MasterCard: starts with <span class="link-number">51-55/22-27</span></p>
@@ -168,7 +168,7 @@
 
                 <li>
                     <div class="col-left">
-                        <div class="icon icon-cc-jcb"></div>
+                        <div class="icon-jcb icon icon-cc-jcb"></div>
                     </div>
                     <div class="col-right">
                         <p>JCB: starts with 2131/1800/35</p>
@@ -192,11 +192,41 @@
                         </p>
                     </div>
                 </li>
+
+                <li>
+                    <div class="col-left">
+                        <div class="icon-discover icon icon-cc-discover"></div>
+                    </div>
+                    <div class="col-right">
+                        <p>Discover: starts with 6011|65|644-649</p>
+                        <p>6011<span class="dots">
+
+                                <span class="icon-circle dot-offset-minus-gap"></span>
+                                <span class="icon-circle"></span>
+                                <span class="icon-circle"></span>
+                                <span class="icon-circle"></span>
+
+                                <span class="icon-circle dot-offset"></span>
+                                <span class="icon-circle"></span>
+                                <span class="icon-circle"></span>
+                                <span class="icon-circle"></span>
+
+                                <span class="icon-circle dot-offset"></span>
+                                <span class="icon-circle"></span>
+                                <span class="icon-circle"></span>
+                                <span class="icon-circle"></span>
+                            </span>
+                        </p>
+                    </div>
+                </li>
             </ul>
 
             <div class="code">
 <pre><code class="language-javascript">var cleave = new Cleave('.input-element', {
-    creditCard: true
+    creditCard: true,
+    onCreditCardTypeChanged: function (type) {
+        // update UI ...
+    }
 });</code></pre>
             </div>
         </div>
@@ -416,13 +446,16 @@ class MyComponent extends React.Component {
     </span>
     </div>
     <div class="project">
+        All brand icons used in the demo are provided by <a href="http://fontawesome.io/">Font Awesome</a><span class="sep-dot">·</span>Any usage should follow its <a href="http://fontawesome.io/license/">License</a>
+    </div>
+    <div class="project">
         <a href="https://github.com/nosir/cleave.js">GitHub Project</a><span class="sep-dot">·</span><a
             href="https://github.com/nosir/cleave.js/blob/master/doc/doc.md">Documentation</a><span class="sep-dot">·</span><a
             href="https://github.com/nosir/cleave.js/issues">Issues</a>
     </div>
 </div>
 
-<script src="./lib/cleave-0.3.2.min.js"></script>
+<script src="./lib/cleave-0.4.1.min.js"></script>
 <script src="./lib/cleave-phone.i18n.js"></script>
 <script src="./js/lib.js"></script>
 <script src="./js/main.js"></script>

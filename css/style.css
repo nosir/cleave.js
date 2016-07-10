@@ -183,6 +183,15 @@ header .btn-demos .icon {
 
 .cards .icon {
     font-size: 36px;
+    -webkit-transition: all 200ms ease;
+    transition: all 200ms ease;
+}
+
+.cards .icon.active {
+    color: #272822;
+    -ms-transform: scale(1.2, 1.2);
+    -webkit-transform: scale(1.2, 1.2);
+    transform: scale(1.2, 1.2);
 }
 
 .cards .dots {

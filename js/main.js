@@ -6,9 +6,21 @@ DOM.select('.btn-try-in').addEventListener('click', function () {
     Animate.scrollTo(document, DOM.offset(DOM.select('.section-playground')).top, 500);
 });
 
+var selectedCardIcon = null;
 // credit card
 var cleaveCreditCard = new Cleave('.input-credit-card', {
-    creditCard: true
+    creditCard:              true,
+    onCreditCardTypeChanged: function (type) {
+        if (selectedCardIcon) {
+            DOM.removeClass(selectedCardIcon, 'active');
+        }
+
+        selectedCardIcon = DOM.select('.icon-' + type);
+
+        if (selectedCardIcon) {
+            DOM.addClass(selectedCardIcon, 'active');
+        }
+    }
 });
 
 var btnClear = DOM.select('.btn-clear');
@@ -92,7 +104,7 @@ var cleaveDelimeter = new Cleave('.input-delimiter', {
 
 // blocks
 var cleaveBlocks = new Cleave('.input-blocks', {
-    blocks: [2, 3, 3, 3],
+    blocks:    [2, 3, 3, 3],
     uppercase: true
 });
 
