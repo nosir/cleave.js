@@ -154,12 +154,9 @@ Cleave.prototype = {
             value = Util.strip(value, /[^\d]/g);
         }
 
-        // update credit card blocks
-        // and at least one of first 4 characters has changed
-        if (pps.creditCard && Util.headStr(pps.result, 4) !== Util.headStr(value, 4)) {
-            pps.blocks = Cleave.CreditCardDetector.getBlocksByPAN(value, pps.creditCardStrictMode);
-            pps.blocksLength = pps.blocks.length;
-            pps.maxLength = Util.getMaxLength(pps.blocks);
+        // update credit card props
+        if (pps.creditCard) {
+            owner.updateCreditCardPropsByValue(value);
         }
 
         // strip over length characters
@@ -179,6 +176,30 @@ Cleave.prototype = {
         }
 
         owner.updateValueState();
+    },
+
+    updateCreditCardPropsByValue: function (value) {
+        var owner = this, pps = owner.properties,
+            Util = Cleave.Util,
+            creditCardInfo;
+
+        // At least one of the first 4 characters has changed
+        if (Util.headStr(pps.result, 4) === Util.headStr(value, 4)) {
+            return;
+        }
+
+        creditCardInfo = Cleave.CreditCardDetector.getInfo(value, pps.creditCardStrictMode);
+
+        pps.blocks = creditCardInfo.blocks;
+        pps.blocksLength = pps.blocks.length;
+        pps.maxLength = Util.getMaxLength(pps.blocks);
+
+        // credit card type changed
+        if (pps.creditCardType !== creditCardInfo.type) {
+            pps.creditCardType = creditCardInfo.type;
+
+            pps.onCreditCardTypeChanged.call(owner, pps.creditCardType);
+        }
     },
 
     updateValueState: function () {

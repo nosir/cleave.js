@@ -28,11 +28,11 @@ var Cleave = React.createClass({
 
     getInitialState: function () {
         var owner = this,
-            { value, options, onKeydown, onChange, ...other } = owner.props;
+            { value, options, onKeyDown, onChange, ...other } = owner.props;
 
         owner.registeredEvents = {
             onChange:  onChange || Util.noop,
-            onKeydown: onKeydown || Util.noop
+            onKeyDown: onKeyDown || Util.noop
         };
 
         options.initValue = value;
@@ -113,7 +113,7 @@ var Cleave = React.createClass({
         }
     },
 
-    onKeydown: function (event) {
+    onKeyDown: function (event) {
         var owner = this,
             pps = owner.properties,
             charCode = event.which || event.keyCode;
@@ -125,7 +125,7 @@ var Cleave = React.createClass({
             pps.backspace = false;
         }
 
-        owner.registeredEvents.onKeydown(event);
+        owner.registeredEvents.onKeyDown(event);
     },
 
     onChange: function (event) {
@@ -183,12 +183,9 @@ var Cleave = React.createClass({
             value = Util.strip(value, /[^\d]/g);
         }
 
-        // update credit card blocks
-        // and at least one of first 4 characters has changed
-        if (pps.creditCard && Util.headStr(pps.result, 4) !== Util.headStr(value, 4)) {
-            pps.blocks = CreditCardDetector.getBlocksByPAN(value, pps.creditCardStrictMode);
-            pps.blocksLength = pps.blocks.length;
-            pps.maxLength = Util.getMaxLength(pps.blocks);
+        // update credit card props
+        if (pps.creditCard) {
+            owner.updateCreditCardPropsByValue(value);
         }
 
         // strip over length characters
@@ -210,6 +207,29 @@ var Cleave = React.createClass({
         owner.updateValueState();
     },
 
+    updateCreditCardPropsByValue: function (value) {
+        var owner = this, pps = owner.properties,
+            creditCardInfo;
+
+        // At least one of the first 4 characters has changed
+        if (Util.headStr(pps.result, 4) === Util.headStr(value, 4)) {
+            return;
+        }
+
+        creditCardInfo = CreditCardDetector.getInfo(value, pps.creditCardStrictMode);
+
+        pps.blocks = creditCardInfo.blocks;
+        pps.blocksLength = pps.blocks.length;
+        pps.maxLength = Util.getMaxLength(pps.blocks);
+
+        // credit card type changed
+        if (pps.creditCardType !== creditCardInfo.type) {
+            pps.creditCardType = creditCardInfo.type;
+
+            pps.onCreditCardTypeChanged.call(owner, pps.creditCardType);
+        }
+    },
+
     updateValueState: function () {
         this.setState({value: this.properties.result});
     },
@@ -220,7 +240,7 @@ var Cleave = React.createClass({
         return (
             <input type="text" {...owner.state.other}
                    value={owner.state.value}
-                   onKeydown={owner.onKeydown}
+                   onKeyDown={owner.onKeyDown}
                    onChange={owner.onChange}/>
         );
     }

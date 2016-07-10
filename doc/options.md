@@ -4,6 +4,7 @@
 
 - Credit card numbers:
     - [creditCard](#creditcard)
+    - [onCreditCardTypeChanged](#oncreditcardtypechanged)
 - Phone numbers:
     - [phone](#phone)
     - [phoneRegionCode](#phoneregioncode)
@@ -46,6 +47,23 @@ new Cleave('.my-input', {
 // Diners Club: XXXX XXXXXX XXXX
 // UATP:        XXXX XXXXX XXXXXX
 ...
+```
+
+### `onCreditCardTypeChanged`
+
+A callback `Function`. Triggered after credit card type changes.
+
+The unique `String` argument `type` is the type of the detected credit, which can be:
+
+`amex` `mastercard` `visa` `diners` `discover` `jcb` `dankort` `instapayment` `uatp`
+
+```js
+new Cleave('.my-input', {
+    creditCard: true,
+    onCreditCardTypeChanged: function (type) {
+        // update UI ...
+    }
+});
 ```
 
 ## Phone numbers

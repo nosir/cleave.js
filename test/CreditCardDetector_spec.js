@@ -7,7 +7,7 @@ describe('CreditCardDetector', function () {
         describe('type: ' + key, function () {
             _.each(cardNumbers, function (cardNumber) {
                 it('should match card ' + cardNumber, function () {
-                    CreditCardDetector.getBlocksByPAN(cardNumber, true).should.eql(CreditCardDetector.blocks[key]);
+                    CreditCardDetector.getInfo(cardNumber, true).blocks.should.eql(CreditCardDetector.blocks[key]);
                 });
             });
         });
