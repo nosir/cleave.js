@@ -6,11 +6,9 @@
 
 ### Babel compiler
 
-> We assume you are familiar with building ReactJS project with Browserify / Webpack and Babel. Otherwise you may want to check [References](#references)
+Cleave.js uses ES6 spread / rest feature, so we recommend using Babel compiler to transfer ES6 code.
 
-Cleave.js uses ES6 spread / rest feature, so you will need Babel compiler to transfer ES6 code.
-
-If your project doesn't support it, please refer to [Legacy way](#legacy-way)
+However, if your project doesn't support it, you can still refer to the [legacy way](#legacy-way).
 
 First install babel presets:
 
@@ -150,7 +148,7 @@ As you can see, here you simply use `<Cleave/>` as a normal `<input/>` field
 
 - Add ReactJS `onChange` event listener
 
-    Internally it interpolates native React `onChange` and `onKeydown` events, does all the formatting magic and triggers the event callback.
+    Internally it interpolates native React `onChange` and `onKeyDown` events, does all the formatting magic and triggers the event callback.
     
     The only thing getting added to the event object is the `rawValue` (delimiter stripped value) of the input field, that you might be interested in.
     

@@ -34,7 +34,7 @@ Cleave.prototype = {
         pps.maxLength = Cleave.Util.getMaxLength(pps.blocks);
 
         owner.element.addEventListener('input', owner.onChange.bind(owner));
-        owner.element.addEventListener('keydown', owner.onKeydown.bind(owner));
+        owner.element.addEventListener('keydown', owner.onKeyDown.bind(owner));
 
         owner.initPhoneFormatter();
         owner.initDateFormatter();
@@ -90,7 +90,7 @@ Cleave.prototype = {
         }
     },
 
-    onKeydown: function (event) {
+    onKeyDown: function (event) {
         var owner = this, pps = owner.properties,
             charCode = event.which || event.keyCode;
 
@@ -237,7 +237,7 @@ Cleave.prototype = {
         var owner = this;
 
         owner.element.removeEventListener('input', owner.onChange.bind(owner));
-        owner.element.removeEventListener('keydown', owner.onKeydown.bind(owner));
+        owner.element.removeEventListener('keydown', owner.onKeyDown.bind(owner));
     },
 
     toString: function () {
