@@ -2,11 +2,15 @@
 
 [Documentation](https://github.com/nosir/cleave.js/blob/master/doc/doc.md) > ReactJS component usage
 
+## Playground
+
+- [React JSFiddle](https://jsfiddle.net/nosir/gLLsrxxf/)
+
 ## Usage
 
 ### Babel compiler
 
-Cleave.js uses ES6 spread / rest feature, so we recommend using Babel compiler to transfer ES6 code.
+Cleave.js uses ES6 spread / rest feature, and we recommend using Babel compiler to transfer ES6 code.
 
 However, if your project doesn't support it, you can still refer to the [legacy way](#legacy-way).
 
@@ -153,10 +157,6 @@ As you can see, here you simply use `<Cleave/>` as a normal `<input/>` field
     The only thing getting added to the event object is the `rawValue` (delimiter stripped value) of the input field, that you might be interested in.
     
     In the example above, we get the `rawValue` and update its `state` in handler, eventually it will be passed to backend or `store` layer.
-
-## Playground
-
-- [React JSFiddle](https://jsfiddle.net/nosir/gLLsrxxf/)
 
 ## References
 
