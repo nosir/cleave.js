@@ -30,10 +30,18 @@ p, ul, li {
     margin-top: 15px;
 }
 
-.lt-ie10 .code {
+.code pre {
     background: #272822;
     text-align: left;
-    padding: 5px 20px;
+    border-radius: 0.3em;
+    padding: 1em;
+    color: #f8f8f2;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
 }
 
 .input-title {
@@ -305,18 +313,21 @@ header .btn-demos .icon {
     right: 18px;
 }
 
+.selector .select-box-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
 .selector .select-box {
     cursor: pointer;
     width: 200px;
     height: 46px;
-    position: absolute;
-    top: 0;
-    left: 0;
     -webkit-appearance: menulist-button;
     -moz-appearance: menulist-button;
     appearance: menulist-button;
     opacity: 0;
-    z-index: 100;
 }
 
 .input-phone, .input-numeral {
