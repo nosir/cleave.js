@@ -15,6 +15,8 @@ var DefaultProperties = {
         // credit card
         target.creditCard = !!opts.creditCard;
         target.creditCardStrictMode = !!opts.creditCardStrictMode;
+        target.creditCardType = '';
+        target.onCreditCardTypeChanged = opts.onCreditCardTypeChanged || (function () {});
 
         // phone
         target.phone = !!opts.phone;

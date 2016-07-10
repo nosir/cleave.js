@@ -156,12 +156,9 @@ Cleave.prototype = {
             value = Util.strip(value, /[^\d]/g);
         }
 
-        // update credit card blocks
-        // and at least one of first 4 characters has changed
-        if (pps.creditCard && Util.headStr(pps.result, 4) !== Util.headStr(value, 4)) {
-            pps.blocks = Cleave.CreditCardDetector.getBlocksByPAN(value, pps.creditCardStrictMode);
-            pps.blocksLength = pps.blocks.length;
-            pps.maxLength = Util.getMaxLength(pps.blocks);
+        // update credit card props
+        if (pps.creditCard) {
+            owner.updateCreditCardPropsByValue(value);
         }
 
         // strip over length characters
@@ -181,6 +178,30 @@ Cleave.prototype = {
         }
 
         owner.updateValueState();
+    },
+
+    updateCreditCardPropsByValue: function (value) {
+        var owner = this, pps = owner.properties,
+            Util = Cleave.Util,
+            creditCardInfo;
+
+        // At least one of the first 4 characters has changed
+        if (Util.headStr(pps.result, 4) === Util.headStr(value, 4)) {
+            return;
+        }
+
+        creditCardInfo = Cleave.CreditCardDetector.getInfo(value, pps.creditCardStrictMode);
+
+        pps.blocks = creditCardInfo.blocks;
+        pps.blocksLength = pps.blocks.length;
+        pps.maxLength = Util.getMaxLength(pps.blocks);
+
+        // credit card type changed
+        if (pps.creditCardType !== creditCardInfo.type) {
+            pps.creditCardType = creditCardInfo.type;
+
+            pps.onCreditCardTypeChanged.call(owner, pps.creditCardType);
+        }
     },
 
     updateValueState: function () {
@@ -321,6 +342,8 @@ var DefaultProperties = {
         // credit card
         target.creditCard = !!opts.creditCard;
         target.creditCardStrictMode = !!opts.creditCardStrictMode;
+        target.creditCardType = '';
+        target.onCreditCardTypeChanged = opts.onCreditCardTypeChanged || (function () {});
 
         // phone
         target.phone = !!opts.phone;
@@ -374,12 +397,14 @@ var CreditCardDetector = {
         uatp:          [4, 5, 6],
         amex:          [4, 6, 5],
         diners:        [4, 6, 4],
+        discover:      [4, 4, 4, 4],
         mastercard:    [4, 4, 4, 4],
         dankort:       [4, 4, 4, 4],
         instapayment:  [4, 4, 4, 4],
         jcb:           [4, 4, 4, 4],
-        generalStrict: [4, 4, 4, 7],
-        generalLoose:  [4, 4, 4, 4]
+        visa:          [4, 4, 4, 4],
+        generalLoose:  [4, 4, 4, 4],
+        generalStrict: [4, 4, 4, 7]
     },
 
     re: {
@@ -389,10 +414,13 @@ var CreditCardDetector = {
         // starts with 34/37; 15 digits
         amex: /^3[47]\d{0,13}/,
 
+        // starts with 6011/65/644-649; 16 digits
+        discover: /^(?:6011|65\d{0,2}|64[4-9]\d?)\d{0,12}/,
+
         // starts with 300-305/309 or 36/38/39; 14 digits
         diners: /^3(?:0([0-5]|9)|[689]\d?)\d{0,11}/,
 
-        // starts with 51-55 or 22-27; 16 digits
+        // starts with 51-55/22-27; 16 digits
         mastercard: /^(5[1-5]|2[2-7])\d{0,14}/,
 
         // starts with 5019/4175/4571; 16 digits
@@ -402,37 +430,77 @@ var CreditCardDetector = {
         instapayment: /^63[7-9]\d{0,13}/,
 
         // starts with 2131/1800/35; 16 digits
-        jcb: /^(?:2131|1800|35\d{0,2})\d{0,12}/
+        jcb: /^(?:2131|1800|35\d{0,2})\d{0,12}/,
+
+        // starts with 4; 16 digits
+        visa: /^4\d{0,15}/
     },
 
-    getBlocksByPAN: function (value, strictMode) {
+    getInfo: function (value, strictMode) {
         var blocks = CreditCardDetector.blocks,
             re = CreditCardDetector.re;
 
-        // In theory, credit card can have up to 19 digits number.
+        // In theory, visa credit card can have up to 19 digits number.
         // Set strictMode to true will remove the 16 max-length restrain,
         // however, I never found any website validate card number like
         // this, hence probably you don't need to enable this option.
         strictMode = !!strictMode;
 
         if (re.amex.test(value)) {
-            return blocks.amex;
+            return {
+                type:   'amex',
+                blocks: blocks.amex
+            };
         } else if (re.uatp.test(value)) {
-            return blocks.uatp;
+            return {
+                type:   'uatp',
+                blocks: blocks.uatp
+            };
         } else if (re.diners.test(value)) {
-            return blocks.diners;
+            return {
+                type:   'diners',
+                blocks: blocks.diners
+            };
+        } else if (re.discover.test(value)) {
+            return {
+                type:   'discover',
+                blocks: blocks.discover
+            };
         } else if (re.mastercard.test(value)) {
-            return blocks.mastercard;
+            return {
+                type:   'mastercard',
+                blocks: blocks.mastercard
+            };
         } else if (re.dankort.test(value)) {
-            return blocks.dankort;
+            return {
+                type:   'dankort',
+                blocks: blocks.dankort
+            };
         } else if (re.instapayment.test(value)) {
-            return blocks.instapayment;
+            return {
+                type:   'instapayment',
+                blocks: blocks.instapayment
+            };
         } else if (re.jcb.test(value)) {
-            return blocks.jcb;
+            return {
+                type:   'jcb',
+                blocks: blocks.jcb
+            };
+        } else if (re.visa.test(value)) {
+            return {
+                type:   'visa',
+                blocks: blocks.visa
+            };
         } else if (strictMode) {
-            return blocks.generalStrict;
+            return {
+                type:   'unknown',
+                blocks: blocks.generalStrict
+            };
         } else {
-            return blocks.generalLoose;
+            return {
+                type:   'unknown',
+                blocks: blocks.generalLoose
+            };
         }
     }
 };

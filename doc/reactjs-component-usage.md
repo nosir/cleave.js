@@ -156,6 +156,9 @@ As you can see, here you simply use `<Cleave/>` as a normal `<input/>` field
     
     In the example above, we get the `rawValue` and update its `state` in handler, eventually it will be passed to backend or `store` layer.
 
+## Playground
+
+- [React JSFiddle](https://jsfiddle.net/nosir/gLLsrxxf/)
 
 ## References
 
