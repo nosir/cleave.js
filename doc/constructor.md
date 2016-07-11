@@ -13,7 +13,7 @@ The `options` is an object documented in the [Options](https://github.com/nosir/
 With the instance created, you can call these [Public methods](https://github.com/nosir/cleave.js/blob/master/doc/public-methods.md).
 
 ```js
-var cleave = new Cleave('.my-input', {
-    creditCard: true
+var cleave = new Cleave('.input-element', {
+    mode: 'creditCard'
 });
 ```

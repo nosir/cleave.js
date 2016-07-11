@@ -62,7 +62,7 @@ Now in your JavaScript
 
 ```js
 var cleave = new Cleave('.input-phone', {
-    phone:      true,
+    mode:       'phone',
     regionCode: '{country}'
 });
 ```
@@ -109,7 +109,7 @@ class MyComponent extends React.Component {
     render() {
         return (
             <Cleave placeholder="Enter your credit card number"
-                options={{creditCard: true}}
+                options={{mode: 'creditCard'}}
                 onChange={this.onCreditCardChange.bind(this)} />
         );
     }
