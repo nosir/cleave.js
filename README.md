@@ -9,7 +9,7 @@ Cleave.js has a simple purpose: to help you format input text content automatica
 ## Features
 
 - Credit card number formatting
-- Phone number formatting (i18n js lib separated by country to reduce size)
+- Phone number formatting (i18n js lib separated for each country to reduce size)
 - Date formatting
 - Numeral formatting
 - Custom delimiter, prefix and blocks pattern
@@ -159,8 +159,9 @@ gulp mocha && gulp eslint
 
 ## Todo
 - [x] ReactJS component port
-- [x] Mocha unit tests for formatter classes
-- [ ] AngularJS component port
+- [x] Add credit card type detection callback
+- [x] Mocha unit tests for formatter
+- [ ] AngularJS component port (WIP...)
 - [ ] PhantomJS / Jest browser tests
 
 ## Get in touch
