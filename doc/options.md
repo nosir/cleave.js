@@ -2,21 +2,19 @@
 
 [Documentation](https://github.com/nosir/cleave.js/blob/master/doc/doc.md) > [JavaScript API](https://github.com/nosir/cleave.js/blob/master/doc/js-api.md) > Options
 
-- Credit card numbers:
-    - [creditCard](#creditcard)
+- Shortcuts mode
+    - [mode](#mode)
+- Mode: credit card
     - [onCreditCardTypeChanged](#oncreditcardtypechanged)
-- Phone numbers:
-    - [phone](#phone)
+- Mode: phone
     - [phoneRegionCode](#phoneregioncode)
-- Date:
-    - [date](#date)
+- Mode: date
     - [datePattern](#datepattern)
-- Numerals:
-    - [numeral](#numeral)
+- Mode: numeral
     - [numeralThousandsGroupStyle](#numeralthousandsgroupstyle)
     - [numeralDecimalScale](#numeraldecimalscale)
     - [numeralDecimalMark](#numeraldecimalmark)
-- General config:
+- Custom options
     - [delimiter](#delimiter)
     - [blocks](#blocks)
     - [prefix](#prefix)
@@ -24,30 +22,78 @@
     - [uppercase](#uppercase)
     - [lowercase](#lowercase)
 
-## Credit card numbers
+## Shortcuts mode
 
-### `creditCard`
+### `mode`
 
-A `Boolean` value indicates if this is a credit card input field. Enable to trigger credit card shortcut mode.
+A `String` value indicates the format shortcuts mode.
 
-It detects credit card type dynamically and automatically by checking card [IIN](https://en.wikipedia.org/wiki/Payment_card_number#Issuer_identification_number_.28IIN.29).
+It accepts the following five value:
 
-**Default value**: `false`
+- `creditCard`: format content as a credit card number
 
-```js
-new Cleave('.my-input', {
-    creditCard: true
-});
-```
+    It detects card type dynamically by checking [card IIN](https://en.wikipedia.org/wiki/Payment_card_number#Issuer_identification_number_.28IIN.29).
+    
+    ```js
+    new Cleave('.my-input', {
+        mode: 'creditCard'
+    });
+    ```
+    
+    ```js
+    // Visa:        XXXX XXXX XXXX XXXX
+    // Amex:        XXXX XXXXXX XXXXX
+    // MasterCard:  XXXX XXXX XXXX XXXX
+    // Diners Club: XXXX XXXXXX XXXX
+    // UATP:        XXXX XXXXX XXXXXX
+    ...
+    ```
+    
+- `phone`: format content as a phone number
 
-```js
-// Visa:        XXXX XXXX XXXX XXXX
-// Amex:        XXXX XXXXXX XXXXX
-// MasterCard:  XXXX XXXX XXXX XXXX
-// Diners Club: XXXX XXXXXX XXXX
-// UATP:        XXXX XXXXX XXXXXX
-...
-```
+    This mode has to be used together with [phoneRegionCode](#phoneregioncode) below.
+
+    ```js
+    new Cleave('.my-input', {
+        mode: 'phone',
+        phoneRegionCode: 'US'
+    });
+    ```
+    
+    ```js
+    // +1 4XX XXX XXXX
+    // 202 XXX XXXX
+    ```
+
+- `date`: format content as a date string
+
+    ```js
+    new Cleave('.my-input', {
+        mode: 'date'
+    });
+    ```
+    
+    ```js
+    // 1965/04/26/
+    ```
+    
+- `numeral`: format content as a numeral
+    
+    ```js
+    new Cleave('.my-input', {
+        mode: 'numeral'
+    });
+    ```
+    
+    ```js
+    // 1,234,567.89
+    ```
+
+- `custom` (Default value): no shortcut mode applied, format content by custom options
+
+**Default value**: `custom`
+
+## Mode: credit card
 
 ### `onCreditCardTypeChanged`
 
@@ -59,22 +105,14 @@ The unique `String` argument `type` is the type of the detected credit, which ca
 
 ```js
 new Cleave('.my-input', {
-    creditCard: true,
+    mode: 'creditCard',
     onCreditCardTypeChanged: function (type) {
         // update UI ...
     }
 });
 ```
 
-## Phone numbers
-
-### `phone`
-
-A `Boolean` value indicates if this is a phone input field. Enable to trigger phone shortcut mode.
-
-This phone mode has to be used together with `phoneRegionCode` below.
-
-**Default value**: `false`
+## Mode: phone
 
 ### `phoneRegionCode`
 
@@ -86,24 +124,17 @@ You can find your country code in [ISO 3166-1 alpha-2](https://en.wikipedia.org/
 
 ```js
 new Cleave('.my-input', {
-    phone: true,
+    mode: 'phone',
     phoneRegionCode: 'US'
 });
 ```
 
 ```js
 // +1 4XX XXX XXXX
-// 408 XXX XXXX
 // 202 XXX XXXX
 ```
 
-## Date
-
-### `date`
-
-A `Boolean` value indicates if this is a date input field. Enable to trigger date shortcut mode.
-
-**Default value**: `false`
+## Mode: date
 
 ### `datePattern`
 
@@ -115,7 +146,7 @@ Since it's an input field, leading `0` before date and month is required. To ind
 
 ```js
 new Cleave('.my-input', {
-    date: true,
+    mode: 'date',
     datePattern: ['Y', 'm', 'd']
 });
 ```
@@ -126,29 +157,13 @@ new Cleave('.my-input', {
 ['Y', 'm', 'd']: 1965/04/26
 ```
 
-## Numerals
-
-### `numeral`
-
-A `Boolean` value indicates if this is a numeral input field. Enable to trigger numeral shortcut mode.
-
-**Default value**: `false`
-
-```js
-new Cleave('.my-input', {
-    numeral: true
-});
-```
-
-```js
-// 1,234,567.89
-```
+## Mode: numerals
 
 ### `numeralThousandsGroupStyle`
 
 A `String` value indicates the thousands separator grouping style.
 
-It accepts three preset value:
+It accepts the following three value:
 
 - `thousand`: Global numbering group style. It groups numbers in thousands and the delimiter occurs every 3 digits. `1,234,567.89`
 - `lakh`: Indian numbering group style. It groups the rightmost 3 digits in a similar manner to regular way but then groups every 2 digits thereafter. `12,34,567.89`
@@ -158,7 +173,7 @@ It accepts three preset value:
 
 ```js
 new Cleave('.my-input', {
-    numeral: true,
+    mode: 'numeral',
     numeralThousandsGroupStyle: 'wan'
 });
 ```
@@ -175,7 +190,7 @@ An `Int` value indicates the numeral decimal scale.
 
 ```js
 new Cleave('.my-input', {
-    numeral: true,
+    mode: 'numeral',
     numeralDecimalScale: 4
 });
 ```
@@ -194,7 +209,7 @@ Decimal mark can be different in handwriting, and for [delimiter](#delimiter) as
 
 ```js
 new Cleave('.my-input', {
-    numeral: true,
+    mode: 'numeral',
     numeralDecimalMark: ','
     delimiter: '.'
 });
@@ -204,7 +219,7 @@ new Cleave('.my-input', {
 // 1.234.567,89
 ```
 
-## General config
+## Custom options
 
 ### `delimiter`
 
@@ -214,7 +229,7 @@ A `String` value indicates the delimiter to use in formatting.
 
 ```js
 new Cleave('.my-input', {
-    creditCard: true,
+    mode: 'creditCard',
     delimiter: '-'
 });
 ```

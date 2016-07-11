@@ -67,10 +67,10 @@ class MyComponent extends React.Component {
     render() {
         return (
             <div>
-                <Cleave placeholder="Enter your credit card number" options={{creditCard: true}}
+                <Cleave placeholder="Enter your credit card number" options={{mode: 'creditCard'}}
                         onChange={this.onCreditCardChange.bind(this)}/>
 
-                <Cleave className="css-phone" options={{phone: true, phoneRegionCode: 'AU'}}
+                <Cleave className="css-phone" options={{mode: 'phone', phoneRegionCode: 'AU'}}
                         onChange={this.onPhoneChange.bind(this)}/>
 
                 <Cleave options={{blocks: [4,3,3], delimiter: '-', numericOnly: true}}
@@ -115,7 +115,7 @@ var MyComponent = React.createClass({
     render: function () {
         return (
             <Cleave placeholder="Enter your credit card number"
-                options={{creditCard: true}}
+                options={{mode: 'creditCard'}}
                 onChange={this.onCreditCardChange} />
         );
     }
