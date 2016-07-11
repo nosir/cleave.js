@@ -98,18 +98,17 @@ selectNumeral.addEventListener('change', function () {
     inputNumeral.focus();
 });
 
+// blocks
+var cleaveBlocks = new Cleave('.input-blocks', {
+    blocks:    [4, 3, 3, 4],
+    uppercase: true
+});
 
 // delimiter
 var cleaveDelimeter = new Cleave('.input-delimiter', {
     delimiter: '·',
     uppercase: true,
     blocks:    [3, 3, 3, 3]
-});
-
-// blocks
-var cleaveBlocks = new Cleave('.input-blocks', {
-    blocks:    [2, 3, 3, 3],
-    uppercase: true
 });
 
 // prefix
