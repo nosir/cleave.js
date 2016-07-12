@@ -50,6 +50,10 @@ class MyComponent extends React.Component {
             phoneRawValue:      '',
             customRawValue:     ''
         };
+        
+        this.onCreditCardChange = this.onCreditCardChange.bind(this);
+        this.onPhoneChange = this.onPhoneChange.bind(this);
+        this.onCustomChange = this.onCustomChange.bind(this);
     }
 
     onCreditCardChange(event) {
@@ -68,13 +72,13 @@ class MyComponent extends React.Component {
         return (
             <div>
                 <Cleave placeholder="Enter your credit card number" options={{creditCard: true}}
-                        onChange={this.onCreditCardChange.bind(this)}/>
+                        onChange={this.onCreditCardChange}/>
 
                 <Cleave className="css-phone" options={{phone: true, phoneRegionCode: 'AU'}}
-                        onChange={this.onPhoneChange.bind(this)}/>
+                        onChange={this.onPhoneChange}/>
 
                 <Cleave options={{blocks: [4,3,3], delimiter: '-', numericOnly: true}}
-                        onChange={this.onCustomChange.bind(this)}/>
+                        onChange={this.onCustomChange}/>
 
                 <div>
                     <p>credit card: {this.state.creditCardRawValue}</p>
