@@ -56,7 +56,7 @@ var Util = {
             }
         });
 
-        return result;
+        return (result !== '') ? result : value;
     }
 };
 
