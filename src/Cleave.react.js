@@ -49,12 +49,17 @@ var Cleave = React.createClass({
         var owner = this,
             pps = owner.properties;
 
+        // make sure that prefix has a value, even if it's an empty string
+        pps.prefix = (!pps.prefix) ? '' : pps.prefix;
+
         // so no need for this lib at all
-        if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.date && pps.blocks.length === 0) {
+        if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.date && pps.blocks.length === 0 && pps.prefix === '') {
             return;
         }
 
-        pps.maxLength = Util.getMaxLength(pps.blocks);
+        if(pps.blocks.length) {
+          pps.maxLength = Util.getMaxLength(pps.blocks);
+        }
 
         owner.initPhoneFormatter();
         owner.initDateFormatter();
@@ -75,7 +80,8 @@ var Cleave = React.createClass({
             pps.numeralDecimalMark,
             pps.numeralDecimalScale,
             pps.numeralThousandsGroupStyle,
-            pps.delimiter
+            pps.delimiter,
+            pps.prefix
         );
     },
 
@@ -161,7 +167,8 @@ var Cleave = React.createClass({
 
         // numeral formatter
         if (pps.numeral) {
-            pps.result = pps.numeralFormatter.format(value);
+            var formattedNumber= pps.numeralFormatter.format(value);
+            pps.result = Util.getPrefixAppliedValue(formattedNumber, pps.prefix);
             owner.updateValueState();
 
             return;
@@ -178,9 +185,10 @@ var Cleave = React.createClass({
         // prefix
         value = Util.getPrefixAppliedValue(value, pps.prefix);
 
-        // strip non-numeric characters
+        // strip non-numeric characters but preserve prefix
         if (pps.numericOnly) {
-            value = Util.strip(value, /[^\d]/g);
+            var prefixRegExp = new RegExp('[^\\d' + pps.prefix + ']', 'g');
+            value = Util.strip(value, prefixRegExp);
         }
 
         // update credit card props
@@ -189,7 +197,9 @@ var Cleave = React.createClass({
         }
 
         // strip over length characters
-        value = Util.headStr(value, pps.maxLength);
+        if(pps.maxLength) {
+          value = Util.headStr(value, pps.maxLength);
+        }
 
         // convert case
         value = pps.uppercase ? value.toUpperCase() : value;

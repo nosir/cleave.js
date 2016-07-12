@@ -3,13 +3,15 @@
 var NumeralFormatter = function (numeralDecimalMark,
                                  numeralDecimalScale,
                                  numeralThousandsGroupStyle,
-                                 delimiter) {
+                                 delimiter,
+                                 prefix) {
     var owner = this;
 
     owner.numeralDecimalMark = numeralDecimalMark || '.';
     owner.numeralDecimalScale = numeralDecimalScale || 2;
     owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
     owner.delimiter = delimiter || ',';
+    owner.prefix = prefix;
 };
 
 NumeralFormatter.groupStyle = {
@@ -21,6 +23,7 @@ NumeralFormatter.groupStyle = {
 NumeralFormatter.prototype = {
     format: function (value) {
         var owner = this, parts, partInteger, partDecimal = '';
+        var prefixRegExp = new RegExp('[^\\dM' + owner.prefix + ']', 'g');
 
         // strip alphabet letters
         value = value.replace(/[A-Za-z]/g, '')
@@ -29,7 +32,7 @@ NumeralFormatter.prototype = {
             .replace(owner.numeralDecimalMark, 'M')
 
             // strip the non numeric letters except M
-            .replace(/[^\dM]/g, '')
+            .replace(prefixRegExp, '')
 
             // replace mark
             .replace('M', owner.numeralDecimalMark)
