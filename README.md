@@ -99,8 +99,8 @@ Then in JSX:
 ```js
 class MyComponent extends React.Component {
 
-    constructor() {
-        super();
+    constructor(props, context) {
+        super(props, context);
         this.onCreditCardChange = this.onCreditCardChange.bind(this);
     }
     
