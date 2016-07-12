@@ -98,6 +98,12 @@ Then in JSX:
 
 ```js
 class MyComponent extends React.Component {
+
+    constructor(props, context) {
+        super(props, context);
+        this.onCreditCardChange = this.onCreditCardChange.bind(this);
+    }
+    
     onCreditCardChange(event) {
         // formatted pretty value
         console.log(event.target.value);
@@ -110,7 +116,7 @@ class MyComponent extends React.Component {
         return (
             <Cleave placeholder="Enter your credit card number"
                 options={{creditCard: true}}
-                onChange={this.onCreditCardChange.bind(this)} />
+                onChange={this.onCreditCardChange} />
         );
     }
 }
