@@ -18,6 +18,10 @@ var Cleave = React.createClass({
         var owner = this,
             phoneRegionCode = nextProps.options.phoneRegionCode;
 
+        if (owner.properties.result === owner.properties.initValue && nextProps.value) {
+            owner.onInput(nextProps.value);
+        }
+
         // update phone region code
         if (phoneRegionCode && phoneRegionCode !== owner.properties.phoneRegionCode) {
             owner.properties.phoneRegionCode = phoneRegionCode;
