@@ -3,8 +3,8 @@
 /**
  * Construct a new Cleave instance by passing the configuration object
  *
- * @param {Object} opts
  * @param {String / HTMLElement} element
+ * @param {Object} opts
  */
 var Cleave = function (element, opts) {
     var owner = this;
