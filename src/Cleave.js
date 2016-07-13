@@ -25,13 +25,18 @@ var Cleave = function (element, opts) {
 Cleave.prototype = {
     init: function () {
         var owner = this, pps = owner.properties;
+        
+        // make sure that prefix has a value, even if it's an empty string
+        pps.prefix = (!pps.prefix) ? '' : pps.prefix;
 
         // no need to use this lib
-        if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.date && pps.blocks.length === 0) {
+        if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.date && pps.blocks.length === 0 && pps.prefix === '') {
             return;
         }
 
-        pps.maxLength = Cleave.Util.getMaxLength(pps.blocks);
+        if(pps.blocks.length) {
+            pps.maxLength = Cleave.Util.getMaxLength(pps.blocks);
+        }
 
         owner.element.addEventListener('input', owner.onChange.bind(owner));
         owner.element.addEventListener('keydown', owner.onKeyDown.bind(owner));
@@ -54,7 +59,8 @@ Cleave.prototype = {
             pps.numeralDecimalMark,
             pps.numeralDecimalScale,
             pps.numeralThousandsGroupStyle,
-            pps.delimiter
+            pps.delimiter,
+            pps.prefix
         );
     },
 
@@ -132,7 +138,8 @@ Cleave.prototype = {
 
         // numeral formatter
         if (pps.numeral) {
-            pps.result = pps.numeralFormatter.format(value);
+            var formattedNumber= pps.numeralFormatter.format(value);
+            pps.result = Util.getPrefixAppliedValue(formattedNumber, pps.prefix);
             owner.updateValueState();
 
             return;
@@ -149,9 +156,10 @@ Cleave.prototype = {
         // prefix
         value = Util.getPrefixAppliedValue(value, pps.prefix);
 
-        // strip non-numeric characters
+        // strip non-numeric characters but preserve prefix
         if (pps.numericOnly) {
-            value = Util.strip(value, /[^\d]/g);
+            var prefixRegExp = new RegExp('[^\\d' + pps.prefix + ']', 'g');
+            value = Util.strip(value, prefixRegExp);
         }
 
         // update credit card props
@@ -160,7 +168,9 @@ Cleave.prototype = {
         }
 
         // strip over length characters
-        value = Util.headStr(value, pps.maxLength);
+        if(pps.maxLength) {
+            value = Util.headStr(value, pps.maxLength);
+        }
 
         // convert case
         value = pps.uppercase ? value.toUpperCase() : value;
