@@ -35,14 +35,15 @@ var DefaultProperties = {
         target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
 
         // others
-        target.initValue = opts.initValue || '';
-
         target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;
 
         target.uppercase = !!opts.uppercase;
         target.lowercase = !!opts.lowercase;
 
         target.prefix = (target.creditCard || target.phone || target.date) ? '' : (opts.prefix || '');
+        target.prefixLength = target.prefix.length;
+
+        target.initValue = target.prefix + (opts.initValue || '');
 
         target.delimiter = opts.delimiter || (target.date ? '/' : (target.numeral ? ',' : ' '));
         target.delimiterRE = new RegExp(target.delimiter, 'g');

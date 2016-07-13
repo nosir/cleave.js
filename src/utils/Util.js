@@ -18,23 +18,12 @@ var Util = {
         }, 0);
     },
 
-    getPrefixAppliedValue: function (value, prefix) {
-        var prefixLength = prefix.length,
-            prefixLengthValue;
-
-        if (prefixLength === 0) {
-            return value;
-        }
-
-        prefixLengthValue = value.slice(0, prefixLength);
-
-        if (prefixLengthValue.length < prefixLength) {
-            value = prefix;
-        } else if (prefixLengthValue !== prefix) {
-            value = prefix + value.slice(prefixLength);
-        }
-
-        return value;
+    // strip value by prefix length
+    // for prefix: PRE
+    // (PRE123, 3) -> 123
+    // (PR123, 3) -> 23 this happens when user hits backspace in front of "PRE"
+    getPrefixStrippedValue: function (value, prefixLength) {
+        return value.slice(prefixLength);
     },
 
     getFormattedValue: function (value, blocks, blocksLength, delimiter) {
