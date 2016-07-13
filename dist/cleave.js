@@ -5,8 +5,8 @@
 /**
  * Construct a new Cleave instance by passing the configuration object
  *
- * @param {Object} opts
  * @param {String / HTMLElement} element
+ * @param {Object} opts
  */
 var Cleave = function (element, opts) {
     var owner = this;
@@ -29,7 +29,7 @@ Cleave.prototype = {
         var owner = this, pps = owner.properties;
 
         // no need to use this lib
-        if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.date && pps.blocks.length === 0) {
+        if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.date && (pps.blocksLength === 0 && !pps.prefix)) {
             return;
         }
 
@@ -37,6 +37,7 @@ Cleave.prototype = {
 
         owner.onChangeListener = owner.onChange.bind(owner);
         owner.onKeyDownListener = owner.onKeyDown.bind(owner);
+
         owner.element.addEventListener('input', owner.onChangeListener);
         owner.element.addEventListener('keydown', owner.onKeyDownListener);
 
@@ -136,7 +137,7 @@ Cleave.prototype = {
 
         // numeral formatter
         if (pps.numeral) {
-            pps.result = pps.numeralFormatter.format(value);
+            pps.result = pps.prefix + pps.numeralFormatter.format(value);
             owner.updateValueState();
 
             return;
@@ -150,12 +151,27 @@ Cleave.prototype = {
         // strip delimiters
         value = Util.strip(value, pps.delimiterRE);
 
-        // prefix
-        value = Util.getPrefixAppliedValue(value, pps.prefix);
+        // strip prefix
+        value = Util.getPrefixStrippedValue(value, pps.prefixLength);
 
         // strip non-numeric characters
-        if (pps.numericOnly) {
-            value = Util.strip(value, /[^\d]/g);
+        value = pps.numericOnly ? Util.strip(value, /[^\d]/g) : value;
+
+        // convert case
+        value = pps.uppercase ? value.toUpperCase() : value;
+        value = pps.lowercase ? value.toLowerCase() : value;
+
+        // prefix
+        if (pps.prefix) {
+            value = pps.prefix + value;
+
+            // no blocks specified, no need to do formatting
+            if (pps.blocksLength === 0) {
+                pps.result = value;
+                owner.updateValueState();
+
+                return;
+            }
         }
 
         // update credit card props
@@ -165,10 +181,6 @@ Cleave.prototype = {
 
         // strip over length characters
         value = Util.headStr(value, pps.maxLength);
-
-        // convert case
-        value = pps.uppercase ? value.toUpperCase() : value;
-        value = pps.lowercase ? value.toLowerCase() : value;
 
         // apply blocks
         pps.result = Util.getFormattedValue(value, pps.blocks, pps.blocksLength, pps.delimiter);
@@ -281,23 +293,12 @@ var Util = {
         }, 0);
     },
 
-    getPrefixAppliedValue: function (value, prefix) {
-        var prefixLength = prefix.length,
-            prefixLengthValue;
-
-        if (prefixLength === 0) {
-            return value;
-        }
-
-        prefixLengthValue = value.slice(0, prefixLength);
-
-        if (prefixLengthValue.length < prefixLength) {
-            value = prefix;
-        } else if (prefixLengthValue !== prefix) {
-            value = prefix + value.slice(prefixLength);
-        }
-
-        return value;
+    // strip value by prefix length
+    // for prefix: PRE
+    // (PRE123, 3) -> 123
+    // (PR123, 3) -> 23 this happens when user hits backspace in front of "PRE"
+    getPrefixStrippedValue: function (value, prefixLength) {
+        return value.slice(prefixLength);
     },
 
     getFormattedValue: function (value, blocks, blocksLength, delimiter) {
@@ -364,14 +365,15 @@ var DefaultProperties = {
         target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
 
         // others
-        target.initValue = opts.initValue || '';
-
         target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;
 
         target.uppercase = !!opts.uppercase;
         target.lowercase = !!opts.lowercase;
 
         target.prefix = (target.creditCard || target.phone || target.date) ? '' : (opts.prefix || '');
+        target.prefixLength = target.prefix.length;
+
+        target.initValue = target.prefix + (opts.initValue || '');
 
         target.delimiter = opts.delimiter || (target.date ? '/' : (target.numeral ? ',' : ' '));
         target.delimiterRE = new RegExp(target.delimiter, 'g');
