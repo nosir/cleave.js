@@ -50,7 +50,7 @@ var Cleave = React.createClass({
             pps = owner.properties;
 
         // so no need for this lib at all
-        if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.date && pps.blocks.length === 0) {
+        if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.date && (pps.blocksLength === 0 && !pps.prefix)) {
             return;
         }
 
@@ -161,7 +161,7 @@ var Cleave = React.createClass({
 
         // numeral formatter
         if (pps.numeral) {
-            pps.result = pps.numeralFormatter.format(value);
+            pps.result = pps.prefix + pps.numeralFormatter.format(value);
             owner.updateValueState();
 
             return;
@@ -175,12 +175,27 @@ var Cleave = React.createClass({
         // strip delimiters
         value = Util.strip(value, pps.delimiterRE);
 
-        // prefix
-        value = Util.getPrefixAppliedValue(value, pps.prefix);
+        // strip prefix
+        value = Util.getPrefixStrippedValue(value, pps.prefixLength);
 
         // strip non-numeric characters
-        if (pps.numericOnly) {
-            value = Util.strip(value, /[^\d]/g);
+        value = pps.numericOnly ? Util.strip(value, /[^\d]/g) : value;
+
+        // convert case
+        value = pps.uppercase ? value.toUpperCase() : value;
+        value = pps.lowercase ? value.toLowerCase() : value;
+
+        // prefix
+        if (pps.prefix) {
+            value = pps.prefix + value;
+
+            // no blocks specified, no need to do formatting
+            if (pps.blocksLength === 0) {
+                pps.result = value;
+                owner.updateValueState();
+
+                return;
+            }
         }
 
         // update credit card props
@@ -190,10 +205,6 @@ var Cleave = React.createClass({
 
         // strip over length characters
         value = Util.headStr(value, pps.maxLength);
-
-        // convert case
-        value = pps.uppercase ? value.toUpperCase() : value;
-        value = pps.lowercase ? value.toLowerCase() : value;
 
         // apply blocks
         pps.result = Util.getFormattedValue(value, pps.blocks, pps.blocksLength, pps.delimiter);
