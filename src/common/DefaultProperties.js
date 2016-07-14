@@ -46,7 +46,7 @@ var DefaultProperties = {
         target.initValue = target.prefix + (opts.initValue || '');
 
         target.delimiter = opts.delimiter || (target.date ? '/' : (target.numeral ? ',' : ' '));
-        target.delimiterRE = new RegExp(target.delimiter, 'g');
+        target.delimiterRE = new RegExp('\\' + target.delimiter, 'g');
 
         target.blocks = opts.blocks || [];
         target.blocksLength = target.blocks.length;

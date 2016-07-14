@@ -4,7 +4,7 @@ var PhoneFormatter = function (formatter, delimiter) {
     var owner = this;
 
     owner.delimiter = delimiter || ' ';
-    owner.delimiterRE = new RegExp(owner.delimiter, 'g');
+    owner.delimiterRE = new RegExp('\\' + owner.delimiter, 'g');
     owner.formatter = formatter;
 };
 

@@ -211,7 +211,7 @@ var Cleave = React.createClass({
 
         // nothing changed
         // prevent update value to avoid caret position change
-        if (prev === pps.result) {
+        if (prev === pps.result && prev !== pps.prefix) {
             return;
         }
 

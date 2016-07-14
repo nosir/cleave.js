@@ -187,7 +187,7 @@ Cleave.prototype = {
 
         // nothing changed
         // prevent update value to avoid caret position change
-        if (prev === pps.result) {
+        if (prev === pps.result && prev !== pps.prefix) {
             return;
         }
 
@@ -346,7 +346,8 @@ var DefaultProperties = {
         target.creditCard = !!opts.creditCard;
         target.creditCardStrictMode = !!opts.creditCardStrictMode;
         target.creditCardType = '';
-        target.onCreditCardTypeChanged = opts.onCreditCardTypeChanged || (function () {});
+        target.onCreditCardTypeChanged = opts.onCreditCardTypeChanged || (function () {
+            });
 
         // phone
         target.phone = !!opts.phone;
@@ -376,7 +377,7 @@ var DefaultProperties = {
         target.initValue = target.prefix + (opts.initValue || '');
 
         target.delimiter = opts.delimiter || (target.date ? '/' : (target.numeral ? ',' : ' '));
-        target.delimiterRE = new RegExp(target.delimiter, 'g');
+        target.delimiterRE = new RegExp('\\' + target.delimiter, 'g');
 
         target.blocks = opts.blocks || [];
         target.blocksLength = target.blocks.length;
@@ -653,7 +654,7 @@ var PhoneFormatter = function (formatter, delimiter) {
     var owner = this;
 
     owner.delimiter = delimiter || ' ';
-    owner.delimiterRE = new RegExp(owner.delimiter, 'g');
+    owner.delimiterRE = new RegExp('\\' + owner.delimiter, 'g');
     owner.formatter = formatter;
 };
 
