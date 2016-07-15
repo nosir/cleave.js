@@ -35,14 +35,18 @@ DateFormatter.prototype = {
                     rest = value.slice(length);
 
                 switch (owner.datePattern[index]) {
-                case 'd':
+                  case 'd':
                     if (parseInt(sub, 10) > 31) {
                         sub = '31';
+                    } else if (parseInt(sub, 10) === 0) {
+                        sub = '01';
                     }
                     break;
-                case 'm':
+                  case 'm':
                     if (parseInt(sub, 10) > 12) {
                         sub = '12';
+                    } else if (parseInt(sub, 10) === 0) {
+                        sub = '01';
                     }
                     break;
                 }
