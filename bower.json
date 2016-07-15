@@ -29,7 +29,7 @@
   ],
   "homepage": "https://github.com/nosir/cleave.js",
   "main": [
-    "src/Cleave.js"
+    "dist/cleave.js"
   ],
   "repository": {
     "type": "git",
