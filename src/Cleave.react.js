@@ -16,10 +16,11 @@ var Cleave = React.createClass({
 
     componentWillReceiveProps: function (nextProps) {
         var owner = this,
-            phoneRegionCode = nextProps.options.phoneRegionCode;
+            phoneRegionCode = nextProps.options.phoneRegionCode,
+            newValue = nextProps.value;
 
-        if (owner.properties.result === owner.properties.initValue && nextProps.value) {
-            owner.onInput(nextProps.value);
+        if (newValue) {
+            owner.onInput(newValue);
         }
 
         // update phone region code

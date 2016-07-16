@@ -14,7 +14,7 @@ Cleave.js has a simple purpose: to help you format input text content automatica
 - Numeral formatting
 - Custom delimiter, prefix and blocks pattern
 - CommonJS / AMD mode
-- ReactJS component port
+- ReactJS component
 
 **TL;DR** [the demo page](http://nosir.github.io/cleave.js/)
 
@@ -164,10 +164,10 @@ gulp mocha && gulp eslint
 ```
 
 ## Todo
-- [x] ReactJS component port
+- [x] ReactJS component
 - [x] Add credit card type detection callback
 - [x] Mocha unit tests for formatter
-- [ ] AngularJS component port (WIP...)
+- [ ] AngularJS component (WIP...)
 - [ ] PhantomJS / Jest browser tests
 
 ## Get in touch

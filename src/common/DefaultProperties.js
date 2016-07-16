@@ -43,7 +43,7 @@ var DefaultProperties = {
         target.prefix = (target.creditCard || target.phone || target.date) ? '' : (opts.prefix || '');
         target.prefixLength = target.prefix.length;
 
-        target.initValue = target.prefix + (opts.initValue || '');
+        target.initValue = opts.initValue || '';
 
         target.delimiter = opts.delimiter || (target.date ? '/' : (target.numeral ? ',' : ' '));
         target.delimiterRE = new RegExp('\\' + target.delimiter, 'g');

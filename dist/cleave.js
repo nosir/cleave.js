@@ -346,8 +346,7 @@ var DefaultProperties = {
         target.creditCard = !!opts.creditCard;
         target.creditCardStrictMode = !!opts.creditCardStrictMode;
         target.creditCardType = '';
-        target.onCreditCardTypeChanged = opts.onCreditCardTypeChanged || (function () {
-            });
+        target.onCreditCardTypeChanged = opts.onCreditCardTypeChanged || (function () {});
 
         // phone
         target.phone = !!opts.phone;
@@ -374,7 +373,7 @@ var DefaultProperties = {
         target.prefix = (target.creditCard || target.phone || target.date) ? '' : (opts.prefix || '');
         target.prefixLength = target.prefix.length;
 
-        target.initValue = target.prefix + (opts.initValue || '');
+        target.initValue = opts.initValue || '';
 
         target.delimiter = opts.delimiter || (target.date ? '/' : (target.numeral ? ',' : ' '));
         target.delimiterRE = new RegExp('\\' + target.delimiter, 'g');
@@ -554,11 +553,15 @@ DateFormatter.prototype = {
                 case 'd':
                     if (parseInt(sub, 10) > 31) {
                         sub = '31';
+                    } else if (parseInt(sub, 10) === 0) {
+                        //sub = '01';
                     }
                     break;
                 case 'm':
                     if (parseInt(sub, 10) > 12) {
                         sub = '12';
+                    } else if (parseInt(sub, 10) === 0) {
+                        //sub = '01';
                     }
                     break;
                 }
