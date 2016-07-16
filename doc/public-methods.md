@@ -4,7 +4,7 @@
 
 - [getRawValue](#getrawvalue)
 - [setRawValue](#setrawvaluevalue)
-- [getValue](#getvalue)
+- [getFormattedValue](#getformattedvalue)
 - [destroy](#destroy)
 - [setPhoneRegionCode](#setphoneregioncoderegioncode)
 
@@ -24,12 +24,12 @@ Sets raw value, it will then apply formatting automatically.
 cleave.setRawValue('5555444433332222');
 ```
 
-### `.getValue()`
+### `.getFormattedValue()`
 
 Gets formatted pretty value, this is same as `DOMInputElement.value`.
 
 ```js
-cleave.getValue();
+cleave.getFormattedValue();
 ```
 
 ### `.destroy()`
@@ -47,4 +47,3 @@ Sets / Changes country region code.
 You will only need to call this when dealing with country switching for a phone input field.
 
 e.g. user selected a different country option via `<select>`, which triggered the country change. See more in documentation [phone lib addon](https://github.com/nosir/cleave.js/blob/master/doc/phone-lib-addon.md) section.
-
