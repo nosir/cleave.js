@@ -132,9 +132,9 @@ See more in documentation: [ReactJS component usage](https://github.com/nosir/cl
 
 ## Playground
 
-- [Plain JSFiddle](https://jsfiddle.net/nosir/kbaxx64s/)
+- [Plain JSFiddle (Basic usage)](https://jsfiddle.net/nosir/kbaxx64s/)
+- [Plain JSFiddle (More examples)](https://jsfiddle.net/nosir/aLnhdf3z/)
 - [React JSFiddle](https://jsfiddle.net/nosir/gLLsrxxf/)
-- [Demo page](http://nosir.github.io/cleave.js/)
 
 ## Documentation
 
