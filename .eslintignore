@@ -1,3 +1,2 @@
-src/build/**/*.js
-src/addons/**/*.js
-test/addons/**/*.js
+build/*.js
+config/*.js
