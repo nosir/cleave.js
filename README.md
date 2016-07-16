@@ -35,7 +35,10 @@ export default {
 </script>
 
 ```
-By using `cleave.vue` as a component, there are three things for you to do.
+By using `cleave.vue` as a component, there are three things for you to do:
+
 1. Import `cleave.vue` and set as a component of the parent.
+
 2. Pass in the custom `cleaveOptions` prop.
+
 3. Simply use `<Cleave></Cleave>` as a normal `<input/>` field.
