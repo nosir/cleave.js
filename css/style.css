@@ -350,7 +350,11 @@ header .btn-demos .icon {
     margin-top: 5px;
 }
 
-.btn-react-jsfiddle {
+.section-playground .demo a {
+    margin-left: 20px;
+}
+
+.section-playground .demo a:first-child {
     margin-left: 20px;
 }
 
@@ -425,6 +429,15 @@ header .btn-demos .icon {
     .cards {
         padding-left: 10px;
         padding-right: 10px;
+    }
+
+    .section-playground .demo a {
+        display: block;
+        margin-top: 10px;
+    }
+
+    .section-playground .demo a:first-child {
+        margin-top: 0;
     }
 }
 
