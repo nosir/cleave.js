@@ -167,8 +167,11 @@ gulp mocha && gulp eslint
 - [x] ReactJS component
 - [x] Add credit card type detection callback
 - [x] Mocha unit tests for formatter
+- [ ] Fix the classic cursor jumping issue
 - [ ] AngularJS component (WIP...)
 - [ ] PhantomJS / Jest browser tests
+
+> Then to contributors, we have a [not in the plan](https://github.com/nosir/cleave.js/blob/master/doc/not-in-the-plan.md) list you may concern.
 
 ## Get in touch
 - Bugs / Suggestions: [open an issue](https://github.com/nosir/cleave.js/issues)
