@@ -122,8 +122,8 @@ Cleave.prototype = {
         // 1234*| -> hit backspace -> 123|
         // case 2: last character is not delimiter which is:
         // 12|34* -> hit backspace -> 1|34*
-
-        if (pps.backspace && value.slice(-1) !== pps.delimiter) {
+        // note: no need to apply this for numeral mode
+        if (!pps.numeral && pps.backspace && value.slice(-1) !== pps.delimiter) {
             value = Util.headStr(value, value.length - 1);
         }
 
@@ -240,9 +240,14 @@ Cleave.prototype = {
     },
 
     getRawValue: function () {
-        var owner = this, pps = owner.properties;
+        var owner = this, pps = owner.properties,
+            inputValue = owner.element.value;
 
-        return Cleave.Util.strip(owner.element.value, pps.delimiterRE);
+        if (pps.numeral) {
+            return pps.numeralFormatter.getRawValue(inputValue);
+        }
+
+        return Cleave.Util.strip(inputValue, pps.delimiterRE);
     },
 
     getFormattedValue: function () {
@@ -375,8 +380,13 @@ var DefaultProperties = {
 
         target.initValue = opts.initValue || '';
 
-        target.delimiter = opts.delimiter || (target.date ? '/' : (target.numeral ? ',' : ' '));
-        target.delimiterRE = new RegExp('\\' + target.delimiter, 'g');
+        target.delimiter =
+            (opts.delimiter || opts.delimiter === '') ? opts.delimiter :
+                (opts.date ? '/' :
+                    (opts.numeral ? ',' :
+                        (opts.phone ? ' ' :
+                            ' ')));
+        target.delimiterRE = new RegExp('\\' + (target.delimiter || ' '), 'g');
 
         target.blocks = opts.blocks || [];
         target.blocksLength = target.blocks.length;
@@ -592,7 +602,8 @@ var NumeralFormatter = function (numeralDecimalMark,
     owner.numeralDecimalMark = numeralDecimalMark || '.';
     owner.numeralDecimalScale = numeralDecimalScale || 2;
     owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
-    owner.delimiter = delimiter || ',';
+    owner.delimiter = (delimiter || delimiter === '') ? delimiter : ',';
+    owner.delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
 };
 
 NumeralFormatter.groupStyle = {
@@ -602,6 +613,10 @@ NumeralFormatter.groupStyle = {
 };
 
 NumeralFormatter.prototype = {
+    getRawValue: function (value) {
+        return value.replace(this.delimiterRE, '').replace(this.numeralDecimalMark, '.');
+    },
+
     format: function (value) {
         var owner = this, parts, partInteger, partDecimal = '';
 
@@ -656,8 +671,9 @@ if (typeof module === 'object' && typeof module.exports === 'object') {
 var PhoneFormatter = function (formatter, delimiter) {
     var owner = this;
 
-    owner.delimiter = delimiter || ' ';
-    owner.delimiterRE = new RegExp('\\' + owner.delimiter, 'g');
+    owner.delimiter = (delimiter || delimiter === '') ? delimiter : ' ';
+    owner.delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
+
     owner.formatter = formatter;
 };
 
