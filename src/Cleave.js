@@ -120,8 +120,8 @@ Cleave.prototype = {
         // 1234*| -> hit backspace -> 123|
         // case 2: last character is not delimiter which is:
         // 12|34* -> hit backspace -> 1|34*
-
-        if (pps.backspace && value.slice(-1) !== pps.delimiter) {
+        // note: no need to apply this for numeral mode
+        if (!pps.numeral && pps.backspace && value.slice(-1) !== pps.delimiter) {
             value = Util.headStr(value, value.length - 1);
         }
 
@@ -238,9 +238,14 @@ Cleave.prototype = {
     },
 
     getRawValue: function () {
-        var owner = this, pps = owner.properties;
+        var owner = this, pps = owner.properties,
+            inputValue = owner.element.value;
 
-        return Cleave.Util.strip(owner.element.value, pps.delimiterRE);
+        if (pps.numeral) {
+            return pps.numeralFormatter.getRawValue(inputValue);
+        }
+
+        return Cleave.Util.strip(inputValue, pps.delimiterRE);
     },
 
     getFormattedValue: function () {

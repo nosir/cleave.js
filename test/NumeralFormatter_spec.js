@@ -22,6 +22,10 @@ describe('NumeralFormatter', function () {
             title.push('Delimiter: ' + numeral.delimiter);
         }
 
+        if (numeral.delimiterOff) {
+            title.push('Delimiter Off: ' + numeral.delimiterOff);
+        }
+
         describe(title.join(', '), function () {
             var numeralFormatter = new NumeralFormatter(
                 numeral.numeralDecimalMark,

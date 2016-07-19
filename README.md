@@ -62,8 +62,8 @@ Now in your JavaScript
 
 ```js
 var cleave = new Cleave('.input-phone', {
-    phone:      true,
-    regionCode: '{country}'
+    phone: true,
+    phoneRegionCode: '{country}'
 });
 ```
 
@@ -171,7 +171,7 @@ gulp mocha && gulp eslint
 - [ ] AngularJS component (WIP...)
 - [ ] PhantomJS / Jest browser tests
 
-> Then to contributors, we have a [not in the plan](https://github.com/nosir/cleave.js/blob/master/doc/not-in-the-plan.md) list you may concern.
+> For contributors, we have a [not in the plan](https://github.com/nosir/cleave.js/blob/master/doc/not-in-the-plan.md) list you may concern.
 
 ## Get in touch
 - Bugs / Suggestions: [open an issue](https://github.com/nosir/cleave.js/issues)

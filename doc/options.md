@@ -49,6 +49,8 @@ new Cleave('.my-input', {
 ...
 ```
 
+You can also custom the [delimiter](#delimiter) for credit card numbers
+
 ### `onCreditCardTypeChanged`
 
 A callback `Function`. Triggered after credit card type changes.
@@ -97,6 +99,8 @@ new Cleave('.my-input', {
 // 202 XXX XXXX
 ```
 
+You can also custom the [delimiter](#delimiter) for phone numbers
+
 ## Date
 
 ### `date`
@@ -125,6 +129,8 @@ new Cleave('.my-input', {
 ['d', 'm', 'y']: 26/04/65
 ['Y', 'm', 'd']: 1965/04/26
 ```
+
+You can also custom the [delimiter](#delimiter) for date
 
 ## Numerals
 
@@ -203,6 +209,8 @@ new Cleave('.my-input', {
 ```js
 // 1.234.567,89
 ```
+
+You can also custom the [prefix](#prefix) for numeral
 
 ## General config
 

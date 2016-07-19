@@ -77,6 +77,16 @@
     ]
   },
   {
+    "numeralDecimalMark": ".",
+    "delimiter": "",
+    "numbers": [
+      [
+        "1,234,567.89",
+        "1234567.89"
+      ]
+    ]
+  },
+  {
     "thousandsGroupStyle": "lakh",
     "numeralDecimalScale": 4,
     "numeralDecimalMark": "'",
