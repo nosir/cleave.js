@@ -138,7 +138,11 @@ var Cleave = React.createClass({
 
         owner.onInput(event.target.value);
 
-        event.target.rawValue = Util.strip(pps.result, pps.delimiterRE);
+        if (pps.numeral) {
+            event.target.rawValue = pps.numeralFormatter.getRawValue(pps.result);
+        } else {
+            event.target.rawValue = Util.strip(pps.result, pps.delimiterRE);
+        }
 
         owner.registeredEvents.onChange(event);
     },
@@ -152,7 +156,7 @@ var Cleave = React.createClass({
         // case 2: last character is not delimiter which is:
         // 12|34* -> hit backspace -> 1|34*
 
-        if (pps.backspace && value.slice(-1) !== pps.delimiter) {
+        if (!pps.numeral && pps.backspace && value.slice(-1) !== pps.delimiter) {
             value = Util.headStr(value, value.length - 1);
         }
 

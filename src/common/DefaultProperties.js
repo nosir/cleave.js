@@ -45,8 +45,13 @@ var DefaultProperties = {
 
         target.initValue = opts.initValue || '';
 
-        target.delimiter = opts.delimiter || (target.date ? '/' : (target.numeral ? ',' : ' '));
-        target.delimiterRE = new RegExp('\\' + target.delimiter, 'g');
+        target.delimiter =
+            (opts.delimiter || opts.delimiter === '') ? opts.delimiter :
+                (opts.date ? '/' :
+                    (opts.numeral ? ',' :
+                        (opts.phone ? ' ' :
+                            ' ')));
+        target.delimiterRE = new RegExp('\\' + (target.delimiter || ' '), 'g');
 
         target.blocks = opts.blocks || [];
         target.blocksLength = target.blocks.length;

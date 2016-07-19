@@ -31,4 +31,16 @@ describe('PhoneFormatter', function () {
             });
         });
     });
+
+    describe('delimiter off', function () {
+        var delimiter = phones.delimiterOff;
+
+        var phoneNumberFormatter = new PhoneFormatter(new PhoneTypeFormatter.Cleave.AsYouTypeFormatter(delimiter.region), delimiter.sign);
+
+        _.each(delimiter.format, function (format) {
+            it('should format ' + delimiter.region + ' phone number ' + format[0] + ' to ' + format[1], function () {
+                phoneNumberFormatter.format(format[0]).should.eql(format[1]);
+            });
+        });
+    });
 });

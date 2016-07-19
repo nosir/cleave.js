@@ -9,7 +9,8 @@ var NumeralFormatter = function (numeralDecimalMark,
     owner.numeralDecimalMark = numeralDecimalMark || '.';
     owner.numeralDecimalScale = numeralDecimalScale || 2;
     owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
-    owner.delimiter = delimiter || ',';
+    owner.delimiter = (delimiter || delimiter === '') ? delimiter : ',';
+    owner.delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
 };
 
 NumeralFormatter.groupStyle = {
@@ -19,6 +20,10 @@ NumeralFormatter.groupStyle = {
 };
 
 NumeralFormatter.prototype = {
+    getRawValue: function (value) {
+        return value.replace(this.delimiterRE, '').replace(this.numeralDecimalMark, '.');
+    },
+
     format: function (value) {
         var owner = this, parts, partInteger, partDecimal = '';
 
