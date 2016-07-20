@@ -22,8 +22,15 @@ var Util = {
     // for prefix: PRE
     // (PRE123, 3) -> 123
     // (PR123, 3) -> 23 this happens when user hits backspace in front of "PRE"
-    getPrefixStrippedValue: function (value, prefixLength) {
-        return value.slice(prefixLength);
+    getPrefixStrippedValue: function (value, prefix) {
+        var escapedPrefix = this.getRegexpEscapedString(prefix);
+        var pattern = new RegExp('^(' + escapedPrefix + ')+|$', 'g');
+
+        return value.replace(pattern, '');
+    },
+
+    getRegexpEscapedString: function(str) {
+        return str.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
     },
 
     getFormattedValue: function (value, blocks, blocksLength, delimiter) {
