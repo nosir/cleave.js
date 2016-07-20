@@ -185,7 +185,7 @@ var Cleave = React.createClass({
         value = Util.strip(value, pps.delimiterRE);
 
         // strip prefix
-        value = Util.getPrefixStrippedValue(value, pps.prefixLength);
+        value = Util.getPrefixStrippedValue(value, pps.prefix);
 
         // strip non-numeric characters
         value = pps.numericOnly ? Util.strip(value, /[^\d]/g) : value;

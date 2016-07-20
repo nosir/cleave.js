@@ -41,7 +41,6 @@ var DefaultProperties = {
         target.lowercase = !!opts.lowercase;
 
         target.prefix = (target.creditCard || target.phone || target.date) ? '' : (opts.prefix || '');
-        target.prefixLength = target.prefix.length;
 
         target.initValue = opts.initValue || '';
 
