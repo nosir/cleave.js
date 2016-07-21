@@ -30,7 +30,7 @@ var DefaultProperties = {
 
         // numeral
         target.numeral = !!opts.numeral;
-        target.numeralDecimalScale = opts.numeralDecimalScale || 2;
+        target.numeralDecimalScale = opts.numeralDecimalScale === 0 ? 0 : opts.numeralDecimalScale || 2;
         target.numeralDecimalMark = opts.numeralDecimalMark || '.';
         target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
 
