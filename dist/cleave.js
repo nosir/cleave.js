@@ -365,7 +365,7 @@ var DefaultProperties = {
 
         // numeral
         target.numeral = !!opts.numeral;
-        target.numeralDecimalScale = opts.numeralDecimalScale === 0 ? 0 : opts.numeralDecimalScale || 2;
+        target.numeralDecimalScale = opts.numeralDecimalScale || 2;
         target.numeralDecimalMark = opts.numeralDecimalMark || '.';
         target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
 
@@ -600,7 +600,7 @@ var NumeralFormatter = function (numeralDecimalMark,
     var owner = this;
 
     owner.numeralDecimalMark = numeralDecimalMark || '.';
-    owner.numeralDecimalScale = numeralDecimalScale === 0 ? 0 : numeralDecimalScale || 2;
+    owner.numeralDecimalScale = numeralDecimalScale || 2;
     owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
     owner.delimiter = (delimiter || delimiter === '') ? delimiter : ',';
     owner.delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
@@ -640,8 +640,7 @@ NumeralFormatter.prototype = {
         if (value.indexOf(owner.numeralDecimalMark) >= 0) {
             parts = value.split(owner.numeralDecimalMark);
             partInteger = parts[0];
-            if(owner.numeralDecimalScale > 0)
-                partDecimal = owner.numeralDecimalMark + parts[1].slice(0, owner.numeralDecimalScale);
+            partDecimal = owner.numeralDecimalMark + parts[1].slice(0, owner.numeralDecimalScale);
         }
 
         switch (owner.numeralThousandsGroupStyle) {

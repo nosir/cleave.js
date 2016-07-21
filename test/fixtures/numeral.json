@@ -54,19 +54,6 @@
     ]
   },
   {
-    "numeralDecimalScale": 0,
-    "numbers": [
-      [
-        "12.3456789",
-        "12"
-      ],
-      [
-        "12.3",
-        "12"
-      ]
-    ]
-  },
-  {
     "numeralDecimalScale": 3,
     "numbers": [
       [
