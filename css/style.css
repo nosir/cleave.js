@@ -124,6 +124,11 @@ header .btn-demos .icon {
     border-radius: 3px;
 }
 
+.github-iframe-bar {
+    margin-top: 35px;
+    display: block;
+}
+
 .btn-bar {
     margin-top: 40px;
     display: block;
