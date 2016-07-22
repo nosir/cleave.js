@@ -365,7 +365,7 @@ var DefaultProperties = {
 
         // numeral
         target.numeral = !!opts.numeral;
-        target.numeralDecimalScale = opts.numeralDecimalScale || 2;
+        target.numeralDecimalScale = opts.numeralDecimalScale >= 0 ? opts.numeralDecimalScale : 2;
         target.numeralDecimalMark = opts.numeralDecimalMark || '.';
         target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
 
@@ -608,7 +608,7 @@ var NumeralFormatter = function (numeralDecimalMark,
     var owner = this;
 
     owner.numeralDecimalMark = numeralDecimalMark || '.';
-    owner.numeralDecimalScale = numeralDecimalScale || 2;
+    owner.numeralDecimalScale = numeralDecimalScale >= 0 ? numeralDecimalScale : 2;
     owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
     owner.delimiter = (delimiter || delimiter === '') ? delimiter : ',';
     owner.delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
@@ -666,7 +666,7 @@ NumeralFormatter.prototype = {
             partInteger = partInteger.replace(/(\d)(?=(\d{3})+$)/g, '$1' + owner.delimiter);
         }
 
-        return partInteger.toString() + partDecimal.toString();
+        return partInteger.toString() + (owner.numeralDecimalScale > 0 ? partDecimal.toString() : '');
     }
 };
 
