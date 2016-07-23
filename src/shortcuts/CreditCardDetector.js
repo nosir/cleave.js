@@ -10,6 +10,7 @@ var CreditCardDetector = {
         dankort:       [4, 4, 4, 4],
         instapayment:  [4, 4, 4, 4],
         jcb:           [4, 4, 4, 4],
+        maestro:       [4, 4, 4, 4],
         visa:          [4, 4, 4, 4],
         generalLoose:  [4, 4, 4, 4],
         generalStrict: [4, 4, 4, 7]
@@ -39,6 +40,9 @@ var CreditCardDetector = {
 
         // starts with 2131/1800/35; 16 digits
         jcb: /^(?:2131|1800|35\d{0,2})\d{0,12}/,
+
+        // starts with 50/56-58/6304/67; 16 digits
+        maestro: /^(?:5[0678]\d{0,2}|6304|67\d{0,2})\d{0,12}/,
 
         // starts with 4; 16 digits
         visa: /^4\d{0,15}/
@@ -93,6 +97,11 @@ var CreditCardDetector = {
             return {
                 type:   'jcb',
                 blocks: blocks.jcb
+            };
+        } else if (re.maestro.test(value)) {
+            return {
+                type:   'maestro',
+                blocks: blocks.maestro
             };
         } else if (re.visa.test(value)) {
             return {
