@@ -227,6 +227,12 @@ var Cleave = React.createClass({
         owner.updateValueState();
     },
 
+    onBlur: function() {
+      if (this.props.onBlur) {
+        this.props.onBlur();
+      }
+    },
+
     updateCreditCardPropsByValue: function (value) {
         var owner = this, pps = owner.properties,
             creditCardInfo;
@@ -261,7 +267,8 @@ var Cleave = React.createClass({
             <input type="text" {...owner.state.other}
                    value={owner.state.value}
                    onKeyDown={owner.onKeyDown}
-                   onChange={owner.onChange}/>
+                   onChange={owner.onChange}
+                   onBlur={owner.onBlur}/>
         );
     }
 });
