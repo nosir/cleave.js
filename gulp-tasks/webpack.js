@@ -10,14 +10,14 @@ var paths = {
 
 var entry = 'react.js';
 
-gulp.task('js:react:webpack', function () {
+gulp.task('js:react', function () {
     return gulp.src(path.join(paths.root, entry))
         .pipe(webpack({
             entry:     './src/Cleave.react.js',
             output:    {
                 library:       'Cleave',
                 libraryTarget: 'umd',
-                filename:      'cleave-react.webpack.js'
+                filename:      'cleave-react.js'
             },
             module:    {
                 loaders: [

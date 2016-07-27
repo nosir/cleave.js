@@ -6,21 +6,31 @@
 
 - [React JSFiddle](https://jsfiddle.net/nosir/gLLsrxxf/)
 
-## Usage
-
-### Babel compiler
+## Babel usage
 
 Cleave.js uses ES6 spread / rest feature, and we recommend using Babel compiler to transfer ES6 code.
 
-However, if your project doesn't support it, you can still refer to the [legacy way](#legacy-way).
+However, if for some reason you would like to just refer to the final bundled script, check the [legacy way](#legacy-way).
 
-First install babel presets:
+First, install babel presets:
 
 ```bash
 npm install --save babel-preset-es2015 babel-preset-react babel-preset-stage-0
 ```
 
-And in `.babelrc`:
+For `Browserify`, also do:
+
+```bash
+npm install --save babelify
+```
+
+For `Webpack`, also do:
+
+```bask
+npm install --save babel-core babel-loader
+```
+
+Second, add `.babelrc` to your project root:
 
 ```json
 {
@@ -93,15 +103,45 @@ class MyComponent extends React.Component {
 ReactDOM.render(<MyComponent/>, document.getElementById('content'));
 ```
 
-### Legacy way
+### Webpack and Browserify config
 
-If your project doesn't support ES6 compiling, just include cleave.js like this. It will expose `Cleave` variable to global:
+#### Webpack
 
 ```js
-var React = require('...');
+loaders: [
+    {
+        test: ...,
+        exclude: /node_modules\/(?!cleave.js)/,
+        loader: 'babel',
+        query: {
+            presets: ['es2015', 'react', 'stage-0']
+        }
+    }
+]
+```
 
-require('cleave.js/dist/cleave-react');
-require('cleave.js/dist/addons/cleave-phone.{country}.js');
+#### Browserify
+
+```js
+browserify(...).transform('babelify', {presets: ['es2015', 'react', 'stage-0']})...
+```
+
+## Legacy way
+
+If for some reason you would like to just refer to the final bundled script (e.g. your project doesn't support ES6 compiling), you can include cleave.js like this.
+
+It will also expose `Cleave` variable to global:
+
+```js
+import Cleave from 'cleave.js/dist/cleave-react';
+import CleavePhone from 'cleave.js/dist/addons/cleave-phone.{country}';
+```
+
+or
+
+```js
+var Cleave = require('cleave.js/dist/cleave-react');
+var CleavePhone = require('cleave.js/dist/addons/cleave-phone.{country}');
 ```
 
 And define the component:
@@ -126,7 +166,7 @@ var MyComponent = React.createClass({
 });
 ```
 
-### Shim
+## Shim
 
 Alternatively you can shim `Cleave.js` module. In your html:
 

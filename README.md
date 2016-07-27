@@ -129,7 +129,7 @@ As you can see, here you simply use `<Cleave/>` as a normal `<input/>` field
 - Pass in the custom `options` prop
 - Add ReactJS `onChange` event listener
 
-See more in documentation: [ReactJS component usage](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-component-usage.md) section
+Usage for `Webpack`, `Browserify` and more in documentation: [ReactJS component usage](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-component-usage.md)
 
 ## Playground
 

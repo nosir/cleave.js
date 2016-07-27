@@ -50,4 +50,4 @@ gulp.task('js', function () {
         .pipe(gulp.dest(paths.dist));
 });
 
-gulp.task('build', gulpsync.sync(['js', 'js:react', 'js:react:webpack', 'min']));
+gulp.task('build', gulpsync.sync(['js', 'js:react', 'min']));
