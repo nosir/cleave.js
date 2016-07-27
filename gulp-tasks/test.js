@@ -30,6 +30,11 @@ gulp.task('mocha:numeral', function () {
         .pipe(mocha({reporter: 'spec'}));
 });
 
+gulp.task('mocha:id', function () {
+    return gulp.src(path.join(paths.test, 'IdFormatter_spec.js'), {read: false})
+        .pipe(mocha({reporter: 'spec'}));
+});
+
 gulp.task('mocha', function () {
     return gulp.src(path.join(paths.test, '**/*_spec.js'), {read: false})
         .pipe(mocha({reporter: 'spec'}));
