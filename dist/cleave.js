@@ -29,7 +29,7 @@ Cleave.prototype = {
         var owner = this, pps = owner.properties;
 
         // no need to use this lib
-        if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.date && (pps.blocksLength === 0 && !pps.prefix)) {
+        if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.date && !pps.id && (pps.blocksLength === 0 && !pps.prefix)) {
             return;
         }
 
@@ -44,6 +44,7 @@ Cleave.prototype = {
         owner.initPhoneFormatter();
         owner.initDateFormatter();
         owner.initNumeralFormatter();
+        owner.initIdFormatter();
 
         owner.onInput(pps.initValue);
     },
@@ -95,6 +96,17 @@ Cleave.prototype = {
         }
     },
 
+    initIdFormatter: function () {
+        var owner = this, pps = owner.properties;
+
+        if (!pps.id) {
+            return;
+        }
+
+        pps.idFormatter = new Cleave.IdFormatter(pps.idType);
+        pps.maxLength = pps.idFormatter.getMaxLength();
+    },
+
     onKeyDown: function (event) {
         var owner = this, pps = owner.properties,
             charCode = event.which || event.keyCode;
@@ -138,6 +150,17 @@ Cleave.prototype = {
         // numeral formatter
         if (pps.numeral) {
             pps.result = pps.prefix + pps.numeralFormatter.format(value);
+            owner.updateValueState();
+
+            return;
+        }
+
+        // id formatter
+        if (pps.id) {
+            value = pps.prefix + pps.idFormatter.format(value);
+            value = Util.headStr(value, pps.maxLength);
+
+            pps.result = value;
             owner.updateValueState();
 
             return;
@@ -270,6 +293,7 @@ if (typeof module === 'object' && typeof module.exports === 'object') {
     Cleave.NumeralFormatter = require('./shortcuts/NumeralFormatter');
     Cleave.DateFormatter = require('./shortcuts/DateFormatter');
     Cleave.PhoneFormatter = require('./shortcuts/PhoneFormatter');
+    Cleave.IdFormatter = require('./shortcuts/IdFormatter');
     Cleave.CreditCardDetector = require('./shortcuts/CreditCardDetector');
     Cleave.Util = require('./utils/Util');
     Cleave.DefaultProperties = require('./common/DefaultProperties');
@@ -368,6 +392,10 @@ var DefaultProperties = {
         target.numeralDecimalScale = opts.numeralDecimalScale >= 0 ? opts.numeralDecimalScale : 2;
         target.numeralDecimalMark = opts.numeralDecimalMark || '.';
         target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
+
+        // id
+        target.id = !!opts.id;
+        target.idType = opts.idType;
 
         // others
         target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;
@@ -610,6 +638,71 @@ if (typeof module === 'object' && typeof module.exports === 'object') {
 
 'use strict';
 
+var IdFormatter = function (idType) {
+    var owner = this;
+
+    owner.idType = idType;
+
+    if (owner.idType == IdFormatter.type.cpf) {
+        owner.blocks = [3, 3, 3, 2];
+    }
+};
+
+IdFormatter.type = {
+    cpf: 'CPF'
+};
+
+IdFormatter.prototype = {
+    getMaxLength: function () {
+        var owner = this;
+
+        if (owner.idType == IdFormatter.type.cpf) {
+            return 14;
+        }
+
+        return;
+    },
+
+    getRawValue: function (value) {
+        var owner = this;
+
+        if (owner.idType == IdFormatter.type.cpf) {
+            return value.replace(/[-.]/g, '');
+        }
+
+        return;
+    },
+
+    format: function (value) {
+        var owner = this;
+
+        // strip the non numeric letters
+        value = value.replace(/[^\d]/g, '');
+
+        switch (owner.idType) {
+        case IdFormatter.type.cpf:
+            // add a . before every group of 3 numbers
+            value = value.replace(/([0-9]{3})/g, '.$1');
+
+            // remove the remaining . at the beginning
+            value = value.replace(/^\./, '');
+
+            // add a - before the last 2 numbers
+            value = value.replace(/([0-9]{2})$/, '-$1');
+
+            break;
+        }
+
+        return value;
+    }
+};
+
+if (typeof module === 'object' && typeof module.exports === 'object') {
+    module.exports = exports = IdFormatter;
+}
+
+'use strict';
+
 var NumeralFormatter = function (numeralDecimalMark,
                                  numeralDecimalScale,
                                  numeralThousandsGroupStyle,
@@ -746,6 +839,7 @@ if (typeof module === 'object' && typeof module.exports === 'object') {
 Cleave.NumeralFormatter = NumeralFormatter;
 Cleave.DateFormatter = DateFormatter;
 Cleave.PhoneFormatter = PhoneFormatter;
+Cleave.IdFormatter = IdFormatter;
 Cleave.CreditCardDetector = CreditCardDetector;
 Cleave.Util = Util;
 Cleave.DefaultProperties = DefaultProperties;

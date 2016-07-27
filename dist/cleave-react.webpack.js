@@ -65,9 +65,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var NumeralFormatter = __webpack_require__(2);
 	var DateFormatter = __webpack_require__(4);
 	var PhoneFormatter = __webpack_require__(5);
-	var CreditCardDetector = __webpack_require__(6);
-	var Util = __webpack_require__(7);
-	var DefaultProperties = __webpack_require__(8);
+	var IdFormatter = __webpack_require__(6);
+	var CreditCardDetector = __webpack_require__(7);
+	var Util = __webpack_require__(8);
+	var DefaultProperties = __webpack_require__(9);
 
 	var Cleave = React.createClass({
 	    displayName: 'Cleave',
@@ -123,7 +124,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            pps = owner.properties;
 
 	        // so no need for this lib at all
-	        if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.date && pps.blocksLength === 0 && !pps.prefix) {
+	        if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.date && !pps.id && pps.blocksLength === 0 && !pps.prefix) {
 	            return;
 	        }
 
@@ -132,6 +133,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        owner.initPhoneFormatter();
 	        owner.initDateFormatter();
 	        owner.initNumeralFormatter();
+	        owner.initIdFormatter();
 
 	        owner.onInput(pps.initValue);
 	    },
@@ -176,6 +178,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	        } catch (ex) {
 	            throw new Error('Please include phone-type-formatter.{country}.js lib');
 	        }
+	    },
+
+	    initIdFormatter: function initIdFormatter() {
+	        var owner = this,
+	            pps = owner.properties;
+
+	        if (!pps.id) {
+	            return;
+	        }
+
+	        pps.idFormatter = new IdFormatter(pps.idType);
+	        pps.maxLength = pps.idFormatter.getMaxLength();
 	    },
 
 	    onKeyDown: function onKeyDown(event) {
@@ -233,6 +247,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // numeral formatter
 	        if (pps.numeral) {
 	            pps.result = pps.prefix + pps.numeralFormatter.format(value);
+	            owner.updateValueState();
+
+	            return;
+	        }
+
+	        // id formatter
+	        if (pps.id) {
+	            value = pps.prefix + pps.idFormatter.format(value);
+	            value = Util.headStr(value, pps.maxLength);
+
+	            pps.result = value;
 	            owner.updateValueState();
 
 	            return;
@@ -594,6 +619,78 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
+	var IdFormatter = function IdFormatter(idType) {
+	    var owner = this;
+
+	    owner.idType = idType;
+
+	    if (owner.idType == IdFormatter.type.cpf) {
+	        owner.blocks = [3, 3, 3, 2];
+	    }
+	};
+
+	IdFormatter.type = {
+	    cpf: 'CPF'
+	};
+
+	IdFormatter.prototype = {
+	    getMaxLength: function getMaxLength() {
+	        var owner = this;
+
+	        if (owner.idType == IdFormatter.type.cpf) {
+	            return 14;
+	        }
+
+	        return;
+	    },
+
+	    getRawValue: function getRawValue(value) {
+	        var owner = this;
+
+	        if (owner.idType == IdFormatter.type.cpf) {
+	            return value.replace(/[-.]/g, '');
+	        }
+
+	        return;
+	    },
+
+	    format: function format(value) {
+	        var owner = this;
+
+	        // strip the non numeric letters
+	        value = value.replace(/[^\d]/g, '');
+
+	        switch (owner.idType) {
+	            case IdFormatter.type.cpf:
+	                // add a . before every group of 3 numbers
+	                value = value.replace(/([0-9]{3})/g, '.$1');
+
+	                // remove the remaining . at the beginning
+	                value = value.replace(/^\./, '');
+
+	                // add a - before the last 2 numbers
+	                value = value.replace(/([0-9]{2})$/, '-$1');
+
+	                break;
+	        }
+
+	        return value;
+	    }
+	};
+
+	if (( false ? 'undefined' : _typeof(module)) === 'object' && _typeof(module.exports) === 'object') {
+	    module.exports = exports = IdFormatter;
+	}
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)(module)))
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
 	var CreditCardDetector = {
 	    blocks: {
 	        uatp: [4, 5, 6],
@@ -722,7 +819,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)(module)))
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
@@ -783,7 +880,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)(module)))
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
@@ -824,6 +921,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        target.numeralDecimalScale = opts.numeralDecimalScale >= 0 ? opts.numeralDecimalScale : 2;
 	        target.numeralDecimalMark = opts.numeralDecimalMark || '.';
 	        target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
+
+	        // id
+	        target.id = !!opts.id;
+	        target.idType = opts.idType;
 
 	        // others
 	        target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;
