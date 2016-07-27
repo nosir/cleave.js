@@ -5,6 +5,7 @@ var React = require('react');
 var NumeralFormatter = require('./shortcuts/NumeralFormatter');
 var DateFormatter = require('./shortcuts/DateFormatter');
 var PhoneFormatter = require('./shortcuts/PhoneFormatter');
+var IdFormatter = require('./shortcuts/IdFormatter');
 var CreditCardDetector = require('./shortcuts/CreditCardDetector');
 var Util = require('./utils/Util');
 var DefaultProperties = require('./common/DefaultProperties');
@@ -55,7 +56,7 @@ var Cleave = React.createClass({
             pps = owner.properties;
 
         // so no need for this lib at all
-        if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.date && (pps.blocksLength === 0 && !pps.prefix)) {
+        if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.date && !pps.id && (pps.blocksLength === 0 && !pps.prefix)) {
             return;
         }
 
@@ -64,6 +65,7 @@ var Cleave = React.createClass({
         owner.initPhoneFormatter();
         owner.initDateFormatter();
         owner.initNumeralFormatter();
+        owner.initIdFormatter();
 
         owner.onInput(pps.initValue);
     },
@@ -116,6 +118,18 @@ var Cleave = React.createClass({
         } catch (ex) {
             throw new Error('Please include phone-type-formatter.{country}.js lib');
         }
+    },
+
+    initIdFormatter: function () {
+        var owner = this,
+            pps = owner.properties;
+
+        if (!pps.id) {
+            return;
+        }
+
+        pps.idFormatter = new IdFormatter(pps.idType);
+        pps.maxLength = pps.idFormatter.getMaxLength();
     },
 
     onKeyDown: function (event) {
@@ -171,6 +185,17 @@ var Cleave = React.createClass({
         // numeral formatter
         if (pps.numeral) {
             pps.result = pps.prefix + pps.numeralFormatter.format(value);
+            owner.updateValueState();
+
+            return;
+        }
+
+        // id formatter
+        if (pps.id) {
+            value = pps.prefix + pps.idFormatter.format(value);
+            value = Util.headStr(value, pps.maxLength);
+
+            pps.result = value;
             owner.updateValueState();
 
             return;

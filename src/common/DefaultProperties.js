@@ -34,6 +34,10 @@ var DefaultProperties = {
         target.numeralDecimalMark = opts.numeralDecimalMark || '.';
         target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
 
+        // id
+        target.id = !!opts.id;
+        target.idType = opts.idType;
+
         // others
         target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;
 

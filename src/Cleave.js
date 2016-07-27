@@ -27,7 +27,7 @@ Cleave.prototype = {
         var owner = this, pps = owner.properties;
 
         // no need to use this lib
-        if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.date && (pps.blocksLength === 0 && !pps.prefix)) {
+        if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.date && !pps.id && (pps.blocksLength === 0 && !pps.prefix)) {
             return;
         }
 
@@ -42,6 +42,7 @@ Cleave.prototype = {
         owner.initPhoneFormatter();
         owner.initDateFormatter();
         owner.initNumeralFormatter();
+        owner.initIdFormatter();
 
         owner.onInput(pps.initValue);
     },
@@ -93,6 +94,17 @@ Cleave.prototype = {
         }
     },
 
+    initIdFormatter: function () {
+        var owner = this, pps = owner.properties;
+
+        if (!pps.id) {
+            return;
+        }
+
+        pps.idFormatter = new Cleave.IdFormatter(pps.idType);
+        pps.maxLength = pps.idFormatter.getMaxLength();
+    },
+
     onKeyDown: function (event) {
         var owner = this, pps = owner.properties,
             charCode = event.which || event.keyCode;
@@ -136,6 +148,17 @@ Cleave.prototype = {
         // numeral formatter
         if (pps.numeral) {
             pps.result = pps.prefix + pps.numeralFormatter.format(value);
+            owner.updateValueState();
+
+            return;
+        }
+
+        // id formatter
+        if (pps.id) {
+            value = pps.prefix + pps.idFormatter.format(value);
+            value = Util.headStr(value, pps.maxLength);
+
+            pps.result = value;
             owner.updateValueState();
 
             return;
@@ -268,6 +291,7 @@ if (typeof module === 'object' && typeof module.exports === 'object') {
     Cleave.NumeralFormatter = require('./shortcuts/NumeralFormatter');
     Cleave.DateFormatter = require('./shortcuts/DateFormatter');
     Cleave.PhoneFormatter = require('./shortcuts/PhoneFormatter');
+    Cleave.IdFormatter = require('./shortcuts/IdFormatter');
     Cleave.CreditCardDetector = require('./shortcuts/CreditCardDetector');
     Cleave.Util = require('./utils/Util');
     Cleave.DefaultProperties = require('./common/DefaultProperties');

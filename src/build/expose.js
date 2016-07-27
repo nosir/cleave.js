@@ -1,6 +1,7 @@
 Cleave.NumeralFormatter = NumeralFormatter;
 Cleave.DateFormatter = DateFormatter;
 Cleave.PhoneFormatter = PhoneFormatter;
+Cleave.IdFormatter = IdFormatter;
 Cleave.CreditCardDetector = CreditCardDetector;
 Cleave.Util = Util;
 Cleave.DefaultProperties = DefaultProperties;
