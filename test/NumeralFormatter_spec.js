@@ -10,7 +10,7 @@ describe('NumeralFormatter', function () {
             title.push('Thousands Group Style: ' + numeral.thousandsGroupStyle);
         }
 
-        if (numeral.numeralDecimalScale) {
+        if (numeral.numeralDecimalScale !== undefined) {
             title.push('Decimal Scale: ' + numeral.numeralDecimalScale);
         }
 
