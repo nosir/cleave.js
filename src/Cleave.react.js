@@ -124,7 +124,7 @@ var Cleave = React.createClass({
             charCode = event.which || event.keyCode;
 
         // hit backspace when last character is delimiter
-        if (charCode === 8 && pps.result.slice(-1) === pps.delimiter) {
+        if (charCode === 8 && Util.isDelimiter(pps.result.slice(-1), pps.delimiter, pps.delimiters)) {
             pps.backspace = true;
         } else {
             pps.backspace = false;
@@ -141,7 +141,7 @@ var Cleave = React.createClass({
         if (pps.numeral) {
             event.target.rawValue = pps.numeralFormatter.getRawValue(pps.result);
         } else {
-            event.target.rawValue = Util.strip(pps.result, pps.delimiterRE);
+            event.target.rawValue = Util.stripDelimiters(pps.result, pps.delimiter, pps.delimiters);
         }
 
         owner.registeredEvents.onChange(event);
@@ -156,7 +156,7 @@ var Cleave = React.createClass({
         // case 2: last character is not delimiter which is:
         // 12|34* -> hit backspace -> 1|34*
 
-        if (!pps.numeral && pps.backspace && value.slice(-1) !== pps.delimiter) {
+        if (!pps.numeral && pps.backspace && !Util.isDelimiter(value.slice(-1), pps.delimiter, pps.delimiters)) {
             value = Util.headStr(value, value.length - 1);
         }
 
@@ -182,7 +182,7 @@ var Cleave = React.createClass({
         }
 
         // strip delimiters
-        value = Util.strip(value, pps.delimiterRE);
+        value = Util.stripDelimiters(value, pps.delimiter, pps.delimiters);
 
         // strip prefix
         value = Util.getPrefixStrippedValue(value, pps.prefixLength);
@@ -216,7 +216,7 @@ var Cleave = React.createClass({
         value = Util.headStr(value, pps.maxLength);
 
         // apply blocks
-        pps.result = Util.getFormattedValue(value, pps.blocks, pps.blocksLength, pps.delimiter);
+        pps.result = Util.getFormattedValue(value, pps.blocks, pps.blocksLength, pps.delimiter, pps.delimiters);
 
         // nothing changed
         // prevent update value to avoid caret position change

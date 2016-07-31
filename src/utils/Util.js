@@ -8,6 +8,34 @@ var Util = {
         return value.replace(re, '');
     },
 
+    isDelimiter: function (letter, delimiter, delimiters) {
+        // single delimiter
+        if (delimiters.length === 0) {
+            return letter === delimiter;
+        }
+
+        // multiple delimiters
+        return delimiters.some(function (current) {
+            if (letter === current) {
+                return true;
+            }
+        });
+    },
+
+    stripDelimiters: function (value, delimiter, delimiters) {
+        // single delimiter
+        if (delimiters.length === 0) {
+            return value.replace(new RegExp('\\' + delimiter, 'g'), '');
+        }
+
+        // multiple delimiters
+        delimiters.forEach(function (current) {
+            value = value.replace(new RegExp('\\' + current, 'g'), '');
+        });
+
+        return value;
+    },
+
     headStr: function (str, length) {
         return str.slice(0, length);
     },
@@ -26,8 +54,10 @@ var Util = {
         return value.slice(prefixLength);
     },
 
-    getFormattedValue: function (value, blocks, blocksLength, delimiter) {
-        var result = '';
+    getFormattedValue: function (value, blocks, blocksLength, delimiter, delimiters) {
+        var result = '',
+            multipleDelimiters = delimiters.length > 0,
+            currentDelimiter;
 
         blocks.forEach(function (length, index) {
             if (value.length > 0) {
@@ -36,8 +66,10 @@ var Util = {
 
                 result += sub;
 
+                currentDelimiter = multipleDelimiters ? (delimiters[index] || currentDelimiter) : delimiter;
+
                 if (sub.length === length && index < blocksLength - 1) {
-                    result += delimiter;
+                    result += currentDelimiter;
                 }
 
                 // update remaining string

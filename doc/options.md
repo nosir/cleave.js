@@ -17,8 +17,9 @@
     - [numeralDecimalScale](#numeraldecimalscale)
     - [numeralDecimalMark](#numeraldecimalmark)
 - General config:
-    - [delimiter](#delimiter)
     - [blocks](#blocks)
+    - [delimiter](#delimiter)
+    - [delimiters](#delimiters)
     - [prefix](#prefix)
     - [numericOnly](#numericonly)
     - [uppercase](#uppercase)
@@ -214,6 +215,24 @@ You can also custom the [prefix](#prefix) for numeral
 
 ## General config
 
+### `blocks`
+
+An `Array` value indicates the groups to format the input value. It will insert delimiters in between these groups.
+
+This option is ignored by `creditCard`, `phone`, `date` and `numeral` shortcuts mode.
+
+**Default value**: `[]`
+
+```js
+new Cleave('.my-input', {
+    blocks: [2, 5, 5]
+});
+```
+
+```js
+// XX XXXXX XXXXX
+```
+
 ### `delimiter`
 
 A `String` value indicates the delimiter to use in formatting.
@@ -231,22 +250,25 @@ new Cleave('.my-input', {
 // XXXX-XXXX-XXXX-XXXX
 ```
 
-### `blocks`
+### `delimiters`
 
-An `Array` value indicates the groups to format the input value. It will insert delimiters in between these groups.
+An `Array` value indicates the multiple delimiters to use in formatting.
 
-Ignored by `creditCard`, `phone` and `date` shortcuts mode, the value will be set internally.
+This option is ignored by `creditCard`, `phone`, `date` and `numeral` shortcuts mode.
+
+When delimiters array is defined, single [delimiter](#delimiter) option is ignored.
 
 **Default value**: `[]`
 
 ```js
 new Cleave('.my-input', {
-    blocks: [2, 5, 5]
+    blocks: [3, 3, 3, 2],
+    delimiter: ['.', '.', '-'] 
 });
 ```
 
 ```js
-// XX XXXXX XXXXX
+// XXX.XXX.XXX-XX
 ```
 
 ### `prefix`

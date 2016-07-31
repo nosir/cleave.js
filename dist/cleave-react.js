@@ -184,7 +184,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            charCode = event.which || event.keyCode;
 
 	        // hit backspace when last character is delimiter
-	        if (charCode === 8 && pps.result.slice(-1) === pps.delimiter) {
+	        if (charCode === 8 && Util.isDelimiter(pps.result.slice(-1), pps.delimiter, pps.delimiters)) {
 	            pps.backspace = true;
 	        } else {
 	            pps.backspace = false;
@@ -202,7 +202,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (pps.numeral) {
 	            event.target.rawValue = pps.numeralFormatter.getRawValue(pps.result);
 	        } else {
-	            event.target.rawValue = Util.strip(pps.result, pps.delimiterRE);
+	            event.target.rawValue = Util.stripDelimiters(pps.result, pps.delimiter, pps.delimiters);
 	        }
 
 	        owner.registeredEvents.onChange(event);
@@ -218,7 +218,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // case 2: last character is not delimiter which is:
 	        // 12|34* -> hit backspace -> 1|34*
 
-	        if (!pps.numeral && pps.backspace && value.slice(-1) !== pps.delimiter) {
+	        if (!pps.numeral && pps.backspace && !Util.isDelimiter(value.slice(-1), pps.delimiter, pps.delimiters)) {
 	            value = Util.headStr(value, value.length - 1);
 	        }
 
@@ -244,7 +244,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 
 	        // strip delimiters
-	        value = Util.strip(value, pps.delimiterRE);
+	        value = Util.stripDelimiters(value, pps.delimiter, pps.delimiters);
 
 	        // strip prefix
 	        value = Util.getPrefixStrippedValue(value, pps.prefixLength);
@@ -278,7 +278,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value = Util.headStr(value, pps.maxLength);
 
 	        // apply blocks
-	        pps.result = Util.getFormattedValue(value, pps.blocks, pps.blocksLength, pps.delimiter);
+	        pps.result = Util.getFormattedValue(value, pps.blocks, pps.blocksLength, pps.delimiter, pps.delimiters);
 
 	        // nothing changed
 	        // prevent update value to avoid caret position change
@@ -736,6 +736,34 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return value.replace(re, '');
 	    },
 
+	    isDelimiter: function isDelimiter(letter, delimiter, delimiters) {
+	        // single delimiter
+	        if (delimiters.length === 0) {
+	            return letter === delimiter;
+	        }
+
+	        // multiple delimiters
+	        return delimiters.some(function (current) {
+	            if (letter === current) {
+	                return true;
+	            }
+	        });
+	    },
+
+	    stripDelimiters: function stripDelimiters(value, delimiter, delimiters) {
+	        // single delimiter
+	        if (delimiters.length === 0) {
+	            return value.replace(new RegExp('\\' + delimiter, 'g'), '');
+	        }
+
+	        // multiple delimiters
+	        delimiters.forEach(function (current) {
+	            value = value.replace(new RegExp('\\' + current, 'g'), '');
+	        });
+
+	        return value;
+	    },
+
 	    headStr: function headStr(str, length) {
 	        return str.slice(0, length);
 	    },
@@ -754,8 +782,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return value.slice(prefixLength);
 	    },
 
-	    getFormattedValue: function getFormattedValue(value, blocks, blocksLength, delimiter) {
-	        var result = '';
+	    getFormattedValue: function getFormattedValue(value, blocks, blocksLength, delimiter, delimiters) {
+	        var result = '',
+	            multipleDelimiters = delimiters.length > 0,
+	            currentDelimiter;
 
 	        blocks.forEach(function (length, index) {
 	            if (value.length > 0) {
@@ -764,8 +794,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	                result += sub;
 
+	                currentDelimiter = multipleDelimiters ? delimiters[index] || currentDelimiter : delimiter;
+
 	                if (sub.length === length && index < blocksLength - 1) {
-	                    result += delimiter;
+	                    result += currentDelimiter;
 	                }
 
 	                // update remaining string
@@ -837,7 +869,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        target.initValue = opts.initValue || '';
 
 	        target.delimiter = opts.delimiter || opts.delimiter === '' ? opts.delimiter : opts.date ? '/' : opts.numeral ? ',' : opts.phone ? ' ' : ' ';
-	        target.delimiterRE = new RegExp('\\' + (target.delimiter || ' '), 'g');
+	        target.delimiters = opts.delimiters || [];
 
 	        target.blocks = opts.blocks || [];
 	        target.blocksLength = target.blocks.length;

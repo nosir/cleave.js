@@ -98,7 +98,7 @@ Cleave.prototype = {
             charCode = event.which || event.keyCode;
 
         // hit backspace when last character is delimiter
-        if (charCode === 8 && owner.element.value.slice(-1) === pps.delimiter) {
+        if (charCode === 8 && Cleave.Util.isDelimiter(owner.element.value.slice(-1), pps.delimiter, pps.delimiters)) {
             pps.backspace = true;
 
             return;
@@ -121,7 +121,7 @@ Cleave.prototype = {
         // case 2: last character is not delimiter which is:
         // 12|34* -> hit backspace -> 1|34*
         // note: no need to apply this for numeral mode
-        if (!pps.numeral && pps.backspace && value.slice(-1) !== pps.delimiter) {
+        if (!pps.numeral && pps.backspace && !Cleave.Util.isDelimiter(value.slice(-1), pps.delimiter, pps.delimiters)) {
             value = Util.headStr(value, value.length - 1);
         }
 
@@ -147,7 +147,7 @@ Cleave.prototype = {
         }
 
         // strip delimiters
-        value = Util.strip(value, pps.delimiterRE);
+        value = Util.stripDelimiters(value, pps.delimiter, pps.delimiters);
 
         // strip prefix
         value = Util.getPrefixStrippedValue(value, pps.prefixLength);
@@ -181,7 +181,7 @@ Cleave.prototype = {
         value = Util.headStr(value, pps.maxLength);
 
         // apply blocks
-        pps.result = Util.getFormattedValue(value, pps.blocks, pps.blocksLength, pps.delimiter);
+        pps.result = Util.getFormattedValue(value, pps.blocks, pps.blocksLength, pps.delimiter, pps.delimiters);
 
         // nothing changed
         // prevent update value to avoid caret position change
@@ -245,7 +245,7 @@ Cleave.prototype = {
             return pps.numeralFormatter.getRawValue(inputValue);
         }
 
-        return Cleave.Util.strip(inputValue, pps.delimiterRE);
+        return Cleave.Util.stripDelimiters(inputValue, pps.delimiter, pps.delimiters);
     },
 
     getFormattedValue: function () {

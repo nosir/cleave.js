@@ -51,7 +51,7 @@ var DefaultProperties = {
                     (opts.numeral ? ',' :
                         (opts.phone ? ' ' :
                             ' ')));
-        target.delimiterRE = new RegExp('\\' + (target.delimiter || ' '), 'g');
+        target.delimiters = opts.delimiters || [];
 
         target.blocks = opts.blocks || [];
         target.blocksLength = target.blocks.length;

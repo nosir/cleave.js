@@ -100,7 +100,7 @@ Cleave.prototype = {
             charCode = event.which || event.keyCode;
 
         // hit backspace when last character is delimiter
-        if (charCode === 8 && owner.element.value.slice(-1) === pps.delimiter) {
+        if (charCode === 8 && Cleave.Util.isDelimiter(owner.element.value.slice(-1), pps.delimiter, pps.delimiters)) {
             pps.backspace = true;
 
             return;
@@ -123,7 +123,7 @@ Cleave.prototype = {
         // case 2: last character is not delimiter which is:
         // 12|34* -> hit backspace -> 1|34*
         // note: no need to apply this for numeral mode
-        if (!pps.numeral && pps.backspace && value.slice(-1) !== pps.delimiter) {
+        if (!pps.numeral && pps.backspace && !Cleave.Util.isDelimiter(value.slice(-1), pps.delimiter, pps.delimiters)) {
             value = Util.headStr(value, value.length - 1);
         }
 
@@ -149,7 +149,7 @@ Cleave.prototype = {
         }
 
         // strip delimiters
-        value = Util.strip(value, pps.delimiterRE);
+        value = Util.stripDelimiters(value, pps.delimiter, pps.delimiters);
 
         // strip prefix
         value = Util.getPrefixStrippedValue(value, pps.prefixLength);
@@ -183,7 +183,7 @@ Cleave.prototype = {
         value = Util.headStr(value, pps.maxLength);
 
         // apply blocks
-        pps.result = Util.getFormattedValue(value, pps.blocks, pps.blocksLength, pps.delimiter);
+        pps.result = Util.getFormattedValue(value, pps.blocks, pps.blocksLength, pps.delimiter, pps.delimiters);
 
         // nothing changed
         // prevent update value to avoid caret position change
@@ -247,7 +247,7 @@ Cleave.prototype = {
             return pps.numeralFormatter.getRawValue(inputValue);
         }
 
-        return Cleave.Util.strip(inputValue, pps.delimiterRE);
+        return Cleave.Util.stripDelimiters(inputValue, pps.delimiter, pps.delimiters);
     },
 
     getFormattedValue: function () {
@@ -288,6 +288,34 @@ var Util = {
         return value.replace(re, '');
     },
 
+    isDelimiter: function (letter, delimiter, delimiters) {
+        // single delimiter
+        if (delimiters.length === 0) {
+            return letter === delimiter;
+        }
+
+        // multiple delimiters
+        return delimiters.some(function (current) {
+            if (letter === current) {
+                return true;
+            }
+        });
+    },
+
+    stripDelimiters: function (value, delimiter, delimiters) {
+        // single delimiter
+        if (delimiters.length === 0) {
+            return value.replace(new RegExp('\\' + delimiter, 'g'), '');
+        }
+
+        // multiple delimiters
+        delimiters.forEach(function (current) {
+            value = value.replace(new RegExp('\\' + current, 'g'), '');
+        });
+
+        return value;
+    },
+
     headStr: function (str, length) {
         return str.slice(0, length);
     },
@@ -306,8 +334,10 @@ var Util = {
         return value.slice(prefixLength);
     },
 
-    getFormattedValue: function (value, blocks, blocksLength, delimiter) {
-        var result = '';
+    getFormattedValue: function (value, blocks, blocksLength, delimiter, delimiters) {
+        var result = '',
+            multipleDelimiters = delimiters.length > 0,
+            currentDelimiter;
 
         blocks.forEach(function (length, index) {
             if (value.length > 0) {
@@ -316,8 +346,10 @@ var Util = {
 
                 result += sub;
 
+                currentDelimiter = multipleDelimiters ? (delimiters[index] || currentDelimiter) : delimiter;
+
                 if (sub.length === length && index < blocksLength - 1) {
-                    result += delimiter;
+                    result += currentDelimiter;
                 }
 
                 // update remaining string
@@ -386,7 +418,7 @@ var DefaultProperties = {
                     (opts.numeral ? ',' :
                         (opts.phone ? ' ' :
                             ' ')));
-        target.delimiterRE = new RegExp('\\' + (target.delimiter || ' '), 'g');
+        target.delimiters = opts.delimiters || [];
 
         target.blocks = opts.blocks || [];
         target.blocksLength = target.blocks.length;

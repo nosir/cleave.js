@@ -8,13 +8,13 @@
     "form",
     "input"
   ],
-  "version": "0.5.2",
+  "version": "0.6.0",
   "author": {
     "name": "Max Huang",
     "email": "risonhuang@gmail.com",
     "homepage": "http://github.com/nosir"
   },
-  "license": "Apache License 2.0",
+  "license": "Apache-2.0",
   "ignore": [
     "**/.*",
     "gulp-tasks",
