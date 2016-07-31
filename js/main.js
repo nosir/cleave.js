@@ -108,7 +108,14 @@ var cleaveBlocks = new Cleave('.input-blocks', {
 var cleaveDelimeter = new Cleave('.input-delimiter', {
     delimiter: '·',
     uppercase: true,
-    blocks:    [3, 3, 3, 3]
+    blocks:    [3, 3, 3]
+});
+
+// delimiters
+var cleaveDelimeters = new Cleave('.input-delimiters', {
+    delimiters: ['.', '.', '-'],
+    uppercase: true,
+    blocks:    [3, 3, 3, 2]
 });
 
 // prefix

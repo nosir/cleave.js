@@ -362,7 +362,23 @@
             <div class="code">
 <pre><code class="language-javascript">var cleave = new Cleave('.input-element', {
     delimiter: '·',
-    blocks: [3, 3, 3, 3],
+    blocks: [3, 3, 3],
+    uppercase: true
+});</code></pre>
+            </div>
+        </div>
+
+        <div class="demo">
+            <p class="input-title">Delimiter: ['.', '.', '-']</p>
+
+            <div class="field">
+                <input class="input-delimiters" placeholder='Delimiters: [".", ".", "-"]' type="text"/>
+            </div>
+
+            <div class="code">
+<pre><code class="language-javascript">var cleave = new Cleave('.input-element', {
+    delimiters: ['.', '.', '-'],
+    blocks: [3, 3, 3, 2],
     uppercase: true
 });</code></pre>
             </div>
