@@ -372,17 +372,22 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        // strip alphabet letters
 	        value = value.replace(/[A-Za-z]/g, '')
-
 	        // replace the first decimal mark with reserved placeholder
 	        .replace(owner.numeralDecimalMark, 'M')
 
-	        // strip the non numeric letters except M
-	        .replace(/[^\dM]/g, '')
+	        // replace the first minus sign reserved placeholder
+	        .replace(/^\-/, 'N')
 
-	        // replace mark
+	        // strip the non numeric letters except the minus sign and decimal placeholder
+	        .replace(/[^\dMN]/g, '')
+
+	        // replace the minus sign (if present)
+	        .replace('N', '-')
+
+	        // replace decimal mark
 	        .replace('M', owner.numeralDecimalMark)
 
-	        // strip leading 0
+	        // strip any leading zeros
 	        .replace(/^(-)?0+(?=\d)/, '$1');
 
 	        partInteger = value;
