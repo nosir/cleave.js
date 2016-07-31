@@ -753,7 +753,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    stripDelimiters: function stripDelimiters(value, delimiter, delimiters) {
 	        // single delimiter
 	        if (delimiters.length === 0) {
-	            return value.replace(new RegExp('\\' + delimiter, 'g'), '');
+	            var delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
+
+	            return value.replace(delimiterRE, '');
 	        }
 
 	        // multiple delimiters

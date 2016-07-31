@@ -123,7 +123,7 @@ Cleave.prototype = {
         // case 2: last character is not delimiter which is:
         // 12|34* -> hit backspace -> 1|34*
         // note: no need to apply this for numeral mode
-        if (!pps.numeral && pps.backspace && !Cleave.Util.isDelimiter(value.slice(-1), pps.delimiter, pps.delimiters)) {
+        if (!pps.numeral && pps.backspace && !Util.isDelimiter(value.slice(-1), pps.delimiter, pps.delimiters)) {
             value = Util.headStr(value, value.length - 1);
         }
 
@@ -305,7 +305,9 @@ var Util = {
     stripDelimiters: function (value, delimiter, delimiters) {
         // single delimiter
         if (delimiters.length === 0) {
-            return value.replace(new RegExp('\\' + delimiter, 'g'), '');
+            var delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
+
+            return value.replace(delimiterRE, '');
         }
 
         // multiple delimiters
