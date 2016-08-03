@@ -205,6 +205,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            event.target.rawValue = Util.stripDelimiters(pps.result, pps.delimiter, pps.delimiters);
 	        }
 
+	        event.target.value = pps.result;
+
 	        owner.registeredEvents.onChange(event);
 	    },
 

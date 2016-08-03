@@ -263,7 +263,7 @@ When delimiters array is defined, single [delimiter](#delimiter) option is ignor
 ```js
 new Cleave('.my-input', {
     blocks: [3, 3, 3, 2],
-    delimiter: ['.', '.', '-'] 
+    delimiters: ['.', '.', '-'] 
 });
 ```
 
