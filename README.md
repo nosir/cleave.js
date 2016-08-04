@@ -78,6 +78,12 @@ require('cleave.js/dist/addons/cleave-phone.{country}');
 var cleave = new Cleave(...)
 ```
 
+We don't want to register any transfer tool as dependencies, so for **Browserify** users, please also run this:
+
+```bash
+npm install --save babelify browserify-shim
+```
+
 #### AMD
 
 ```js
