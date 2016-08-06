@@ -82,7 +82,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	            newValue = nextProps.value;
 
 	        if (newValue) {
-	            owner.onInput(newValue);
+	            newValue = newValue.toString();
+
+	            if (newValue !== owner.properties.initValue) {
+	                owner.properties.initValue = newValue;
+	                owner.onInput(newValue);
+	            }
 	        }
 
 	        // update phone region code

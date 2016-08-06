@@ -235,6 +235,8 @@ Cleave.prototype = {
     setRawValue: function (value) {
         var owner = this;
 
+        value = value.toString();
+
         owner.element.value = value;
         owner.onInput(value);
     },

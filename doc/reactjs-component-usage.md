@@ -21,7 +21,7 @@ npm install --save babel-preset-es2015 babel-preset-react babel-preset-stage-0
 For `Browserify`, also do:
 
 ```bash
-npm install --save babelify
+npm install --save babelify browserify-shim
 ```
 
 For `Webpack`, also do:
@@ -30,7 +30,7 @@ For `Webpack`, also do:
 npm install --save babel-core babel-loader
 ```
 
-Second, add `.babelrc` to your project root:
+After that, add `.babelrc` to your project root with:
 
 ```json
 {

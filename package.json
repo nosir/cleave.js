@@ -10,7 +10,7 @@
     "form",
     "input"
   ],
-  "version": "0.6.3",
+  "version": "0.6.5",
   "author": {
     "name": "Max Huang",
     "url": "http://github.com/nosir",
@@ -27,10 +27,6 @@
   },
   "scripts": {
     "test": "gulp test"
-  },
-  "browserify-shim": {
-    "react": "global:React",
-    "react-dom": "global:ReactDOM"
   },
   "browserify": {
     "transform": [
