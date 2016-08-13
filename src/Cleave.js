@@ -231,9 +231,13 @@ Cleave.prototype = {
     },
 
     setRawValue: function (value) {
-        var owner = this;
+        var owner = this, pps = owner.properties;
 
         value = value.toString();
+
+        if (pps.numeral) {
+            value = value.replace('.', pps.numeralDecimalMark);
+        }
 
         owner.element.value = value;
         owner.onInput(value);
