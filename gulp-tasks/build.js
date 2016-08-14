@@ -25,9 +25,10 @@ var paths = {
 gulp.task('min', function () {
     return gulp.src([
             path.join(paths.dist, 'cleave.js'),
-            path.join(paths.dist, 'cleave-react.js')
+            path.join(paths.dist, 'cleave-react.js'),
+            path.join(paths.dist, 'cleave-angular.js')
         ])
-        .pipe(uglify())
+        .pipe(uglify({mangle: true}))
         .pipe(header(getLicense(), {
             version: packageInfo.version,
             build:   (new Date()).toUTCString()
@@ -50,4 +51,13 @@ gulp.task('js', function () {
         .pipe(gulp.dest(paths.dist));
 });
 
-gulp.task('build', gulpsync.sync(['js', 'js:react', 'min']));
+gulp.task('js:angular', function () {
+    return gulp.src([
+            path.join(paths.dist, 'cleave.js'),
+            path.join(paths.src, 'Cleave.angular.js')
+        ])
+        .pipe(concat('cleave-angular.js'))
+        .pipe(gulp.dest(paths.dist));
+});
+
+gulp.task('build', gulpsync.sync(['js', 'js:react', 'js:angular', 'min']));
