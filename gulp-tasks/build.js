@@ -28,7 +28,7 @@ gulp.task('min', function () {
             path.join(paths.dist, 'cleave-react.js'),
             path.join(paths.dist, 'cleave-angular.js')
         ])
-        .pipe(uglify({mangle: true}))
+        .pipe(uglify({mangle: false}))
         .pipe(header(getLicense(), {
             version: packageInfo.version,
             build:   (new Date()).toUTCString()
