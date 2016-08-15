@@ -22,10 +22,22 @@ var paths = {
     dist:      './dist'
 };
 
-gulp.task('min', function () {
+gulp.task('min-mangle', function () {
     return gulp.src([
             path.join(paths.dist, 'cleave.js'),
-            path.join(paths.dist, 'cleave-react.js'),
+            path.join(paths.dist, 'cleave-react.js')
+        ])
+        .pipe(uglify({mangle: true}))
+        .pipe(header(getLicense(), {
+            version: packageInfo.version,
+            build:   (new Date()).toUTCString()
+        }))
+        .pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest(path.join(paths.dist)));
+});
+
+gulp.task('min-no-mangle', function () {
+    return gulp.src([
             path.join(paths.dist, 'cleave-angular.js')
         ])
         .pipe(uglify({mangle: false}))
@@ -60,4 +72,14 @@ gulp.task('js:angular', function () {
         .pipe(gulp.dest(paths.dist));
 });
 
-gulp.task('build', gulpsync.sync(['js', 'js:react', 'js:angular', 'min']));
+gulp.task('build', gulpsync.sync([
+    // sync
+    'js',
+    'js:react',
+    'js:angular',
+    [
+        // async
+        'min-mangle',
+        'min-no-mangle'
+    ]
+]));

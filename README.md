@@ -17,6 +17,7 @@ Cleave.js has a simple purpose: to help you format input text content automatica
 - Custom delimiter, prefix and blocks pattern
 - CommonJS / AMD mode
 - ReactJS component
+- AngularJS directive (1.x)
 
 **TL;DR** [the demo page](http://nosir.github.io/cleave.js/)
 
@@ -144,11 +145,55 @@ As you can see, here you simply use `<Cleave/>` as a normal `<input/>` field
 
 Usage for `Webpack`, `Browserify` and more in documentation: [ReactJS component usage](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-component-usage.md)
 
+## AngularJS directive usage
+
+First include the directive module:
+
+```html
+<script src="cleave-angular.min.js"></script>
+<script src="cleave-phone.{country}.js"></script>
+```
+
+And in the model:
+
+```js
+angular.module('app', ['cleave.js'])
+
+.controller('AppController', function($scope) {
+    $scope.onCreditCardTypeChanged = function(type) {
+        $scope.model.creditCardType = type;
+    };
+    
+    $scope.model = {
+        value: ''
+    };
+    
+    $scope.options = {
+        creditCard: {
+            creditCard: true,
+            onCreditCardTypeChanged: $scope.onCreditCardTypeChanged
+        }
+    };
+});
+```
+
+Then easily you can apply `cleave` directive with `input` field:
+
+```html
+<div ng-controller="AppController">
+    <input ng-model="model.value" ng-whatever="..." type="text" placeholder="Enter credit card number"
+        cleave options="options.creditCard"/>
+</div>
+```
+
+More usage in documentation: [Angular directive usage](https://github.com/nosir/cleave.js/blob/master/doc/angularjs-directive-usage.md)
+
 ## Playground
 
 - [Plain JSFiddle (Basic usage)](https://jsfiddle.net/nosir/kbaxx64s/)
 - [Plain JSFiddle (More examples)](https://jsfiddle.net/nosir/aLnhdf3z/)
 - [React JSFiddle](https://jsfiddle.net/nosir/gLLsrxxf/)
+- [Angular JSFiddle](https://jsfiddle.net/nosir/q58sh22t/)
 
 ## Documentation
 
@@ -158,6 +203,7 @@ Usage for `Webpack`, `Browserify` and more in documentation: [ReactJS component 
     - [Public methods](https://github.com/nosir/cleave.js/blob/master/doc/public-methods.md)
 - [Phone lib addon](https://github.com/nosir/cleave.js/blob/master/doc/phone-lib-addon.md)
 - [ReactJS component usage](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-component-usage.md)
+- [AngularJS directive usage](https://github.com/nosir/cleave.js/blob/master/doc/angularjs-directive-usage.md)
 
 ## Building & Running tests
 
@@ -182,7 +228,7 @@ gulp mocha && gulp eslint
 - [x] Add credit card type detection callback
 - [x] Mocha unit tests for formatter
 - [ ] Fix the classic cursor jumping issue
-- [ ] AngularJS component (WIP...)
+- [x] AngularJS directive (1.x)
 - [ ] PhantomJS / Jest browser tests
 
 > For contributors, we have a [not in the plan](https://github.com/nosir/cleave.js/blob/master/doc/not-in-the-plan.md) list you may concern.
