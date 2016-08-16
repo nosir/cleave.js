@@ -1,8 +1,7 @@
 module.exports = {
     "parser":       "babel-eslint",
     "globals":      {
-        "angular": 1,
-        "Cleave":  1
+        "angular": 1
     },
     "rules":        {
         "quotes":          [

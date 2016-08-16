@@ -154,7 +154,7 @@ First include the directive module:
 <script src="cleave-phone.{country}.js"></script>
 ```
 
-And in the model:
+And in your model:
 
 ```js
 angular.module('app', ['cleave.js'])
@@ -165,7 +165,7 @@ angular.module('app', ['cleave.js'])
     };
     
     $scope.model = {
-        value: ''
+        rawValue: ''
     };
     
     $scope.options = {
@@ -177,11 +177,11 @@ angular.module('app', ['cleave.js'])
 });
 ```
 
-Then easily you can apply `cleave` directive with `input` field:
+Then easily you can apply `cleave` directive to `input` field:
 
 ```html
 <div ng-controller="AppController">
-    <input ng-model="model.value" ng-whatever="..." type="text" placeholder="Enter credit card number"
+    <input ng-model="model.rawValue" ng-whatever="..." type="text" placeholder="Enter credit card number"
         cleave options="options.creditCard"/>
 </div>
 ```

@@ -9,19 +9,26 @@ angular.module('cleave.js', [])
                 onValueChange: '&?'
             },
 
-            controller: function ($scope, $element) {
-                $scope.cleave = new Cleave($element[0], $scope.options);
-                $scope.onValueChange = $scope.onValueChange || null;
-            },
+            compile: function () {
+                return {
+                    pre: function ($scope, $element, attrs, ngModelCtrl) {
+                        $scope.cleave = new window.Cleave($element[0], $scope.options);
 
-            link: function ($scope, $element, attrs, ngModel) {
-                if ($scope.onValueChange) {
-                    $scope.$watch(function () {
-                        return ngModel.$modelValue;
-                    }, function () {
-                        $scope.onValueChange()($scope.cleave.getFormattedValue(), $scope.cleave.getRawValue());
-                    });
-                }
+                        ngModelCtrl.$formatters.push(function (val) {
+                            $scope.cleave.setRawValue(val);
+
+                            return $scope.cleave.getFormattedValue();
+                        });
+
+                        ngModelCtrl.$parsers.push(function (newFormattedValue) {
+                            if ($scope.onValueChange) {
+                                $scope.onValueChange()(newFormattedValue);
+                            }
+
+                            return $scope.cleave.getRawValue();
+                        });
+                    }
+                };
             }
         };
     });
