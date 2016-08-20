@@ -5,14 +5,14 @@ angular.module('cleave.js', [])
             require:  'ngModel',
 
             scope: {
-                options:       '=',
+                cleave:        '=',
                 onValueChange: '&?'
             },
 
             compile: function () {
                 return {
                     pre: function ($scope, $element, attrs, ngModelCtrl) {
-                        $scope.cleave = new window.Cleave($element[0], $scope.options);
+                        $scope.cleave = new window.Cleave($element[0], $scope.cleave);
 
                         ngModelCtrl.$formatters.push(function (val) {
                             $scope.cleave.setRawValue(val);

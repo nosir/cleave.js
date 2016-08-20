@@ -43,7 +43,7 @@ Then easily you can apply `cleave` directive to `input` field:
 ```html
 <div ng-controller="AppController">
     <input ng-model="model.rawValue" ng-whatever="..." type="text" placeholder="Enter credit card number"
-        cleave options="options.creditCard"/>
+        cleave="options.creditCard"/>
 </div>
 ```
 
@@ -86,7 +86,7 @@ Then in your html:
 ```html
 <div ng-controller="AppController">
     <input ng-model="model.rawValue" ng-whatever="..." type="text" placeholder="Enter credit card number"
-        cleave options="options.creditCard" on-value-change="onCleaveValueChange"/>
+        cleave="options.creditCard" on-value-change="onCleaveValueChange"/>
     
     <p>raw (ng-model) value: {{model.rawValue}}</p>
     <p>formatted value: {{model.formattedValue}}</p>

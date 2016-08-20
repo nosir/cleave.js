@@ -182,7 +182,7 @@ Then easily you can apply `cleave` directive to `input` field:
 ```html
 <div ng-controller="AppController">
     <input ng-model="model.rawValue" ng-whatever="..." type="text" placeholder="Enter credit card number"
-        cleave options="options.creditCard"/>
+        cleave="options.creditCard"/>
 </div>
 ```
 
