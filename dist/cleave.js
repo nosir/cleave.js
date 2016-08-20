@@ -152,7 +152,7 @@ Cleave.prototype = {
         value = Util.stripDelimiters(value, pps.delimiter, pps.delimiters);
 
         // strip prefix
-        value = Util.getPrefixStrippedValue(value, pps.prefixLength);
+        value = Util.getPrefixStrippedValue(value, pps.prefix, pps.prefixLength);
 
         // strip non-numeric characters
         value = pps.numericOnly ? Util.strip(value, /[^\d]/g) : value;
@@ -338,8 +338,24 @@ var Util = {
     // for prefix: PRE
     // (PRE123, 3) -> 123
     // (PR123, 3) -> 23 this happens when user hits backspace in front of "PRE"
-    getPrefixStrippedValue: function (value, prefixLength) {
+    getPrefixStrippedValue: function (value, prefix, prefixLength) {
+        if (value.slice(0, prefixLength) !== prefix) {
+            var diffIndex = this.getFirstDiffIndex(prefix, value.slice(0, prefixLength));
+
+            value = prefix + value.slice(diffIndex, diffIndex + 1) + value.slice(prefixLength + 1);
+        }
+
         return value.slice(prefixLength);
+    },
+
+    getFirstDiffIndex: function (prev, current) {
+        var index = 0;
+
+        while (prev.charAt(index) === current.charAt(index))
+            if (prev.charAt(index++) === '')
+                return -1;
+
+        return index;
     },
 
     getFormattedValue: function (value, blocks, blocksLength, delimiter, delimiters) {

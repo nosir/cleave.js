@@ -55,16 +55,20 @@ var Util = {
     getPrefixStrippedValue: function (value, prefix, prefixLength) {
         if (value.slice(0, prefixLength) !== prefix) {
             var diffIndex = this.getFirstDiffIndex(prefix, value.slice(0, prefixLength));
-            value = prefix + value.slice(diffIndex, diffIndex+1) + value.slice(prefixLength+1);
+
+            value = prefix + value.slice(diffIndex, diffIndex + 1) + value.slice(prefixLength + 1);
         }
+
         return value.slice(prefixLength);
     },
 
-    getFirstDiffIndex: function(prev, current) {
+    getFirstDiffIndex: function (prev, current) {
         var index = 0;
-        while (prev.charAt(index) === current.charAt(index)) 
+
+        while (prev.charAt(index) === current.charAt(index))
             if (prev.charAt(index++) === '')
                 return -1;
+
         return index;
     },
 

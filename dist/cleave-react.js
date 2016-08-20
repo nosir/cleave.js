@@ -254,7 +254,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value = Util.stripDelimiters(value, pps.delimiter, pps.delimiters);
 
 	        // strip prefix
-	        value = Util.getPrefixStrippedValue(value, pps.prefixLength);
+	        value = Util.getPrefixStrippedValue(value, pps.prefix, pps.prefixLength);
 
 	        // strip non-numeric characters
 	        value = pps.numericOnly ? Util.strip(value, /[^\d]/g) : value;
@@ -792,8 +792,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // for prefix: PRE
 	    // (PRE123, 3) -> 123
 	    // (PR123, 3) -> 23 this happens when user hits backspace in front of "PRE"
-	    getPrefixStrippedValue: function getPrefixStrippedValue(value, prefixLength) {
+	    getPrefixStrippedValue: function getPrefixStrippedValue(value, prefix, prefixLength) {
+	        if (value.slice(0, prefixLength) !== prefix) {
+	            var diffIndex = this.getFirstDiffIndex(prefix, value.slice(0, prefixLength));
+
+	            value = prefix + value.slice(diffIndex, diffIndex + 1) + value.slice(prefixLength + 1);
+	        }
+
 	        return value.slice(prefixLength);
+	    },
+
+	    getFirstDiffIndex: function getFirstDiffIndex(prev, current) {
+	        var index = 0;
+
+	        while (prev.charAt(index) === current.charAt(index)) {
+	            if (prev.charAt(index++) === '') return -1;
+	        }return index;
 	    },
 
 	    getFormattedValue: function getFormattedValue(value, blocks, blocksLength, delimiter, delimiters) {
