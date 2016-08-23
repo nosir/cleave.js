@@ -115,7 +115,7 @@ var Cleave = React.createClass({
         // external google closure lib
         try {
             pps.phoneFormatter = new PhoneFormatter(
-                new window.Cleave.AsYouTypeFormatter(pps.phoneRegionCode),
+                new Cleave.AsYouTypeFormatter(pps.phoneRegionCode),
                 pps.delimiter
             );
         } catch (ex) {
@@ -273,4 +273,4 @@ var Cleave = React.createClass({
     }
 });
 
-module.exports = window.Cleave = Cleave;
+module.exports = Cleave;
