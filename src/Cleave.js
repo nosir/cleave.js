@@ -244,21 +244,22 @@ Cleave.prototype = {
     },
 
     getRawValue: function () {
-        var owner = this, 
+        var owner = this,
             pps = owner.properties,
             Util = Cleave.Util,
-            inputValue = owner.element.value,
-            rawValueTrimPrefix = owner.properties.rawValueTrimPrefix;
+            rawValue = owner.element.value;
 
-        if (rawValueTrimPrefix) {
-            inputValue = Util.getPrefixStrippedValue(inputValue, pps.prefix, pps.prefixLength);
+        if (pps.rawValueTrimPrefix) {
+            rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength);
         }
 
         if (pps.numeral) {
-            return pps.numeralFormatter.getRawValue(inputValue);
+            rawValue = pps.numeralFormatter.getRawValue(rawValue);
+        } else {
+            rawValue = Util.stripDelimiters(rawValue, pps.delimiter, pps.delimiters);
         }
 
-        return Cleave.Util.stripDelimiters(inputValue, pps.delimiter, pps.delimiters);
+        return rawValue;
     },
 
     getFormattedValue: function () {

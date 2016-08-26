@@ -139,16 +139,24 @@ var Cleave = React.createClass({
     },
 
     onChange: function (event) {
-        var owner = this, pps = owner.properties;
+        var owner = this, pps = owner.properties,
+            rawValue;
 
         owner.onInput(event.target.value);
 
-        if (pps.numeral) {
-            event.target.rawValue = pps.numeralFormatter.getRawValue(pps.result);
-        } else {
-            event.target.rawValue = Util.stripDelimiters(pps.result, pps.delimiter, pps.delimiters);
+        rawValue = pps.result;
+
+        if (pps.rawValueTrimPrefix) {
+            rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength);
         }
 
+        if (pps.numeral) {
+            rawValue = pps.numeralFormatter.getRawValue(rawValue);
+        } else {
+            rawValue = Util.stripDelimiters(rawValue, pps.delimiter, pps.delimiters);
+        }
+
+        event.target.rawValue = rawValue;
         event.target.value = pps.result;
 
         owner.registeredEvents.onChange(event);

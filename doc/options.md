@@ -21,6 +21,7 @@
     - [delimiter](#delimiter)
     - [delimiters](#delimiters)
     - [prefix](#prefix)
+    - [rawValueTrimPrefix](#rawvaluetrimprefix)
     - [numericOnly](#numericonly)
     - [uppercase](#uppercase)
     - [lowercase](#lowercase)
@@ -286,6 +287,25 @@ new Cleave('.my-input', {
 
 ```js
 // 253874 XXX XXX
+```
+
+### `rawValueTrimPrefix`
+
+A `Boolean` value indicates if to trim prefix in calling `getRawValue()` or getting `rawValue` in AngularJS or ReactJS component.
+
+**Default value**: `false`
+
+```js
+new Cleave('.my-input', {
+    numeral: true,
+    prefix: '$',
+    rawValueTrimPrefix: true
+});
+```
+
+```js
+// formatted value: $123,456.78
+// raw value: 123456.78
 ```
 
 ### `numericOnly`
