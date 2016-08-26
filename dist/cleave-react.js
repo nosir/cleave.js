@@ -906,6 +906,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        target.backspace = false;
 	        target.result = '';
+	        target.rawValueTrimPrefix = opts.rawValueTrimPrefix || false;
 
 	        return target;
 	    }

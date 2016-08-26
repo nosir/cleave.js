@@ -244,8 +244,15 @@ Cleave.prototype = {
     },
 
     getRawValue: function () {
-        var owner = this, pps = owner.properties,
-            inputValue = owner.element.value;
+        var owner = this, 
+            pps = owner.properties,
+            Util = Cleave.Util,
+            inputValue = owner.element.value,
+            rawValueTrimPrefix = owner.properties.rawValueTrimPrefix;
+
+        if (rawValueTrimPrefix) {
+            inputValue = Util.getPrefixStrippedValue(inputValue, pps.prefix, pps.prefixLength);
+        }
 
         if (pps.numeral) {
             return pps.numeralFormatter.getRawValue(inputValue);

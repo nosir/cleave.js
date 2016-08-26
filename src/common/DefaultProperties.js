@@ -60,6 +60,7 @@ var DefaultProperties = {
 
         target.backspace = false;
         target.result = '';
+        target.rawValueTrimPrefix = opts.rawValueTrimPrefix || false;
 
         return target;
     }
