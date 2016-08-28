@@ -90,7 +90,7 @@ Cleave.prototype = {
         // external google closure lib
         try {
             pps.phoneFormatter = new Cleave.PhoneFormatter(
-                new window.Cleave.AsYouTypeFormatter(pps.phoneRegionCode),
+                new pps.root.Cleave.AsYouTypeFormatter(pps.phoneRegionCode),
                 pps.delimiter
             );
         } catch (ex) {

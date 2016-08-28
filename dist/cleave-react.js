@@ -177,7 +177,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // Cleave.AsYouTypeFormatter should be provided by
 	        // external google closure lib
 	        try {
-	            pps.phoneFormatter = new PhoneFormatter(new window.Cleave.AsYouTypeFormatter(pps.phoneRegionCode), pps.delimiter);
+	            pps.phoneFormatter = new PhoneFormatter(new pps.root.Cleave.AsYouTypeFormatter(pps.phoneRegionCode), pps.delimiter);
 	        } catch (ex) {
 	            throw new Error('Please include phone-type-formatter.{country}.js lib');
 	        }
@@ -342,7 +342,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	});
 
-	module.exports = window.Cleave = Cleave;
+	module.exports = Cleave;
 
 /***/ },
 /* 1 */
@@ -854,7 +854,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
+	/* WEBPACK VAR INJECTION */(function(global, module) {'use strict';
 
 	/**
 	 * Props Assignment
@@ -912,6 +912,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        target.blocks = opts.blocks || [];
 	        target.blocksLength = target.blocks.length;
 
+	        target.root = (typeof global === 'undefined' ? 'undefined' : _typeof(global)) === "object" && global ? global : window;
+
 	        target.maxLength = 0;
 
 	        target.backspace = false;
@@ -924,7 +926,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	if (( false ? 'undefined' : _typeof(module)) === 'object' && _typeof(module.exports) === 'object') {
 	    module.exports = exports = DefaultProperties;
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(3)(module)))
 
 /***/ }
 /******/ ])

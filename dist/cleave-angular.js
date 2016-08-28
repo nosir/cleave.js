@@ -92,7 +92,7 @@ Cleave.prototype = {
         // external google closure lib
         try {
             pps.phoneFormatter = new Cleave.PhoneFormatter(
-                new window.Cleave.AsYouTypeFormatter(pps.phoneRegionCode),
+                new pps.root.Cleave.AsYouTypeFormatter(pps.phoneRegionCode),
                 pps.delimiter
             );
         } catch (ex) {
@@ -483,6 +483,8 @@ var DefaultProperties = {
 
         target.blocks = opts.blocks || [];
         target.blocksLength = target.blocks.length;
+
+        target.root = (typeof global === "object" && global) ? global : window;
 
         target.maxLength = 0;
 
