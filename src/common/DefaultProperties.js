@@ -43,6 +43,7 @@ var DefaultProperties = {
         target.prefix = (target.creditCard || target.phone || target.date) ? '' : (opts.prefix || '');
         target.prefixLength = target.prefix.length;
         target.rawValueTrimPrefix = !!opts.rawValueTrimPrefix;
+        target.copyDelimiter = !!opts.copyDelimiter;
 
         target.initValue = opts.initValue || '';
 
