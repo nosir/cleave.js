@@ -113,7 +113,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            onKeyDown: onKeyDown || Util.noop
 	        };
 
-	        options.initValue = value;
+	        options.initValue = value.toString();
 
 	        owner.properties = DefaultProperties.assign({}, options);
 
