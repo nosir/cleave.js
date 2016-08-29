@@ -81,7 +81,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            phoneRegionCode = nextProps.options.phoneRegionCode,
 	            newValue = nextProps.value;
 
-	        if (newValue) {
+	        if (newValue !== undefined) {
 	            newValue = newValue.toString();
 
 	            if (newValue !== owner.properties.initValue) {
@@ -113,7 +113,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            onKeyDown: onKeyDown || Util.noop
 	        };
 
-	        options.initValue = value;
+	        options.initValue = value.toString();
 
 	        owner.properties = DefaultProperties.assign({}, options);
 

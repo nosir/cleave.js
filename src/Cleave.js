@@ -118,7 +118,7 @@ Cleave.prototype = {
 
     onCut: function(e) {
         this.copyClipboardData(e);
-        this.element.value = '';
+        this.onInput('');
     },
 
     onCopy: function(e) {
@@ -137,12 +137,14 @@ Cleave.prototype = {
         } else {
             textToCopy = inputValue;
         }
+
         try {
             if (e.clipboardData) {
                 e.clipboardData.setData('Text', textToCopy);
             } else {
                 window.clipboardData.setData('Text', textToCopy); 
             }
+
             e.preventDefault(); 
         } catch (ex) {
             //  empty
