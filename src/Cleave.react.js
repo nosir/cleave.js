@@ -19,7 +19,7 @@ var Cleave = React.createClass({
             phoneRegionCode = nextProps.options.phoneRegionCode,
             newValue = nextProps.value;
 
-        if (newValue) {
+        if (newValue !== undefined) {
             newValue = newValue.toString();
 
             if (newValue !== owner.properties.initValue) {
