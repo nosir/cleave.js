@@ -113,7 +113,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            onKeyDown: onKeyDown || Util.noop
 	        };
 
-	        options.initValue = value.toString();
+	        options.initValue = value;
 
 	        owner.properties = DefaultProperties.assign({}, options);
 
@@ -904,7 +904,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        target.rawValueTrimPrefix = !!opts.rawValueTrimPrefix;
 	        target.copyDelimiter = !!opts.copyDelimiter;
 
-	        target.initValue = opts.initValue || '';
+	        target.initValue = opts.initValue === undefined ? '' : opts.initValue.toString();
 
 	        target.delimiter = opts.delimiter || opts.delimiter === '' ? opts.delimiter : opts.date ? '/' : opts.numeral ? ',' : opts.phone ? ' ' : ' ';
 	        target.delimiters = opts.delimiters || [];
