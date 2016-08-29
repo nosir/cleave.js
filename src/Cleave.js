@@ -35,8 +35,8 @@ Cleave.prototype = {
 
         owner.onChangeListener = owner.onChange.bind(owner);
         owner.onKeyDownListener = owner.onKeyDown.bind(owner);
-        owner.onCutListener = owner.onCutOrCopy.bind(owner);
-        owner.onCopyListener = owner.onCutOrCopy.bind(owner);
+        owner.onCutListener = owner.onCut.bind(owner);
+        owner.onCopyListener = owner.onCopy.bind(owner);
 
         owner.element.addEventListener('input', owner.onChangeListener);
         owner.element.addEventListener('keydown', owner.onKeyDownListener);
@@ -116,7 +116,16 @@ Cleave.prototype = {
         this.onInput(this.element.value);
     },
 
-    onCutOrCopy: function(e) {
+    onCut: function(e) {
+        this.copyClipboardData(e);
+        this.element.value = '';
+    },
+
+    onCopy: function(e) {
+        this.copyClipboardData(e);
+    },
+
+    copyClipboardData: function(e) {
         var owner = this, 
             pps = owner.properties,
             Util = Cleave.Util,
@@ -129,7 +138,11 @@ Cleave.prototype = {
             textToCopy = inputValue;
         }
         try {
-            e.clipboardData.setData('text/plain', textToCopy);
+            if (e.clipboardData) {
+                e.clipboardData.setData('Text', textToCopy);
+            } else {
+                window.clipboardData.setData('Text', textToCopy); 
+            }
             e.preventDefault(); 
         } catch (ex) {
             //  empty
