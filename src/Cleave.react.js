@@ -38,9 +38,10 @@ var Cleave = React.createClass({
 
     getInitialState: function () {
         var owner = this,
-            { value, options, onKeyDown, onChange, ...other } = owner.props;
+            { value, options, onKeyDown, onChange, onInit, ...other } = owner.props;
 
         owner.registeredEvents = {
+            onInit:    onInit || Util.noop,
             onChange:  onChange || Util.noop,
             onKeyDown: onKeyDown || Util.noop
         };
@@ -71,6 +72,8 @@ var Cleave = React.createClass({
         owner.initNumeralFormatter();
 
         owner.onInput(pps.initValue);
+
+        owner.registeredEvents.onInit(owner);
     },
 
     initNumeralFormatter: function () {
@@ -121,6 +124,23 @@ var Cleave = React.createClass({
         } catch (ex) {
             throw new Error('Please include phone-type-formatter.{country}.js lib');
         }
+    },
+
+    setRawValue: function (value) {
+        var owner = this,
+            pps = owner.properties;
+
+        value = value.toString();
+
+        if (pps.numeral) {
+            value = value.replace('.', pps.numeralDecimalMark);
+        }
+
+        owner.onChange({target: {value: value}});
+    },
+
+    onInit: function (owner) {
+        return owner;
     },
 
     onKeyDown: function (event) {

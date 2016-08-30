@@ -105,10 +105,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var options = _owner$props.options;
 	        var onKeyDown = _owner$props.onKeyDown;
 	        var onChange = _owner$props.onChange;
+	        var onInit = _owner$props.onInit;
 
-	        var other = _objectWithoutProperties(_owner$props, ['value', 'options', 'onKeyDown', 'onChange']);
+	        var other = _objectWithoutProperties(_owner$props, ['value', 'options', 'onKeyDown', 'onChange', 'onInit']);
 
 	        owner.registeredEvents = {
+	            onInit: onInit || Util.noop,
 	            onChange: onChange || Util.noop,
 	            onKeyDown: onKeyDown || Util.noop
 	        };
@@ -139,6 +141,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        owner.initNumeralFormatter();
 
 	        owner.onInput(pps.initValue);
+
+	        owner.registeredEvents.onInit(owner);
 	    },
 
 	    initNumeralFormatter: function initNumeralFormatter() {
@@ -181,6 +185,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	        } catch (ex) {
 	            throw new Error('Please include phone-type-formatter.{country}.js lib');
 	        }
+	    },
+
+	    setRawValue: function setRawValue(value) {
+	        var owner = this,
+	            pps = owner.properties;
+
+	        value = value.toString();
+
+	        if (pps.numeral) {
+	            value = value.replace('.', pps.numeralDecimalMark);
+	        }
+
+	        owner.onChange({ target: { value: value } });
+	    },
+
+	    onInit: function onInit(owner) {
+	        return owner;
 	    },
 
 	    onKeyDown: function onKeyDown(event) {
