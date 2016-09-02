@@ -150,8 +150,8 @@ Usage for `Webpack`, `Browserify` and more in documentation: [ReactJS component 
 First include the directive module:
 
 ```html
-<script src="cleave-angular.min.js"></script>
-<script src="cleave-phone.{country}.js"></script>
+<script src="cleave.js/dist/cleave-angular.min.js"></script>
+<script src="cleave.js/dist/addons/cleave-phone.{country}.js"></script>
 ```
 
 And in your model:
