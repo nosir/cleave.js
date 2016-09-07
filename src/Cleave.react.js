@@ -289,14 +289,8 @@ var Cleave = React.createClass({
     },
 
     render: function () {
-        var owner = this;
-
-        var propsToTransfer = Object.assign({}, owner.props);
-        delete propsToTransfer.value;
-        delete propsToTransfer.options;
-        delete propsToTransfer.onKeyDown;
-        delete propsToTransfer.onChange;
-        delete propsToTransfer.onInit;
+        var owner = this,
+            { value, options, onKeyDown, onChange, onInit, ...propsToTransfer } = owner.props;
 
         return (
             <input type="text" {...propsToTransfer}

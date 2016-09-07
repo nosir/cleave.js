@@ -107,7 +107,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var onChange = _owner$props.onChange;
 	        var onInit = _owner$props.onInit;
 
-	        var other = _objectWithoutProperties(_owner$props, ['value', 'options', 'onKeyDown', 'onChange', 'onInit']);
 
 	        owner.registeredEvents = {
 	            onInit: onInit || Util.noop,
@@ -361,9 +360,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var onChange = _owner$props2.onChange;
 	        var onInit = _owner$props2.onInit;
 
-	        var other = _objectWithoutProperties(_owner$props2, ['value', 'options', 'onKeyDown', 'onChange', 'onInit']);
+	        var propsToTransfer = _objectWithoutProperties(_owner$props2, ['value', 'options', 'onKeyDown', 'onChange', 'onInit']);
 
-	        return React.createElement('input', _extends({ type: 'text' }, other, {
+	        return React.createElement('input', _extends({ type: 'text' }, propsToTransfer, {
 	            value: owner.state.value,
 	            onKeyDown: owner.onKeyDown,
 	            onChange: owner.onChange }));
