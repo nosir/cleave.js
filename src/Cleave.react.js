@@ -38,7 +38,7 @@ var Cleave = React.createClass({
 
     getInitialState: function () {
         var owner = this,
-            { value, options, onKeyDown, onChange, onInit, ...other } = owner.props;
+            { value, options, onKeyDown, onChange, onInit } = owner.props;
 
         owner.registeredEvents = {
             onInit:    onInit || Util.noop,
@@ -51,7 +51,6 @@ var Cleave = React.createClass({
         owner.properties = DefaultProperties.assign({}, options);
 
         return {
-            other: other,
             value: owner.properties.result
         };
     },
@@ -292,8 +291,15 @@ var Cleave = React.createClass({
     render: function () {
         var owner = this;
 
+        var propsToTransfer = Object.assign({}, owner.props);
+        delete propsToTransfer.value;
+        delete propsToTransfer.options;
+        delete propsToTransfer.onKeyDown;
+        delete propsToTransfer.onChange;
+        delete propsToTransfer.onInit;
+
         return (
-            <input type="text" {...owner.state.other}
+            <input type="text" {...propsToTransfer}
                    value={owner.state.value}
                    onKeyDown={owner.onKeyDown}
                    onChange={owner.onChange}/>

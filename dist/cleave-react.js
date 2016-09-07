@@ -120,7 +120,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        owner.properties = DefaultProperties.assign({}, options);
 
 	        return {
-	            other: other,
 	            value: owner.properties.result
 	        };
 	    },
@@ -355,8 +354,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    render: function render() {
 	        var owner = this;
+	        var _owner$props2 = owner.props;
+	        var value = _owner$props2.value;
+	        var options = _owner$props2.options;
+	        var onKeyDown = _owner$props2.onKeyDown;
+	        var onChange = _owner$props2.onChange;
+	        var onInit = _owner$props2.onInit;
 
-	        return React.createElement('input', _extends({ type: 'text' }, owner.state.other, {
+	        var other = _objectWithoutProperties(_owner$props2, ['value', 'options', 'onKeyDown', 'onChange', 'onInit']);
+
+	        return React.createElement('input', _extends({ type: 'text' }, other, {
 	            value: owner.state.value,
 	            onKeyDown: owner.onKeyDown,
 	            onChange: owner.onChange }));
