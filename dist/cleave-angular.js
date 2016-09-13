@@ -752,11 +752,15 @@ NumeralFormatter.prototype = {
             // replace the first decimal mark with reserved placeholder
             .replace(owner.numeralDecimalMark, 'M')
 
-            // replace the first minus sign reserved placeholder
+            // strip non numeric letters except minus and "M"
+            // this is to ensure prefix has been stripped
+            .replace(/[^\dM-]/g, '')
+
+            // replace the leading minus with reserved placeholder
             .replace(/^\-/, 'N')
 
-            // strip the non numeric letters except the minus sign and decimal placeholder
-            .replace(/[^\dMN]/g, '')
+            // strip the other minus sign (if present)
+            .replace(/\-/g, '')
 
             // replace the minus sign (if present)
             .replace('N', '-')

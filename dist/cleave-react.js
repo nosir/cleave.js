@@ -362,10 +362,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        var propsToTransfer = _objectWithoutProperties(_owner$props2, ['value', 'options', 'onKeyDown', 'onChange', 'onInit']);
 
-	        return React.createElement('input', _extends({ type: 'text' }, propsToTransfer, {
+	        return React.createElement('input', _extends({
+	            type: 'text',
 	            value: owner.state.value,
 	            onKeyDown: owner.onKeyDown,
-	            onChange: owner.onChange }));
+	            onChange: owner.onChange
+	        }, propsToTransfer, {
+	            propsToIgnore: [value, options, onKeyDown, onChange, onInit]
+	        }));
 	    }
 	});
 
@@ -417,11 +421,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // replace the first decimal mark with reserved placeholder
 	        .replace(owner.numeralDecimalMark, 'M')
 
-	        // replace the first minus sign reserved placeholder
+	        // strip non numeric letters except minus and "M"
+	        // this is to ensure prefix has been stripped
+	        .replace(/[^\dM-]/g, '')
+
+	        // replace the leading minus with reserved placeholder
 	        .replace(/^\-/, 'N')
 
-	        // strip the non numeric letters except the minus sign and decimal placeholder
-	        .replace(/[^\dMN]/g, '')
+	        // strip the other minus sign (if present)
+	        .replace(/\-/g, '')
 
 	        // replace the minus sign (if present)
 	        .replace('N', '-')
