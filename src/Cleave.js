@@ -17,8 +17,6 @@ var Cleave = function (element, opts) {
 
     if (!owner.element) {
         throw new Error('[cleave.js] Please check the element');
-
-        return;
     }
 
     opts.initValue = owner.element.value;
