@@ -99,6 +99,4 @@ var Util = {
     }
 };
 
-if (typeof module === 'object' && typeof module.exports === 'object') {
-    module.exports = exports = Util;
-}
+module.exports = Util;

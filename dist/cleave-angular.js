@@ -54,7 +54,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
 
 	/**
 	 * Construct a new Cleave instance by passing the configuration object
@@ -387,9 +387,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	Cleave.Util = __webpack_require__(5);
 	Cleave.DefaultProperties = __webpack_require__(6);
 
+	// for angular directive
+	((typeof global === 'object' && global) ? global : window)["Cleave"] = Cleave;
+
 	// CommonJS
 	module.exports = Cleave;
 
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
 /* 1 */
@@ -859,9 +863,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	};
 
-	if (typeof module === 'object' && typeof module.exports === 'object') {
-	    module.exports = exports = Util;
-	}
+	module.exports = Util;
 
 
 /***/ },

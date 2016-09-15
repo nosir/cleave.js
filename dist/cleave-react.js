@@ -85,7 +85,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var PhoneFormatter = __webpack_require__(5);
 	var CreditCardDetector = __webpack_require__(6);
 	var Util = __webpack_require__(7);
-	var DefaultProperties = __webpack_require__(9);
+	var DefaultProperties = __webpack_require__(8);
 
 	var Cleave = React.createClass({
 	    displayName: 'Cleave',
@@ -760,11 +760,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 7 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	'use strict';
 
 	var Util = {
 	    noop: function noop() {},
@@ -862,29 +860,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	};
 
-	if (( false ? 'undefined' : _typeof(module)) === 'object' && _typeof(module.exports) === 'object') {
-	    module.exports = exports = Util;
-	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)(module)))
+	module.exports = Util;
 
 /***/ },
 /* 8 */
-/***/ function(module, exports) {
-
-	module.exports = function(module) {
-		if(!module.webpackPolyfill) {
-			module.deprecate = function() {};
-			module.paths = [];
-			// module.parent = undefined by default
-			module.children = [];
-			module.webpackPolyfill = 1;
-		}
-		return module;
-	}
-
-
-/***/ },
-/* 9 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
