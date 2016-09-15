@@ -8,12 +8,21 @@ var paths = {
     src:  './src/'
 };
 
-var entry = 'react.js';
+gulp.task('js:vanilla', function () {
+    return gulp.src(path.join(paths.src + 'Cleave.js'))
+        .pipe(webpack({
+            output: {
+                library:       'Cleave',
+                libraryTarget: 'umd',
+                filename:      'cleave.js'
+            }
+        }))
+        .pipe(gulp.dest(paths.dist));
+});
 
 gulp.task('js:react', function () {
-    return gulp.src(path.join(paths.root, entry))
+    return gulp.src(path.join(paths.root, 'react.js'))
         .pipe(webpack({
-            entry:     './src/Cleave.react.js',
             output:    {
                 library:       'Cleave',
                 libraryTarget: 'umd',

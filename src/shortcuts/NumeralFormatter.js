@@ -78,6 +78,4 @@ NumeralFormatter.prototype = {
     }
 };
 
-if (typeof module === 'object' && typeof module.exports === 'object') {
-    module.exports = exports = NumeralFormatter;
-}
+module.exports = NumeralFormatter;

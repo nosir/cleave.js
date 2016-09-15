@@ -49,20 +49,6 @@ gulp.task('min-no-mangle', function () {
         .pipe(gulp.dest(path.join(paths.dist)));
 });
 
-gulp.task('js', function () {
-    return gulp.src([
-            path.join(paths.src, paths.build, 'prefix.js'),
-            path.join(paths.src, 'Cleave.js'),
-            path.join(paths.src, paths.utils, '**/*.js'),
-            path.join(paths.src, paths.common, '**/*.js'),
-            path.join(paths.src, paths.shortcuts, '**/*.js'),
-            path.join(paths.src, paths.build, 'expose.js'),
-            path.join(paths.src, paths.build, 'suffix.js')
-        ])
-        .pipe(concat('cleave.js'))
-        .pipe(gulp.dest(paths.dist));
-});
-
 gulp.task('js:angular', function () {
     return gulp.src([
             path.join(paths.dist, 'cleave.js'),
@@ -74,7 +60,7 @@ gulp.task('js:angular', function () {
 
 gulp.task('build', gulpsync.sync([
     // sync
-    'js',
+    'js:vanilla',
     'js:react',
     'js:angular',
     [

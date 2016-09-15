@@ -122,6 +122,5 @@ var CreditCardDetector = {
     }
 };
 
-if (typeof module === 'object' && typeof module.exports === 'object') {
-    module.exports = exports = CreditCardDetector;
-}
+module.exports = CreditCardDetector;
+

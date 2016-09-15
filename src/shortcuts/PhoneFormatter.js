@@ -54,6 +54,5 @@ PhoneFormatter.prototype = {
     }
 };
 
-if (typeof module === 'object' && typeof module.exports === 'object') {
-    module.exports = exports = PhoneFormatter;
-}
+module.exports = PhoneFormatter;
+

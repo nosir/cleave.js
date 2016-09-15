@@ -69,6 +69,5 @@ var DefaultProperties = {
     }
 };
 
-if (typeof module === 'object' && typeof module.exports === 'object') {
-    module.exports = exports = DefaultProperties;
-}
+module.exports = DefaultProperties;
+

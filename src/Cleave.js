@@ -320,14 +320,12 @@ Cleave.prototype = {
     }
 };
 
-if (typeof module === 'object' && typeof module.exports === 'object') {
-    Cleave.NumeralFormatter = require('./shortcuts/NumeralFormatter');
-    Cleave.DateFormatter = require('./shortcuts/DateFormatter');
-    Cleave.PhoneFormatter = require('./shortcuts/PhoneFormatter');
-    Cleave.CreditCardDetector = require('./shortcuts/CreditCardDetector');
-    Cleave.Util = require('./utils/Util');
-    Cleave.DefaultProperties = require('./common/DefaultProperties');
+Cleave.NumeralFormatter = require('./shortcuts/NumeralFormatter');
+Cleave.DateFormatter = require('./shortcuts/DateFormatter');
+Cleave.PhoneFormatter = require('./shortcuts/PhoneFormatter');
+Cleave.CreditCardDetector = require('./shortcuts/CreditCardDetector');
+Cleave.Util = require('./utils/Util');
+Cleave.DefaultProperties = require('./common/DefaultProperties');
 
-    // CommonJS
-    module.exports = exports = Cleave;
-}
+// CommonJS
+module.exports = Cleave;

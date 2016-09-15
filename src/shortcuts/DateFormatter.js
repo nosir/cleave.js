@@ -70,6 +70,5 @@ DateFormatter.prototype = {
     }
 };
 
-if (typeof module === 'object' && typeof module.exports === 'object') {
-    module.exports = exports = DateFormatter;
-}
+module.exports = DateFormatter;
+
