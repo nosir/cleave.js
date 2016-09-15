@@ -7,7 +7,7 @@
 		exports["Cleave"] = factory(require("react"));
 	else
 		root["Cleave"] = factory(root["React"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_1__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_2__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -56,18 +56,36 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _Cleave = __webpack_require__(1);
+
+	var _Cleave2 = _interopRequireDefault(_Cleave);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = _Cleave2.default;
+
+/***/ },
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
-	var React = __webpack_require__(1);
+	var React = __webpack_require__(2);
 
-	var NumeralFormatter = __webpack_require__(2);
+	var NumeralFormatter = __webpack_require__(3);
 	var DateFormatter = __webpack_require__(4);
 	var PhoneFormatter = __webpack_require__(5);
 	var CreditCardDetector = __webpack_require__(6);
 	var Util = __webpack_require__(7);
-	var DefaultProperties = __webpack_require__(8);
+	var DefaultProperties = __webpack_require__(9);
 
 	var Cleave = React.createClass({
 	    displayName: 'Cleave',
@@ -376,18 +394,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Cleave;
 
 /***/ },
-/* 1 */
+/* 2 */
 /***/ function(module, exports) {
 
-	module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
+	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
 
 /***/ },
-/* 2 */
-/***/ function(module, exports, __webpack_require__) {
+/* 3 */
+/***/ function(module, exports) {
 
-	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	'use strict';
 
 	var NumeralFormatter = function NumeralFormatter(numeralDecimalMark, numeralDecimalScale, numeralThousandsGroupStyle, delimiter) {
 	    var owner = this;
@@ -467,34 +483,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	};
 
-	if (( false ? 'undefined' : _typeof(module)) === 'object' && _typeof(module.exports) === 'object') {
-	    module.exports = exports = NumeralFormatter;
-	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)(module)))
-
-/***/ },
-/* 3 */
-/***/ function(module, exports) {
-
-	module.exports = function(module) {
-		if(!module.webpackPolyfill) {
-			module.deprecate = function() {};
-			module.paths = [];
-			// module.parent = undefined by default
-			module.children = [];
-			module.webpackPolyfill = 1;
-		}
-		return module;
-	}
-
+	module.exports = NumeralFormatter;
 
 /***/ },
 /* 4 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	'use strict';
 
 	var DateFormatter = function DateFormatter(datePattern) {
 	    var owner = this;
@@ -567,18 +562,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	};
 
-	if (( false ? 'undefined' : _typeof(module)) === 'object' && _typeof(module.exports) === 'object') {
-	    module.exports = exports = DateFormatter;
-	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)(module)))
+	module.exports = DateFormatter;
 
 /***/ },
 /* 5 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	'use strict';
 
 	var PhoneFormatter = function PhoneFormatter(formatter, delimiter) {
 	    var owner = this;
@@ -636,18 +626,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	};
 
-	if (( false ? 'undefined' : _typeof(module)) === 'object' && _typeof(module.exports) === 'object') {
-	    module.exports = exports = PhoneFormatter;
-	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)(module)))
+	module.exports = PhoneFormatter;
 
 /***/ },
 /* 6 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	'use strict';
 
 	var CreditCardDetector = {
 	    blocks: {
@@ -771,10 +756,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	};
 
-	if (( false ? 'undefined' : _typeof(module)) === 'object' && _typeof(module.exports) === 'object') {
-	    module.exports = exports = CreditCardDetector;
-	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)(module)))
+	module.exports = CreditCardDetector;
 
 /***/ },
 /* 7 */
@@ -883,13 +865,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	if (( false ? 'undefined' : _typeof(module)) === 'object' && _typeof(module.exports) === 'object') {
 	    module.exports = exports = Util;
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)(module)))
 
 /***/ },
 /* 8 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	/* WEBPACK VAR INJECTION */(function(global, module) {'use strict';
+	module.exports = function(module) {
+		if(!module.webpackPolyfill) {
+			module.deprecate = function() {};
+			module.paths = [];
+			// module.parent = undefined by default
+			module.children = [];
+			module.webpackPolyfill = 1;
+		}
+		return module;
+	}
+
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
 
 	/**
 	 * Props Assignment
@@ -958,10 +956,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	};
 
-	if (( false ? 'undefined' : _typeof(module)) === 'object' && _typeof(module.exports) === 'object') {
-	    module.exports = exports = DefaultProperties;
-	}
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(3)(module)))
+	module.exports = DefaultProperties;
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }
 /******/ ])

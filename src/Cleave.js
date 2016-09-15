@@ -15,13 +15,17 @@ var Cleave = function (element, opts) {
         owner.element = ((typeof element.length !== 'undefined') && element.length > 0) ? element[0] : element;
     }
 
-    if (owner.element) {
-        opts.initValue = owner.element.value;
+    if (!owner.element) {
+        throw new Error('[cleave.js] Please check the element');
 
-        owner.properties = Cleave.DefaultProperties.assign({}, opts);
-
-        owner.init();
+        return;
     }
+
+    opts.initValue = owner.element.value;
+
+    owner.properties = Cleave.DefaultProperties.assign({}, opts);
+
+    owner.init();
 };
 
 Cleave.prototype = {
@@ -96,7 +100,7 @@ Cleave.prototype = {
                 pps.delimiter
             );
         } catch (ex) {
-            throw new Error('Please include phone-type-formatter.{country}.js lib');
+            throw new Error('[cleave.js] Please include phone-type-formatter.{country}.js lib');
         }
     },
 
@@ -118,24 +122,24 @@ Cleave.prototype = {
         this.onInput(this.element.value);
     },
 
-    onCut: function(e) {
+    onCut: function (e) {
         this.copyClipboardData(e);
         this.onInput('');
     },
 
-    onCopy: function(e) {
+    onCopy: function (e) {
         this.copyClipboardData(e);
     },
 
-    copyClipboardData: function(e) {
-        var owner = this, 
+    copyClipboardData: function (e) {
+        var owner = this,
             pps = owner.properties,
             Util = Cleave.Util,
             inputValue = owner.element.value,
             textToCopy = '';
 
         if (!pps.copyDelimiter) {
-            textToCopy = Util.stripDelimiters(inputValue, pps.delimiter, pps.delimiters);   
+            textToCopy = Util.stripDelimiters(inputValue, pps.delimiter, pps.delimiters);
         } else {
             textToCopy = inputValue;
         }
@@ -144,10 +148,10 @@ Cleave.prototype = {
             if (e.clipboardData) {
                 e.clipboardData.setData('Text', textToCopy);
             } else {
-                window.clipboardData.setData('Text', textToCopy); 
+                window.clipboardData.setData('Text', textToCopy);
             }
 
-            e.preventDefault(); 
+            e.preventDefault();
         } catch (ex) {
             //  empty
         }
