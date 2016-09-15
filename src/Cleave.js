@@ -15,11 +15,13 @@ var Cleave = function (element, opts) {
         owner.element = ((typeof element.length !== 'undefined') && element.length > 0) ? element[0] : element;
     }
 
-    opts.initValue = owner.element.value;
+    if (owner.element) {
+        opts.initValue = owner.element.value;
 
-    owner.properties = Cleave.DefaultProperties.assign({}, opts);
+        owner.properties = Cleave.DefaultProperties.assign({}, opts);
 
-    owner.init();
+        owner.init();
+    }
 };
 
 Cleave.prototype = {
