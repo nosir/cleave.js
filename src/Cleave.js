@@ -332,7 +332,7 @@ Cleave.Util = require('./utils/Util');
 Cleave.DefaultProperties = require('./common/DefaultProperties');
 
 // for angular directive
-((typeof global === 'object' && global) ? global : window)["Cleave"] = Cleave;
+((typeof global === 'object' && global) ? global : window)['Cleave'] = Cleave;
 
 // CommonJS
 module.exports = Cleave;

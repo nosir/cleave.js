@@ -388,7 +388,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	Cleave.DefaultProperties = __webpack_require__(6);
 
 	// for angular directive
-	((typeof global === 'object' && global) ? global : window)["Cleave"] = Cleave;
+	((typeof global === 'object' && global) ? global : window)['Cleave'] = Cleave;
 
 	// CommonJS
 	module.exports = Cleave;
