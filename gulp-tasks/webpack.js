@@ -21,7 +21,7 @@ gulp.task('js:vanilla', function () {
 });
 
 gulp.task('js:react', function () {
-    return gulp.src(path.join(paths.root, 'react.js'))
+    return gulp.src(path.join(paths.src, 'Cleave.react.js'))
         .pipe(webpack({
             output:    {
                 library:       'Cleave',

@@ -7,7 +7,7 @@
 		exports["Cleave"] = factory(require("react"));
 	else
 		root["Cleave"] = factory(root["React"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_2__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_1__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -56,36 +56,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _Cleave = __webpack_require__(1);
-
-	var _Cleave2 = _interopRequireDefault(_Cleave);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.default = _Cleave2.default;
-
-/***/ },
-/* 1 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
-	var React = __webpack_require__(2);
+	var React = __webpack_require__(1);
 
-	var NumeralFormatter = __webpack_require__(3);
-	var DateFormatter = __webpack_require__(4);
-	var PhoneFormatter = __webpack_require__(5);
-	var CreditCardDetector = __webpack_require__(6);
-	var Util = __webpack_require__(7);
-	var DefaultProperties = __webpack_require__(8);
+	var NumeralFormatter = __webpack_require__(2);
+	var DateFormatter = __webpack_require__(3);
+	var PhoneFormatter = __webpack_require__(4);
+	var CreditCardDetector = __webpack_require__(5);
+	var Util = __webpack_require__(6);
+	var DefaultProperties = __webpack_require__(7);
 
 	var Cleave = React.createClass({
 	    displayName: 'Cleave',
@@ -386,7 +368,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            onKeyDown: owner.onKeyDown,
 	            onChange: owner.onChange
 	        }, propsToTransfer, {
-	            propsToIgnore: [value, options, onKeyDown, onChange, onInit]
+	            'data-cleave-ignore': [value, options, onKeyDown, onChange, onInit]
 	        }));
 	    }
 	});
@@ -394,13 +376,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Cleave;
 
 /***/ },
-/* 2 */
+/* 1 */
 /***/ function(module, exports) {
 
-	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
+	module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
 
 /***/ },
-/* 3 */
+/* 2 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -486,7 +468,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = NumeralFormatter;
 
 /***/ },
-/* 4 */
+/* 3 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -565,7 +547,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = DateFormatter;
 
 /***/ },
-/* 5 */
+/* 4 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -629,7 +611,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = PhoneFormatter;
 
 /***/ },
-/* 6 */
+/* 5 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -759,7 +741,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = CreditCardDetector;
 
 /***/ },
-/* 7 */
+/* 6 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -863,7 +845,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Util;
 
 /***/ },
-/* 8 */
+/* 7 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';

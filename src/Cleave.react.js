@@ -299,7 +299,7 @@ var Cleave = React.createClass({
                 onKeyDown={owner.onKeyDown}
                 onChange={owner.onChange}
                 {...propsToTransfer}
-                propsToIgnore={[value, options, onKeyDown, onChange, onInit]}
+                data-cleave-ignore={[value, options, onKeyDown, onChange, onInit]}
             />
         );
     }
