@@ -4,6 +4,7 @@
 
 - Credit card numbers:
     - [creditCard](#creditcard)
+    - [creditCardStrictMode](#creditcardstrictmode)
     - [onCreditCardTypeChanged](#oncreditcardtypechanged)
 - Phone numbers:
     - [phone](#phone)
@@ -52,6 +53,26 @@ new Cleave('.my-input', {
 ```
 
 You can also custom the [delimiter](#delimiter) for credit card numbers
+
+### `creditCardStrictMode`
+
+A `Boolean` value indicates if enable credit card strict mode.
+
+Expand use of 19-digit PANs for visa credit card.
+
+**Default value**: `false`
+
+```js
+new Cleave('.my-input', {
+    creditCard: true,
+    creditCardStrictMode: true
+});
+```
+
+```js
+// Visa: XXXX XXXX XXXX XXXXXXX
+...
+```
 
 ### `onCreditCardTypeChanged`
 

@@ -628,7 +628,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        jcb: [4, 4, 4, 4],
 	        maestro: [4, 4, 4, 4],
 	        visa: [4, 4, 4, 4],
-	        generalLoose: [4, 4, 4, 4],
+	        general: [4, 4, 4, 4],
 	        generalStrict: [4, 4, 4, 7]
 	    },
 
@@ -722,17 +722,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        } else if (re.visa.test(value)) {
 	            return {
 	                type: 'visa',
-	                blocks: blocks.visa
-	            };
-	        } else if (strictMode) {
-	            return {
-	                type: 'unknown',
-	                blocks: blocks.generalStrict
+	                blocks: strictMode ? blocks.generalStrict : blocks.visa
 	            };
 	        } else {
 	            return {
 	                type: 'unknown',
-	                blocks: blocks.generalLoose
+	                blocks: blocks.general
 	            };
 	        }
 	    }
