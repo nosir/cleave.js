@@ -15,7 +15,7 @@ angular.module('cleave.js', [])
                         $scope.cleave = new window.Cleave($element[0], $scope.cleave);
 
                         ngModelCtrl.$formatters.push(function (val) {
-                            $scope.cleave.setRawValue(val);
+                            $scope.cleave.setRawValue(val ? val : '');
 
                             return $scope.cleave.getFormattedValue();
                         });
