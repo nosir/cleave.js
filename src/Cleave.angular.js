@@ -12,10 +12,10 @@ angular.module('cleave.js', [])
             compile: function () {
                 return {
                     pre: function ($scope, $element, attrs, ngModelCtrl) {
-                        $scope.cleave = new window.Cleave($element[0], $scope.cleave() );
+                        $scope.cleave = new window.Cleave($element[0], $scope.cleave());
 
                         ngModelCtrl.$formatters.push(function (val) {
-                            $scope.cleave.setRawValue(val ? val : '');
+                            $scope.cleave.setRawValue(val);
 
                             return $scope.cleave.getFormattedValue();
                         });

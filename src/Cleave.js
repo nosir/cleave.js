@@ -277,7 +277,7 @@ Cleave.prototype = {
     setRawValue: function (value) {
         var owner = this, pps = owner.properties;
 
-        value = value.toString();
+        value = value !== undefined ? value.toString() : '';
 
         if (pps.numeral) {
             value = value.replace('.', pps.numeralDecimalMark);
