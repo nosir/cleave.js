@@ -287,14 +287,17 @@ var Cleave = React.createClass({
     updateValueState: function () {
         this.setState({value: this.properties.result});
     },
+ 
     applyReference: function (element) {
         this._underlayingElement = element;
-    } 
+    },
+ 
     focus: function () {
         if (this._underlayingElement) {
             this._underlayingElement.focus();
         }
     },
+
     render: function () {
         var owner = this,
             { value, options, onKeyDown, onChange, onInit, ...propsToTransfer } = owner.props;
