@@ -287,7 +287,14 @@ var Cleave = React.createClass({
     updateValueState: function () {
         this.setState({value: this.properties.result});
     },
-
+    applyReference: function (element) {
+        this._underlayingElement = element;
+    } 
+    focus: function () {
+        if (this._underlayingElement) {
+            this._underlayingElement.focus();
+        }
+    },
     render: function () {
         var owner = this,
             { value, options, onKeyDown, onChange, onInit, ...propsToTransfer } = owner.props;
@@ -298,6 +305,7 @@ var Cleave = React.createClass({
                 value={owner.state.value}
                 onKeyDown={owner.onKeyDown}
                 onChange={owner.onChange}
+                ref={this.applyReference}
                 {...propsToTransfer}
                 data-cleave-ignore={[value, options, onKeyDown, onChange, onInit]}
             />
