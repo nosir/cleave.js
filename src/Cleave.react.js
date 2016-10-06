@@ -293,7 +293,7 @@ var Cleave = React.createClass({
     },
  
     focus: function () {
-        if (this._inputElement) {
+        if (this._inputElement && typeof this._inputElement.focus === 'function') {
             this._inputElement.focus();
         }
     },
