@@ -289,12 +289,12 @@ var Cleave = React.createClass({
     },
  
     applyReference: function (element) {
-        this._underlayingElement = element;
+        this._inputElement = element;
     },
  
     focus: function () {
-        if (this._underlayingElement) {
-            this._underlayingElement.focus();
+        if (this._inputElement) {
+            this._inputElement.focus();
         }
     },
 
