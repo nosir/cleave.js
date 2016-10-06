@@ -62,12 +62,17 @@ class MyComponent extends React.Component {
         };
         
         this.onCreditCardChange = this.onCreditCardChange.bind(this);
+        this.onCreditCardFocus = this.onCreditCardFocus.bind(this);
         this.onPhoneChange = this.onPhoneChange.bind(this);
         this.onCustomChange = this.onCustomChange.bind(this);
     }
 
     onCreditCardChange(event) {
         this.setState({creditCardRawValue: event.target.rawValue});
+    }
+    
+    onCreditCardFocus(event) {
+        // update some state
     }
 
     onPhoneChange(event) {
@@ -82,7 +87,8 @@ class MyComponent extends React.Component {
         return (
             <div>
                 <Cleave placeholder="Enter your credit card number" options={{creditCard: true}}
-                        onChange={this.onCreditCardChange}/>
+                        onChange={this.onCreditCardChange}
+                        onFocus={this.onCreditCardFocus}/>
 
                 <Cleave className="css-phone" options={{phone: true, phoneRegionCode: 'AU'}}
                         onChange={this.onPhoneChange}/>
