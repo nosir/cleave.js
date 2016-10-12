@@ -109,6 +109,42 @@ class MyComponent extends React.Component {
 ReactDOM.render(<MyComponent/>, document.getElementById('content'));
 ```
 
+### The ref callback
+
+Sometimes you might want to call the underlying input method, e.g: `focus`, `blur`, etc...
+
+Instead of using `ref`, you need to use `htmlRef` to pass the ref callback function, like this:
+
+```js
+class MyComponent extends React.Component {
+    constructor(props, context) {
+        super(props, context);
+        
+        this.onBtnClick = this.onBtnClick.bind(this);
+    }
+    
+    onBtnClick() {
+        this.ccInput.focus();
+    }
+
+    render() {
+        return (
+            <div>
+                <Cleave htmlRef={(ref) => this.ccInput = ref } options={{creditCard: true}}/>
+
+                <button onClick={this.onBtnClick}>Focus!</button>
+            </div>
+        );
+    }
+}
+
+ReactDOM.render(<MyComponent/>, document.getElementById('content'));
+```
+
+For more about ReactJS callback refs, check [here](https://facebook.github.io/react/docs/more-about-refs.html#the-ref-callback-attribute) 
+
+Also please be aware cleave.js doesn't support [The ref String Attribute](https://facebook.github.io/react/docs/more-about-refs.html#the-ref-string-attribute), which is claimed as legacy by ReactJS (very likely to be deprecated in the future) 
+
 ### Webpack and Browserify config
 
 #### Webpack
