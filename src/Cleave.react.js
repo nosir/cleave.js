@@ -290,16 +290,17 @@ var Cleave = React.createClass({
 
     render: function () {
         var owner = this,
-            { value, options, onKeyDown, onChange, onInit, ...propsToTransfer } = owner.props;
+            { value, options, onKeyDown, onChange, onInit, htmlRef, ...propsToTransfer } = owner.props;
 
         return (
             <input
                 type="text"
+                ref={htmlRef}
                 value={owner.state.value}
                 onKeyDown={owner.onKeyDown}
                 onChange={owner.onChange}
                 {...propsToTransfer}
-                data-cleave-ignore={[value, options, onKeyDown, onChange, onInit]}
+                data-cleave-ignore={[value, options, onKeyDown, onChange, onInit, htmlRef]}
             />
         );
     }
