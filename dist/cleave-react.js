@@ -359,16 +359,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var onKeyDown = _owner$props2.onKeyDown;
 	        var onChange = _owner$props2.onChange;
 	        var onInit = _owner$props2.onInit;
+	        var htmlRef = _owner$props2.htmlRef;
 
-	        var propsToTransfer = _objectWithoutProperties(_owner$props2, ['value', 'options', 'onKeyDown', 'onChange', 'onInit']);
+	        var propsToTransfer = _objectWithoutProperties(_owner$props2, ['value', 'options', 'onKeyDown', 'onChange', 'onInit', 'htmlRef']);
 
 	        return React.createElement('input', _extends({
 	            type: 'text',
+	            ref: htmlRef,
 	            value: owner.state.value,
 	            onKeyDown: owner.onKeyDown,
 	            onChange: owner.onChange
 	        }, propsToTransfer, {
-	            'data-cleave-ignore': [value, options, onKeyDown, onChange, onInit]
+	            'data-cleave-ignore': [value, options, onKeyDown, onChange, onInit, htmlRef]
 	        }));
 	    }
 	});
