@@ -1,6 +1,6 @@
 var _ = require('underscore');
-var NumeralFormatter = require('../src/shortcuts/NumeralFormatter');
-var numerals = require('./fixtures/numeral.json');
+var NumeralFormatter = require('../../src/shortcuts/NumeralFormatter');
+var numerals = require('../fixtures/numeral.json');
 
 describe('NumeralFormatter', function () {
     _.each(numerals, function (numeral) {

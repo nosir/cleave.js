@@ -1,6 +1,6 @@
 var _ = require('underscore');
-var CreditCardDetector = require('../src/shortcuts/CreditCardDetector');
-var cards = require('./fixtures/credit-card.json');
+var CreditCardDetector = require('../../src/shortcuts/CreditCardDetector');
+var cards = require('../fixtures/credit-card.json');
 
 describe('CreditCardDetector', function () {
     _.mapObject(cards, function (cardNumbers, key) {

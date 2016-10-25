@@ -1,11 +1,11 @@
 var _ = require('underscore');
-var PhoneFormatter = require('../src/shortcuts/PhoneFormatter');
+var PhoneFormatter = require('../../src/shortcuts/PhoneFormatter');
 
 // this one exports the module for CommonJS mode
 // which is different from the prod ones
-var PhoneTypeFormatter = require('./addons/phone-type-formatter.i18n.js');
+var PhoneTypeFormatter = require('../addons/phone-type-formatter.i18n.js');
 
-var phones = require('./fixtures/phone.json');
+var phones = require('../fixtures/phone.json');
 
 describe('PhoneFormatter', function () {
     describe('format', function () {
