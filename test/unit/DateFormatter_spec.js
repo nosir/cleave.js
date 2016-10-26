@@ -1,6 +1,6 @@
 var _ = require('underscore');
-var DateFormatter = require('../src/shortcuts/DateFormatter');
-var dateGroups = require('./fixtures/date.json');
+var DateFormatter = require('../../src/shortcuts/DateFormatter');
+var dateGroups = require('../fixtures/date.json');
 
 describe('DateFormatter', function () {
     _.each(dateGroups, function (dateGroup) {

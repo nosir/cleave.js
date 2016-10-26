@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mocha</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<script src="../../dist/cleave.min.js"></script>
+<script src="../../dist/addons/cleave-phone.i18n.js"></script>
+
+<script src="../../node_modules/mocha/mocha.js"></script>
+<script src="../../node_modules/chai/chai.js"></script>
+<script>
+    mocha.setup('bdd');
+
+    var assert = chai.assert;
+</script>
+
+<input class="input-credit-card" type="text" />
+<input class="input-phone" type="text" />
+<input class="input-date" type="text" />
+<input class="input-date-pattern" type="text" />
+<input class="input-numeral" type="text" />
+<input class="input-custom" type="text"/>
+
+<script src="./credit-card.js"></script>
+<script src="./phone.js"></script>
+<script src="./date.js"></script>
+<script src="./numeral.js"></script>
+<script src="./custom.js"></script>
+
+<script>
+    mocha.run();
+</script>
+</body>
+</html>

@@ -224,7 +224,7 @@ Decimal mark can be different in handwriting, and for [delimiter](#delimiter) as
 ```js
 new Cleave('.my-input', {
     numeral: true,
-    numeralDecimalMark: ','
+    numeralDecimalMark: ',',
     delimiter: '.'
 });
 ```
