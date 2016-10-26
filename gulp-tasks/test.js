@@ -36,6 +36,14 @@ gulp.task('unit', function () {
         .pipe(mocha({reporter: 'spec'}));
 });
 
+gulp.task('browser', function () {
+    return gulp
+        .src([
+            path.join(paths.test, 'browser/*.html')
+        ])
+        .pipe(mochaPhantomJS());
+});
+
 gulp.task('eslint', function () {
     return gulp.src([
             path.join(paths.src, '**/*.js'),
@@ -46,12 +54,6 @@ gulp.task('eslint', function () {
         .pipe(eslint.failAfterError());
 });
 
-gulp.task('browser', function () {
-    return gulp
-        .src([
-            path.join(paths.test, 'browser/*.html')
-        ])
-        .pipe(mochaPhantomJS());
-});
+gulp.task('test', gulpsync.sync(['unit', 'browser']));
 
-gulp.task('test', gulpsync.sync(['eslint', 'unit', 'browser']));
+gulp.task('publish', gulpsync.sync(['build', 'test', 'eslint']));

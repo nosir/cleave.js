@@ -212,7 +212,7 @@ More usage in documentation: [Angular directive usage](https://github.com/nosir/
 - [ReactJS component usage](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-component-usage.md)
 - [AngularJS directive usage](https://github.com/nosir/cleave.js/blob/master/doc/angularjs-directive-usage.md)
 
-## Building & Running tests
+## Run tasks
 
 ```bash
 npm install
@@ -224,10 +224,22 @@ Build assets
 gulp build
 ```
 
-Run tests and lint
+Run tests
 
 ```bash
-gulp test && gulp eslint
+gulp test
+```
+
+Lint
+
+```bash
+gulp eslint
+```
+
+Publish (build, tests & lint)
+
+```bash
+gulp publish
 ```
 
 ## Todo
@@ -239,7 +251,7 @@ gulp test && gulp eslint
 - [x] PhantomJS browser tests
 - [ ] ReactJS / AngularJS browser tests
 
-> For contributors, please run `gulp build` & `gulp test`, also we have a [not in the plan](https://github.com/nosir/cleave.js/blob/master/doc/not-in-the-plan.md) list you may concern.
+> For contributors, please run `gulp publish` to ensure your PR passes tests and lint, also we have a [not in the plan](https://github.com/nosir/cleave.js/blob/master/doc/not-in-the-plan.md) list you may concern.
 
 ## Get in touch
 - Bugs / Suggestions: [open an issue](https://github.com/nosir/cleave.js/issues)

@@ -6,18 +6,19 @@ As a small and simple project, cleave.js has its own direction, which is somethi
 
 At the same time, we want to only focus on things we are able to keep following and updating.
 
-Thus, for now we won't consider adding / merging these features / pull requests, as for the future who knows, let's just be less ambitious: 
+Thus, at present we won't consider merging these features / pull requests, as for the future who knows, we'd be less ambitious: 
 
 - LTE IE8 support
 - RegExp option
 - Change API to a more OO way
+- Angular2 directive
 - Ember.js component
 - Vue.js component
 - React HOC
 - TypeScript port
 - CoffeeScript port
 
-This is by no means to say these technologies are not good, just the opposite, they are all brilliant and outstanding, maybe except the first one.
+This is by no means say these technologies are not good, just the opposite, they are all brilliant and outstanding, maybe except the first one.
 
 Still, feel free to fork cleave.js and play with your favourite tech.
 
