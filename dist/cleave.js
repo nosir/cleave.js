@@ -122,6 +122,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            pps.numeralDecimalMark,
 	            pps.numeralDecimalScale,
 	            pps.numeralThousandsGroupStyle,
+	            pps.numeralPositiveOnly,
 	            pps.delimiter
 	        );
 	    },
@@ -404,12 +405,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	var NumeralFormatter = function (numeralDecimalMark,
 	                                 numeralDecimalScale,
 	                                 numeralThousandsGroupStyle,
+	                                 numeralPositiveOnly,
 	                                 delimiter) {
 	    var owner = this;
 
 	    owner.numeralDecimalMark = numeralDecimalMark || '.';
 	    owner.numeralDecimalScale = numeralDecimalScale >= 0 ? numeralDecimalScale : 2;
 	    owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
+	    owner.numeralPositiveOnly = !!numeralPositiveOnly;
 	    owner.delimiter = (delimiter || delimiter === '') ? delimiter : ',';
 	    owner.delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
 	};
@@ -444,7 +447,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            .replace(/\-/g, '')
 
 	            // replace the minus sign (if present)
-	            .replace('N', '-')
+	            .replace('N', owner.numeralPositiveOnly ? '' : '-')
 
 	            // replace decimal mark
 	            .replace('M', owner.numeralDecimalMark)
@@ -900,6 +903,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        target.numeralDecimalScale = opts.numeralDecimalScale >= 0 ? opts.numeralDecimalScale : 2;
 	        target.numeralDecimalMark = opts.numeralDecimalMark || '.';
 	        target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
+	        target.numeralPositiveOnly = !!opts.numeralPositiveOnly;
 
 	        // others
 	        target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;

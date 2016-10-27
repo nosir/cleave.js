@@ -50,4 +50,14 @@ describe('Numeral input field', function () {
         cleave.setRawValue('123456789.01');
         assert.equal(field.value, '1,2345,6789.01');
     });
+
+    it('should use defined positive only option', function () {
+        var cleave = new Cleave(field, {
+            numeral:             true,
+            numeralPositiveOnly: true
+        });
+
+        cleave.setRawValue('-1234.56');
+        assert.equal(field.value, '1,234.56');
+    });
 });

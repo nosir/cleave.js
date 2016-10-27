@@ -66,6 +66,7 @@ Cleave.prototype = {
             pps.numeralDecimalMark,
             pps.numeralDecimalScale,
             pps.numeralThousandsGroupStyle,
+            pps.numeralPositiveOnly,
             pps.delimiter
         );
     },
