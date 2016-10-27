@@ -194,5 +194,19 @@
         "-12|34|567'8901"
       ]
     ]
+  },
+  {
+    "thousandsGroupStyle": "thousand",
+    "numeralPositiveOnly": true,
+    "numbers": [
+      [
+        "1234567",
+        "1,234,567"
+      ],
+      [
+        "-1234567",
+        "1,234,567"
+      ]
+    ]
   }
 ]

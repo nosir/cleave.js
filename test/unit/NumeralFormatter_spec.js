@@ -26,11 +26,16 @@ describe('NumeralFormatter', function () {
             title.push('Delimiter Off: ' + numeral.delimiterOff);
         }
 
+        if (numeral.numeralPositiveOnly) {
+            title.push('Positive Only: ' + numeral.numeralPositiveOnly);
+        }
+
         describe(title.join(', '), function () {
             var numeralFormatter = new NumeralFormatter(
                 numeral.numeralDecimalMark,
                 numeral.numeralDecimalScale,
                 numeral.thousandsGroupStyle,
+                numeral.numeralPositiveOnly,
                 numeral.delimiter
             );
 

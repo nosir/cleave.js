@@ -17,6 +17,7 @@
     - [numeralThousandsGroupStyle](#numeralthousandsgroupstyle)
     - [numeralDecimalScale](#numeraldecimalscale)
     - [numeralDecimalMark](#numeraldecimalmark)
+    - [numeralPositiveOnly](#numeralpositiveonly)
 - General config:
     - [blocks](#blocks)
     - [delimiter](#delimiter)
@@ -231,6 +232,23 @@ new Cleave('.my-input', {
 
 ```js
 // 1.234.567,89
+```
+
+### `numeralPositiveOnly`
+
+A `Boolean` value indicates if it only allows positive numeral value
+
+**Default value**: `false`
+
+```js
+new Cleave('.my-input', {
+    numeral: true,
+    numeralPositiveOnly: true
+});
+```
+
+```js
+// 1234.56
 ```
 
 You can also custom the [prefix](#prefix) for numeral

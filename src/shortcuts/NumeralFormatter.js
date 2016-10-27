@@ -3,12 +3,14 @@
 var NumeralFormatter = function (numeralDecimalMark,
                                  numeralDecimalScale,
                                  numeralThousandsGroupStyle,
+                                 numeralPositiveOnly,
                                  delimiter) {
     var owner = this;
 
     owner.numeralDecimalMark = numeralDecimalMark || '.';
     owner.numeralDecimalScale = numeralDecimalScale >= 0 ? numeralDecimalScale : 2;
     owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
+    owner.numeralPositiveOnly = !!numeralPositiveOnly;
     owner.delimiter = (delimiter || delimiter === '') ? delimiter : ',';
     owner.delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
 };
@@ -43,7 +45,7 @@ NumeralFormatter.prototype = {
             .replace(/\-/g, '')
 
             // replace the minus sign (if present)
-            .replace('N', '-')
+            .replace('N', owner.numeralPositiveOnly ? '' : '-')
 
             // replace decimal mark
             .replace('M', owner.numeralDecimalMark)
