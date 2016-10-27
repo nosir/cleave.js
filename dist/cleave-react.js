@@ -78,7 +78,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
 	        var owner = this,
-	            phoneRegionCode = nextProps.options.phoneRegionCode,
+	            phoneRegionCode = (nextProps.options || {}).phoneRegionCode,
 	            newValue = nextProps.value;
 
 	        if (newValue !== undefined) {
@@ -114,7 +114,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            onKeyDown: onKeyDown || Util.noop
 	        };
 
-	        options.initValue = value;
+	        (options || {}).initValue = value;
 
 	        owner.properties = DefaultProperties.assign({}, options);
 
@@ -309,7 +309,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 
 	        // strip over length characters
-	        value = Util.headStr(value, pps.maxLength);
+	        value = pps.maxLength > 0 ? Util.headStr(value, pps.maxLength) : value;
 
 	        // apply blocks
 	        pps.result = Util.getFormattedValue(value, pps.blocks, pps.blocksLength, pps.delimiter, pps.delimiters);
@@ -817,6 +817,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var result = '',
 	            multipleDelimiters = delimiters.length > 0,
 	            currentDelimiter;
+
+	        // no options, normal input
+	        if (blocksLength === 0) {
+	            return value;
+	        }
 
 	        blocks.forEach(function (length, index) {
 	            if (value.length > 0) {
