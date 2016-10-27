@@ -839,6 +839,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	            multipleDelimiters = delimiters.length > 0,
 	            currentDelimiter;
 
+	        // no options, normal input
+	        if (blocksLength === 0) {
+	            return value;
+	        }
+
 	        blocks.forEach(function (length, index) {
 	            if (value.length > 0) {
 	                var sub = value.slice(0, length),

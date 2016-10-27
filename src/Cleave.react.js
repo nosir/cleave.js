@@ -16,7 +16,7 @@ var Cleave = React.createClass({
 
     componentWillReceiveProps: function (nextProps) {
         var owner = this,
-            phoneRegionCode = nextProps.options.phoneRegionCode,
+            phoneRegionCode = (nextProps.options || {}).phoneRegionCode,
             newValue = nextProps.value;
 
         if (newValue !== undefined) {
@@ -46,7 +46,7 @@ var Cleave = React.createClass({
             onKeyDown: onKeyDown || Util.noop
         };
 
-        options.initValue = value;
+        (options || {}).initValue = value;
 
         owner.properties = DefaultProperties.assign({}, options);
 
@@ -248,7 +248,7 @@ var Cleave = React.createClass({
         }
 
         // strip over length characters
-        value = Util.headStr(value, pps.maxLength);
+        value = pps.maxLength > 0 ? Util.headStr(value, pps.maxLength) : value;
 
         // apply blocks
         pps.result = Util.getFormattedValue(value, pps.blocks, pps.blocksLength, pps.delimiter, pps.delimiters);
