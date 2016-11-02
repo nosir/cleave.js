@@ -4,11 +4,10 @@
 var watchify = require('watchify');
 var errorify = require('errorify');
 var browserify = require('browserify');
-var shim = require('browserify-shim');
-var babelify = require("babelify");
+var babelify = require('babelify');
 var gulp = require('gulp');
 var source = require('vinyl-source-stream');
-var path = require("path");
+var path = require('path');
 
 var paths = {
     root:  './',
@@ -33,6 +32,7 @@ function bundle(w, e) {
 
 gulp.task('js:react:watch', function () {
     options.entries = [path.join(paths.root, entry)];
+    options.transform = [babelify];
     options.plugin = [watchify, errorify];
 
     var w = browserify(options);
