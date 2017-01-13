@@ -134,6 +134,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        pps.maxLength = Util.getMaxLength(pps.blocks);
 
+	        owner.isAndroid = Util.isAndroid();
+
 	        owner.initPhoneFormatter();
 	        owner.initDateFormatter();
 	        owner.initNumeralFormatter();
@@ -348,7 +350,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    updateValueState: function updateValueState() {
-	        this.setState({ value: this.properties.result });
+	        var owner = this;
+
+	        if (owner.isAndroid) {
+	            window.setTimeout(function () {
+	                owner.setState({ value: owner.properties.result });
+	            }, 1);
+
+	            return;
+	        }
+
+	        owner.setState({ value: owner.properties.result });
 	    },
 
 	    render: function render() {
@@ -842,6 +854,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 
 	        return result;
+	    },
+
+	    isAndroid: function isAndroid() {
+	        if (navigator && /android/i.test(navigator.userAgent)) {
+	            return true;
+	        }
+
+	        return false;
 	    }
 	};
 

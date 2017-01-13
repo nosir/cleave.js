@@ -37,6 +37,8 @@ Cleave.prototype = {
 
         pps.maxLength = Cleave.Util.getMaxLength(pps.blocks);
 
+        owner.isAndroid = Cleave.Util.isAndroid();
+
         owner.onChangeListener = owner.onChange.bind(owner);
         owner.onKeyDownListener = owner.onKeyDown.bind(owner);
         owner.onCutListener = owner.onCut.bind(owner);
@@ -263,6 +265,16 @@ Cleave.prototype = {
 
     updateValueState: function () {
         var owner = this;
+
+        // fix Android browser type="text" input field
+        // cursor not jumping issue
+        if (owner.isAndroid) {
+            window.setTimeout(function () {
+                owner.element.value = owner.properties.result;
+            }, 1);
+
+            return;
+        }
 
         owner.element.value = owner.properties.result;
     },

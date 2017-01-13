@@ -66,6 +66,8 @@ var Cleave = React.createClass({
 
         pps.maxLength = Util.getMaxLength(pps.blocks);
 
+        owner.isAndroid = Util.isAndroid();
+
         owner.initPhoneFormatter();
         owner.initDateFormatter();
         owner.initNumeralFormatter();
@@ -286,7 +288,17 @@ var Cleave = React.createClass({
     },
 
     updateValueState: function () {
-        this.setState({value: this.properties.result});
+        var owner = this;
+
+        if (owner.isAndroid) {
+            window.setTimeout(function () {
+                owner.setState({value: owner.properties.result});
+            }, 1);
+
+            return;
+        }
+
+        owner.setState({value: owner.properties.result});
     },
 
     render: function () {
