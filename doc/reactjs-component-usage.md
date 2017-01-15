@@ -220,11 +220,9 @@ As you can see, here you simply use `<Cleave/>` as a normal `<input/>` field
 
 ### How to update raw value
 
-Basically, out of the box, cleave component can be seen as an uncontrolled input component, and there is no data binding between the `value` attribute and the actual value updating logic internally.
+Basically, out of the box, cleave component can be seen as an uncontrolled input component, and there is no data binding between the `value` attribute and the actual value updating logic internally. The `value` attribute is only used to pass default value.
 
-The `value` attribute is only used to pass default value.
-
-While sometimes you might want to update the raw value for the component, this is what you can do:
+While sometimes you might want to update the raw value, here is what you can do:
 
 - Pass `onInit` callback into component, which returns the cleave instance, then store it as a variable or in state.
 - Call `cleave.setRawValue('...')` to update the raw value.
@@ -237,7 +235,6 @@ class MyComponent extends React.Component {
 
         this.state = {
             creditCardCleave:   null,
-            creditCardType:     '',
             creditCardRawValue: ''
         };
         
