@@ -220,9 +220,11 @@ As you can see, here you simply use `<Cleave/>` as a normal `<input/>` field
 
 ### How to update raw value
 
-Basically, out of the box, cleave component can be seen as an uncontrolled input component, and there is no data binding between the `value` attribute and the actual value updating logic internally. The `value` attribute is only used to pass default value.
+Basically, out of the box, cleave component can be seen as an uncontrolled input component, and there is no data binding between the `value` attribute and the actual value updating logic internally. 
 
-While sometimes you might want to update the raw value, here is what you can do:
+Try to bind `value` with any state in your component can lead to unexpected behaviours. The only case of using `value` attribute is to pass it as the default value in initialization.
+
+While sometimes you might want to set / update the raw value, here is what you can do:
 
 - Pass `onInit` callback into component, which returns the cleave instance, then store it as a variable or in state.
 - Call `cleave.setRawValue('...')` to update the raw value.
@@ -314,7 +316,7 @@ For more about ReactJS callback refs, check [here](https://facebook.github.io/re
 
 Also please be aware cleave.js doesn't support [The ref String Attribute](https://facebook.github.io/react/docs/more-about-refs.html#the-ref-string-attribute), which is claimed as legacy by ReactJS (very likely to be deprecated in the future) 
 
-Please avoid using this ref to get / set any value of the input field, which could cause unexpected problem with the component.
+Please avoid using this ref to get / set any value of the input field, which can lead to unexpected behaviour.
 
 ## References
 
