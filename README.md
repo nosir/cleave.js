@@ -150,6 +150,12 @@ As you can see, here you simply use `<Cleave/>` as a normal `<input/>` field
 - Pass in the custom `options` prop
 - Add ReactJS `onChange` event listener
 
+Advanced usage:
+
+- [How to pass default value](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-component-usage.md#howtopassdefaultvalue)
+- [How to call to update raw value](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-component-usage.md#howtoupdaterawvalue)
+- [How to get ref of the input field](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-component-usage.md#howtogetrefoftheinputfield)
+
 Usage for `Webpack`, `Browserify` and more in documentation: [ReactJS component usage](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-component-usage.md)
 
 ## AngularJS directive usage
