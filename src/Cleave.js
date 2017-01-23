@@ -263,20 +263,43 @@ Cleave.prototype = {
         }
     },
 
+    setCurrentSelection: function (startPos, endPos) {
+        var elem = this.element;
+        if(elem != null) {
+            if(elem.createTextRange) {
+                var range = elem.createTextRange();
+                range.move('character', endPos);
+                range.select();
+            }
+            else {
+                if(elem.selectionStart) {
+                    elem.focus();
+                    elem.setSelectionRange(startPos, endPos);
+                }
+                else
+                    elem.focus();
+            }
+        }
+    },
+
     updateValueState: function () {
         var owner = this;
+        var startPos = owner.element.selectionStart;
+        var endPos = owner.element.selectionEnd;
 
         // fix Android browser type="text" input field
         // cursor not jumping issue
         if (owner.isAndroid) {
             window.setTimeout(function () {
                 owner.element.value = owner.properties.result;
+                owner.setCurrentSelection(startPos, endPos);
             }, 1);
 
             return;
         }
 
         owner.element.value = owner.properties.result;
+        owner.setCurrentSelection(startPos, endPos);
     },
 
     setPhoneRegionCode: function (phoneRegionCode) {
