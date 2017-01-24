@@ -275,7 +275,6 @@ Cleave.prototype = {
                 if(elem.selectionStart) {
                     elem.focus();
                     elem.setSelectionRange(startPos, endPos);
-                    elem.blur();
                 }
                 else
                     elem.focus();
