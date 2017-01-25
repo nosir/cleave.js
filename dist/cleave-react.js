@@ -357,10 +357,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                range.move('character', endPos);
 	                range.select();
 	            } else {
-	                if (elem.selectionStart) {
-	                    elem.focus();
-	                    elem.setSelectionRange(startPos, endPos);
-	                } else elem.focus();
+	                elem.setSelectionRange(startPos, endPos);
 	            }
 	        }
 	    },

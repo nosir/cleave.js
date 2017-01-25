@@ -294,14 +294,8 @@ var Cleave = React.createClass({
                 var range = elem.createTextRange();
                 range.move('character', endPos);
                 range.select();
-            }
-            else {
-                if(elem.selectionStart) {
-                    elem.focus();
-                    elem.setSelectionRange(startPos, endPos);
-                }
-                else
-                    elem.focus();
+            } else {
+                elem.setSelectionRange(startPos, endPos);
             }
         }
     },
