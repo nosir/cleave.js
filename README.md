@@ -1,5 +1,7 @@
 # Cleave.js
 
+[![Join the chat at https://gitter.im/nosir/cleave.js](https://badges.gitter.im/nosir/cleave.js.svg)](https://gitter.im/nosir/cleave.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Travis](https://img.shields.io/travis/nosir/cleave.js.svg?maxAge=2592000)](https://travis-ci.org/nosir/cleave.js)
 [![Codacy branch grade](https://img.shields.io/codacy/grade/b1c0b0da42fa418f887076a3f7352aea/master.svg?maxAge=2592000)](https://www.codacy.com/app/nosir/cleave-js)
 [![npm version](https://badge.fury.io/js/cleave.js.svg)](https://badge.fury.io/js/cleave.js)
