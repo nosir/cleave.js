@@ -76,6 +76,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.init();
 	    },
 
+	    componentDidUpdate: function componentDidUpdate() {
+	        this.setCurrentSelection(this.state.cursorPosition);
+	    },
+
 	    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
 	        var owner = this,
 	            phoneRegionCode = (nextProps.options || {}).phoneRegionCode,
@@ -119,7 +123,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        owner.properties = DefaultProperties.assign({}, options);
 
 	        return {
-	            value: owner.properties.result
+	            value: owner.properties.result,
+	            cursorPosition: 0
 	        };
 	    },
 
@@ -349,21 +354,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    },
 
-	    setCurrentSelection: function setCurrentSelection(endPos, oldValue, newValue) {
-	        var elem = this.element;
-
+	    getNextCursorPosition: function getNextCursorPosition(endPos, oldValue, newValue) {
 	        // If cursor was at the end of value, just place it back.
 	        // Because new value could contain additional chars.
-	        if (oldValue.length == endPos) endPos = newValue.length;
+	        if (oldValue.length == endPos) {
+	            return newValue.length;
+	        }
 
-	        if (elem != null) {
-	            if (elem.createTextRange) {
-	                var range = elem.createTextRange();
-	                range.move('character', endPos);
-	                range.select();
-	            } else {
-	                elem.setSelectionRange(endPos, endPos);
-	            }
+	        return endPos;
+	    },
+
+	    setCurrentSelection: function setCurrentSelection(cursorPosition) {
+	        var elem = this.element;
+
+	        if (!elem) {
+	            return;
+	        }
+
+	        if (elem.createTextRange) {
+	            var range = elem.createTextRange();
+	            range.move('character', cursorPosition);
+	            range.select();
+	        } else {
+	            elem.setSelectionRange(cursorPosition, cursorPosition);
 	        }
 	    },
 
@@ -372,21 +385,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var endPos = owner.element.selectionEnd;
 	        var oldValue = owner.element.value;
 	        var newValue = owner.properties.result;
+	        var nextCursorPosition = owner.getNextCursorPosition(endPos, oldValue, newValue);
 
 	        if (owner.isAndroid) {
 	            window.setTimeout(function () {
-	                owner.setState({ value: owner.properties.result });
-	                owner.setCurrentSelection(endPos, oldValue, newValue);
+	                owner.setState({
+	                    value: owner.properties.result,
+	                    cursorPosition: nextCursorPosition
+	                });
 	            }, 1);
 
 	            return;
 	        }
 
-	        owner.setState({ value: owner.properties.result });
-	        owner.setCurrentSelection(endPos, oldValue, newValue);
+	        owner.setState({
+	            value: owner.properties.result,
+	            cursorPosition: nextCursorPosition
+	        });
 	    },
 
 	    render: function render() {
+	        var _this = this,
+	            _arguments = arguments;
+
 	        var owner = this,
 	            _owner$props2 = owner.props,
 	            value = _owner$props2.value,
@@ -400,7 +421,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        return React.createElement('input', _extends({
 	            type: 'text',
-	            ref: htmlRef,
+	            ref: function ref(_ref) {
+	                _this.element = _ref;
+
+	                if (!htmlRef) {
+	                    return;
+	                }
+
+	                htmlRef.apply(_this, _arguments);
+	            },
 	            value: owner.state.value,
 	            onKeyDown: owner.onKeyDown,
 	            onChange: owner.onChange
