@@ -77,6 +77,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    componentDidUpdate: function componentDidUpdate() {
+	        if (!this.state.updateCursorPosition) {
+	            return;
+	        }
+
 	        this.setCurrentSelection(this.state.cursorPosition);
 	    },
 
@@ -124,7 +128,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        return {
 	            value: owner.properties.result,
-	            cursorPosition: 0
+	            cursorPosition: 0,
+	            updateCursorPosition: false
 	        };
 	    },
 
@@ -367,6 +372,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    setCurrentSelection: function setCurrentSelection(cursorPosition) {
 	        var elem = this.element;
 
+	        this.setState({
+	            updateCursorPosition: false
+	        });
+
 	        if (!elem) {
 	            return;
 	        }
@@ -391,7 +400,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            window.setTimeout(function () {
 	                owner.setState({
 	                    value: owner.properties.result,
-	                    cursorPosition: nextCursorPosition
+	                    cursorPosition: nextCursorPosition,
+	                    updateCursorPosition: true
 	                });
 	            }, 1);
 
@@ -400,7 +410,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        owner.setState({
 	            value: owner.properties.result,
-	            cursorPosition: nextCursorPosition
+	            cursorPosition: nextCursorPosition,
+	            updateCursorPosition: true
 	        });
 	    },
 

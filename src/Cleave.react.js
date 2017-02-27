@@ -15,6 +15,10 @@ var Cleave = React.createClass({
     },
 
     componentDidUpdate: function () {
+        if (!this.state.updateCursorPosition) {
+            return;
+        }
+
         this.setCurrentSelection(this.state.cursorPosition);
     },
 
@@ -56,7 +60,8 @@ var Cleave = React.createClass({
 
         return {
             value: owner.properties.result,
-            cursorPosition: 0
+            cursorPosition: 0,
+            updateCursorPosition: false
         };
     },
 
@@ -306,6 +311,10 @@ var Cleave = React.createClass({
     setCurrentSelection: function (cursorPosition) {
         var elem = this.element;
 
+        this.setState({
+            updateCursorPosition: false
+        });
+
         if (!elem) {
             return;
         }
@@ -330,7 +339,8 @@ var Cleave = React.createClass({
             window.setTimeout(function () {
                 owner.setState({
                     value: owner.properties.result,
-                    cursorPosition: nextCursorPosition
+                    cursorPosition: nextCursorPosition,
+                    updateCursorPosition: true
                 });
             }, 1);
 
@@ -339,7 +349,8 @@ var Cleave = React.createClass({
 
         owner.setState({
             value: owner.properties.result,
-            cursorPosition: nextCursorPosition
+            cursorPosition: nextCursorPosition,
+            updateCursorPosition: true
         });
     },
 
