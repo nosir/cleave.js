@@ -14,6 +14,10 @@ var Cleave = React.createClass({
         this.init();
     },
 
+    componentDidUpdate: function () {
+        this.setCurrentSelection(this.state.cursorPosition);
+    },
+
     componentWillReceiveProps: function (nextProps) {
         var owner = this,
             phoneRegionCode = (nextProps.options || {}).phoneRegionCode,
@@ -51,7 +55,8 @@ var Cleave = React.createClass({
         owner.properties = DefaultProperties.assign({}, options);
 
         return {
-            value: owner.properties.result
+            value: owner.properties.result,
+            cursorPosition: 0
         };
     },
 
@@ -288,21 +293,29 @@ var Cleave = React.createClass({
         }
     },
 
-    setCurrentSelection: function (endPos, oldValue, newValue) {
-        var elem = this.element;
-
+    getNextCursorPosition: function (endPos, oldValue, newValue) {
         // If cursor was at the end of value, just place it back.
         // Because new value could contain additional chars.
-        if(oldValue.length == endPos) endPos = newValue.length;
+        if (oldValue.length == endPos) {
+            return newValue.length;
+        }
 
-        if(elem != null) {
-            if(elem.createTextRange) {
-                var range = elem.createTextRange();
-                range.move('character', endPos);
-                range.select();
-            } else {
-                elem.setSelectionRange(endPos, endPos);
-            }
+        return endPos;
+    },
+
+    setCurrentSelection: function (cursorPosition) {
+        var elem = this.element;
+
+        if (!elem) {
+            return;
+        }
+
+        if (elem.createTextRange) {
+            var range = elem.createTextRange();
+            range.move('character', cursorPosition);
+            range.select();
+        } else {
+            elem.setSelectionRange(cursorPosition, cursorPosition);
         }
     },
 
@@ -311,18 +324,23 @@ var Cleave = React.createClass({
         var endPos = owner.element.selectionEnd;
         var oldValue = owner.element.value;
         var newValue = owner.properties.result;
+        var nextCursorPosition = owner.getNextCursorPosition(endPos, oldValue, newValue);
 
         if (owner.isAndroid) {
             window.setTimeout(function () {
-                owner.setState({value: owner.properties.result});
-                owner.setCurrentSelection(endPos, oldValue, newValue);
+                owner.setState({
+                    value: owner.properties.result,
+                    cursorPosition: nextCursorPosition
+                });
             }, 1);
 
             return;
         }
 
-        owner.setState({value: owner.properties.result});
-        owner.setCurrentSelection(endPos, oldValue, newValue);
+        owner.setState({
+            value: owner.properties.result,
+            cursorPosition: nextCursorPosition
+        });
     },
 
     render: function () {
