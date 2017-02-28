@@ -120,15 +120,15 @@ class MyComponent extends React.Component {
         this.onCreditCardChange = this.onCreditCardChange.bind(this);
         this.onCreditCardFocus = this.onCreditCardFocus.bind(this);
     }
-    
+
     onCreditCardChange(event) {
         // formatted pretty value
         console.log(event.target.value);
-        
+
         // raw value
         console.log(event.target.rawValue);
     }
-    
+
     onCreditCardFocus(event) {
         // update some state
     }
@@ -144,7 +144,7 @@ class MyComponent extends React.Component {
 }
 ```
 
-As you can see, here you simply use `<Cleave/>` as a normal `<input/>` field 
+As you can see, here you simply use `<Cleave/>` as a normal `<input/>` field
 
 - Attach HTML `<input/>` attributes
 - Pass in the custom `options` prop
@@ -176,11 +176,11 @@ angular.module('app', ['cleave.js'])
     $scope.onCreditCardTypeChanged = function(type) {
         $scope.model.creditCardType = type;
     };
-    
+
     $scope.model = {
         rawValue: ''
     };
-    
+
     $scope.options = {
         creditCard: {
             creditCard: true,
@@ -200,6 +200,43 @@ Then easily you can apply `cleave` directive to `input` field:
 ```
 
 More usage in documentation: [Angular directive usage](https://github.com/nosir/cleave.js/blob/master/doc/angularjs-directive-usage.md)
+
+## Vue.js directive usage
+
+```js
+// directives/index.js
+import Cleave from 'cleave.js';
+
+export const cleave = {
+  name: 'cleave',
+  bind: (el, binding) => new Cleave(el, binding.value)
+};
+```
+
+```html
+<!-- SomeComponent.vue -->
+<template>
+    <input type="text" v-model="money" v-cleave="moneyFormat">
+</template>
+
+<script>
+import { cleave } from '../directives';
+
+export default {
+  directives: { cleave },
+  data() {
+    return {
+      moneyFormat: {
+        numeral: true,
+        prefix: 'R$ ',
+        numeralDecimalMark: ',',
+        delimiter: '.'
+      }
+    };
+  }
+}
+</script>
+```
 
 ## Playground
 
