@@ -6,6 +6,8 @@
 [![npm downloads](https://img.shields.io/npm/dm/cleave.js.svg)](https://www.npmjs.com/package/cleave.js)
 [![Bower version](https://badge.fury.io/bo/cleave.js.svg)](https://badge.fury.io/bo/cleave.js)
 [![Documents](https://img.shields.io/badge/documents-check-3362c2.svg)](https://github.com/nosir/cleave.js/blob/master/doc/doc.md)
+[![CDNJS version](https://img.shields.io/cdnjs/v/cleave.js.svg)](https://cdnjs.com/libraries/cleave.js)
+
 
 Cleave.js has a simple purpose: to help you format input text content automatically.
 
