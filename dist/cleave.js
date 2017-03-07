@@ -958,6 +958,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        target.maxLength = 0;
 
+	        target.outputFormatted = opts.outputFormatted || false;
+
 	        target.backspace = false;
 	        target.result = '';
 

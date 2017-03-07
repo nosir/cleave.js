@@ -99,13 +99,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    getInitialState: function getInitialState() {
-	        var owner = this;
-	        var _owner$props = owner.props;
-	        var value = _owner$props.value;
-	        var options = _owner$props.options;
-	        var onKeyDown = _owner$props.onKeyDown;
-	        var onChange = _owner$props.onChange;
-	        var onInit = _owner$props.onInit;
+	        var owner = this,
+	            _owner$props = owner.props,
+	            value = _owner$props.value,
+	            options = _owner$props.options,
+	            onKeyDown = _owner$props.onKeyDown,
+	            onChange = _owner$props.onChange,
+	            onInit = _owner$props.onInit;
 
 
 	        owner.registeredEvents = {
@@ -364,16 +364,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    render: function render() {
-	        var owner = this;
-	        var _owner$props2 = owner.props;
-	        var value = _owner$props2.value;
-	        var options = _owner$props2.options;
-	        var onKeyDown = _owner$props2.onKeyDown;
-	        var onChange = _owner$props2.onChange;
-	        var onInit = _owner$props2.onInit;
-	        var htmlRef = _owner$props2.htmlRef;
+	        var owner = this,
+	            _owner$props2 = owner.props,
+	            value = _owner$props2.value,
+	            options = _owner$props2.options,
+	            onKeyDown = _owner$props2.onKeyDown,
+	            onChange = _owner$props2.onChange,
+	            onInit = _owner$props2.onInit,
+	            htmlRef = _owner$props2.htmlRef,
+	            propsToTransfer = _objectWithoutProperties(_owner$props2, ['value', 'options', 'onKeyDown', 'onChange', 'onInit', 'htmlRef']);
 
-	        var propsToTransfer = _objectWithoutProperties(_owner$props2, ['value', 'options', 'onKeyDown', 'onChange', 'onInit', 'htmlRef']);
 
 	        return React.createElement('input', _extends({
 	            type: 'text',
@@ -879,7 +879,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Separate this, so react module can share the usage
 	 */
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	var DefaultProperties = {
 	    // Maybe change to object-assign
@@ -933,6 +933,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        target.root = (typeof global === 'undefined' ? 'undefined' : _typeof(global)) === 'object' && global ? global : window;
 
 	        target.maxLength = 0;
+
+	        target.outputFormatted = opts.outputFormatted || false;
 
 	        target.backspace = false;
 	        target.result = '';
