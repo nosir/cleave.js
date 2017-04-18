@@ -111,7 +111,7 @@ var CreditCardDetector = {
         } else {
             return {
                 type:   'unknown',
-                blocks: blocks.general
+                blocks: strictMode ? blocks.generalStrict : blocks.general
             };
         }
     }
