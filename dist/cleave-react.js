@@ -52,7 +52,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -99,13 +99,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    getInitialState: function getInitialState() {
-	        var owner = this;
-	        var _owner$props = owner.props;
-	        var value = _owner$props.value;
-	        var options = _owner$props.options;
-	        var onKeyDown = _owner$props.onKeyDown;
-	        var onChange = _owner$props.onChange;
-	        var onInit = _owner$props.onInit;
+	        var owner = this,
+	            _owner$props = owner.props,
+	            value = _owner$props.value,
+	            options = _owner$props.options,
+	            onKeyDown = _owner$props.onKeyDown,
+	            onChange = _owner$props.onChange,
+	            onInit = _owner$props.onInit;
 
 
 	        owner.registeredEvents = {
@@ -364,16 +364,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    render: function render() {
-	        var owner = this;
-	        var _owner$props2 = owner.props;
-	        var value = _owner$props2.value;
-	        var options = _owner$props2.options;
-	        var onKeyDown = _owner$props2.onKeyDown;
-	        var onChange = _owner$props2.onChange;
-	        var onInit = _owner$props2.onInit;
-	        var htmlRef = _owner$props2.htmlRef;
+	        var owner = this,
+	            _owner$props2 = owner.props,
+	            value = _owner$props2.value,
+	            options = _owner$props2.options,
+	            onKeyDown = _owner$props2.onKeyDown,
+	            onChange = _owner$props2.onChange,
+	            onInit = _owner$props2.onInit,
+	            htmlRef = _owner$props2.htmlRef,
+	            propsToTransfer = _objectWithoutProperties(_owner$props2, ['value', 'options', 'onKeyDown', 'onChange', 'onInit', 'htmlRef']);
 
-	        var propsToTransfer = _objectWithoutProperties(_owner$props2, ['value', 'options', 'onKeyDown', 'onChange', 'onInit', 'htmlRef']);
 
 	        return React.createElement('input', _extends({
 	            type: 'text',
@@ -389,15 +389,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = Cleave;
 
-/***/ },
+/***/ }),
 /* 1 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
 
-/***/ },
+/***/ }),
 /* 2 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 
@@ -482,9 +482,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = NumeralFormatter;
 
-/***/ },
+/***/ }),
 /* 3 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 
@@ -561,9 +561,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = DateFormatter;
 
-/***/ },
+/***/ }),
 /* 4 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 
@@ -625,9 +625,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = PhoneFormatter;
 
-/***/ },
+/***/ }),
 /* 5 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 
@@ -707,7 +707,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        } else if (re.discover.test(value)) {
 	            return {
 	                type: 'discover',
-	                blocks: blocks.discover
+	                blocks: strictMode ? blocks.generalStrict : blocks.discover
 	            };
 	        } else if (re.mastercard.test(value)) {
 	            return {
@@ -732,7 +732,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        } else if (re.maestro.test(value)) {
 	            return {
 	                type: 'maestro',
-	                blocks: blocks.maestro
+	                blocks: strictMode ? blocks.generalStrict : blocks.maestro
 	            };
 	        } else if (re.visa.test(value)) {
 	            return {
@@ -742,7 +742,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        } else {
 	            return {
 	                type: 'unknown',
-	                blocks: blocks.general
+	                blocks: strictMode ? blocks.generalStrict : blocks.general
 	            };
 	        }
 	    }
@@ -750,9 +750,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = CreditCardDetector;
 
-/***/ },
+/***/ }),
 /* 6 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 
@@ -867,9 +867,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = Util;
 
-/***/ },
+/***/ }),
 /* 7 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
 
@@ -879,72 +879,72 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Separate this, so react module can share the usage
 	 */
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	var DefaultProperties = {
-	    // Maybe change to object-assign
-	    // for now just keep it as simple
-	    assign: function assign(target, opts) {
-	        target = target || {};
-	        opts = opts || {};
+	        // Maybe change to object-assign
+	        // for now just keep it as simple
+	        assign: function assign(target, opts) {
+	                target = target || {};
+	                opts = opts || {};
 
-	        // credit card
-	        target.creditCard = !!opts.creditCard;
-	        target.creditCardStrictMode = !!opts.creditCardStrictMode;
-	        target.creditCardType = '';
-	        target.onCreditCardTypeChanged = opts.onCreditCardTypeChanged || function () {};
+	                // credit card
+	                target.creditCard = !!opts.creditCard;
+	                target.creditCardStrictMode = !!opts.creditCardStrictMode;
+	                target.creditCardType = '';
+	                target.onCreditCardTypeChanged = opts.onCreditCardTypeChanged || function () {};
 
-	        // phone
-	        target.phone = !!opts.phone;
-	        target.phoneRegionCode = opts.phoneRegionCode || 'AU';
-	        target.phoneFormatter = {};
+	                // phone
+	                target.phone = !!opts.phone;
+	                target.phoneRegionCode = opts.phoneRegionCode || 'AU';
+	                target.phoneFormatter = {};
 
-	        // date
-	        target.date = !!opts.date;
-	        target.datePattern = opts.datePattern || ['d', 'm', 'Y'];
-	        target.dateFormatter = {};
+	                // date
+	                target.date = !!opts.date;
+	                target.datePattern = opts.datePattern || ['d', 'm', 'Y'];
+	                target.dateFormatter = {};
 
-	        // numeral
-	        target.numeral = !!opts.numeral;
-	        target.numeralDecimalScale = opts.numeralDecimalScale >= 0 ? opts.numeralDecimalScale : 2;
-	        target.numeralDecimalMark = opts.numeralDecimalMark || '.';
-	        target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
-	        target.numeralPositiveOnly = !!opts.numeralPositiveOnly;
+	                // numeral
+	                target.numeral = !!opts.numeral;
+	                target.numeralDecimalScale = opts.numeralDecimalScale >= 0 ? opts.numeralDecimalScale : 2;
+	                target.numeralDecimalMark = opts.numeralDecimalMark || '.';
+	                target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
+	                target.numeralPositiveOnly = !!opts.numeralPositiveOnly;
 
-	        // others
-	        target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;
+	                // others
+	                target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;
 
-	        target.uppercase = !!opts.uppercase;
-	        target.lowercase = !!opts.lowercase;
+	                target.uppercase = !!opts.uppercase;
+	                target.lowercase = !!opts.lowercase;
 
-	        target.prefix = target.creditCard || target.phone || target.date ? '' : opts.prefix || '';
-	        target.prefixLength = target.prefix.length;
-	        target.rawValueTrimPrefix = !!opts.rawValueTrimPrefix;
-	        target.copyDelimiter = !!opts.copyDelimiter;
+	                target.prefix = target.creditCard || target.phone || target.date ? '' : opts.prefix || '';
+	                target.prefixLength = target.prefix.length;
+	                target.rawValueTrimPrefix = !!opts.rawValueTrimPrefix;
+	                target.copyDelimiter = !!opts.copyDelimiter;
 
-	        target.initValue = opts.initValue === undefined ? '' : opts.initValue.toString();
+	                target.initValue = opts.initValue === undefined ? '' : opts.initValue.toString();
 
-	        target.delimiter = opts.delimiter || opts.delimiter === '' ? opts.delimiter : opts.date ? '/' : opts.numeral ? ',' : opts.phone ? ' ' : ' ';
-	        target.delimiters = opts.delimiters || [];
+	                target.delimiter = opts.delimiter || opts.delimiter === '' ? opts.delimiter : opts.date ? '/' : opts.numeral ? ',' : opts.phone ? ' ' : ' ';
+	                target.delimiters = opts.delimiters || [];
 
-	        target.blocks = opts.blocks || [];
-	        target.blocksLength = target.blocks.length;
+	                target.blocks = opts.blocks || [];
+	                target.blocksLength = target.blocks.length;
 
-	        target.root = (typeof global === 'undefined' ? 'undefined' : _typeof(global)) === 'object' && global ? global : window;
+	                target.root = (typeof global === 'undefined' ? 'undefined' : _typeof(global)) === 'object' && global ? global : window;
 
-	        target.maxLength = 0;
+	                target.maxLength = 0;
 
-	        target.backspace = false;
-	        target.result = '';
+	                target.backspace = false;
+	                target.result = '';
 
-	        return target;
-	    }
+	                return target;
+	        }
 	};
 
 	module.exports = DefaultProperties;
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
-/***/ }
+/***/ })
 /******/ ])
 });
 ;
