@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react');
+var React = require('react'); // eslint-disable-line no-unused-vars
+var CreateReactClass = require('create-react-class');
 
 var NumeralFormatter = require('./shortcuts/NumeralFormatter');
 var DateFormatter = require('./shortcuts/DateFormatter');
@@ -9,7 +10,7 @@ var CreditCardDetector = require('./shortcuts/CreditCardDetector');
 var Util = require('./utils/Util');
 var DefaultProperties = require('./common/DefaultProperties');
 
-var Cleave = React.createClass({
+var Cleave = CreateReactClass({
     componentDidMount: function () {
         this.init();
     },
