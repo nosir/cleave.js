@@ -12,7 +12,7 @@ var NumeralFormatter = function (numeralDecimalMark,
     owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
     owner.numeralPositiveOnly = !!numeralPositiveOnly;
     owner.delimiter = (delimiter || delimiter === '') ? delimiter : ',';
-    owner.delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
+    owner.delimiterRE = delimiter ? new RegExp('\\' + owner.delimiter, 'g') : '';
 };
 
 NumeralFormatter.groupStyle = {
