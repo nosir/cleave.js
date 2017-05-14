@@ -25,7 +25,12 @@ angular.module('cleave.js', [])
                                 $scope.onValueChange()(newFormattedValue);
                             }
 
-                            return $scope.cleave.getRawValue();
+                            if($scope.cleave.properties.outputFormatted) {
+                                return $scope.cleave.getFormattedValue();
+                            }
+                            else {
+                                return $scope.cleave.getRawValue();
+                            }
                         });
                     }
                 };

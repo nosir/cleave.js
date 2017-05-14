@@ -958,6 +958,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        target.maxLength = 0;
 
+	        target.outputFormatted = opts.outputFormatted || false;
+
 	        target.backspace = false;
 	        target.result = '';
 
@@ -1001,7 +1003,12 @@ angular.module('cleave.js', [])
                                 $scope.onValueChange()(newFormattedValue);
                             }
 
-                            return $scope.cleave.getRawValue();
+                            if($scope.cleave.properties.outputFormatted) {
+                                return $scope.cleave.getFormattedValue();
+                            }
+                            else {
+                                return $scope.cleave.getRawValue();
+                            }
                         });
                     }
                 };
