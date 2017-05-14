@@ -76,7 +76,7 @@ var CreditCardDetector = {
         } else if (re.discover.test(value)) {
             return {
                 type:   'discover',
-                blocks: blocks.discover
+                blocks: strictMode ? blocks.generalStrict : blocks.discover
             };
         } else if (re.mastercard.test(value)) {
             return {
@@ -101,7 +101,7 @@ var CreditCardDetector = {
         } else if (re.maestro.test(value)) {
             return {
                 type:   'maestro',
-                blocks: blocks.maestro
+                blocks: strictMode ? blocks.generalStrict : blocks.maestro
             };
         } else if (re.visa.test(value)) {
             return {
