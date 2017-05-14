@@ -4,7 +4,6 @@
 [![Codacy branch grade](https://img.shields.io/codacy/grade/b1c0b0da42fa418f887076a3f7352aea/master.svg?maxAge=2592000)](https://www.codacy.com/app/nosir/cleave-js)
 [![npm version](https://badge.fury.io/js/cleave.js.svg)](https://badge.fury.io/js/cleave.js)
 [![npm downloads](https://img.shields.io/npm/dm/cleave.js.svg)](https://www.npmjs.com/package/cleave.js)
-[![Bower version](https://badge.fury.io/bo/cleave.js.svg)](https://badge.fury.io/bo/cleave.js)
 [![Documents](https://img.shields.io/badge/documents-check-3362c2.svg)](https://github.com/nosir/cleave.js/blob/master/doc/doc.md)
 
 Cleave.js has a simple purpose: to help you format input text content automatically.
