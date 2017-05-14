@@ -259,7 +259,7 @@ gulp publish
 > For contributors, please run `gulp publish` to ensure your PR passes tests and lint, also we have a [not in the plan](https://github.com/nosir/cleave.js/blob/master/doc/not-in-the-plan.md) list you may concern.
 
 ## Get in touch
-- Bugs / Suggestions: [open an issue](https://github.com/nosir/cleave.js/issues)
+- Issue: [open an issue](https://github.com/nosir/cleave.js/issues) Please fork JSFiddle from [Playground](#playground) to present your issue
 - Twitter: [@rison](https://twitter.com/rison)
 
 ## References
