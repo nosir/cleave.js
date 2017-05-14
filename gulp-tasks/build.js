@@ -12,6 +12,7 @@ var getLicense = function () {
 };
 
 var packageInfo = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+var date = new Date();
 
 var paths = {
     src:       './src',
@@ -29,8 +30,9 @@ gulp.task('min-mangle', function () {
         ])
         .pipe(uglify({mangle: true}))
         .pipe(header(getLicense(), {
+            year:    date.getFullYear(),
             version: packageInfo.version,
-            build:   (new Date()).toUTCString()
+            build:   date.toUTCString()
         }))
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest(path.join(paths.dist)));
@@ -42,8 +44,9 @@ gulp.task('min-no-mangle', function () {
         ])
         .pipe(uglify({mangle: false}))
         .pipe(header(getLicense(), {
+            year:    date.getFullYear(),
             version: packageInfo.version,
-            build:   (new Date()).toUTCString()
+            build:   date.toUTCString()
         }))
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest(path.join(paths.dist)));
