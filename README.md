@@ -64,11 +64,13 @@ Then have a text field
 Now in your JavaScript
 
 ```js
-var cleave = new Cleave('.input-phone', {
+var cleave = new Cleave('.input-element', {
     phone: true,
     phoneRegionCode: '{country}'
 });
 ```
+
+> `.input-element` here is a unique DOM element. If you want to apply Cleave for multiple elements, you need to give different css selectors and apply to each of them
 
 More examples: [the demo page](http://nosir.github.io/cleave.js/)
 
