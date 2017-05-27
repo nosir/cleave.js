@@ -93,6 +93,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        pps.maxLength = Cleave.Util.getMaxLength(pps.blocks);
 
+	        owner.isAndroid = Cleave.Util.isAndroid();
+
 	        owner.onChangeListener = owner.onChange.bind(owner);
 	        owner.onKeyDownListener = owner.onKeyDown.bind(owner);
 	        owner.onCutListener = owner.onCut.bind(owner);
@@ -319,6 +321,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    updateValueState: function () {
 	        var owner = this;
+
+	        // fix Android browser type="text" input field
+	        // cursor not jumping issue
+	        if (owner.isAndroid) {
+	            window.setTimeout(function () {
+	                owner.element.value = owner.properties.result;
+	            }, 1);
+
+	            return;
+	        }
 
 	        owner.element.value = owner.properties.result;
 	    },
@@ -711,7 +723,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        } else if (re.discover.test(value)) {
 	            return {
 	                type:   'discover',
-	                blocks: blocks.discover
+	                blocks: strictMode ? blocks.generalStrict : blocks.discover
 	            };
 	        } else if (re.mastercard.test(value)) {
 	            return {
@@ -736,7 +748,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        } else if (re.maestro.test(value)) {
 	            return {
 	                type:   'maestro',
-	                blocks: blocks.maestro
+	                blocks: strictMode ? blocks.generalStrict : blocks.maestro
 	            };
 	        } else if (re.visa.test(value)) {
 	            return {
@@ -746,7 +758,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        } else {
 	            return {
 	                type:   'unknown',
-	                blocks: blocks.general
+	                blocks: strictMode ? blocks.generalStrict : blocks.general
 	            };
 	        }
 	    }
@@ -863,6 +875,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 
 	        return result;
+	    },
+
+	    isAndroid: function () {
+	        if (navigator && /android/i.test(navigator.userAgent)) {
+	            return true;
+	        }
+
+	        return false;
 	    }
 	};
 

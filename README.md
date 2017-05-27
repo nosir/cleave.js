@@ -4,7 +4,6 @@
 [![Codacy branch grade](https://img.shields.io/codacy/grade/b1c0b0da42fa418f887076a3f7352aea/master.svg?maxAge=2592000)](https://www.codacy.com/app/nosir/cleave-js)
 [![npm version](https://badge.fury.io/js/cleave.js.svg)](https://badge.fury.io/js/cleave.js)
 [![npm downloads](https://img.shields.io/npm/dm/cleave.js.svg)](https://www.npmjs.com/package/cleave.js)
-[![Bower version](https://badge.fury.io/bo/cleave.js.svg)](https://badge.fury.io/bo/cleave.js)
 [![Documents](https://img.shields.io/badge/documents-check-3362c2.svg)](https://github.com/nosir/cleave.js/blob/master/doc/doc.md)
 
 Cleave.js has a simple purpose: to help you format input text content automatically.
@@ -36,12 +35,6 @@ However, this isn't meant to replace any validation or mask library, you should 
 npm install --save cleave.js
 ```
 
-#### bower
-
-```bash
-bower install --save cleave.js
-```
-
 #### old school
 Grab file from [dist](https://github.com/nosir/cleave.js/tree/master/dist) directory
 
@@ -65,11 +58,13 @@ Then have a text field
 Now in your JavaScript
 
 ```js
-var cleave = new Cleave('.input-phone', {
+var cleave = new Cleave('.input-element', {
     phone: true,
     phoneRegionCode: '{country}'
 });
 ```
+
+> `.input-element` here is a unique DOM element. If you want to apply Cleave for multiple elements, you need to give different css selectors and apply to each of them
 
 More examples: [the demo page](http://nosir.github.io/cleave.js/)
 
@@ -137,6 +132,12 @@ As you can see, here you simply use `<Cleave/>` as a normal `<input/>` field
 - Attach HTML `<input/>` attributes
 - Pass in the custom `options` prop
 - Add ReactJS `onChange` event listener
+
+Advanced usage:
+
+- [How to pass default value](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-component-usage.md#how-to-pass-default-value)
+- [How to call to update raw value](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-component-usage.md#how-to-update-raw-value)
+- [How to get ref of the input field](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-component-usage.md#how-to-get-ref-of-the-input-field)
 
 Usage for `Webpack`, `Browserify` and more in documentation: [ReactJS component usage](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-component-usage.md)
 
@@ -242,7 +243,7 @@ gulp publish
 > For contributors, please run `gulp publish` to ensure your PR passes tests and lint, also we have a [not in the plan](https://github.com/nosir/cleave.js/blob/master/doc/not-in-the-plan.md) list you may concern.
 
 ## Get in touch
-- Bugs / Suggestions: [open an issue](https://github.com/nosir/cleave.js/issues)
+- Issue: [open an issue](https://github.com/nosir/cleave.js/issues) Please fork JSFiddle from [Playground](#playground) to present your issue
 - Twitter: [@rison](https://twitter.com/rison)
 
 ## References

@@ -109,42 +109,6 @@ class MyComponent extends React.Component {
 ReactDOM.render(<MyComponent/>, document.getElementById('content'));
 ```
 
-### The ref callback
-
-Sometimes you might want to call the underlying input method, e.g: `focus`, `blur`, etc...
-
-Instead of using `ref`, you need to use `htmlRef` to pass the ref callback function, like this:
-
-```js
-class MyComponent extends React.Component {
-    constructor(props, context) {
-        super(props, context);
-        
-        this.onBtnClick = this.onBtnClick.bind(this);
-    }
-    
-    onBtnClick() {
-        this.ccInput.focus();
-    }
-
-    render() {
-        return (
-            <div>
-                <Cleave htmlRef={(ref) => this.ccInput = ref } options={{creditCard: true}}/>
-
-                <button onClick={this.onBtnClick}>Focus!</button>
-            </div>
-        );
-    }
-}
-
-ReactDOM.render(<MyComponent/>, document.getElementById('content'));
-```
-
-For more about ReactJS callback refs, check [here](https://facebook.github.io/react/docs/more-about-refs.html#the-ref-callback-attribute) 
-
-Also please be aware cleave.js doesn't support [The ref String Attribute](https://facebook.github.io/react/docs/more-about-refs.html#the-ref-string-attribute), which is claimed as legacy by ReactJS (very likely to be deprecated in the future) 
-
 ### Webpack and Browserify config
 
 #### Webpack
@@ -243,6 +207,116 @@ As you can see, here you simply use `<Cleave/>` as a normal `<input/>` field
     The only thing getting added to the event object is the `rawValue` (delimiter stripped value) of the input field, that you might be interested in.
     
     In the example above, we get the `rawValue` and update its `state` in handler, eventually it will be passed to backend or `store` layer.
+
+## Advanced usage
+
+### How to pass default value
+
+```js
+<Cleave placeholder="Enter credit card number" options={{creditCard: true}}
+        onChange={this.onCreditCardChange}
+        value="Default Card Value"/>
+```
+
+### How to update raw value
+
+Basically, out of the box, cleave component can be seen as an uncontrolled input component, and there is no data binding between the `value` attribute and the actual value updating logic internally. 
+
+Try to bind `value` with any state in your component can lead to unexpected behaviours. The only case of using `value` attribute is to pass it as the default value in initialization.
+
+While sometimes you might want to set / update the raw value, here is what you can do:
+
+- Pass `onInit` callback into component, which returns the cleave instance, then store it as a variable or in state.
+- Call `cleave.setRawValue('...')` to update the raw value.
+- `onChange` event will be triggered, from here you can grab the returned raw / formatted value and update your state.
+
+```js
+class MyComponent extends React.Component {
+    constructor(props, context) {
+        super(props, context);
+
+        this.state = {
+            creditCardCleave:   null,
+            creditCardRawValue: ''
+        };
+        
+        this.onCreditCardChange = this.onCreditCardChange.bind(this);
+        this.onCreditCardInit = this.onCreditCardInit.bind(this);
+        
+        this.reset = this.reset.bind(this);
+    }
+
+    onCreditCardChange(event) {
+        this.setState({creditCardRawValue: event.target.rawValue});
+    }
+
+    onCreditCardInit(cleave) {
+        this.setState({creditCardCleave: cleave});
+    }
+
+    reset() {
+        this.state.creditCardCleave.setRawValue(Math.floor(5000 * Math.random()));
+    }
+
+    render() {
+        return (
+            <div>
+                <Cleave placeholder="Enter credit card number"
+                        options={{creditCard: true}}
+                        onInit={this.onCreditCardInit}
+                        onChange={this.onCreditCardChange}/>
+                        
+                <p>credit card: {this.state.creditCardRawValue}</p>
+
+                <button onClick={this.reset}>Reset!</button>
+            </div>
+        );
+    }
+}
+
+ReactDOM.render(<MyComponent/>, document.getElementById('content'));
+
+```
+
+[JSFiddle](https://jsfiddle.net/nosir/pkd17gxg/)
+
+### How to get ref of the input field
+
+Sometimes you might want to call the underlying input method, e.g: `focus`, `blur`, etc...
+
+Instead of using `ref`, you need to use `htmlRef` to pass the ref callback function, like this:
+
+```js
+class MyComponent extends React.Component {
+    constructor(props, context) {
+        super(props, context);
+        
+        this.onBtnClick = this.onBtnClick.bind(this);
+    }
+    
+    onBtnClick() {
+        this.ccInput.focus();
+    }
+
+    render() {
+        return (
+            <div>
+                <Cleave htmlRef={(ref) => this.ccInput = ref } options={{creditCard: true}}/>
+
+                <button onClick={this.onBtnClick}>Focus!</button>
+            </div>
+        );
+    }
+}
+
+ReactDOM.render(<MyComponent/>, document.getElementById('content'));
+```
+
+For more about ReactJS callback refs, check [here](https://facebook.github.io/react/docs/more-about-refs.html#the-ref-callback-attribute) 
+
+Also please be aware cleave.js doesn't support [The ref String Attribute](https://facebook.github.io/react/docs/more-about-refs.html#the-ref-string-attribute), which is claimed as legacy by ReactJS (very likely to be deprecated in the future) 
+
+Please avoid using this ref to get / set any value of the input field, which can lead to unexpected behaviour.
 
 ## References
 

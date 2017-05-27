@@ -1,6 +1,7 @@
 'use strict';
 
-var React = require('react');
+var React = require('react'); // eslint-disable-line no-unused-vars
+var CreateReactClass = require('create-react-class');
 
 var NumeralFormatter = require('./shortcuts/NumeralFormatter');
 var DateFormatter = require('./shortcuts/DateFormatter');
@@ -9,7 +10,7 @@ var CreditCardDetector = require('./shortcuts/CreditCardDetector');
 var Util = require('./utils/Util');
 var DefaultProperties = require('./common/DefaultProperties');
 
-var Cleave = React.createClass({
+var Cleave = CreateReactClass({
     componentDidMount: function () {
         this.init();
     },
@@ -65,6 +66,8 @@ var Cleave = React.createClass({
         }
 
         pps.maxLength = Util.getMaxLength(pps.blocks);
+
+        owner.isAndroid = Util.isAndroid();
 
         owner.initPhoneFormatter();
         owner.initDateFormatter();
@@ -286,7 +289,17 @@ var Cleave = React.createClass({
     },
 
     updateValueState: function () {
-        this.setState({value: this.properties.result});
+        var owner = this;
+
+        if (owner.isAndroid) {
+            window.setTimeout(function () {
+                owner.setState({value: owner.properties.result});
+            }, 1);
+
+            return;
+        }
+
+        owner.setState({value: owner.properties.result});
     },
 
     render: function () {

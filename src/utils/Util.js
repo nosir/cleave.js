@@ -101,6 +101,14 @@ var Util = {
         });
 
         return result;
+    },
+
+    isAndroid: function () {
+        if (navigator && /android/i.test(navigator.userAgent)) {
+            return true;
+        }
+
+        return false;
     }
 };
 

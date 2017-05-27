@@ -10,7 +10,7 @@
     "form",
     "input"
   ],
-  "version": "0.7.14",
+  "version": "0.7.16",
   "author": {
     "name": "Max Huang",
     "url": "http://github.com/nosir",
@@ -38,6 +38,7 @@
     "babelify": "^7.3.0",
     "browserify": "^13.0.1",
     "chai": "^3.5.0",
+    "create-react-class": "^15.5.2",
     "errorify": "^0.3.1",
     "eslint-plugin-react": "^5.2.2",
     "gulp": "^3.9.1",
