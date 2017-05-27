@@ -94,6 +94,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        pps.maxLength = Cleave.Util.getMaxLength(pps.blocks);
 
 	        owner.isAndroid = Cleave.Util.isAndroid();
+	        owner.lastInputValue = '';
 
 	        owner.onChangeListener = owner.onChange.bind(owner);
 	        owner.onKeyDownListener = owner.onKeyDown.bind(owner);
@@ -163,10 +164,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    onKeyDown: function (event) {
 	        var owner = this, pps = owner.properties,
-	            charCode = event.which || event.keyCode;
+	            charCode = event.which || event.keyCode,
+	            Util = Cleave.Util,
+	            currentValue = owner.element.value;
+
+	        if (Util.isAndroidBackspaceKeydown(owner.lastInputValue, currentValue)) {
+	            charCode = 8;
+	        }
+
+	        owner.lastInputValue = currentValue;
 
 	        // hit backspace when last character is delimiter
-	        if (charCode === 8 && Cleave.Util.isDelimiter(owner.element.value.slice(-1), pps.delimiter, pps.delimiters)) {
+	        if (charCode === 8 && Util.isDelimiter(currentValue.slice(-1), pps.delimiter, pps.delimiters)) {
 	            pps.backspace = true;
 
 	            return;
@@ -883,6 +892,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 
 	        return false;
+	    },
+
+	    // On Android chrome, the keyup and keydown events
+	    // always return key code 229 as a composition that
+	    // buffers the user’s keystrokes
+	    // see https://github.com/nosir/cleave.js/issues/147
+	    isAndroidBackspaceKeydown: function (lastInputValue, currentInputValue) {
+	        if (!this.isAndroid()) {
+	            return false;
+	        }
+
+	        return currentInputValue === lastInputValue.slice(0, -1);
 	    }
 	};
 

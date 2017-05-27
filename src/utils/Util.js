@@ -109,6 +109,18 @@ var Util = {
         }
 
         return false;
+    },
+
+    // On Android chrome, the keyup and keydown events
+    // always return key code 229 as a composition that
+    // buffers the user’s keystrokes
+    // see https://github.com/nosir/cleave.js/issues/147
+    isAndroidBackspaceKeydown: function (lastInputValue, currentInputValue) {
+        if (!this.isAndroid()) {
+            return false;
+        }
+
+        return currentInputValue === lastInputValue.slice(0, -1);
     }
 };
 
