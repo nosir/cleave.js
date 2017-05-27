@@ -38,6 +38,7 @@ Cleave.prototype = {
         pps.maxLength = Cleave.Util.getMaxLength(pps.blocks);
 
         owner.isAndroid = Cleave.Util.isAndroid();
+        owner.lastInputValue = '';
 
         owner.onChangeListener = owner.onChange.bind(owner);
         owner.onKeyDownListener = owner.onKeyDown.bind(owner);
@@ -107,10 +108,18 @@ Cleave.prototype = {
 
     onKeyDown: function (event) {
         var owner = this, pps = owner.properties,
-            charCode = event.which || event.keyCode;
+            charCode = event.which || event.keyCode,
+            Util = Cleave.Util,
+            currentValue = owner.element.value;
+
+        if (Util.isAndroidBackspaceKeydown(owner.lastInputValue, currentValue)) {
+            charCode = 8;
+        }
+
+        owner.lastInputValue = currentValue;
 
         // hit backspace when last character is delimiter
-        if (charCode === 8 && Cleave.Util.isDelimiter(owner.element.value.slice(-1), pps.delimiter, pps.delimiters)) {
+        if (charCode === 8 && Util.isDelimiter(currentValue.slice(-1), pps.delimiter, pps.delimiters)) {
             pps.backspace = true;
 
             return;
