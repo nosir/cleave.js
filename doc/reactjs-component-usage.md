@@ -15,13 +15,7 @@ However, if for some reason you would like to just refer to the final bundled sc
 First, install babel presets:
 
 ```bash
-npm install --save babel-preset-es2015 babel-preset-react babel-preset-stage-0
-```
-
-For `Browserify`, also do:
-
-```bash
-npm install --save babelify browserify-shim
+npm install --save babel-preset-es2015 babel-preset-react
 ```
 
 For `Webpack`, also do:
@@ -34,7 +28,7 @@ After that, add `.babelrc` to your project root with:
 
 ```json
 {
-  "presets": ["es2015", "stage-0", "react"]
+  "presets": ["es2015", "react"]
 }
 ```
 
@@ -117,10 +111,10 @@ ReactDOM.render(<MyComponent/>, document.getElementById('content'));
 loaders: [
     {
         test: ...,
-        exclude: /node_modules\/(?!cleave.js)/,
+        exclude: /node_modules/,
         loader: 'babel',
         query: {
-            presets: ['es2015', 'react', 'stage-0']
+            presets: ['es2015', 'react']
         }
     }
 ]
@@ -129,7 +123,7 @@ loaders: [
 #### Browserify
 
 ```js
-browserify(...).transform('babelify', {presets: ['es2015', 'react', 'stage-0']})...
+browserify(...).transform('babelify', {presets: ['es2015', 'react']})...
 ```
 
 ## Legacy way
