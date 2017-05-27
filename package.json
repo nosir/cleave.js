@@ -20,19 +20,13 @@
   "bugs": "https://github.com/nosir/cleave.js/issues",
   "homepage": "https://github.com/nosir/cleave.js",
   "docs": "https://github.com/nosir/cleave.js/blob/master/README.md",
-  "main": "src/Cleave.js",
+  "main": "dist/cleave.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/nosir/cleave.js.git"
   },
   "scripts": {
     "test": "gulp test"
-  },
-  "browserify": {
-    "transform": [
-      "babelify",
-      "browserify-shim"
-    ]
   },
   "devDependencies": {
     "babel-core": "^6.11.4",
@@ -43,7 +37,6 @@
     "babel-preset-stage-0": "^6.5.0",
     "babelify": "^7.3.0",
     "browserify": "^13.0.1",
-    "browserify-shim": "^3.8.12",
     "chai": "^3.5.0",
     "create-react-class": "^15.5.2",
     "errorify": "^0.3.1",

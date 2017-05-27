@@ -76,18 +76,6 @@ require('cleave.js/dist/addons/cleave-phone.{country}');
 var cleave = new Cleave(...)
 ```
 
-For **Browserify** users, please also run this:
-
-```bash
-npm install --save babelify browserify-shim
-```
-
-And add this empty `browserify-shim` config to your package.json:
-```js
-"browserify-shim": {
-}
-```
-
 #### AMD
 
 ```js
@@ -115,15 +103,15 @@ class MyComponent extends React.Component {
         this.onCreditCardChange = this.onCreditCardChange.bind(this);
         this.onCreditCardFocus = this.onCreditCardFocus.bind(this);
     }
-    
+
     onCreditCardChange(event) {
         // formatted pretty value
         console.log(event.target.value);
-        
+
         // raw value
         console.log(event.target.rawValue);
     }
-    
+
     onCreditCardFocus(event) {
         // update some state
     }
@@ -139,7 +127,7 @@ class MyComponent extends React.Component {
 }
 ```
 
-As you can see, here you simply use `<Cleave/>` as a normal `<input/>` field 
+As you can see, here you simply use `<Cleave/>` as a normal `<input/>` field
 
 - Attach HTML `<input/>` attributes
 - Pass in the custom `options` prop
@@ -171,11 +159,11 @@ angular.module('app', ['cleave.js'])
     $scope.onCreditCardTypeChanged = function(type) {
         $scope.model.creditCardType = type;
     };
-    
+
     $scope.model = {
         rawValue: ''
     };
-    
+
     $scope.options = {
         creditCard: {
             creditCard: true,

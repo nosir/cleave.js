@@ -1,3 +1,1 @@
-import Cleave from './src/Cleave.react';
-
-export default Cleave;
+module.exports = require('./dist/cleave-react.js');
