@@ -184,6 +184,43 @@ Then easily you can apply `cleave` directive to `input` field:
 
 More usage in documentation: [Angular directive usage](https://github.com/nosir/cleave.js/blob/master/doc/angularjs-directive-usage.md)
 
+## Vue.js directive usage
+
+```js
+// directives/index.js
+import Cleave from 'cleave.js';
+
+export const cleave = {
+  name: 'cleave',
+  bind: (el, binding) => new Cleave(el, binding.value)
+};
+```
+
+```html
+<!-- SomeComponent.vue -->
+<template>
+    <input type="text" v-model="money" v-cleave="moneyFormat">
+</template>
+
+<script>
+import { cleave } from '../directives';
+
+export default {
+  directives: { cleave },
+  data() {
+    return {
+      moneyFormat: {
+        numeral: true,
+        prefix: 'R$ ',
+        numeralDecimalMark: ',',
+        delimiter: '.'
+      }
+    };
+  }
+}
+</script>
+```
+
 ## Playground
 
 - [Plain JSFiddle (Basic usage)](https://jsfiddle.net/nosir/kbaxx64s/)
