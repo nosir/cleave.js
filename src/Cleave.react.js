@@ -193,8 +193,11 @@ var Cleave = CreateReactClass({
         // 1234*| -> hit backspace -> 123|
         // case 2: last character is not delimiter which is:
         // 12|34* -> hit backspace -> 1|34*
+        // case 3: onInput appears to run twice per keypress. We should only delete one more character the first time.
+        // 1234*| -> hit backspace -> 123|
+        // 123| -> second onInput callback -> 123|
 
-        if (!pps.numeral && pps.backspace && !Util.isDelimiter(value.slice(-1), pps.delimiter, pps.delimiters)) {
+        if (!pps.numeral && pps.backspace && !Util.isDelimiter(value.slice(-1), pps.delimiter, pps.delimiters) && value != prev) {
             value = Util.headStr(value, value.length - 1);
         }
 
