@@ -301,6 +301,16 @@ var Cleave = CreateReactClass({
 
         owner.setState({value: owner.properties.result});
     },
+ 
+    applyReference: function (element) {
+        this._inputElement = element;
+    },
+ 
+    focus: function () {
+        if (this._inputElement && typeof this._inputElement.focus === 'function') {
+            this._inputElement.focus();
+        }
+    },
 
     render: function () {
         var owner = this,
@@ -313,6 +323,7 @@ var Cleave = CreateReactClass({
                 value={owner.state.value}
                 onKeyDown={owner.onKeyDown}
                 onChange={owner.onChange}
+                ref={owner.applyReference}
                 {...propsToTransfer}
                 data-cleave-ignore={[value, options, onKeyDown, onChange, onInit, htmlRef]}
             />
