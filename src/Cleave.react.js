@@ -133,7 +133,7 @@ var Cleave = CreateReactClass({
         var owner = this,
             pps = owner.properties;
 
-        value = value !== undefined ? value.toString() : '';
+        value = value !== undefined && value !== null ? value.toString() : '';
 
         if (pps.numeral) {
             value = value.replace('.', pps.numeralDecimalMark);
