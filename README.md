@@ -231,19 +231,9 @@ Publish (build, tests & lint)
 gulp publish
 ```
 
-## Todo
-- [x] ReactJS component
-- [x] Add credit card type detection callback
-- [ ] Fix the classic cursor jumping issue
-- [x] AngularJS directive (1.x)
-- [x] Unit tests for formatter
-- [x] PhantomJS browser tests
-- [ ] ReactJS / AngularJS browser tests
-
 > For contributors, please run `gulp publish` to ensure your PR passes tests and lint, also we have a [not in the plan](https://github.com/nosir/cleave.js/blob/master/doc/not-in-the-plan.md) list you may concern.
 
 ## Get in touch
-- Issue: [open an issue](https://github.com/nosir/cleave.js/issues) Please fork JSFiddle from [Playground](#playground) to present your issue
 - Twitter: [@rison](https://twitter.com/rison)
 
 ## References
