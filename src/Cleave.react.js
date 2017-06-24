@@ -153,7 +153,7 @@ var Cleave = CreateReactClass({
             charCode = event.which || event.keyCode;
 
         // hit backspace when last character is delimiter
-        if (charCode === 8 && Util.isDelimiter(pps.result.slice(-1), pps.delimiter, pps.delimiters)) {
+        if (charCode === 8 && Util.isDelimiter(pps.result.slice(-pps.delimiterLength), pps.delimiter, pps.delimiters)) {
             pps.backspace = true;
         } else {
             pps.backspace = false;
@@ -195,8 +195,8 @@ var Cleave = CreateReactClass({
         // case 2: last character is not delimiter which is:
         // 12|34* -> hit backspace -> 1|34*
 
-        if (!pps.numeral && pps.backspace && !Util.isDelimiter(value.slice(-1), pps.delimiter, pps.delimiters)) {
-            value = Util.headStr(value, value.length - 1);
+        if (!pps.numeral && pps.backspace && !Util.isDelimiter(value.slice(-pps.delimiterLength), pps.delimiter, pps.delimiters)) {
+            value = Util.headStr(value, value.length - pps.delimiterLength);
         }
 
         // phone formatter

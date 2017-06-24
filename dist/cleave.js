@@ -176,7 +176,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        owner.lastInputValue = currentValue;
 
 	        // hit backspace when last character is delimiter
-	        if (charCode === 8 && Util.isDelimiter(currentValue.slice(-1), pps.delimiter, pps.delimiters)) {
+	        if (charCode === 8 && Util.isDelimiter(currentValue.slice(-pps.delimiterLength), pps.delimiter, pps.delimiters)) {
 	            pps.backspace = true;
 
 	            return;
@@ -234,8 +234,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // case 2: last character is not delimiter which is:
 	        // 12|34* -> hit backspace -> 1|34*
 	        // note: no need to apply this for numeral mode
-	        if (!pps.numeral && pps.backspace && !Util.isDelimiter(value.slice(-1), pps.delimiter, pps.delimiters)) {
-	            value = Util.headStr(value, value.length - 1);
+	        if (!pps.numeral && pps.backspace && !Util.isDelimiter(value.slice(-pps.delimiterLength), pps.delimiter, pps.delimiters)) {
+	            value = Util.headStr(value, value.length - pps.delimiterLength);
 	        }
 
 	        // phone formatter
@@ -978,6 +978,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    (opts.numeral ? ',' :
 	                        (opts.phone ? ' ' :
 	                            ' ')));
+	        target.delimiterLength = target.delimiter.length;
 	        target.delimiters = opts.delimiters || [];
 
 	        target.blocks = opts.blocks || [];

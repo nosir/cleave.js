@@ -55,6 +55,7 @@ var DefaultProperties = {
                     (opts.numeral ? ',' :
                         (opts.phone ? ' ' :
                             ' ')));
+        target.delimiterLength = target.delimiter.length;
         target.delimiters = opts.delimiters || [];
 
         target.blocks = opts.blocks || [];
