@@ -1,6 +1,7 @@
 'use strict';
 
 var NumeralFormatter = function (numeralDecimalMark,
+                                 numeralIntegerScale,
                                  numeralDecimalScale,
                                  numeralThousandsGroupStyle,
                                  numeralPositiveOnly,
@@ -8,6 +9,7 @@ var NumeralFormatter = function (numeralDecimalMark,
     var owner = this;
 
     owner.numeralDecimalMark = numeralDecimalMark || '.';
+    owner.numeralIntegerScale = numeralIntegerScale >= 0 ? numeralIntegerScale : 10;
     owner.numeralDecimalScale = numeralDecimalScale >= 0 ? numeralDecimalScale : 2;
     owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
     owner.numeralPositiveOnly = !!numeralPositiveOnly;
@@ -59,6 +61,10 @@ NumeralFormatter.prototype = {
             parts = value.split(owner.numeralDecimalMark);
             partInteger = parts[0];
             partDecimal = owner.numeralDecimalMark + parts[1].slice(0, owner.numeralDecimalScale);
+        }
+
+        if (owner.numeralIntegerScale > 0) {
+          partInteger = partInteger.slice(0, owner.numeralIntegerScale + (value.slice(0, 1) === '-' ? 1 : 0));
         }
 
         switch (owner.numeralThousandsGroupStyle) {

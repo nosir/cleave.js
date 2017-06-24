@@ -67,6 +67,7 @@ Cleave.prototype = {
 
         pps.numeralFormatter = new Cleave.NumeralFormatter(
             pps.numeralDecimalMark,
+            pps.numeralIntegerScale,
             pps.numeralDecimalScale,
             pps.numeralThousandsGroupStyle,
             pps.numeralPositiveOnly,

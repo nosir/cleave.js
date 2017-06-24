@@ -78,6 +78,27 @@
     ]
   },
   {
+    "numeralIntegerScale": 4,
+    "numbers": [
+      [
+        "12",
+        "12"
+      ],
+      [
+        "1234",
+        "1,234"
+      ],
+      [
+        "1234567",
+        "1,234"
+      ],
+      [
+        "-12345",
+        "-1,234"
+      ]
+    ]
+  },
+  {
     "numeralDecimalScale": 0,
     "numbers": [
       [
@@ -192,6 +213,23 @@
       [
         "-1234567'8901234",
         "-12|34|567'8901"
+      ]
+    ]
+  },
+  {
+    "thousandsGroupStyle": "lakh",
+    "numeralIntegerScale": 6,
+    "numeralDecimalScale": 3,
+    "numeralDecimalMark": "'",
+    "delimiter": "|",
+    "numbers": [
+      [
+        "1234567'8901234",
+        "1|23|456'890"
+      ],
+      [
+        "-1234567'8901234",
+        "-1|23|456'890"
       ]
     ]
   },

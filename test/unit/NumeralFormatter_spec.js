@@ -10,6 +10,10 @@ describe('NumeralFormatter', function () {
             title.push('Thousands Group Style: ' + numeral.thousandsGroupStyle);
         }
 
+        if (numeral.numeralIntegerScale) {
+            title.push('Integer Scale: ' + numeral.numeralIntegerScale);
+        }
+
         if (numeral.numeralDecimalScale || numeral.numeralDecimalScale === 0) {
             title.push('Decimal Scale: ' + numeral.numeralDecimalScale);
         }
@@ -33,6 +37,7 @@ describe('NumeralFormatter', function () {
         describe(title.join(', '), function () {
             var numeralFormatter = new NumeralFormatter(
                 numeral.numeralDecimalMark,
+                numeral.numeralIntegerScale,
                 numeral.numeralDecimalScale,
                 numeral.thousandsGroupStyle,
                 numeral.numeralPositiveOnly,

@@ -88,6 +88,7 @@ var Cleave = CreateReactClass({
 
         pps.numeralFormatter = new NumeralFormatter(
             pps.numeralDecimalMark,
+            pps.numeralIntegerScale,
             pps.numeralDecimalScale,
             pps.numeralThousandsGroupStyle,
             pps.numeralPositiveOnly,

@@ -15,6 +15,7 @@
 - Numerals:
     - [numeral](#numeral)
     - [numeralThousandsGroupStyle](#numeralthousandsgroupstyle)
+    - [numeralIntegerScale](#numeralintegerscale)
     - [numeralDecimalScale](#numeraldecimalscale)
     - [numeralDecimalMark](#numeraldecimalmark)
     - [numeralPositiveOnly](#numeralpositiveonly)
@@ -195,6 +196,23 @@ new Cleave('.my-input', {
 
 ```js
 // 123,4567.89
+```
+
+### `numeralIntegerScale`
+
+An `Int` value indicates the numeral integer scale.
+
+**Default value**: `10`
+
+```js
+new Cleave('.my-input', {
+    numeral: true,
+    numeralIntegerScale: 4
+});
+```
+
+```js
+// 1,234.56
 ```
 
 ### `numeralDecimalScale`
