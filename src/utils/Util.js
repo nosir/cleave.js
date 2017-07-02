@@ -22,17 +22,23 @@ var Util = {
         });
     },
 
+    getDelimiterREByDelimiter: function (delimiter) {
+        return new RegExp(delimiter.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1'), 'g');
+    },
+
     stripDelimiters: function (value, delimiter, delimiters) {
+        var owner = this;
+
         // single delimiter
         if (delimiters.length === 0) {
-            var delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
+            var delimiterRE = delimiter ? owner.getDelimiterREByDelimiter(delimiter) : '';
 
             return value.replace(delimiterRE, '');
         }
 
         // multiple delimiters
         delimiters.forEach(function (current) {
-            value = value.replace(new RegExp('\\' + current, 'g'), '');
+            value = value.replace(owner.getDelimiterREByDelimiter(current), '');
         });
 
         return value;
