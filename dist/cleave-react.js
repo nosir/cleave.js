@@ -104,12 +104,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var options = _owner$props.options;
 	        var onKeyDown = _owner$props.onKeyDown;
 	        var onChange = _owner$props.onChange;
+	        var onFocus = _owner$props.onFocus;
+	        var onBlur = _owner$props.onBlur;
 	        var onInit = _owner$props.onInit;
 
 
 	        owner.registeredEvents = {
 	            onInit: onInit || Util.noop,
 	            onChange: onChange || Util.noop,
+	            onFocus: onFocus || Util.noop,
+	            onBlur: onBlur || Util.noop,
 	            onKeyDown: onKeyDown || Util.noop
 	        };
 
@@ -199,6 +203,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	        owner.onChange({ target: { value: value } });
 	    },
 
+	    getRawValue: function getRawValue() {
+	        var owner = this,
+	            pps = owner.properties,
+	            rawValue = pps.result;
+
+	        if (pps.rawValueTrimPrefix) {
+	            rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength);
+	        }
+
+	        if (pps.numeral) {
+	            rawValue = pps.numeralFormatter.getRawValue(rawValue);
+	        } else {
+	            rawValue = Util.stripDelimiters(rawValue, pps.delimiter, pps.delimiters);
+	        }
+
+	        return rawValue;
+	    },
+
 	    onInit: function onInit(owner) {
 	        return owner;
 	    },
@@ -218,26 +240,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	        owner.registeredEvents.onKeyDown(event);
 	    },
 
+	    onFocus: function onFocus(event) {
+	        var owner = this,
+	            pps = owner.properties;
+
+	        event.target.rawValue = owner.getRawValue();
+	        event.target.value = pps.result;
+
+	        owner.registeredEvents.onFocus(event);
+	    },
+
+	    onBlur: function onBlur(event) {
+	        var owner = this,
+	            pps = owner.properties;
+
+	        event.target.rawValue = owner.getRawValue();
+	        event.target.value = pps.result;
+
+	        owner.registeredEvents.onBlur(event);
+	    },
+
 	    onChange: function onChange(event) {
 	        var owner = this,
-	            pps = owner.properties,
-	            rawValue;
+	            pps = owner.properties;
 
 	        owner.onInput(event.target.value);
 
-	        rawValue = pps.result;
-
-	        if (pps.rawValueTrimPrefix) {
-	            rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength);
-	        }
-
-	        if (pps.numeral) {
-	            rawValue = pps.numeralFormatter.getRawValue(rawValue);
-	        } else {
-	            rawValue = Util.stripDelimiters(rawValue, pps.delimiter, pps.delimiters);
-	        }
-
-	        event.target.rawValue = rawValue;
+	        event.target.rawValue = owner.getRawValue();
 	        event.target.value = pps.result;
 
 	        owner.registeredEvents.onChange(event);
@@ -368,20 +397,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var value = _owner$props2.value;
 	        var options = _owner$props2.options;
 	        var onKeyDown = _owner$props2.onKeyDown;
+	        var onFocus = _owner$props2.onFocus;
+	        var onBlur = _owner$props2.onBlur;
 	        var onChange = _owner$props2.onChange;
 	        var onInit = _owner$props2.onInit;
 	        var htmlRef = _owner$props2.htmlRef;
 
-	        var propsToTransfer = _objectWithoutProperties(_owner$props2, ['value', 'options', 'onKeyDown', 'onChange', 'onInit', 'htmlRef']);
+	        var propsToTransfer = _objectWithoutProperties(_owner$props2, ['value', 'options', 'onKeyDown', 'onFocus', 'onBlur', 'onChange', 'onInit', 'htmlRef']);
 
 	        return React.createElement('input', _extends({
 	            type: 'text',
 	            ref: htmlRef,
 	            value: owner.state.value,
 	            onKeyDown: owner.onKeyDown,
-	            onChange: owner.onChange
+	            onChange: owner.onChange,
+	            onFocus: owner.onFocus,
+	            onBlur: owner.onBlur
 	        }, propsToTransfer, {
-	            'data-cleave-ignore': [value, options, onKeyDown, onChange, onInit, htmlRef]
+	            'data-cleave-ignore': [value, options, onFocus, onBlur, onKeyDown, onChange, onInit, htmlRef]
 	        }));
 	    }
 	});

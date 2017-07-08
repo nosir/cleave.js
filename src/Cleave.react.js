@@ -39,11 +39,13 @@ var Cleave = CreateReactClass({
 
     getInitialState: function () {
         var owner = this,
-            { value, options, onKeyDown, onChange, onInit } = owner.props;
+            { value, options, onKeyDown, onChange, onFocus, onBlur, onInit } = owner.props;
 
         owner.registeredEvents = {
             onInit:    onInit || Util.noop,
             onChange:  onChange || Util.noop,
+            onFocus:   onFocus || Util.noop,
+            onBlur:    onBlur || Util.noop,
             onKeyDown: onKeyDown || Util.noop
         };
 
@@ -143,6 +145,23 @@ var Cleave = CreateReactClass({
         owner.onChange({target: {value: value}});
     },
 
+    getRawValue: function () {
+        var owner = this, pps = owner.properties,
+            rawValue = pps.result;
+
+        if (pps.rawValueTrimPrefix) {
+            rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength);
+        }
+
+        if (pps.numeral) {
+            rawValue = pps.numeralFormatter.getRawValue(rawValue);
+        } else {
+            rawValue = Util.stripDelimiters(rawValue, pps.delimiter, pps.delimiters);
+        }
+
+        return rawValue;
+    },
+
     onInit: function (owner) {
         return owner;
     },
@@ -162,25 +181,31 @@ var Cleave = CreateReactClass({
         owner.registeredEvents.onKeyDown(event);
     },
 
+    onFocus: function (event) {
+        var owner = this, pps = owner.properties;
+
+        event.target.rawValue = owner.getRawValue();
+        event.target.value = pps.result;
+
+        owner.registeredEvents.onFocus(event);
+    },
+
+    onBlur: function (event) {
+        var owner = this, pps = owner.properties;
+
+        event.target.rawValue = owner.getRawValue();
+        event.target.value = pps.result;
+
+        owner.registeredEvents.onBlur(event);
+    },
+
+
     onChange: function (event) {
-        var owner = this, pps = owner.properties,
-            rawValue;
+        var owner = this, pps = owner.properties;
 
         owner.onInput(event.target.value);
 
-        rawValue = pps.result;
-
-        if (pps.rawValueTrimPrefix) {
-            rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength);
-        }
-
-        if (pps.numeral) {
-            rawValue = pps.numeralFormatter.getRawValue(rawValue);
-        } else {
-            rawValue = Util.stripDelimiters(rawValue, pps.delimiter, pps.delimiters);
-        }
-
-        event.target.rawValue = rawValue;
+        event.target.rawValue = owner.getRawValue();
         event.target.value = pps.result;
 
         owner.registeredEvents.onChange(event);
@@ -305,7 +330,7 @@ var Cleave = CreateReactClass({
 
     render: function () {
         var owner = this,
-            { value, options, onKeyDown, onChange, onInit, htmlRef, ...propsToTransfer } = owner.props;
+            { value, options, onKeyDown, onFocus, onBlur, onChange, onInit, htmlRef, ...propsToTransfer } = owner.props;
 
         return (
             <input
@@ -314,8 +339,10 @@ var Cleave = CreateReactClass({
                 value={owner.state.value}
                 onKeyDown={owner.onKeyDown}
                 onChange={owner.onChange}
+                onFocus={owner.onFocus}
+                onBlur={owner.onBlur}
                 {...propsToTransfer}
-                data-cleave-ignore={[value, options, onKeyDown, onChange, onInit, htmlRef]}
+                data-cleave-ignore={[value, options, onFocus, onBlur, onKeyDown, onChange, onInit, htmlRef]}
             />
         );
     }
