@@ -47,7 +47,7 @@ var DefaultProperties = {
         target.rawValueTrimPrefix = !!opts.rawValueTrimPrefix;
         target.copyDelimiter = !!opts.copyDelimiter;
 
-        target.initValue = opts.initValue === undefined ? '' : opts.initValue.toString();
+        target.initValue = opts.initValue !== undefined && opts.initValue !== null ? opts.initValue.toString() : '';
 
         target.delimiter =
             (opts.delimiter || opts.delimiter === '') ? opts.delimiter :
