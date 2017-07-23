@@ -9,7 +9,7 @@ var NumeralFormatter = function (numeralDecimalMark,
     var owner = this;
 
     owner.numeralDecimalMark = numeralDecimalMark || '.';
-    owner.numeralIntegerScale = numeralIntegerScale >= 0 ? numeralIntegerScale : 10;
+    owner.numeralIntegerScale = numeralIntegerScale > 0 ? numeralIntegerScale : 0;
     owner.numeralDecimalScale = numeralDecimalScale >= 0 ? numeralDecimalScale : 2;
     owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
     owner.numeralPositiveOnly = !!numeralPositiveOnly;

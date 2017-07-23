@@ -433,7 +433,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var owner = this;
 
 	    owner.numeralDecimalMark = numeralDecimalMark || '.';
-	    owner.numeralIntegerScale = numeralIntegerScale >= 0 ? numeralIntegerScale : 10;
+	    owner.numeralIntegerScale = numeralIntegerScale > 0 ? numeralIntegerScale : 0;
 	    owner.numeralDecimalScale = numeralDecimalScale >= 0 ? numeralDecimalScale : 2;
 	    owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
 	    owner.numeralPositiveOnly = !!numeralPositiveOnly;
@@ -959,7 +959,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        // numeral
 	        target.numeral = !!opts.numeral;
-	        target.numeralIntegerScale = opts.numeralIntegerScale >= 0 ? opts.numeralIntegerScale : 10;
+	        target.numeralIntegerScale = opts.numeralIntegerScale > 0 ? opts.numeralIntegerScale : 0;
 	        target.numeralDecimalScale = opts.numeralDecimalScale >= 0 ? opts.numeralDecimalScale : 2;
 	        target.numeralDecimalMark = opts.numeralDecimalMark || '.';
 	        target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
@@ -976,7 +976,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        target.rawValueTrimPrefix = !!opts.rawValueTrimPrefix;
 	        target.copyDelimiter = !!opts.copyDelimiter;
 
-	        target.initValue = opts.initValue === undefined ? '' : opts.initValue.toString();
+	        target.initValue = (opts.initValue !== undefined && opts.initValue !== null) ? opts.initValue.toString() : '';
 
 	        target.delimiter =
 	            (opts.delimiter || opts.delimiter === '') ? opts.delimiter :

@@ -202,8 +202,6 @@ new Cleave('.my-input', {
 
 An `Int` value indicates the numeral integer scale.
 
-**Default value**: `10`
-
 ```js
 new Cleave('.my-input', {
     numeral: true,
