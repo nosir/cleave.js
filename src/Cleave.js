@@ -32,6 +32,8 @@ Cleave.prototype = {
 
         // no need to use this lib
         if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.date && (pps.blocksLength === 0 && !pps.prefix)) {
+            owner.onInput(pps.initValue);
+
             return;
         }
 

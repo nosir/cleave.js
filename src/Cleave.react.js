@@ -64,6 +64,9 @@ var Cleave = CreateReactClass({
 
         // so no need for this lib at all
         if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.date && (pps.blocksLength === 0 && !pps.prefix)) {
+            owner.onInput(pps.initValue);
+            owner.registeredEvents.onInit(owner);
+
             return;
         }
 
