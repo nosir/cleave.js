@@ -42,6 +42,14 @@ import Cleave from 'cleave.js/react';
 import CleavePhone from 'cleave.js/dist/addons/cleave-phone.{country}';
 ```
 
+**About the `{country}` code:** Unlike the `phoneRegionCode` value in `Cleave` component `options` property, the `country` here in this `import` statement must be given in lowercase.
+
+**Example:**
+
+```js
+import CleavePhone from 'cleave.js/dist/addons/cleave-phone.pt';
+```
+
 And define the component:
 
 ```js
