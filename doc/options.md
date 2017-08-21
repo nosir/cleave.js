@@ -369,16 +369,22 @@ A `Boolean` value indicates if it only allows numeric letters (0-9).
 
 Ignored by `creditCard` and `date` shortcuts mode, the value will always be `true`.
 
+`numericOnly` doesn't work on it's own, you have to either specify the shortcuts mode or `blocks` option to enable the formatter.
+
 **Default value**: `false`
 
 ### `uppercase`
 
 A `Boolean` value indicates if it converts value to uppercase letters.
 
+`uppercase` doesn't work on it's own, you have to either specify the shortcuts mode or `blocks` option to enable the formatter.
+
 **Default value**: `false`
 
 ### `lowercase`
 
 A `Boolean` value indicates if it converts value to lowercase letters.
+
+`lowercase` doesn't work on it's own, you have to either specify the shortcuts mode or `blocks` option to enable the formatter.
 
 **Default value**: `false`
