@@ -1,4 +1,4 @@
-# Cleave.js Documentation 
+# Cleave.js Documentation
 
 [Documentation](https://github.com/nosir/cleave.js/blob/master/doc/doc.md) > [JavaScript API](https://github.com/nosir/cleave.js/blob/master/doc/js-api.md) > Options
 
@@ -19,6 +19,7 @@
     - [numeralDecimalScale](#numeraldecimalscale)
     - [numeralDecimalMark](#numeraldecimalmark)
     - [numeralPositiveOnly](#numeralpositiveonly)
+    - [stripLeadingZeroes](#stripLeadingZeroes)
 - General config:
     - [blocks](#blocks)
     - [delimiter](#delimiter)
@@ -267,6 +268,22 @@ new Cleave('.my-input', {
 // 1234.56
 ```
 
+### `stripLeadingZeroes`
+
+A `Boolean` value indicates if zeroes appearing at the beginning of the number should be stripped out. This also prevents a number like "100,000" to disappear if the leading "1" is deleted.
+
+**Default value**: `true`
+
+```js
+new Cleave('.my-input', {
+    numeral: true,
+    stripLeadingZeroes: false
+});
+```
+
+```js
+// 000,0134.56
+```
 You can also custom the [prefix](#prefix) for numeral
 
 ## General config
@@ -319,7 +336,7 @@ When delimiters array is defined, single [delimiter](#delimiter) option is ignor
 ```js
 new Cleave('.my-input', {
     blocks: [3, 3, 3, 2],
-    delimiters: ['.', '.', '-'] 
+    delimiters: ['.', '.', '-']
 });
 ```
 
