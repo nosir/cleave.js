@@ -159,7 +159,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return;
 	        }
 
-	        pps.numeralFormatter = new NumeralFormatter(pps.numeralDecimalMark, pps.numeralIntegerScale, pps.numeralDecimalScale, pps.numeralThousandsGroupStyle, pps.numeralPositiveOnly, pps.delimiter);
+	        pps.numeralFormatter = new NumeralFormatter(pps.numeralDecimalMark, pps.numeralIntegerScale, pps.numeralDecimalScale, pps.numeralThousandsGroupStyle, pps.numeralPositiveOnly, pps.stripLeadingZeroes, pps.delimiter);
 	    },
 
 	    initDateFormatter: function initDateFormatter() {
@@ -1618,7 +1618,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var NumeralFormatter = function NumeralFormatter(numeralDecimalMark, numeralIntegerScale, numeralDecimalScale, numeralThousandsGroupStyle, numeralPositiveOnly, delimiter) {
+	var NumeralFormatter = function NumeralFormatter(numeralDecimalMark, numeralIntegerScale, numeralDecimalScale, numeralThousandsGroupStyle, numeralPositiveOnly, stripLeadingZeroes, delimiter) {
 	    var owner = this;
 
 	    owner.numeralDecimalMark = numeralDecimalMark || '.';
@@ -1626,6 +1626,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    owner.numeralDecimalScale = numeralDecimalScale >= 0 ? numeralDecimalScale : 2;
 	    owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
 	    owner.numeralPositiveOnly = !!numeralPositiveOnly;
+	    owner.stripLeadingZeroes = undefined == stripLeadingZeroes ? true : stripLeadingZeroes;
 	    owner.delimiter = delimiter || delimiter === '' ? delimiter : ',';
 	    owner.delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
 	};
@@ -1666,10 +1667,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        .replace('N', owner.numeralPositiveOnly ? '' : '-')
 
 	        // replace decimal mark
-	        .replace('M', owner.numeralDecimalMark)
+	        .replace('M', owner.numeralDecimalMark);
 
 	        // strip any leading zeros
-	        .replace(/^(-)?0+(?=\d)/, '$1');
+	        if (owner.stripLeadingZeroes) {
+	            value = value.replace(/^(-)?0+(?=\d)/, '$1');
+	        }
 
 	        partInteger = value;
 
@@ -2234,6 +2237,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        target.numeralDecimalMark = opts.numeralDecimalMark || '.';
 	        target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
 	        target.numeralPositiveOnly = !!opts.numeralPositiveOnly;
+	        target.stripLeadingZeroes = undefined == opts.stripLeadingZeroes ? true : opts.stripLeadingZeroes;
 
 	        // others
 	        target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;

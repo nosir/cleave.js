@@ -129,6 +129,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            pps.numeralDecimalScale,
 	            pps.numeralThousandsGroupStyle,
 	            pps.numeralPositiveOnly,
+	            pps.stripLeadingZeroes,
 	            pps.delimiter
 	        );
 	    },
@@ -331,20 +332,44 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    },
 
+	    setCurrentSelection: function (endPos, oldValue, newValue) {
+	        var elem = this.element;
+
+	        // If cursor was at the end of value, just place it back.
+	        // Because new value could contain additional chars.
+	        if (oldValue.length === endPos) {
+	            endPos = newValue.length;
+	        }
+
+	        if (elem.createTextRange) {
+	            var range = elem.createTextRange();
+
+	            range.move('character', endPos);
+	            range.select();
+	        } else {
+	            elem.setSelectionRange(endPos, endPos);
+	        }
+	    },
+
 	    updateValueState: function () {
 	        var owner = this;
+	        var endPos = owner.element.selectionEnd;
+	        var oldValue = owner.element.value;
+	        var newValue = owner.properties.result;
 
 	        // fix Android browser type="text" input field
 	        // cursor not jumping issue
 	        if (owner.isAndroid) {
 	            window.setTimeout(function () {
 	                owner.element.value = owner.properties.result;
+	                owner.setCurrentSelection(endPos, oldValue, newValue);
 	            }, 1);
 
 	            return;
 	        }
 
 	        owner.element.value = owner.properties.result;
+	        owner.setCurrentSelection(endPos, oldValue, newValue);
 	    },
 
 	    setPhoneRegionCode: function (phoneRegionCode) {
@@ -431,6 +456,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                 numeralDecimalScale,
 	                                 numeralThousandsGroupStyle,
 	                                 numeralPositiveOnly,
+	                                 stripLeadingZeroes,
 	                                 delimiter) {
 	    var owner = this;
 
@@ -439,6 +465,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    owner.numeralDecimalScale = numeralDecimalScale >= 0 ? numeralDecimalScale : 2;
 	    owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
 	    owner.numeralPositiveOnly = !!numeralPositiveOnly;
+	    owner.stripLeadingZeroes = (undefined == stripLeadingZeroes) ? true : stripLeadingZeroes;
 	    owner.delimiter = (delimiter || delimiter === '') ? delimiter : ',';
 	    owner.delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
 	};
@@ -476,10 +503,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	            .replace('N', owner.numeralPositiveOnly ? '' : '-')
 
 	            // replace decimal mark
-	            .replace('M', owner.numeralDecimalMark)
+	            .replace('M', owner.numeralDecimalMark);
 
-	            // strip any leading zeros
-	            .replace(/^(-)?0+(?=\d)/, '$1');
+	        // strip any leading zeros
+	        if (owner.stripLeadingZeroes) {
+	            value = value.replace(/^(-)?0+(?=\d)/, '$1');
+	        }
 
 	        partInteger = value;
 
@@ -1041,6 +1070,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        target.numeralDecimalMark = opts.numeralDecimalMark || '.';
 	        target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
 	        target.numeralPositiveOnly = !!opts.numeralPositiveOnly;
+	        target.stripLeadingZeroes = (undefined == opts.stripLeadingZeroes) ? true : opts.stripLeadingZeroes;
 
 	        // others
 	        target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;

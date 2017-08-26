@@ -55,7 +55,7 @@ NumeralFormatter.prototype = {
             .replace('M', owner.numeralDecimalMark);
 
         // strip any leading zeros
-        if(owner.stripLeadingZeroes) {
+        if (owner.stripLeadingZeroes) {
             value = value.replace(/^(-)?0+(?=\d)/, '$1');
         }
 

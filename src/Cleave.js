@@ -281,16 +281,17 @@ Cleave.prototype = {
 
         // If cursor was at the end of value, just place it back.
         // Because new value could contain additional chars.
-        if(oldValue.length == endPos) endPos = newValue.length;
+        if (oldValue.length === endPos) {
+            endPos = newValue.length;
+        }
 
-        if(elem != null) {
-            if(elem.createTextRange) {
-                var range = elem.createTextRange();
-                range.move('character', endPos);
-                range.select();
-            } else {
-                elem.setSelectionRange(endPos, endPos);
-            }
+        if (elem.createTextRange) {
+            var range = elem.createTextRange();
+
+            range.move('character', endPos);
+            range.select();
+        } else {
+            elem.setSelectionRange(endPos, endPos);
         }
     },
 
