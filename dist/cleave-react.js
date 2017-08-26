@@ -52,7 +52,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -416,9 +416,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    render: function render() {
-	        var _this = this,
-	            _arguments = arguments;
-
 	        var owner = this,
 	            _owner$props2 = owner.props,
 	            value = _owner$props2.value,
@@ -433,13 +430,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return React.createElement('input', _extends({
 	            type: 'text',
 	            ref: function ref(_ref) {
-	                _this.element = _ref;
+	                owner.element = _ref;
 
 	                if (!htmlRef) {
 	                    return;
 	                }
 
-	                htmlRef.apply(_this, _arguments);
+	                htmlRef.apply(this, arguments);
 	            },
 	            value: owner.state.value,
 	            onKeyDown: owner.onKeyDown,
@@ -452,15 +449,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = Cleave;
 
-/***/ },
+/***/ }),
 /* 1 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
 
-/***/ },
+/***/ }),
 /* 2 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 
@@ -548,9 +545,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = NumeralFormatter;
 
-/***/ },
+/***/ }),
 /* 3 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 
@@ -627,9 +624,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = DateFormatter;
 
-/***/ },
+/***/ }),
 /* 4 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 
@@ -691,9 +688,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = PhoneFormatter;
 
-/***/ },
+/***/ }),
 /* 5 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 
@@ -816,9 +813,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = CreditCardDetector;
 
-/***/ },
+/***/ }),
 /* 6 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 
@@ -933,9 +930,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = Util;
 
-/***/ },
+/***/ }),
 /* 7 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
 
@@ -1011,7 +1008,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = DefaultProperties;
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
-/***/ }
+/***/ })
 /******/ ])
 });
 ;
