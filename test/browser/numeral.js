@@ -60,4 +60,14 @@ describe('Numeral input field', function () {
         cleave.setRawValue('-1234.56');
         assert.equal(field.value, '1,234.56');
     });
+
+    it('it should not strip leading zeroes', function () {
+        var cleave = new Cleave(field, {
+            numeral:             true,
+            stripLeadingZeroes:  false
+        });
+
+        cleave.setRawValue('000,001.01');
+        assert.equal(field.value, '000,001.01');
+    });
 });

@@ -73,6 +73,7 @@ Cleave.prototype = {
             pps.numeralDecimalScale,
             pps.numeralThousandsGroupStyle,
             pps.numeralPositiveOnly,
+            pps.stripLeadingZeroes,
             pps.delimiter
         );
     },
@@ -275,20 +276,43 @@ Cleave.prototype = {
         }
     },
 
+    setCurrentSelection: function (endPos, oldValue, newValue) {
+        var elem = this.element;
+
+        // If cursor was at the end of value, just place it back.
+        // Because new value could contain additional chars.
+        if(oldValue.length == endPos) endPos = newValue.length;
+
+        if(elem != null) {
+            if(elem.createTextRange) {
+                var range = elem.createTextRange();
+                range.move('character', endPos);
+                range.select();
+            } else {
+                elem.setSelectionRange(endPos, endPos);
+            }
+        }
+    },
+
     updateValueState: function () {
         var owner = this;
+        var endPos = owner.element.selectionEnd;
+        var oldValue = owner.element.value;
+        var newValue = owner.properties.result;
 
         // fix Android browser type="text" input field
         // cursor not jumping issue
         if (owner.isAndroid) {
             window.setTimeout(function () {
                 owner.element.value = owner.properties.result;
+                owner.setCurrentSelection(endPos, oldValue, newValue);
             }, 1);
 
             return;
         }
 
         owner.element.value = owner.properties.result;
+        owner.setCurrentSelection(endPos, oldValue, newValue);
     },
 
     setPhoneRegionCode: function (phoneRegionCode) {

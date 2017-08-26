@@ -97,6 +97,7 @@ var Cleave = CreateReactClass({
             pps.numeralDecimalScale,
             pps.numeralThousandsGroupStyle,
             pps.numeralPositiveOnly,
+            pps.stripLeadingZeroes,
             pps.delimiter
         );
     },
@@ -317,18 +318,41 @@ var Cleave = CreateReactClass({
         }
     },
 
+    setCurrentSelection: function (endPos, oldValue, newValue) {
+        var elem = this.element;
+
+        // If cursor was at the end of value, just place it back.
+        // Because new value could contain additional chars.
+        if(oldValue.length == endPos) endPos = newValue.length;
+
+        if(elem != null) {
+            if(elem.createTextRange) {
+                var range = elem.createTextRange();
+                range.move('character', endPos);
+                range.select();
+            } else {
+                elem.setSelectionRange(endPos, endPos);
+            }
+        }
+    },
+
     updateValueState: function () {
         var owner = this;
+        var endPos = owner.element.selectionEnd;
+        var oldValue = owner.element.value;
+        var newValue = owner.properties.result;
 
         if (owner.isAndroid) {
             window.setTimeout(function () {
                 owner.setState({value: owner.properties.result});
+                owner.setCurrentSelection(endPos, oldValue, newValue);
             }, 1);
 
             return;
         }
 
         owner.setState({value: owner.properties.result});
+        owner.setCurrentSelection(endPos, oldValue, newValue);
     },
 
     render: function () {
