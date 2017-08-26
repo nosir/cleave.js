@@ -15,6 +15,16 @@ var Cleave = CreateReactClass({
         this.init();
     },
 
+    componentDidUpdate: function () {
+        var owner = this;
+
+        if (!owner.state.updateCursorPosition) {
+            return;
+        }
+
+        owner.setCurrentSelection(owner.state.cursorPosition);
+    },
+
     componentWillReceiveProps: function (nextProps) {
         var owner = this,
             phoneRegionCode = (nextProps.options || {}).phoneRegionCode,
@@ -54,7 +64,9 @@ var Cleave = CreateReactClass({
         owner.properties = DefaultProperties.assign({}, options);
 
         return {
-            value: owner.properties.result
+            value: owner.properties.result,
+            cursorPosition: 0,
+            updateCursorPosition: false
         };
     },
 
@@ -216,8 +228,7 @@ var Cleave = CreateReactClass({
     },
 
     onInput: function (value) {
-        var owner = this, pps = owner.properties,
-            prev = pps.result;
+        var owner = this, pps = owner.properties;
 
         // case 1: delete one more character "4"
         // 1234*| -> hit backspace -> 123|
@@ -286,12 +297,6 @@ var Cleave = CreateReactClass({
         // apply blocks
         pps.result = Util.getFormattedValue(value, pps.blocks, pps.blocksLength, pps.delimiter, pps.delimiters);
 
-        // nothing changed
-        // prevent update value to avoid caret position change
-        if (prev === pps.result && prev !== pps.prefix) {
-            return;
-        }
-
         owner.updateValueState();
     },
 
@@ -318,18 +323,56 @@ var Cleave = CreateReactClass({
         }
     },
 
+    getNextCursorPosition: function (endPos, oldValue, newValue) {
+        // If cursor was at the end of value, just place it back.
+        // Because new value could contain additional chars.
+        if (oldValue.length === endPos) {
+            return newValue.length;
+        }
+
+        return endPos;
+    },
+
+    setCurrentSelection: function (cursorPosition) {
+        var elem = this.element;
+
+        this.setState({
+            updateCursorPosition: false
+        });
+
+        if (elem.createTextRange) {
+            var range = elem.createTextRange();
+            range.move('character', cursorPosition);
+            range.select();
+        } else {
+            elem.setSelectionRange(cursorPosition, cursorPosition);
+        }
+    },
+
     updateValueState: function () {
         var owner = this;
+        var endPos = owner.element.selectionEnd;
+        var oldValue = owner.element.value;
+        var newValue = owner.properties.result;
+        var nextCursorPosition = owner.getNextCursorPosition(endPos, oldValue, newValue);
 
         if (owner.isAndroid) {
             window.setTimeout(function () {
-                owner.setState({value: owner.properties.result});
+                owner.setState({
+                    value: owner.properties.result,
+                    cursorPosition: nextCursorPosition,
+                    updateCursorPosition: true
+                });
             }, 1);
 
             return;
         }
 
-        owner.setState({value: owner.properties.result});
+        owner.setState({
+            value: owner.properties.result,
+            cursorPosition: nextCursorPosition,
+            updateCursorPosition: true
+        });
     },
 
     render: function () {
@@ -339,7 +382,15 @@ var Cleave = CreateReactClass({
         return (
             <input
                 type="text"
-                ref={htmlRef}
+                ref={function (ref) {
+                    owner.element = ref;
+
+                    if (!htmlRef) {
+                        return;
+                    }
+
+                    htmlRef.apply(this, arguments);
+                }}
                 value={owner.state.value}
                 onKeyDown={owner.onKeyDown}
                 onChange={owner.onChange}

@@ -173,7 +173,6 @@ Cleave.prototype = {
 
     onInput: function (value) {
         var owner = this, pps = owner.properties,
-            prev = value,
             Util = Cleave.Util;
 
         // case 1: delete one more character "4"
@@ -243,12 +242,6 @@ Cleave.prototype = {
         // apply blocks
         pps.result = Util.getFormattedValue(value, pps.blocks, pps.blocksLength, pps.delimiter, pps.delimiters);
 
-        // nothing changed
-        // prevent update value to avoid caret position change
-        if (prev === pps.result && prev !== pps.prefix) {
-            return;
-        }
-
         owner.updateValueState();
     },
 
@@ -276,13 +269,13 @@ Cleave.prototype = {
         }
     },
 
-    setCurrentSelection: function (endPos, oldValue, newValue) {
+    setCurrentSelection: function (endPos, oldValue) {
         var elem = this.element;
 
         // If cursor was at the end of value, just place it back.
         // Because new value could contain additional chars.
         if (oldValue.length === endPos) {
-            endPos = newValue.length;
+            return;
         }
 
         if (elem.createTextRange) {
@@ -299,21 +292,20 @@ Cleave.prototype = {
         var owner = this;
         var endPos = owner.element.selectionEnd;
         var oldValue = owner.element.value;
-        var newValue = owner.properties.result;
 
         // fix Android browser type="text" input field
         // cursor not jumping issue
         if (owner.isAndroid) {
             window.setTimeout(function () {
                 owner.element.value = owner.properties.result;
-                owner.setCurrentSelection(endPos, oldValue, newValue);
+                owner.setCurrentSelection(endPos, oldValue);
             }, 1);
 
             return;
         }
 
         owner.element.value = owner.properties.result;
-        owner.setCurrentSelection(endPos, oldValue, newValue);
+        owner.setCurrentSelection(endPos, oldValue);
     },
 
     setPhoneRegionCode: function (phoneRegionCode) {
