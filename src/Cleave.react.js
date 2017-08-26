@@ -361,8 +361,8 @@ var Cleave = React.createClass({
         return (
             <input
                 type="text"
-                ref={(ref) => {
-                    this.element = ref;
+                ref={function (ref) {
+                    owner.element = ref;
 
                     if (!htmlRef) {
                         return;
