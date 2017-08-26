@@ -52,7 +52,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -73,6 +73,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Cleave = CreateReactClass({
 	    componentDidMount: function componentDidMount() {
 	        this.init();
+	    },
+
+	    componentDidUpdate: function componentDidUpdate() {
+	        if (!this.state.updateCursorPosition) {
+	            return;
+	        }
+
+	        this.setCurrentSelection(this.state.cursorPosition);
 	    },
 
 	    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
@@ -122,7 +130,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        owner.properties = DefaultProperties.assign({}, options);
 
 	        return {
-	            value: owner.properties.result
+	            value: owner.properties.result,
+	            cursorPosition: 0,
+	            updateCursorPosition: false
 	        };
 	    },
 
@@ -380,18 +390,73 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    },
 
+<<<<<<< HEAD
 	    updateValueState: function updateValueState() {
 	        var owner = this;
 
 	        if (owner.isAndroid) {
 	            window.setTimeout(function () {
 	                owner.setState({ value: owner.properties.result });
+=======
+	    getNextCursorPosition: function getNextCursorPosition(endPos, oldValue, newValue) {
+	        // If cursor was at the end of value, just place it back.
+	        // Because new value could contain additional chars.
+	        if (oldValue.length == endPos) {
+	            return newValue.length;
+	        }
+
+	        return endPos;
+	    },
+
+	    setCurrentSelection: function setCurrentSelection(cursorPosition) {
+	        var elem = this.element;
+
+	        this.setState({
+	            updateCursorPosition: false
+	        });
+
+	        if (!elem) {
+	            return;
+	        }
+
+	        if (elem.createTextRange) {
+	            var range = elem.createTextRange();
+	            range.move('character', cursorPosition);
+	            range.select();
+	        } else {
+	            elem.setSelectionRange(cursorPosition, cursorPosition);
+	        }
+	    },
+
+	    updateValueState: function updateValueState() {
+	        var owner = this;
+	        var endPos = owner.element.selectionEnd;
+	        var oldValue = owner.element.value;
+	        var newValue = owner.properties.result;
+	        var nextCursorPosition = owner.getNextCursorPosition(endPos, oldValue, newValue);
+
+	        if (owner.isAndroid) {
+	            window.setTimeout(function () {
+	                owner.setState({
+	                    value: owner.properties.result,
+	                    cursorPosition: nextCursorPosition,
+	                    updateCursorPosition: true
+	                });
+>>>>>>> c0e33c236397ff32ff3e4fe60aa5bd705bd3830f
 	            }, 1);
 
 	            return;
 	        }
 
+<<<<<<< HEAD
 	        owner.setState({ value: owner.properties.result });
+=======
+	        owner.setState({
+	            value: owner.properties.result,
+	            cursorPosition: nextCursorPosition,
+	            updateCursorPosition: true
+	        });
+>>>>>>> c0e33c236397ff32ff3e4fe60aa5bd705bd3830f
 	    },
 
 	    render: function render() {
@@ -410,7 +475,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        return React.createElement('input', _extends({
 	            type: 'text',
-	            ref: htmlRef,
+	            ref: function ref(_ref) {
+	                owner.element = _ref;
+
+	                if (!htmlRef) {
+	                    return;
+	                }
+
+	                htmlRef.apply(this, arguments);
+	            },
 	            value: owner.state.value,
 	            onKeyDown: owner.onKeyDown,
 	            onChange: owner.onChange,
@@ -424,14 +497,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = Cleave;
 
-/***/ },
+/***/ }),
 /* 1 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
 
-/***/ },
+/***/ }),
 /* 2 */
+<<<<<<< HEAD
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1193,6 +1267,9 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ },
 /* 4 */
 /***/ function(module, exports) {
+=======
+/***/ (function(module, exports) {
+>>>>>>> c0e33c236397ff32ff3e4fe60aa5bd705bd3830f
 
 	// shim for using process in browser
 
@@ -1707,9 +1784,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = NumeralFormatter;
 
+<<<<<<< HEAD
 /***/ },
 /* 11 */
 /***/ function(module, exports) {
+=======
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+>>>>>>> c0e33c236397ff32ff3e4fe60aa5bd705bd3830f
 
 	'use strict';
 
@@ -1869,9 +1952,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = DateFormatter;
 
+<<<<<<< HEAD
 /***/ },
 /* 12 */
 /***/ function(module, exports) {
+=======
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+>>>>>>> c0e33c236397ff32ff3e4fe60aa5bd705bd3830f
 
 	'use strict';
 
@@ -1933,9 +2022,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = PhoneFormatter;
 
+<<<<<<< HEAD
 /***/ },
 /* 13 */
 /***/ function(module, exports) {
+=======
+/***/ }),
+/* 5 */
+/***/ (function(module, exports) {
+>>>>>>> c0e33c236397ff32ff3e4fe60aa5bd705bd3830f
 
 	'use strict';
 
@@ -2058,9 +2153,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = CreditCardDetector;
 
+<<<<<<< HEAD
 /***/ },
 /* 14 */
 /***/ function(module, exports) {
+=======
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+>>>>>>> c0e33c236397ff32ff3e4fe60aa5bd705bd3830f
 
 	'use strict';
 
@@ -2193,9 +2294,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	module.exports = Util;
 
+<<<<<<< HEAD
 /***/ },
 /* 15 */
 /***/ function(module, exports) {
+=======
+/***/ }),
+/* 7 */
+/***/ (function(module, exports) {
+>>>>>>> c0e33c236397ff32ff3e4fe60aa5bd705bd3830f
 
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
 
@@ -2273,7 +2380,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = DefaultProperties;
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
-/***/ }
+/***/ })
 /******/ ])
 });
 ;
