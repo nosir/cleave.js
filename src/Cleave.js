@@ -325,6 +325,8 @@ Cleave.prototype = {
             value = value.replace('.', pps.numeralDecimalMark);
         }
 
+        pps.backspace = false;
+        
         owner.element.value = value;
         owner.onInput(value);
     },
