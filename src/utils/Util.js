@@ -127,6 +127,14 @@ var Util = {
         }
 
         return currentInputValue === lastInputValue.slice(0, -1);
+    },
+        
+    dispatchChangedEvent: function(element) {
+        if ("createEvent" in document) {
+            var evt = document.createEvent("HTMLEvents");
+            evt.initEvent("change", false, true);
+            element.dispatchEvent(evt);
+        } else element.fireEvent("onchange");
     }
 };
 
