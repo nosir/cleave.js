@@ -242,7 +242,8 @@ Cleave.prototype = {
         // apply blocks
         pps.result = Util.getFormattedValue(value, pps.blocks, pps.blocksLength, pps.delimiter, pps.delimiters);
 
-        owner.updateValueState();
+				owner.updateValueState();
+				Util.dispatchChangedEvent(owner.element);
     },
 
     updateCreditCardPropsByValue: function (value) {
