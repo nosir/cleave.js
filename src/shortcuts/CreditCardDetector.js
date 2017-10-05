@@ -58,62 +58,25 @@ var CreditCardDetector = {
         // this, hence probably you don't need to enable this option.
         strictMode = !!strictMode;
 
-        if (re.amex.test(value)) {
-            return {
-                type:   'amex',
-                blocks: blocks.amex
-            };
-        } else if (re.uatp.test(value)) {
-            return {
-                type:   'uatp',
-                blocks: blocks.uatp
-            };
-        } else if (re.diners.test(value)) {
-            return {
-                type:   'diners',
-                blocks: blocks.diners
-            };
-        } else if (re.discover.test(value)) {
-            return {
-                type:   'discover',
-                blocks: strictMode ? blocks.generalStrict : blocks.discover
-            };
-        } else if (re.mastercard.test(value)) {
-            return {
-                type:   'mastercard',
-                blocks: blocks.mastercard
-            };
-        } else if (re.dankort.test(value)) {
-            return {
-                type:   'dankort',
-                blocks: blocks.dankort
-            };
-        } else if (re.instapayment.test(value)) {
-            return {
-                type:   'instapayment',
-                blocks: blocks.instapayment
-            };
-        } else if (re.jcb.test(value)) {
-            return {
-                type:   'jcb',
-                blocks: blocks.jcb
-            };
-        } else if (re.maestro.test(value)) {
-            return {
-                type:   'maestro',
-                blocks: strictMode ? blocks.generalStrict : blocks.maestro
-            };
-        } else if (re.visa.test(value)) {
-            return {
-                type:   'visa',
-                blocks: strictMode ? blocks.generalStrict : blocks.visa
-            };
-        } else {
-            return {
-                type:   'unknown',
-                blocks: strictMode ? blocks.generalStrict : blocks.general
-            };
+        for (var key in re) {
+            if (re[key].test(value)) {
+                var block;
+                if (key === 'discover' || key === 'maestro' || key === 'visa') {
+                    block = strictMode ? blocks.generalStrict : blocks[key]
+                } else {
+                    block = blocks[key]
+                }
+                return {
+                    type: key,
+                    blocks: block
+                };
+            }
         }
+
+        return {
+            type:   'unknown',
+            blocks: strictMode ? blocks.generalStrict : blocks.general
+        };
     }
 };
 
