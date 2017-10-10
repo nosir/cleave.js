@@ -13,7 +13,8 @@ var CreditCardDetector = {
         maestro:       [4, 4, 4, 4],
         visa:          [4, 4, 4, 4],
         general:       [4, 4, 4, 4],
-        generalStrict: [4, 4, 4, 7]
+        generalStrict: [4, 4, 4, 7],
+        unionPay:      [4, 4, 4, 4]
     },
 
     re: {
@@ -45,7 +46,10 @@ var CreditCardDetector = {
         maestro: /^(?:5[0678]\d{0,2}|6304|67\d{0,2})\d{0,12}/,
 
         // starts with 4; 16 digits
-        visa: /^4\d{0,15}/
+        visa: /^4\d{0,15}/,
+
+        // starts with 62; 16 digits
+        unionPay: /^62\d{0,16}/
     },
 
     getInfo: function (value, strictMode) {
@@ -107,6 +111,11 @@ var CreditCardDetector = {
             return {
                 type:   'visa',
                 blocks: strictMode ? blocks.generalStrict : blocks.visa
+            };
+        } else if (re.unionPay.test(value)) {
+            return {
+                type:   'unionPay',
+                blocks: strictMode ? blocks.generalStrict : blocks.unionPay
             };
         } else {
             return {

@@ -52,7 +52,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
 
@@ -437,9 +437,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
-/***/ },
+/***/ }),
 /* 1 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 
@@ -536,9 +536,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = NumeralFormatter;
 
 
-/***/ },
+/***/ }),
 /* 2 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 
@@ -691,9 +691,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 
-/***/ },
+/***/ }),
 /* 3 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 
@@ -755,9 +755,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 
-/***/ },
+/***/ }),
 /* 4 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 
@@ -774,7 +774,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        maestro:       [4, 4, 4, 4],
 	        visa:          [4, 4, 4, 4],
 	        general:       [4, 4, 4, 4],
-	        generalStrict: [4, 4, 4, 7]
+	        generalStrict: [4, 4, 4, 7],
+	        unionPay:      [4, 4, 4, 4]
 	    },
 
 	    re: {
@@ -806,7 +807,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        maestro: /^(?:5[0678]\d{0,2}|6304|67\d{0,2})\d{0,12}/,
 
 	        // starts with 4; 16 digits
-	        visa: /^4\d{0,15}/
+	        visa: /^4\d{0,15}/,
+
+	        // starts with 62; 16 digits
+	        unionPay: /^62\d{0,16}/
 	    },
 
 	    getInfo: function (value, strictMode) {
@@ -869,6 +873,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	                type:   'visa',
 	                blocks: strictMode ? blocks.generalStrict : blocks.visa
 	            };
+	        } else if (re.unionPay.test(value)) {
+	            return {
+	                type:   'unionPay',
+	                blocks: strictMode ? blocks.generalStrict : blocks.unionPay
+	            };
 	        } else {
 	            return {
 	                type:   'unknown',
@@ -882,9 +891,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 
-/***/ },
+/***/ }),
 /* 5 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 
@@ -1021,9 +1030,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Util;
 
 
-/***/ },
+/***/ }),
 /* 6 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
 
@@ -1105,7 +1114,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
-/***/ }
+/***/ })
 /******/ ])
 });
 ;

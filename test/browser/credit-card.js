@@ -94,5 +94,10 @@ describe('Credit card type change', function () {
         cleave.setRawValue('400');
         assert.equal(cardType, 'visa');
     });
+
+    it('should identify unionPay', function () {
+        cleave.setRawValue('6288');
+        assert.equal(cardType, 'unionPay');
+    });
 });
 
