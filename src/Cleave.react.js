@@ -158,6 +158,8 @@ var Cleave = CreateReactClass({
             value = value.replace('.', pps.numeralDecimalMark);
         }
 
+        pps.backspace = false;
+
         owner.onChange({target: {value: value}});
     },
 
