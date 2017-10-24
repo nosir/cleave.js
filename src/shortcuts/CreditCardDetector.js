@@ -76,9 +76,9 @@ var CreditCardDetector = {
                     key === 'mir' ||
                     key === 'unionPay'
                 ) {
-                    block = strictMode ? blocks.generalStrict : blocks[key]
+                    block = strictMode ? blocks.generalStrict : blocks[key];
                 } else {
-                    block = blocks[key]
+                    block = blocks[key];
                 }
                 return {
                     type: key,
