@@ -12,6 +12,7 @@ var CreditCardDetector = {
         jcb:           [4, 4, 4, 4],
         maestro:       [4, 4, 4, 4],
         visa:          [4, 4, 4, 4],
+        mir:           [4, 4, 4, 4],
         general:       [4, 4, 4, 4],
         generalStrict: [4, 4, 4, 7]
     },
@@ -29,8 +30,8 @@ var CreditCardDetector = {
         // starts with 300-305/309 or 36/38/39; 14 digits
         diners: /^3(?:0([0-5]|9)|[689]\d?)\d{0,11}/,
 
-        // starts with 51-55/22-27; 16 digits
-        mastercard: /^(5[1-5]|2[2-7])\d{0,14}/,
+        // starts with 51-55/2221–2720; 16 digits
+        mastercard: /^(5[1-5]\d{0,2}|22[2-9]\d{0,1}|2[3-7]\d{0,2})\d{0,12}/,
 
         // starts with 5019/4175/4571; 16 digits
         dankort: /^(5019|4175|4571)\d{0,12}/,
@@ -43,6 +44,9 @@ var CreditCardDetector = {
 
         // starts with 50/56-58/6304/67; 16 digits
         maestro: /^(?:5[0678]\d{0,2}|6304|67\d{0,2})\d{0,12}/,
+        
+        // starts with 22; 16 digits
+        mir: /^220[0-4]\d{0,12}/,
 
         // starts with 4; 16 digits
         visa: /^4\d{0,15}/
@@ -107,6 +111,11 @@ var CreditCardDetector = {
             return {
                 type:   'visa',
                 blocks: strictMode ? blocks.generalStrict : blocks.visa
+            };
+        } else if (re.mir.test(value)) {
+            return {
+                type:   'mir',
+                blocks: strictMode ? blocks.generalStrict : blocks.mir
             };
         } else {
             return {
