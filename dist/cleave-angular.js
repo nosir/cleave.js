@@ -330,17 +330,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        // If cursor was at the end of value, just place it back.
 	        // Because new value could contain additional chars.
-	        if (oldValue.length === endPos) {
-	            return;
-	        }
-
-	        if (elem.createTextRange) {
+	        if (oldValue.length !== endPos && elem === document.activeElement) {
+	          if ( elem.createTextRange ) {
 	            var range = elem.createTextRange();
 
 	            range.move('character', endPos);
 	            range.select();
-	        } else {
+	          } else {
 	            elem.setSelectionRange(endPos, endPos);
+	          }
 	        }
 	    },
 
@@ -381,6 +379,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            value = value.replace('.', pps.numeralDecimalMark);
 	        }
 
+	        pps.backspace = false;
+	        
 	        owner.element.value = value;
 	        owner.onInput(value);
 	    },
@@ -775,6 +775,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        visa:          [4, 4, 4, 4],
 	        mir:           [4, 4, 4, 4],
 	        general:       [4, 4, 4, 4],
+	        unionPay:      [4, 4, 4, 4],
 	        generalStrict: [4, 4, 4, 7]
 	    },
 
@@ -810,7 +811,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        mir: /^220[0-4]\d{0,12}/,
 
 	        // starts with 4; 16 digits
-	        visa: /^4\d{0,15}/
+	        visa: /^4\d{0,15}/,
+
+	        // starts with 62; 16 digits
+	        unionPay: /^62\d{0,14}/
 	    },
 
 	    getInfo: function (value, strictMode) {
@@ -877,6 +881,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return {
 	                type:   'mir',
 	                blocks: strictMode ? blocks.generalStrict : blocks.mir
+	            };
+	        } else if (re.unionPay.test(value)) {
+	            return {
+	                type:   'unionPay',
+	                blocks: strictMode ? blocks.generalStrict : blocks.unionPay
 	            };
 	        } else {
 	            return {

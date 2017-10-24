@@ -127,7 +127,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	            onKeyDown: onKeyDown || Util.noop
 	        };
 
-	        (options || {}).initValue = value;
+	        if (!options) {
+	            options = {};
+	        }
+	        options.initValue = value;
 
 	        owner.properties = DefaultProperties.assign({}, options);
 
@@ -214,6 +217,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (pps.numeral) {
 	            value = value.replace('.', pps.numeralDecimalMark);
 	        }
+
+	        pps.backspace = false;
 
 	        owner.onChange({ target: { value: value } });
 	    },
@@ -402,12 +407,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	            updateCursorPosition: false
 	        });
 
-	        if (elem.createTextRange) {
-	            var range = elem.createTextRange();
-	            range.move('character', cursorPosition);
-	            range.select();
-	        } else {
-	            elem.setSelectionRange(cursorPosition, cursorPosition);
+	        if (elem === document.activeElement) {
+	            if (elem.createTextRange) {
+	                var range = elem.createTextRange();
+	                range.move('character', cursorPosition);
+	                range.select();
+	            } else {
+	                elem.setSelectionRange(cursorPosition, cursorPosition);
+	            }
 	        }
 	    },
 
@@ -486,10 +493,12 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
-	 * Copyright (c) 2013-present, Facebook, Inc.
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
 	 *
-	 * This source code is licensed under the MIT license found in the
-	 * LICENSE file in the root directory of this source tree.
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
 	 *
 	 */
 
@@ -520,10 +529,12 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright (c) 2013-present, Facebook, Inc.
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
 	 *
-	 * This source code is licensed under the MIT license found in the
-	 * LICENSE file in the root directory of this source tree.
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
 	 *
 	 */
 
@@ -1684,9 +1695,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
+	 * All rights reserved.
 	 *
-	 * This source code is licensed under the MIT license found in the
-	 * LICENSE file in the root directory of this source tree.
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
 	 *
 	 */
 
@@ -1707,9 +1720,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
+	 * All rights reserved.
 	 *
-	 * This source code is licensed under the MIT license found in the
-	 * LICENSE file in the root directory of this source tree.
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
 	 *
 	 */
 
@@ -1765,10 +1780,12 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright (c) 2014-present, Facebook, Inc.
+	 * Copyright 2014-2015, Facebook, Inc.
+	 * All rights reserved.
 	 *
-	 * This source code is licensed under the MIT license found in the
-	 * LICENSE file in the root directory of this source tree.
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
 	 *
 	 */
 
@@ -1836,9 +1853,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
+	 * All rights reserved.
 	 *
-	 * This source code is licensed under the MIT license found in the
-	 * LICENSE file in the root directory of this source tree.
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
 	 *
 	 * 
 	 */
@@ -2210,6 +2229,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        visa: [4, 4, 4, 4],
 	        mir: [4, 4, 4, 4],
 	        general: [4, 4, 4, 4],
+	        unionPay: [4, 4, 4, 4],
 	        generalStrict: [4, 4, 4, 7]
 	    },
 
@@ -2245,7 +2265,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        mir: /^220[0-4]\d{0,12}/,
 
 	        // starts with 4; 16 digits
-	        visa: /^4\d{0,15}/
+	        visa: /^4\d{0,15}/,
+
+	        // starts with 62; 16 digits
+	        unionPay: /^62\d{0,14}/
 	    },
 
 	    getInfo: function getInfo(value, strictMode) {
@@ -2312,6 +2335,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return {
 	                type: 'mir',
 	                blocks: strictMode ? blocks.generalStrict : blocks.mir
+	            };
+	        } else if (re.unionPay.test(value)) {
+	            return {
+	                type: 'unionPay',
+	                blocks: strictMode ? blocks.generalStrict : blocks.unionPay
 	            };
 	        } else {
 	            return {
