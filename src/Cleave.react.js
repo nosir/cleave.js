@@ -33,8 +33,9 @@ var Cleave = CreateReactClass({
         if (newValue !== undefined) {
             newValue = newValue.toString();
 
-            if (newValue !== owner.properties.initValue) {
+            if (newValue !== owner.properties.initValue && newValue !== owner.state.value) {
                 owner.properties.initValue = newValue;
+                owner.properties.backspace = false;
                 owner.onInput(newValue);
             }
         }
@@ -274,7 +275,7 @@ var Cleave = CreateReactClass({
         value = pps.lowercase ? value.toLowerCase() : value;
 
         // prefix
-        if (pps.prefix) {
+        if (pps.prefix && (value.length > 0)) {
             value = pps.prefix + value;
 
             // no blocks specified, no need to do formatting
