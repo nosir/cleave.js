@@ -33,7 +33,7 @@ var DefaultProperties = {
         target.numeralIntegerScale = opts.numeralIntegerScale > 0 ? opts.numeralIntegerScale : 0;
         target.numeralDecimalScale = opts.numeralDecimalScale >= 0 ? opts.numeralDecimalScale : 2;
         target.numeralDecimalMark = opts.numeralDecimalMark || '.';
-        target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
+        target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'none';
         target.numeralPositiveOnly = !!opts.numeralPositiveOnly;
         target.stripLeadingZeroes = (undefined == opts.stripLeadingZeroes) ? true : opts.stripLeadingZeroes;
 

@@ -3,7 +3,8 @@ describe('Numeral input field', function () {
 
     it('should add large number delimiter', function () {
         var cleave = new Cleave(field, {
-            numeral: true
+            numeral: true,
+            numeralThousandsGroupStyle: "thousand"
         });
 
         cleave.setRawValue('1234.56');
@@ -24,7 +25,8 @@ describe('Numeral input field', function () {
         var cleave = new Cleave(field, {
             numeral:            true,
             numeralDecimalMark: ',',
-            delimiter:          '.'
+            delimiter:          '.',
+            numeralThousandsGroupStyle: "thousand"
         });
 
         cleave.setRawValue('1234.56');
@@ -54,7 +56,8 @@ describe('Numeral input field', function () {
     it('should use defined positive only option', function () {
         var cleave = new Cleave(field, {
             numeral:             true,
-            numeralPositiveOnly: true
+            numeralPositiveOnly: true,
+            numeralThousandsGroupStyle: "thousand"
         });
 
         cleave.setRawValue('-1234.56');
@@ -64,7 +67,8 @@ describe('Numeral input field', function () {
     it('it should not strip leading zeroes', function () {
         var cleave = new Cleave(field, {
             numeral:             true,
-            stripLeadingZeroes:  false
+            stripLeadingZeroes:  false,
+            numeralThousandsGroupStyle: "thousand"
         });
 
         cleave.setRawValue('000,001.01');

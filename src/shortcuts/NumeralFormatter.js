@@ -12,7 +12,7 @@ var NumeralFormatter = function (numeralDecimalMark,
     owner.numeralDecimalMark = numeralDecimalMark || '.';
     owner.numeralIntegerScale = numeralIntegerScale > 0 ? numeralIntegerScale : 0;
     owner.numeralDecimalScale = numeralDecimalScale >= 0 ? numeralDecimalScale : 2;
-    owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
+    owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.none;
     owner.numeralPositiveOnly = !!numeralPositiveOnly;
     owner.stripLeadingZeroes = (undefined == stripLeadingZeroes) ? true : stripLeadingZeroes;
     owner.delimiter = (delimiter || delimiter === '') ? delimiter : ',';
@@ -22,7 +22,8 @@ var NumeralFormatter = function (numeralDecimalMark,
 NumeralFormatter.groupStyle = {
     thousand: 'thousand',
     lakh:     'lakh',
-    wan:      'wan'
+    wan:      'wan',
+    none:     'none'
 };
 
 NumeralFormatter.prototype = {
@@ -82,8 +83,9 @@ NumeralFormatter.prototype = {
 
             break;
 
-        default:
+        case NumeralFormatter.groupStyle.thousand:
             partInteger = partInteger.replace(/(\d)(?=(\d{3})+$)/g, '$1' + owner.delimiter);
+            break
         }
 
         return partInteger.toString() + (owner.numeralDecimalScale > 0 ? partDecimal.toString() : '');

@@ -1894,7 +1894,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    owner.numeralDecimalMark = numeralDecimalMark || '.';
 	    owner.numeralIntegerScale = numeralIntegerScale > 0 ? numeralIntegerScale : 0;
 	    owner.numeralDecimalScale = numeralDecimalScale >= 0 ? numeralDecimalScale : 2;
-	    owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
+	    owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.none;
 	    owner.numeralPositiveOnly = !!numeralPositiveOnly;
 	    owner.stripLeadingZeroes = undefined == stripLeadingZeroes ? true : stripLeadingZeroes;
 	    owner.delimiter = delimiter || delimiter === '' ? delimiter : ',';
@@ -1904,7 +1904,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	NumeralFormatter.groupStyle = {
 	    thousand: 'thousand',
 	    lakh: 'lakh',
-	    wan: 'wan'
+	    wan: 'wan',
+	    none: 'none'
 	};
 
 	NumeralFormatter.prototype = {
@@ -1967,8 +1968,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	                break;
 
-	            default:
+	            case NumeralFormatter.groupStyle.thousand:
 	                partInteger = partInteger.replace(/(\d)(?=(\d{3})+$)/g, '$1' + owner.delimiter);
+	                break;
 	        }
 
 	        return partInteger.toString() + (owner.numeralDecimalScale > 0 ? partDecimal.toString() : '');
@@ -2505,7 +2507,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        target.numeralIntegerScale = opts.numeralIntegerScale > 0 ? opts.numeralIntegerScale : 0;
 	        target.numeralDecimalScale = opts.numeralDecimalScale >= 0 ? opts.numeralDecimalScale : 2;
 	        target.numeralDecimalMark = opts.numeralDecimalMark || '.';
-	        target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
+	        target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'none';
 	        target.numeralPositiveOnly = !!opts.numeralPositiveOnly;
 	        target.stripLeadingZeroes = undefined == opts.stripLeadingZeroes ? true : opts.stripLeadingZeroes;
 
