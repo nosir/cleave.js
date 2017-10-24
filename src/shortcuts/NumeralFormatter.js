@@ -12,7 +12,7 @@ var NumeralFormatter = function (numeralDecimalMark,
     owner.numeralDecimalMark = numeralDecimalMark || '.';
     owner.numeralIntegerScale = numeralIntegerScale > 0 ? numeralIntegerScale : 0;
     owner.numeralDecimalScale = numeralDecimalScale >= 0 ? numeralDecimalScale : 2;
-    owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.none;
+    owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
     owner.numeralPositiveOnly = !!numeralPositiveOnly;
     owner.stripLeadingZeroes = (undefined == stripLeadingZeroes) ? true : stripLeadingZeroes;
     owner.delimiter = (delimiter || delimiter === '') ? delimiter : ',';

@@ -26,6 +26,19 @@
     ]
   },
   {
+    "thousandsGroupStyle": "none",
+    "numbers": [
+      [
+        "01234567",
+        "1234567"
+      ],
+      [
+        "-01234567",
+        "-1234567"
+      ]
+    ]
+  },
+  {
     "thousandsGroupStyle": "thousand",
     "numbers": [
       [
@@ -78,7 +91,6 @@
     ]
   },
   {
-    "thousandsGroupStyle": "thousand",
     "numeralIntegerScale": 4,
     "numbers": [
       [
@@ -100,7 +112,6 @@
     ]
   },
   {
-    "thousandsGroupStyle": "thousand",
     "numeralIntegerScale": 0,
     "numbers": [
       [
@@ -110,7 +121,6 @@
     ]
   },
   {
-    "thousandsGroupStyle": "thousand",
     "numbers": [
       [
         "123456789012345",
@@ -119,7 +129,6 @@
     ]
   },
   {
-    "thousandsGroupStyle": "thousand",
     "numeralDecimalScale": 0,
     "numbers": [
       [
@@ -157,7 +166,6 @@
     ]
   },
   {
-    "thousandsGroupStyle": "thousand",
     "numeralDecimalScale": 3,
     "numbers": [
       [
@@ -195,7 +203,6 @@
     ]
   },
   {
-    "thousandsGroupStyle": "thousand",
     "numeralDecimalMark": ",",
     "delimiter": ".",
     "numbers": [
@@ -210,7 +217,6 @@
     ]
   },
   {
-    "thousandsGroupStyle": "thousand",
     "numeralDecimalMark": ".",
     "delimiter": "",
     "numbers": [

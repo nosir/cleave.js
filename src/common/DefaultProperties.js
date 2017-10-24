@@ -33,7 +33,7 @@ var DefaultProperties = {
         target.numeralIntegerScale = opts.numeralIntegerScale > 0 ? opts.numeralIntegerScale : 0;
         target.numeralDecimalScale = opts.numeralDecimalScale >= 0 ? opts.numeralDecimalScale : 2;
         target.numeralDecimalMark = opts.numeralDecimalMark || '.';
-        target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'none';
+        target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
         target.numeralPositiveOnly = !!opts.numeralPositiveOnly;
         target.stripLeadingZeroes = (undefined == opts.stripLeadingZeroes) ? true : opts.stripLeadingZeroes;
 
@@ -44,6 +44,7 @@ var DefaultProperties = {
         target.lowercase = !!opts.lowercase;
 
         target.prefix = (target.creditCard || target.phone || target.date) ? '' : (opts.prefix || '');
+        target.noImmediatePrefix = !!opts.noImmediatePrefix
         target.prefixLength = target.prefix.length;
         target.rawValueTrimPrefix = !!opts.rawValueTrimPrefix;
         target.copyDelimiter = !!opts.copyDelimiter;

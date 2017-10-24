@@ -311,7 +311,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        // numeral formatter
 	        if (pps.numeral) {
-	            pps.result = pps.prefix + pps.numeralFormatter.format(value);
+	            if (pps.prefix && (!pps.noImmediatePrefix || value.length > 0)) {
+	                pps.result = pps.prefix + pps.numeralFormatter.format(value);
+	            } else {
+	                pps.result = pps.numeralFormatter.format(value);
+	            }
 	            owner.updateValueState();
 
 	            return;
@@ -336,7 +340,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value = pps.lowercase ? value.toLowerCase() : value;
 
 	        // prefix
-	        if (pps.prefix && value.length > 0) {
+	        if (pps.prefix && (!pps.noImmediatePrefix || value.length > 0)) {
 	            value = pps.prefix + value;
 
 	            // no blocks specified, no need to do formatting
@@ -1894,7 +1898,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    owner.numeralDecimalMark = numeralDecimalMark || '.';
 	    owner.numeralIntegerScale = numeralIntegerScale > 0 ? numeralIntegerScale : 0;
 	    owner.numeralDecimalScale = numeralDecimalScale >= 0 ? numeralDecimalScale : 2;
-	    owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.none;
+	    owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
 	    owner.numeralPositiveOnly = !!numeralPositiveOnly;
 	    owner.stripLeadingZeroes = undefined == stripLeadingZeroes ? true : stripLeadingZeroes;
 	    owner.delimiter = delimiter || delimiter === '' ? delimiter : ',';
@@ -2507,7 +2511,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        target.numeralIntegerScale = opts.numeralIntegerScale > 0 ? opts.numeralIntegerScale : 0;
 	        target.numeralDecimalScale = opts.numeralDecimalScale >= 0 ? opts.numeralDecimalScale : 2;
 	        target.numeralDecimalMark = opts.numeralDecimalMark || '.';
-	        target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'none';
+	        target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
 	        target.numeralPositiveOnly = !!opts.numeralPositiveOnly;
 	        target.stripLeadingZeroes = undefined == opts.stripLeadingZeroes ? true : opts.stripLeadingZeroes;
 
@@ -2518,6 +2522,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        target.lowercase = !!opts.lowercase;
 
 	        target.prefix = target.creditCard || target.phone || target.date ? '' : opts.prefix || '';
+	        target.noImmediatePrefix = !!opts.noImmediatePrefix;
 	        target.prefixLength = target.prefix.length;
 	        target.rawValueTrimPrefix = !!opts.rawValueTrimPrefix;
 	        target.copyDelimiter = !!opts.copyDelimiter;
