@@ -83,7 +83,7 @@ A callback `Function`. Triggered after credit card type changes.
 
 The unique `String` argument `type` is the type of the detected credit, which can be:
 
-`amex` `mastercard` `visa` `diners` `discover` `jcb` `dankort` `instapayment` `uatp`
+`amex` `mastercard` `visa` `diners` `discover` `jcb` `dankort` `instapayment` `uatp` `mir` `unionPay`
 
 ```js
 new Cleave('.my-input', {

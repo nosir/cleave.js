@@ -84,6 +84,22 @@ require(['cleave.js/dist/cleave.min', 'cleave.js/dist/addons/cleave-phone.{count
 });
 ```
 
+#### TypeScript
+
+Types are contributed by the community and are available via `npm install --save-dev @types/cleave.js`. Once installed, you can import Cleave like the following:
+
+```ts
+import Cleave = require('cleave.js');
+```
+
+Types for the React-component are also available and can be imported in the same way.
+
+```tsx
+import Cleave = requre('cleave.js/react');
+```
+
+```
+
 ## ReactJS component usage
 
 ```js
