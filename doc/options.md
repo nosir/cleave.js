@@ -25,6 +25,7 @@
     - [delimiter](#delimiter)
     - [delimiters](#delimiters)
     - [prefix](#prefix)
+    - [noImmediatePrefix](#noImmediatePreix)
     - [rawValueTrimPrefix](#rawvaluetrimprefix)
     - [numericOnly](#numericonly)
     - [uppercase](#uppercase)
@@ -185,6 +186,7 @@ It accepts three preset value:
 - `thousand`: Thousand numbering group style. It groups numbers in thousands and the delimiter occurs every 3 digits. `1,234,567.89`
 - `lakh`: Indian numbering group style. It groups the rightmost 3 digits in a similar manner to regular way but then groups every 2 digits thereafter. `12,34,567.89`
 - `wan`: Chinese numbering group style. It groups numbers in 10-thousand(万, 萬) and the delimiter occurs every 4 digits. `123,4567.89`
+- `none`: Does not group thousands. `1234567.89`
 
 **Default value**: `thousand`
 

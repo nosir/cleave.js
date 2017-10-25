@@ -26,6 +26,19 @@
     ]
   },
   {
+    "thousandsGroupStyle": "none",
+    "numbers": [
+      [
+        "01234567",
+        "1234567"
+      ],
+      [
+        "-01234567",
+        "-1234567"
+      ]
+    ]
+  },
+  {
     "thousandsGroupStyle": "thousand",
     "numbers": [
       [
