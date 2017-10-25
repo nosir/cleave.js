@@ -60,7 +60,8 @@ var Cleave = CreateReactClass({
         };
 
         (options || {}).initValue = value;
-
+        owner.lastInputValue = '';
+        
         owner.properties = DefaultProperties.assign({}, options);
 
         return {
@@ -230,6 +231,11 @@ var Cleave = CreateReactClass({
     onInput: function (value) {
         var owner = this, pps = owner.properties;
 
+        if (Util.isAndroidBackspaceKeydown(owner.lastInputValue, owner.element.value) && 
+        Util.isDelimiter(pps.result.slice(-pps.delimiterLength), pps.delimiter, pps.delimiters)) {
+            pps.backspace = true;
+        }
+
         // case 1: delete one more character "4"
         // 1234*| -> hit backspace -> 123|
         // case 2: last character is not delimiter which is:
@@ -356,6 +362,8 @@ var Cleave = CreateReactClass({
         var newValue = owner.properties.result;
         var nextCursorPosition = owner.getNextCursorPosition(endPos, oldValue, newValue);
 
+        owner.lastInputValue = owner.properties.result;
+        
         if (owner.isAndroid) {
             window.setTimeout(function () {
                 owner.setState({
