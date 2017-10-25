@@ -95,8 +95,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            if (newValue !== owner.state.value && newValue !== owner.properties.result) {
 	                owner.properties.initValue = newValue;
-	                owner.properties.backspace = false;
-	                owner.onInput(newValue);
+	                owner.onInput(newValue, true);
 	            }
 	        }
 
@@ -131,6 +130,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        (options || {}).initValue = value;
 
 	        owner.properties = DefaultProperties.assign({}, options);
+	        owner.lastInputValue = '';
 
 	        return {
 	            value: owner.properties.result,
@@ -244,8 +244,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    onKeyDown: function onKeyDown(event) {
 	        var owner = this,
 	            pps = owner.properties,
-	            charCode = event.which || event.keyCode;
+	            charCode = event.which || event.keyCode,
+	            currentValue = owner.element.value;
 
+	        if (Util.isAndroidBackspaceKeydown(owner.lastInputValue, currentValue)) {
+	            charCode = 8;
+	        }
+
+	        owner.lastInputValue = currentValue;
 	        // hit backspace when last character is delimiter
 	        if (charCode === 8 && Util.isDelimiter(pps.result.slice(-pps.delimiterLength), pps.delimiter, pps.delimiters)) {
 	            pps.backspace = true;
@@ -288,7 +294,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        owner.registeredEvents.onChange(event);
 	    },
 
-	    onInput: function onInput(value) {
+	    onInput: function onInput(value, fromProps) {
 	        var owner = this,
 	            pps = owner.properties;
 
@@ -297,7 +303,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // case 2: last character is not delimiter which is:
 	        // 12|34* -> hit backspace -> 1|34*
 
-	        if (!pps.numeral && pps.backspace && !Util.isDelimiter(value.slice(-pps.delimiterLength), pps.delimiter, pps.delimiters)) {
+	        if (!fromProps && !pps.numeral && pps.backspace && !Util.isDelimiter(value.slice(-pps.delimiterLength), pps.delimiter, pps.delimiters)) {
 	            value = Util.headStr(value, value.length - pps.delimiterLength);
 	        }
 

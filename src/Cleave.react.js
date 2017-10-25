@@ -35,8 +35,7 @@ var Cleave = CreateReactClass({
 
             if (newValue !== owner.state.value && newValue !== owner.properties.result) {
                 owner.properties.initValue = newValue;
-                owner.properties.backspace = false;
-                owner.onInput(newValue);
+                owner.onInput(newValue, true);
             }
         }
 
@@ -63,6 +62,7 @@ var Cleave = CreateReactClass({
         (options || {}).initValue = value;
 
         owner.properties = DefaultProperties.assign({}, options);
+        owner.lastInputValue = '';
 
         return {
             value: owner.properties.result,
@@ -186,8 +186,14 @@ var Cleave = CreateReactClass({
     onKeyDown: function (event) {
         var owner = this,
             pps = owner.properties,
-            charCode = event.which || event.keyCode;
+            charCode = event.which || event.keyCode,
+            currentValue = owner.element.value;
 
+        if (Util.isAndroidBackspaceKeydown(owner.lastInputValue, currentValue)) {
+            charCode = 8;
+        }
+        
+        owner.lastInputValue = currentValue;
         // hit backspace when last character is delimiter
         if (charCode === 8 && Util.isDelimiter(pps.result.slice(-pps.delimiterLength), pps.delimiter, pps.delimiters)) {
             pps.backspace = true;
@@ -228,7 +234,7 @@ var Cleave = CreateReactClass({
         owner.registeredEvents.onChange(event);
     },
 
-    onInput: function (value) {
+    onInput: function (value, fromProps) {
         var owner = this, pps = owner.properties;
 
         // case 1: delete one more character "4"
@@ -236,7 +242,7 @@ var Cleave = CreateReactClass({
         // case 2: last character is not delimiter which is:
         // 12|34* -> hit backspace -> 1|34*
 
-        if (!pps.numeral && pps.backspace && !Util.isDelimiter(value.slice(-pps.delimiterLength), pps.delimiter, pps.delimiters)) {
+        if (!fromProps && !pps.numeral && pps.backspace && !Util.isDelimiter(value.slice(-pps.delimiterLength), pps.delimiter, pps.delimiters)) {
             value = Util.headStr(value, value.length - pps.delimiterLength);
         }
 
