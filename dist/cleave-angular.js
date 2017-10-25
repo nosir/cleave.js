@@ -52,7 +52,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
 
@@ -250,7 +250,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        // numeral formatter
 	        if (pps.numeral) {
-	            pps.result = pps.prefix + pps.numeralFormatter.format(value);
+	            if (pps.prefix && (!pps.noImmediatePrefix || value.length)) {
+	                pps.result = pps.prefix + pps.numeralFormatter.format(value);
+	            } else {
+	                pps.result = pps.numeralFormatter.format(value);
+	            }
 	            owner.updateValueState();
 
 	            return;
@@ -275,7 +279,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value = pps.lowercase ? value.toLowerCase() : value;
 
 	        // prefix
-	        if (pps.prefix) {
+	        if (pps.prefix && (!pps.noImmediatePrefix || value.length)) {
 	            value = pps.prefix + value;
 
 	            // no blocks specified, no need to do formatting
@@ -437,9 +441,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
-/***/ },
+/***/ }),
 /* 1 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 
@@ -536,9 +540,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = NumeralFormatter;
 
 
-/***/ },
+/***/ }),
 /* 2 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 
@@ -691,9 +695,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 
-/***/ },
+/***/ }),
 /* 3 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 
@@ -755,9 +759,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 
-/***/ },
+/***/ }),
 /* 4 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 
@@ -882,9 +886,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 
-/***/ },
+/***/ }),
 /* 5 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 
@@ -1021,9 +1025,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Util;
 
 
-/***/ },
+/***/ }),
 /* 6 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
 
@@ -1071,6 +1075,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        target.lowercase = !!opts.lowercase;
 
 	        target.prefix = (target.creditCard || target.phone || target.date) ? '' : (opts.prefix || '');
+	        target.noImmediatePrefix = !!opts.noImmediatePrefix        
 	        target.prefixLength = target.prefix.length;
 	        target.rawValueTrimPrefix = !!opts.rawValueTrimPrefix;
 	        target.copyDelimiter = !!opts.copyDelimiter;
@@ -1105,7 +1110,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
-/***/ }
+/***/ })
 /******/ ])
 });
 ;

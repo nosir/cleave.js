@@ -44,6 +44,7 @@ var DefaultProperties = {
         target.lowercase = !!opts.lowercase;
 
         target.prefix = (target.creditCard || target.phone || target.date) ? '' : (opts.prefix || '');
+        target.noImmediatePrefix = !!opts.noImmediatePrefix        
         target.prefixLength = target.prefix.length;
         target.rawValueTrimPrefix = !!opts.rawValueTrimPrefix;
         target.copyDelimiter = !!opts.copyDelimiter;

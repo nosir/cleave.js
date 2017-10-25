@@ -249,7 +249,11 @@ var Cleave = CreateReactClass({
 
         // numeral formatter
         if (pps.numeral) {
-            pps.result = pps.prefix + pps.numeralFormatter.format(value);
+            if (pps.prefix && (!pps.noImmediatePrefix || value.length)) {
+                pps.result = pps.prefix + pps.numeralFormatter.format(value);
+            } else {
+                pps.result = pps.numeralFormatter.format(value);
+            }
             owner.updateValueState();
 
             return;
@@ -274,7 +278,7 @@ var Cleave = CreateReactClass({
         value = pps.lowercase ? value.toLowerCase() : value;
 
         // prefix
-        if (pps.prefix) {
+        if (pps.prefix && (!pps.noImmediatePrefix || value.length)) {
             value = pps.prefix + value;
 
             // no blocks specified, no need to do formatting
