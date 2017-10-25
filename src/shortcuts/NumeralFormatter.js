@@ -85,7 +85,7 @@ NumeralFormatter.prototype = {
 
         case NumeralFormatter.groupStyle.thousand:
             partInteger = partInteger.replace(/(\d)(?=(\d{3})+$)/g, '$1' + owner.delimiter);
-            break
+            break;
         }
 
         return partInteger.toString() + (owner.numeralDecimalScale > 0 ? partDecimal.toString() : '');
