@@ -186,10 +186,9 @@ var Cleave = CreateReactClass({
     onKeyDown: function (event) {
         var owner = this,
             pps = owner.properties,
-            charCode = event.which || event.keyCode,
-            currentValue = owner.element.value;
+            charCode = event.which || event.keyCode;
 
-        if (Util.isAndroidBackspaceKeydown(owner.lastInputValue, currentValue)) {
+        if (Util.isAndroidBackspaceKeydown(owner.lastInputValue, owner.element.value)) {
             charCode = 8;
         }
         
@@ -366,6 +365,7 @@ var Cleave = CreateReactClass({
         var newValue = owner.properties.result;
         var nextCursorPosition = owner.getNextCursorPosition(endPos, oldValue, newValue);
 
+        owner.lastInputValue = owner.properties.result
         if (owner.isAndroid) {
             window.setTimeout(function () {
                 owner.setState({
@@ -373,12 +373,11 @@ var Cleave = CreateReactClass({
                     cursorPosition: nextCursorPosition,
                     updateCursorPosition: true
                 });
-                owner.lastInputValue = owner.properties.result;
             }, 1);
 
             return;
         }
-        owner.lastInputValue = owner.properties.result;
+
         owner.setState({
             value: owner.properties.result,
             cursorPosition: nextCursorPosition,
