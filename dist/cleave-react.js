@@ -246,10 +246,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	            pps = owner.properties,
 	            charCode = event.which || event.keyCode;
 
-	        if (Util.isAndroidBackspaceKeydown(owner.lastInputValue, owner.element.value)) {
-	            charCode = 8;
-	        }
-
 	        // hit backspace when last character is delimiter
 	        if (charCode === 8 && Util.isDelimiter(pps.result.slice(-pps.delimiterLength), pps.delimiter, pps.delimiters)) {
 	            pps.backspace = true;
@@ -296,6 +292,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var owner = this,
 	            pps = owner.properties;
 
+	        if (Util.isAndroidBackspaceKeydown(owner.lastInputValue, owner.element.value) && Util.isDelimiter(pps.result.slice(-pps.delimiterLength), pps.delimiter, pps.delimiters)) {
+	            pps.backspace = true;
+	        }
 	        // case 1: delete one more character "4"
 	        // 1234*| -> hit backspace -> 123|
 	        // case 2: last character is not delimiter which is:
