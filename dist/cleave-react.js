@@ -428,6 +428,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var nextCursorPosition = owner.getNextCursorPosition(endPos, oldValue, newValue);
 
 	        owner.lastInputValue = owner.properties.result;
+
 	        if (owner.isAndroid) {
 	            window.setTimeout(function () {
 	                owner.setState({

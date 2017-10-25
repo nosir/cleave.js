@@ -365,7 +365,8 @@ var Cleave = CreateReactClass({
         var newValue = owner.properties.result;
         var nextCursorPosition = owner.getNextCursorPosition(endPos, oldValue, newValue);
 
-        owner.lastInputValue = owner.properties.result
+        owner.lastInputValue = owner.properties.result;
+        
         if (owner.isAndroid) {
             window.setTimeout(function () {
                 owner.setState({
