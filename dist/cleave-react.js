@@ -311,7 +311,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        // numeral formatter
 	        if (pps.numeral) {
-	            if (pps.prefix && (!pps.noImmediatePrefix || value.length > 0)) {
+	            if (pps.prefix && (!pps.noImmediatePrefix || value.length)) {
 	                pps.result = pps.prefix + pps.numeralFormatter.format(value);
 	            } else {
 	                pps.result = pps.numeralFormatter.format(value);
@@ -340,7 +340,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value = pps.lowercase ? value.toLowerCase() : value;
 
 	        // prefix
-	        if (pps.prefix && (!pps.noImmediatePrefix || value.length > 0)) {
+	        if (pps.prefix && (!pps.noImmediatePrefix || value.length)) {
 	            value = pps.prefix + value;
 
 	            // no blocks specified, no need to do formatting
