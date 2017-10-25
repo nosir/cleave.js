@@ -94,10 +94,8 @@ import Cleave = require('cleave.js');
 
 Types for the React-component are also available and can be imported in the same way.
 
-```tsx
+```ts
 import Cleave = requre('cleave.js/react');
-```
-
 ```
 
 ## ReactJS component usage
