@@ -274,17 +274,15 @@ Cleave.prototype = {
 
         // If cursor was at the end of value, just place it back.
         // Because new value could contain additional chars.
-        if (oldValue.length === endPos) {
-            return;
-        }
-
-        if (elem.createTextRange) {
+        if (oldValue.length !== endPos && elem === document.activeElement) {
+          if ( elem.createTextRange ) {
             var range = elem.createTextRange();
 
             range.move('character', endPos);
             range.select();
-        } else {
+          } else {
             elem.setSelectionRange(endPos, endPos);
+          }
         }
     },
 
@@ -325,6 +323,8 @@ Cleave.prototype = {
             value = value.replace('.', pps.numeralDecimalMark);
         }
 
+        pps.backspace = false;
+        
         owner.element.value = value;
         owner.onInput(value);
     },

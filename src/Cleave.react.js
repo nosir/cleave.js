@@ -159,6 +159,8 @@ var Cleave = CreateReactClass({
             value = value.replace('.', pps.numeralDecimalMark);
         }
 
+        pps.backspace = false;
+
         owner.onChange({target: {value: value}});
     },
 
@@ -346,12 +348,14 @@ var Cleave = CreateReactClass({
             updateCursorPosition: false
         });
 
-        if (elem.createTextRange) {
+        if ( elem === document.activeElement ) {
+          if ( elem.createTextRange ) {
             var range = elem.createTextRange();
             range.move('character', cursorPosition);
             range.select();
-        } else {
+          } else {
             elem.setSelectionRange(cursorPosition, cursorPosition);
+          }
         }
     },
 
