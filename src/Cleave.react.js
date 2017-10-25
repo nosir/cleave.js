@@ -193,7 +193,6 @@ var Cleave = CreateReactClass({
             charCode = 8;
         }
         
-        owner.lastInputValue = currentValue;
         // hit backspace when last character is delimiter
         if (charCode === 8 && Util.isDelimiter(pps.result.slice(-pps.delimiterLength), pps.delimiter, pps.delimiters)) {
             pps.backspace = true;
@@ -374,11 +373,12 @@ var Cleave = CreateReactClass({
                     cursorPosition: nextCursorPosition,
                     updateCursorPosition: true
                 });
+                owner.lastInputValue = owner.properties.result;
             }, 1);
 
             return;
         }
-
+        owner.lastInputValue = owner.properties.result;
         owner.setState({
             value: owner.properties.result,
             cursorPosition: nextCursorPosition,
