@@ -222,13 +222,15 @@ var Cleave = CreateReactClass({
 
 
     onChange: function (event) {
-        var owner = this, pps = owner.properties;
+        var owner = this, pps = owner.properties, nextCursorPosition;
 
         owner.onInput(event.target.value);
 
         event.target.rawValue = owner.getRawValue();
+        nextCursorPosition = this.getNextCursorPosition(event.target.selectionEnd, pps.initValue, pps.result);
         event.target.value = pps.result;
 
+        owner.setCurrentSelection(nextCursorPosition);
         owner.registeredEvents.onChange(event);
     },
 
