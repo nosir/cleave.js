@@ -48,6 +48,8 @@ var DefaultProperties = {
         target.rawValueTrimPrefix = !!opts.rawValueTrimPrefix;
         target.copyDelimiter = !!opts.copyDelimiter;
 
+        target.reverse = !!opts.reverse;
+
         target.initValue = (opts.initValue !== undefined && opts.initValue !== null) ? opts.initValue.toString() : '';
 
         target.delimiter =

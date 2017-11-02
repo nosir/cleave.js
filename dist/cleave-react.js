@@ -2386,7 +2386,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }return index;
 	    },
 
-	    getFormattedValue: function getFormattedValue(value, blocks, blocksLength, delimiter, delimiters) {
+	    getFormattedValue: function getFormattedValue(value, blocks, blocksLength, delimiter, delimiters, reverse) {
 	        var result = '',
 	            multipleDelimiters = delimiters.length > 0,
 	            currentDelimiter;
@@ -2396,17 +2396,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return value;
 	        }
 
+	        // if reverse, format backwards
+	        if (reverse) {
+	            blocks = blocks.slice().reverse();
+	        }
+
 	        blocks.forEach(function (length, index) {
 	            if (value.length > 0) {
-	                var sub = value.slice(0, length),
-	                    rest = value.slice(length);
+	                var sub, rest;
 
-	                result += sub;
+	                if (reverse) {
+	                    sub = value.slice(-length), rest = value.slice(0, -length);
+	                    result = sub + result;
+	                } else {
+	                    sub = value.slice(0, length), rest = value.slice(length);
+	                    result += sub;
+	                }
 
 	                currentDelimiter = multipleDelimiters ? delimiters[index] || currentDelimiter : delimiter;
 
 	                if (sub.length === length && index < blocksLength - 1) {
-	                    result += currentDelimiter;
+	                    if (reverse) {
+	                        if (rest.length > 0) {
+	                            result = currentDelimiter + result;
+	                        }
+	                    } else {
+	                        result += currentDelimiter;
+	                    }
 	                }
 
 	                // update remaining string
@@ -2496,6 +2512,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        target.prefixLength = target.prefix.length;
 	        target.rawValueTrimPrefix = !!opts.rawValueTrimPrefix;
 	        target.copyDelimiter = !!opts.copyDelimiter;
+
+	        target.reverse = !!opts.reverse;
 
 	        target.initValue = opts.initValue !== undefined && opts.initValue !== null ? opts.initValue.toString() : '';
 

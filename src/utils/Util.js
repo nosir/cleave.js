@@ -78,7 +78,7 @@ var Util = {
         return index;
     },
 
-    getFormattedValue: function (value, blocks, blocksLength, delimiter, delimiters) {
+    getFormattedValue: function (value, blocks, blocksLength, delimiter, delimiters, reverse) {
         var result = '',
             multipleDelimiters = delimiters.length > 0,
             currentDelimiter;
@@ -88,17 +88,35 @@ var Util = {
             return value;
         }
 
+        // if reverse, format backwards
+        if (reverse) {
+          blocks = blocks.slice().reverse();
+        }
+
         blocks.forEach(function (length, index) {
             if (value.length > 0) {
-                var sub = value.slice(0, length),
-                    rest = value.slice(length);
+               var sub, rest;
 
-                result += sub;
+                if (reverse) {
+                    sub = value.slice(-length),
+                    rest = value.slice(0, -length);
+                    result = sub + result;
+                } else {
+                    sub = value.slice(0, length),
+                    rest = value.slice(length);
+                    result += sub;
+                }
 
                 currentDelimiter = multipleDelimiters ? (delimiters[index] || currentDelimiter) : delimiter;
 
                 if (sub.length === length && index < blocksLength - 1) {
-                    result += currentDelimiter;
+                    if (reverse) {
+                        if (rest.length > 0) {
+                          result = currentDelimiter + result;
+                        }
+                    } else {
+                        result += currentDelimiter;
+                    }
                 }
 
                 // update remaining string
