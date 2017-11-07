@@ -25,6 +25,7 @@
     - [delimiter](#delimiter)
     - [delimiters](#delimiters)
     - [prefix](#prefix)
+    - [noImmediatePrefix](#noImmediatePreix)
     - [rawValueTrimPrefix](#rawvaluetrimprefix)
     - [numericOnly](#numericonly)
     - [uppercase](#uppercase)
@@ -360,6 +361,27 @@ new Cleave('.my-input', {
 
 ```js
 // 253874 XXX XXX
+```
+
+### `noImmediatePrefix`
+
+A `boolean` value that if true, will only add the prefix once the user enters values. Useful if you need to use placeholders.
+
+**Default value**: `false`
+
+```js
+new Cleave('.my-input', {
+    numeral: true,
+    prefix: '$',
+    noImmediatePrefix: true
+});
+```
+
+```js
+// before input
+// 
+// after input of 5
+// $5
 ```
 
 ### `rawValueTrimPrefix`
