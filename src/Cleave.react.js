@@ -33,9 +33,9 @@ var Cleave = CreateReactClass({
         if (newValue !== undefined) {
             newValue = newValue.toString();
 
-            if (newValue !== owner.properties.initValue) {
+            if (newValue !== owner.state.value && newValue !== owner.properties.result) {                
                 owner.properties.initValue = newValue;
-                owner.onInput(newValue);
+                owner.onInput(newValue, true);                
             }
         }
 
@@ -232,7 +232,7 @@ var Cleave = CreateReactClass({
         owner.registeredEvents.onChange(event);
     },
 
-    onInput: function (value) {
+    onInput: function (value, fromProps) {
         var owner = this, pps = owner.properties;
 
         if (Util.isAndroidBackspaceKeydown(owner.lastInputValue, owner.element.value) && 
@@ -245,7 +245,7 @@ var Cleave = CreateReactClass({
         // case 2: last character is not delimiter which is:
         // 12|34* -> hit backspace -> 1|34*
 
-        if (!pps.numeral && pps.backspace && !Util.isDelimiter(value.slice(-pps.delimiterLength), pps.delimiter, pps.delimiters)) {
+        if (!fromProps && !pps.numeral && pps.backspace && !Util.isDelimiter(value.slice(-pps.delimiterLength), pps.delimiter, pps.delimiters)) {
             value = Util.headStr(value, value.length - pps.delimiterLength);
         }
 
