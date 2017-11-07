@@ -93,9 +93,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (newValue !== undefined) {
 	            newValue = newValue.toString();
 
-	            if (newValue !== owner.properties.initValue) {
+	            if (newValue !== owner.state.value && newValue !== owner.properties.result) {
 	                owner.properties.initValue = newValue;
-	                owner.onInput(newValue);
+	                owner.onInput(newValue, true);
 	            }
 	        }
 
@@ -292,16 +292,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	        owner.registeredEvents.onChange(event);
 	    },
 
-	    onInput: function onInput(value) {
+	    onInput: function onInput(value, fromProps) {
 	        var owner = this,
 	            pps = owner.properties;
+
+	        if (Util.isAndroidBackspaceKeydown(owner.lastInputValue, owner.element.value) && Util.isDelimiter(pps.result.slice(-pps.delimiterLength), pps.delimiter, pps.delimiters)) {
+	            pps.backspace = true;
+	        }
 
 	        // case 1: delete one more character "4"
 	        // 1234*| -> hit backspace -> 123|
 	        // case 2: last character is not delimiter which is:
 	        // 12|34* -> hit backspace -> 1|34*
 
-	        if (!pps.numeral && pps.backspace && !Util.isDelimiter(value.slice(-pps.delimiterLength), pps.delimiter, pps.delimiters)) {
+	        if (!fromProps && !pps.numeral && pps.backspace && !Util.isDelimiter(value.slice(-pps.delimiterLength), pps.delimiter, pps.delimiters)) {
 	            value = Util.headStr(value, value.length - pps.delimiterLength);
 	        }
 
@@ -315,7 +319,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        // numeral formatter
 	        if (pps.numeral) {
-	            pps.result = pps.prefix + pps.numeralFormatter.format(value);
+	            if (pps.prefix && (!pps.noImmediatePrefix || value.length)) {
+	                pps.result = pps.prefix + pps.numeralFormatter.format(value);
+	            } else {
+	                pps.result = pps.numeralFormatter.format(value);
+	            }
 	            owner.updateValueState();
 
 	            return;
@@ -340,7 +348,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value = pps.lowercase ? value.toLowerCase() : value;
 
 	        // prefix
-	        if (pps.prefix) {
+	        if (pps.prefix && (!pps.noImmediatePrefix || value.length)) {
 	            value = pps.prefix + value;
 
 	            // no blocks specified, no need to do formatting
@@ -424,6 +432,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var oldValue = owner.element.value;
 	        var newValue = owner.properties.result;
 	        var nextCursorPosition = owner.getNextCursorPosition(endPos, oldValue, newValue);
+
+	        owner.lastInputValue = owner.properties.result;
 
 	        if (owner.isAndroid) {
 	            window.setTimeout(function () {
@@ -2496,6 +2506,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        target.lowercase = !!opts.lowercase;
 
 	        target.prefix = target.creditCard || target.phone || target.date ? '' : opts.prefix || '';
+	        target.noImmediatePrefix = !!opts.noImmediatePrefix;
 	        target.prefixLength = target.prefix.length;
 	        target.rawValueTrimPrefix = !!opts.rawValueTrimPrefix;
 	        target.copyDelimiter = !!opts.copyDelimiter;
