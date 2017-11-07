@@ -1910,7 +1910,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	NumeralFormatter.groupStyle = {
 	    thousand: 'thousand',
 	    lakh: 'lakh',
-	    wan: 'wan'
+	    wan: 'wan',
+	    none: 'none'
 	};
 
 	NumeralFormatter.prototype = {
@@ -1973,8 +1974,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	                break;
 
-	            default:
+	            case NumeralFormatter.groupStyle.thousand:
 	                partInteger = partInteger.replace(/(\d)(?=(\d{3})+$)/g, '$1' + owner.delimiter);
+
+	                break;
 	        }
 
 	        return partInteger.toString() + (owner.numeralDecimalScale > 0 ? partDecimal.toString() : '');
