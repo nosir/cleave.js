@@ -59,9 +59,11 @@ var Cleave = CreateReactClass({
             onKeyDown: onKeyDown || Util.noop
         };
 
-        (options || {}).initValue = value;
-        owner.lastInputValue = '';
-        
+        if (!options) {
+            options = {};
+        }
+        options.initValue = value;
+
         owner.properties = DefaultProperties.assign({}, options);
 
         return {
