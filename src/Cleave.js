@@ -240,7 +240,7 @@ Cleave.prototype = {
         value = Util.headStr(value, pps.maxLength);
 
         // apply blocks
-        pps.result = Util.getFormattedValue(value, pps.blocks, pps.blocksLength, pps.delimiter, pps.delimiters);
+        pps.result = Util.getFormattedValue(value, pps.blocks, pps.blocksLength, pps.delimiter, pps.delimiters, pps.reverse);
 
         owner.updateValueState();
     },
@@ -324,7 +324,7 @@ Cleave.prototype = {
         }
 
         pps.backspace = false;
-        
+
         owner.element.value = value;
         owner.onInput(value);
     },

@@ -111,4 +111,37 @@ describe('Custom input field', function () {
         cleave.setRawValue('ABCDEF');
         assert.equal(field.value, 'abc def ');
     });
+
+    it('should use the reverse option', function () {
+        var cleave = new Cleave(field, {
+            blocks:    [1, 4, 7],
+            delimiter: '-',
+            reverse:   true
+        });
+
+        cleave.setRawValue('1231234567');
+        assert.equal(field.value, '123-1234567');
+    });
+
+    it('should use the reverse option', function () {
+        var cleave = new Cleave(field, {
+            blocks:    [1, 4, 7],
+            delimiter: '-',
+            reverse:   true
+        });
+
+        cleave.setRawValue('301231234567');
+        assert.equal(field.value, '3-0123-1234567');
+    });
+
+    it('should use the reverse option', function () {
+        var cleave = new Cleave(field, {
+            blocks:    [1, 4, 7],
+            delimiter: '-',
+            reverse:   true
+        });
+
+        cleave.setRawValue('1234567');
+        assert.equal(field.value, '1234567');
+    });
 });
