@@ -227,6 +227,12 @@ In order to call [public methods](https://github.com/nosir/cleave.js/blob/master
 Pass `onInit` callback into component, which returns the cleave instance, then store it as a variable or in state.
 
 ```
+onCreditCardInit(cleave) {
+    this.setState({creditCardCleave: cleave});
+}
+```
+
+```
 <Cleave options={{creditCard: true}} onInit={this.onCreditCardInit} />
 ```
 
