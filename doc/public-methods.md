@@ -5,6 +5,7 @@
 - [getRawValue](#getrawvalue)
 - [setRawValue](#setrawvaluevalue)
 - [getFormattedValue](#getformattedvalue)
+- [getISOFormatDate](#getisoformatdate)
 - [destroy](#destroy)
 - [setPhoneRegionCode](#setphoneregioncoderegioncode)
 
@@ -30,6 +31,14 @@ Gets formatted pretty value, this is same as `DOMInputElement.value`.
 
 ```js
 cleave.getFormattedValue();
+```
+
+### `.getISOFormatDate()`
+
+Gets ISO format date value, this only works for date input type.
+
+```js
+cleave.getISOFormatDate();
 ```
 
 ### `.destroy()`

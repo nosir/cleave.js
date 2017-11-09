@@ -47,3 +47,16 @@ describe('Date input field with pattern', function () {
         assert.equal(field.value, '1965/04/11');
     });
 });
+
+describe('ISO date', function () {
+    var field = document.querySelector('.input-date');
+    var cleave = new Cleave(field, {
+        date:        true,
+        datePattern: ['m', 'Y', 'd']
+    });
+
+    it('should get correct ISO date', function () {
+        cleave.setRawValue('04196511');
+        assert.equal(cleave.getISOFormatDate(), '1965-04-11');
+    });
+});
