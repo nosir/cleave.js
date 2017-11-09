@@ -122,7 +122,7 @@ var Util = {
     // buffers the user’s keystrokes
     // see https://github.com/nosir/cleave.js/issues/147
     isAndroidBackspaceKeydown: function (lastInputValue, currentInputValue) {
-        if (!this.isAndroid() || !lastInputValue || !currentInputValue) {
+        if (!this.isAndroid()) {
             return false;
         }
 
