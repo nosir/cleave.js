@@ -220,6 +220,16 @@ As you can see, here you simply use `<Cleave/>` as a normal `<input/>` field
         value="Default Card Value"/>
 ```
 
+### How to call public methods
+
+In order to call [public methods](https://github.com/nosir/cleave.js/blob/master/doc/public-methods.md), you will need to get the ref of the instance.
+
+Pass `onInit` callback into component, which returns the cleave instance, then store it as a variable or in state.
+
+```
+<Cleave options={{creditCard: true}} onInit={this.onCreditCardInit} />
+```
+
 ### How to update raw value
 
 Basically, out of the box, cleave component can be seen as an uncontrolled input component, and there is no data binding between the `value` attribute and the actual value updating logic internally. 
@@ -230,7 +240,6 @@ While sometimes you might want to set / update the raw value, here is what you c
 
 - Pass `onInit` callback into component, which returns the cleave instance, then store it as a variable or in state.
 - Call `cleave.setRawValue('...')` to update the raw value.
-- Or call `cleave.getISOFormatDate()` to get ISO format date value for date input field.
 - `onChange` event will be triggered, from here you can grab the returned raw / formatted value and update your state.
 
 ```js

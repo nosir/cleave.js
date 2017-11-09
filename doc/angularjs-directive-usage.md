@@ -49,6 +49,8 @@ Then easily you can apply `cleave` directive to `input` field:
 
 ## Advanced usage
 
+### How to get formatted value
+
 By using `Cleave.js`, angular renders the input field with the formatted value, but keeps `ng-model` value as the raw value.
 
 If you are looking to obtain the formatted value, here is the way:
@@ -98,3 +100,19 @@ Then in your html:
 As you can see, by passing the function (without `()`) to `on-value-change`, you register a callback from `cleave.js` directive.
 
 Then in the callback, it returns `formattedValue` as the only parameter.
+
+### How to call public methods
+
+In order to call [public methods](https://github.com/nosir/cleave.js/blob/master/doc/public-methods.md), you will need to get the ref of the instance.
+
+It returns the cleave instance as the second parameter within the `on-value-change` callback.
+
+Check the formatted value demo above:
+
+```
+$scope.onCleaveValueChange = function(formattedValue, cleave) {
+    $scope.model.formattedValue = formattedValue;
+};
+```
+
+[JSFiddle to call getISOFormatDate()](https://jsfiddle.net/nosir/frtfwop5/)

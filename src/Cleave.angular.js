@@ -22,7 +22,7 @@ angular.module('cleave.js', [])
 
                         ngModelCtrl.$parsers.push(function (newFormattedValue) {
                             if ($scope.onValueChange) {
-                                $scope.onValueChange()(newFormattedValue);
+                                $scope.onValueChange()(newFormattedValue, $scope.cleave);
                             }
 
                             return $scope.cleave.getRawValue();

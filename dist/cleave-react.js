@@ -2034,7 +2034,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var owner = this,
 	            date = owner.date;
 
-	        return date.length === 3 ? date[2] + '-' + owner.addLeadingZero(date[1]) + '-' + owner.addLeadingZero(date[0]) : '';
+	        return date[2] ? date[2] + '-' + owner.addLeadingZero(date[1]) + '-' + owner.addLeadingZero(date[0]) : '';
 	    },
 
 	    getBlocks: function getBlocks() {

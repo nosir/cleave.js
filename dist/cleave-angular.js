@@ -581,7 +581,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var owner = this,
 	            date = owner.date;
 
-	        return date.length === 3 ? (
+	        return date[2] ? (
 	            date[2] + '-' + owner.addLeadingZero(date[1]) + '-' + owner.addLeadingZero(date[0])
 	        ) : '';
 	    },
@@ -1137,7 +1137,7 @@ angular.module('cleave.js', [])
 
                         ngModelCtrl.$parsers.push(function (newFormattedValue) {
                             if ($scope.onValueChange) {
-                                $scope.onValueChange()(newFormattedValue);
+                                $scope.onValueChange()(newFormattedValue, $scope.cleave);
                             }
 
                             return $scope.cleave.getRawValue();

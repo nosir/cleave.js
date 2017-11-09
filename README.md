@@ -150,7 +150,8 @@ As you can see, here you simply use `<Cleave/>` as a normal `<input/>` field
 Advanced usage:
 
 - [How to pass default value](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-component-usage.md#how-to-pass-default-value)
-- [How to call to update raw value](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-component-usage.md#how-to-update-raw-value)
+- [How to get ref of cleave instance and call methods](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-component-usage.md#how-to-call-public-methods)
+- [How to update raw value](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-component-usage.md#how-to-update-raw-value)
 - [How to get ref of the input field](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-component-usage.md#how-to-get-ref-of-the-input-field)
 
 Usage for `Webpack`, `Browserify` and more in documentation: [ReactJS component usage](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-component-usage.md)
