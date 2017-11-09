@@ -408,6 +408,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return rawValue;
 	    },
 
+	    getISOFormatDate: function () {
+	        var owner = this,
+	            pps = owner.properties;
+
+	        return pps.date ? pps.dateFormatter.getISOFormatDate() : '';
+	    },
+
 	    getFormattedValue: function () {
 	        return this.element.value;
 	    },
@@ -552,6 +559,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var DateFormatter = function (datePattern) {
 	    var owner = this;
 
+	    owner.date = [];
 	    owner.blocks = [];
 	    owner.datePattern = datePattern;
 	    owner.initBlocks();
@@ -567,6 +575,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	                owner.blocks.push(2);
 	            }
 	        });
+	    },
+
+	    getISOFormatDate: function () {
+	        var owner = this,
+	            date = owner.date;
+
+	        return date.length === 3 ? (
+	            date[2] + '-' + owner.addLeadingZero(date[1]) + '-' + owner.addLeadingZero(date[0])
+	        ) : '';
 	    },
 
 	    getBlocks: function () {
@@ -660,6 +677,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            date = this.getFixedDate(day, month, year);
 	        }
+
+	        owner.date = date;
 
 	        return date.length === 0 ? value : datePattern.reduce(function (previous, current) {
 	            switch (current) {

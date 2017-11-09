@@ -3,6 +3,7 @@
 var DateFormatter = function (datePattern) {
     var owner = this;
 
+    owner.date = [];
     owner.blocks = [];
     owner.datePattern = datePattern;
     owner.initBlocks();
@@ -18,6 +19,15 @@ DateFormatter.prototype = {
                 owner.blocks.push(2);
             }
         });
+    },
+
+    getISOFormatDate: function () {
+        var owner = this,
+            date = owner.date;
+
+        return date.length === 3 ? (
+            date[2] + '-' + owner.addLeadingZero(date[1]) + '-' + owner.addLeadingZero(date[0])
+        ) : '';
     },
 
     getBlocks: function () {
@@ -111,6 +121,8 @@ DateFormatter.prototype = {
 
             date = this.getFixedDate(day, month, year);
         }
+
+        owner.date = date;
 
         return date.length === 0 ? value : datePattern.reduce(function (previous, current) {
             switch (current) {

@@ -352,6 +352,13 @@ Cleave.prototype = {
         return rawValue;
     },
 
+    getISOFormatDate: function () {
+        var owner = this,
+            pps = owner.properties;
+
+        return pps.date ? pps.dateFormatter.getISOFormatDate() : '';
+    },
+
     getFormattedValue: function () {
         return this.element.value;
     },

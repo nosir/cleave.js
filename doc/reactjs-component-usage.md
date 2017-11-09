@@ -230,6 +230,7 @@ While sometimes you might want to set / update the raw value, here is what you c
 
 - Pass `onInit` callback into component, which returns the cleave instance, then store it as a variable or in state.
 - Call `cleave.setRawValue('...')` to update the raw value.
+- Or call `cleave.getISOFormatDate()` to get ISO format date value for date input field.
 - `onChange` event will be triggered, from here you can grab the returned raw / formatted value and update your state.
 
 ```js
@@ -280,7 +281,7 @@ ReactDOM.render(<MyComponent/>, document.getElementById('content'));
 
 ```
 
-[JSFiddle](https://jsfiddle.net/nosir/pkd17gxg/)
+[JSFiddle](https://jsfiddle.net/nosir/k4pom0ap/)
 
 ### How to get ref of the input field
 

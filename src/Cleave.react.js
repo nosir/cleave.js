@@ -183,6 +183,13 @@ var Cleave = CreateReactClass({
         return rawValue;
     },
 
+    getISOFormatDate: function () {
+        var owner = this,
+            pps = owner.properties;
+
+        return pps.date ? pps.dateFormatter.getISOFormatDate() : '';
+    },
+
     onInit: function (owner) {
         return owner;
     },
