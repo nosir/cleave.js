@@ -2,30 +2,35 @@ angular.module('cleave.js', [])
     .directive('cleave', function () {
         return {
             restrict: 'A',
-            require:  'ngModel',
+            require: 'ngModel',
 
             scope: {
-                cleave:        '&',
+                cleave: '&',
+                onInit: '&?',
                 onValueChange: '&?'
             },
 
             compile: function () {
                 return {
                     pre: function ($scope, $element, attrs, ngModelCtrl) {
-                        $scope.cleave = new window.Cleave($element[0], $scope.cleave());
+                        $scope.instance = new window.Cleave($element[0], $scope.cleave());
+
+                        if ($scope.onInit) {
+                            $scope.onInit()($scope.instance);
+                        }
 
                         ngModelCtrl.$formatters.push(function (val) {
-                            $scope.cleave.setRawValue(val);
+                            $scope.instance.setRawValue(val);
 
-                            return $scope.cleave.getFormattedValue();
+                            return $scope.instance.getFormattedValue();
                         });
 
                         ngModelCtrl.$parsers.push(function (newFormattedValue) {
                             if ($scope.onValueChange) {
-                                $scope.onValueChange()(newFormattedValue, $scope.cleave);
+                                $scope.onValueChange()(newFormattedValue);
                             }
 
-                            return $scope.cleave.getRawValue();
+                            return $scope.instance.getRawValue();
                         });
                     }
                 };

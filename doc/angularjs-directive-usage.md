@@ -105,13 +105,13 @@ Then in the callback, it returns `formattedValue` as the only parameter.
 
 In order to call [public methods](https://github.com/nosir/cleave.js/blob/master/doc/public-methods.md), you will need to get the ref of the instance.
 
-It returns the cleave instance as the second parameter within the `on-value-change` callback.
+It returns the cleave instance as the parameter within the `on-init` callback.
 
-Check the formatted value demo above:
+Consider the formatted value demo above:
 
 ```
-$scope.onCleaveValueChange = function(formattedValue, cleave) {
-    $scope.model.formattedValue = formattedValue;
+$scope.onInit = function(cleave) {
+    $scope.model.cleave = cleave;
 };
 ```
 
