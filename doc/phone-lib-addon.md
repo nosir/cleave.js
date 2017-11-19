@@ -64,6 +64,6 @@ Don't include addons one by one, instead, you should build your owner country co
 
 To build it by yourself, please see [here](https://github.com/nosir/libphonenumber-country-metadata#build-phone-type-formatterjs-for-cleavejs).
 
-[JSFiddle demo]https://jsfiddle.net/nosir/ta11Lhup/
+[JSFiddle demo](https://jsfiddle.net/nosir/ta11Lhup/)
 
 If you had any problem in building your own or need some specific combinations, create an issue [here](https://github.com/nosir/cleave.js/issues)
