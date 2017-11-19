@@ -43,7 +43,7 @@ var DefaultProperties = {
         target.uppercase = !!opts.uppercase;
         target.lowercase = !!opts.lowercase;
 
-        target.prefix = (target.creditCard || target.phone || target.date) ? '' : (opts.prefix || '');
+        target.prefix = (target.creditCard || target.date) ? '' : (opts.prefix || '');
         target.noImmediatePrefix = !!opts.noImmediatePrefix;
         target.prefixLength = target.prefix.length;
         target.rawValueTrimPrefix = !!opts.rawValueTrimPrefix;

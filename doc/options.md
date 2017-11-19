@@ -126,7 +126,7 @@ new Cleave('.my-input', {
 // 202 XXX XXXX
 ```
 
-You can also custom the [delimiter](#delimiter) for phone numbers
+You can also custom the [delimiter](#delimiter) and the [prefix](#prefix) for phone numbers
 
 ## Date
 

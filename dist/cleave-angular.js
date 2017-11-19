@@ -242,7 +242,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        // phone formatter
 	        if (pps.phone) {
-	            pps.result = pps.phoneFormatter.format(value);
+	            if (pps.prefix && (!pps.noImmediatePrefix || value.length)) {
+	                pps.result = pps.prefix + pps.phoneFormatter.format(value).slice(pps.prefix.length);
+	            } else {
+	                pps.result = pps.phoneFormatter.format(value);
+	            }
 	            owner.updateValueState();
 
 	            return;
@@ -1001,11 +1005,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    isAndroid: function () {
-	        if (navigator && /android/i.test(navigator.userAgent)) {
-	            return true;
-	        }
-
-	        return false;
+	        return navigator && /android/i.test(navigator.userAgent);
 	    },
 
 	    // On Android chrome, the keyup and keydown events
@@ -1073,7 +1073,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        target.uppercase = !!opts.uppercase;
 	        target.lowercase = !!opts.lowercase;
 
-	        target.prefix = (target.creditCard || target.phone || target.date) ? '' : (opts.prefix || '');
+	        target.prefix = (target.creditCard || target.date) ? '' : (opts.prefix || '');
 	        target.noImmediatePrefix = !!opts.noImmediatePrefix;
 	        target.prefixLength = target.prefix.length;
 	        target.rawValueTrimPrefix = !!opts.rawValueTrimPrefix;

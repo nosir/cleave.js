@@ -462,8 +462,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    render: function render() {
-	        var owner = this,
-	            _owner$props2 = owner.props,
+	        var owner = this;
+	        // eslint-disable-next-line
+
+	        var _owner$props2 = owner.props,
 	            value = _owner$props2.value,
 	            options = _owner$props2.options,
 	            onKeyDown = _owner$props2.onKeyDown,
@@ -473,7 +475,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	            onInit = _owner$props2.onInit,
 	            htmlRef = _owner$props2.htmlRef,
 	            propsToTransfer = _objectWithoutProperties(_owner$props2, ['value', 'options', 'onKeyDown', 'onFocus', 'onBlur', 'onChange', 'onInit', 'htmlRef']);
-
 
 	        return React.createElement('input', _extends({
 	            type: 'text',
@@ -491,9 +492,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            onChange: owner.onChange,
 	            onFocus: owner.onFocus,
 	            onBlur: owner.onBlur
-	        }, propsToTransfer, {
-	            'data-cleave-ignore': [value, options, onFocus, onBlur, onKeyDown, onChange, onInit, htmlRef]
-	        }));
+	        }, propsToTransfer));
 	    }
 	});
 
@@ -2448,11 +2447,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    isAndroid: function isAndroid() {
-	        if (navigator && /android/i.test(navigator.userAgent)) {
-	            return true;
-	        }
-
-	        return false;
+	        return navigator && /android/i.test(navigator.userAgent);
 	    },
 
 	    // On Android chrome, the keyup and keydown events
@@ -2522,7 +2517,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        target.uppercase = !!opts.uppercase;
 	        target.lowercase = !!opts.lowercase;
 
-	        target.prefix = target.creditCard || target.phone || target.date ? '' : opts.prefix || '';
+	        target.prefix = target.creditCard || target.date ? '' : opts.prefix || '';
 	        target.noImmediatePrefix = !!opts.noImmediatePrefix;
 	        target.prefixLength = target.prefix.length;
 	        target.rawValueTrimPrefix = !!opts.rawValueTrimPrefix;

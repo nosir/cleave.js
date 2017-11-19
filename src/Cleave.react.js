@@ -401,8 +401,9 @@ var Cleave = CreateReactClass({
     },
 
     render: function () {
-        var owner = this,
-            { value, options, onKeyDown, onFocus, onBlur, onChange, onInit, htmlRef, ...propsToTransfer } = owner.props;
+        var owner = this;
+        // eslint-disable-next-line
+        var { value, options, onKeyDown, onFocus, onBlur, onChange, onInit, htmlRef, ...propsToTransfer } = owner.props;
 
         return (
             <input
@@ -422,7 +423,6 @@ var Cleave = CreateReactClass({
                 onFocus={owner.onFocus}
                 onBlur={owner.onBlur}
                 {...propsToTransfer}
-                data-cleave-ignore={[value, options, onFocus, onBlur, onKeyDown, onChange, onInit, htmlRef]}
             />
         );
     }

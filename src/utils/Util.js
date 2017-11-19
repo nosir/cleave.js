@@ -110,11 +110,7 @@ var Util = {
     },
 
     isAndroid: function () {
-        if (navigator && /android/i.test(navigator.userAgent)) {
-            return true;
-        }
-
-        return false;
+        return navigator && /android/i.test(navigator.userAgent);
     },
 
     // On Android chrome, the keyup and keydown events

@@ -19,4 +19,15 @@ describe('Phone number input field', function () {
         cleave.setRawValue('+61416123');
         assert.equal(field.value, '+61 416 123');
     });
+
+    it('should use defined prefix', function () {
+        var cleave2 = new Cleave(field, {
+            prefix:    '+61',
+            phone:           true,
+            phoneRegionCode: 'AU'
+        });
+
+        cleave2.setRawValue('+61416123456');
+        assert.equal(field.value, '+61 416 123 456');
+    });
 });
