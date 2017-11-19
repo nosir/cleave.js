@@ -6,7 +6,9 @@
 
 Phone lib uses google [libphonenumber](https://github.com/googlei18n/libphonenumber/) `AsYouTypeFormatter` feature to format phone numbers. 
 
-Since the original i18n lib includes patterns for all the countries, the file size is relatively large (minified: 254K, gzipped 50K). In order to reduce the size, Cleave.js helped you separate the module based on countries, so that you can include any of them as an addon (minified: 14K, gzipped 5KB each).
+Since the original i18n lib includes patterns for all the countries, the file size is relatively large (minified: 254K, gzipped 50K).
+
+In order to reduce the size, Cleave.js helped you separate the module based on countries, so that you can include any of them as an addon (minified: 14K, gzipped 5KB each).
 
 ## How to include phone lib addon
 
@@ -48,9 +50,12 @@ require(['dist/cleave.min', 'dist/addons/cleave-phone.{country}'], function (Cle
 
 ## Customize building
 
-Sometimes you might want to use phone lib addon for multiple counties. Please be aware this is the **wrong** way:
+Sometimes you might want to build phone lib for multiple counties.
+
+Please be aware this is the **wrong** way:
 
 ```html
+// This is the WRONG way! Don't do
 <script src="cleave-phone.ca.js"></script>
 <script src="cleave-phone.us.js"></script>
 ```
@@ -59,4 +64,6 @@ Don't include addons one by one, instead, you should build your owner country co
 
 To build it by yourself, please see [here](https://github.com/nosir/libphonenumber-country-metadata#build-phone-type-formatterjs-for-cleavejs).
 
-Alternatively, just create an issue [here](https://github.com/nosir/cleave.js/issues), specify which ones you would like to build in.
+[JSFiddle demo]https://jsfiddle.net/nosir/ta11Lhup/
+
+If you had any problem in building your own or need some specific combinations, create an issue [here](https://github.com/nosir/cleave.js/issues)
