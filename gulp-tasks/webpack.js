@@ -28,6 +28,7 @@ gulp.task('js:react', function () {
                 libraryTarget: 'umd',
                 filename:      'cleave-react.js'
             },
+            target: 'node',
             module:    {
                 loaders: [
                     {
