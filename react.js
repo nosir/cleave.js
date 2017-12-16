@@ -1,1 +1,1 @@
-module.exports = require('./dist/cleave-react.js');
+module.exports = require('./dist/cleave-react-node.js');

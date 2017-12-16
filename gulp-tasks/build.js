@@ -26,6 +26,7 @@ var paths = {
 gulp.task('min-mangle', function () {
     return gulp.src([
             path.join(paths.dist, 'cleave.js'),
+            path.join(paths.dist, 'cleave-react-node.js'),
             path.join(paths.dist, 'cleave-react.js')
         ])
         .pipe(uglify({mangle: true}))
@@ -65,6 +66,7 @@ gulp.task('build', gulpsync.sync([
     // sync
     'js:vanilla',
     'js:react',
+    'js:react-node',
     'js:angular',
     [
         // async
