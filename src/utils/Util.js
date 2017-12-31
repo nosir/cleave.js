@@ -68,6 +68,18 @@ var Util = {
         return value.slice(prefixLength);
     },
 
+    // strip value by suffix length
+    // for suffix: SUFF
+    // (123SUFF, 4) -> 123
+    getSuffixStrippedValue: function(value, suffix, suffixLength) {
+        if (value.slice(-suffixLength) !== suffix) {
+            var diffIndex = this.getFirstDiffIndex(suffix, value.slice(-suffixLength));
+
+            value = value.slice(0, -suffixLength - 1) + value.slice(diffIndex + 1, -1) + suffix;
+        }
+        return value.slice(0, value.length - suffixLength)
+    },
+
     getFirstDiffIndex: function (prev, current) {
         var index = 0;
 

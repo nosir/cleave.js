@@ -47,6 +47,10 @@ var DefaultProperties = {
         target.noImmediatePrefix = !!opts.noImmediatePrefix;
         target.prefixLength = target.prefix.length;
         target.rawValueTrimPrefix = !!opts.rawValueTrimPrefix;
+        target.suffix = (target.creditCard || target.data) ? '' : (opts.suffix || '');
+        target.noImmediateSuffix = !!opts.noImmediateSuffix;
+        target.suffixLength = target.suffix.length;
+        target.rawValueTrimSuffix = !!opts.rawValueTrimSuffix;
         target.copyDelimiter = !!opts.copyDelimiter;
 
         target.initValue = (opts.initValue !== undefined && opts.initValue !== null) ? opts.initValue.toString() : '';

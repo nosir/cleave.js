@@ -256,6 +256,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (pps.numeral) {
 	            if (pps.prefix && (!pps.noImmediatePrefix || value.length)) {
 	                pps.result = pps.prefix + pps.numeralFormatter.format(value);
+	            } else if(pps.suffix && (!pps.noImmediateSuffix || value.length)) {
+	                pps.result = pps.numeralFormatter.format(value) + pps.suffix;
 	            } else {
 	                pps.result = pps.numeralFormatter.format(value);
 	            }
@@ -388,7 +390,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 
 	        pps.backspace = false;
-	        
+
 	        owner.element.value = value;
 	        owner.onInput(value);
 	    },
@@ -401,6 +403,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        if (pps.rawValueTrimPrefix) {
 	            rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength);
+	        }
+
+	        if(pps.rawValueTrimSuffix) {
+	            rawValue = Util.getSuffixStrippedValue(rawValue, pps.suffix, pps.suffixLength);
 	        }
 
 	        if (pps.numeral) {
@@ -963,6 +969,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return value.slice(prefixLength);
 	    },
 
+	    // strip value by suffix length
+	    // for suffix: SUFF
+	    // (123SUFF, 4) -> 123
+	    getSuffixStrippedValue: function(value, suffix, suffixLength) {
+	        if (value.slice(-suffixLength) !== suffix) {
+	            var diffIndex = this.getFirstDiffIndex(suffix, value.slice(-suffixLength));
+
+	            value = value.slice(0, -suffixLength - 1) + value.slice(diffIndex + 1, -1) + suffix;
+	        }
+	        return value.slice(0, value.length - suffixLength)
+	    },
+
 	    getFirstDiffIndex: function (prev, current) {
 	        var index = 0;
 
@@ -1077,6 +1095,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        target.noImmediatePrefix = !!opts.noImmediatePrefix;
 	        target.prefixLength = target.prefix.length;
 	        target.rawValueTrimPrefix = !!opts.rawValueTrimPrefix;
+	        target.suffix = (target.creditCard || target.data) ? '' : (opts.suffix || '');
+	        target.noImmediateSuffix = !!opts.noImmediateSuffix;
+	        target.suffixLength = target.suffix.length;
+	        target.rawValueTrimSuffix = !!opts.rawValueTrimSuffix;
 	        target.copyDelimiter = !!opts.copyDelimiter;
 
 	        target.initValue = (opts.initValue !== undefined && opts.initValue !== null) ? opts.initValue.toString() : '';

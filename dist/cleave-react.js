@@ -509,12 +509,10 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
-	 * Copyright 2013-present, Facebook, Inc.
-	 * All rights reserved.
+	 * Copyright (c) 2013-present, Facebook, Inc.
 	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
+	 * This source code is licensed under the MIT license found in the
+	 * LICENSE file in the root directory of this source tree.
 	 *
 	 */
 
@@ -545,12 +543,10 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright 2013-present, Facebook, Inc.
-	 * All rights reserved.
+	 * Copyright (c) 2013-present, Facebook, Inc.
 	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
+	 * This source code is licensed under the MIT license found in the
+	 * LICENSE file in the root directory of this source tree.
 	 *
 	 */
 
@@ -1711,11 +1707,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
-	 * All rights reserved.
 	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
+	 * This source code is licensed under the MIT license found in the
+	 * LICENSE file in the root directory of this source tree.
 	 *
 	 */
 
@@ -1736,11 +1730,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
-	 * All rights reserved.
 	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
+	 * This source code is licensed under the MIT license found in the
+	 * LICENSE file in the root directory of this source tree.
 	 *
 	 */
 
@@ -1796,12 +1788,10 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright 2014-2015, Facebook, Inc.
-	 * All rights reserved.
+	 * Copyright (c) 2014-present, Facebook, Inc.
 	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
+	 * This source code is licensed under the MIT license found in the
+	 * LICENSE file in the root directory of this source tree.
 	 *
 	 */
 
@@ -1869,11 +1859,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
-	 * All rights reserved.
 	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
+	 * This source code is licensed under the MIT license found in the
+	 * LICENSE file in the root directory of this source tree.
 	 *
 	 * 
 	 */
@@ -2407,6 +2395,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return value.slice(prefixLength);
 	    },
 
+	    // strip value by suffix length
+	    // for suffix: SUFF
+	    // (123SUFF, 4) -> 123
+	    getSuffixStrippedValue: function getSuffixStrippedValue(value, suffix, suffixLength) {
+	        if (value.slice(-suffixLength) !== suffix) {
+	            var diffIndex = this.getFirstDiffIndex(suffix, value.slice(-suffixLength));
+
+	            value = value.slice(0, -suffixLength - 1) + value.slice(diffIndex + 1, -1) + suffix;
+	        }
+	        return value.slice(0, value.length - suffixLength);
+	    },
+
 	    getFirstDiffIndex: function getFirstDiffIndex(prev, current) {
 	        var index = 0;
 
@@ -2521,6 +2521,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        target.noImmediatePrefix = !!opts.noImmediatePrefix;
 	        target.prefixLength = target.prefix.length;
 	        target.rawValueTrimPrefix = !!opts.rawValueTrimPrefix;
+	        target.suffix = target.creditCard || target.data ? '' : opts.suffix || '';
+	        target.noImmediateSuffix = !!opts.noImmediateSuffix;
+	        target.suffixLength = target.suffix.length;
+	        target.rawValueTrimSuffix = !!opts.rawValueTrimSuffix;
 	        target.copyDelimiter = !!opts.copyDelimiter;
 
 	        target.initValue = opts.initValue !== undefined && opts.initValue !== null ? opts.initValue.toString() : '';

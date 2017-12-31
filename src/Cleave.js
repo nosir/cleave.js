@@ -200,6 +200,8 @@ Cleave.prototype = {
         if (pps.numeral) {
             if (pps.prefix && (!pps.noImmediatePrefix || value.length)) {
                 pps.result = pps.prefix + pps.numeralFormatter.format(value);
+            } else if(pps.suffix && (!pps.noImmediateSuffix || value.length)) {
+                pps.result = pps.numeralFormatter.format(value) + pps.suffix;
             } else {
                 pps.result = pps.numeralFormatter.format(value);
             }
@@ -332,7 +334,7 @@ Cleave.prototype = {
         }
 
         pps.backspace = false;
-        
+
         owner.element.value = value;
         owner.onInput(value);
     },
@@ -345,6 +347,10 @@ Cleave.prototype = {
 
         if (pps.rawValueTrimPrefix) {
             rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength);
+        }
+
+        if(pps.rawValueTrimSuffix) {
+            rawValue = Util.getSuffixStrippedValue(rawValue, pps.suffix, pps.suffixLength);
         }
 
         if (pps.numeral) {

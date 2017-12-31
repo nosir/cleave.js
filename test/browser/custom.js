@@ -61,7 +61,7 @@ describe('Custom input field', function () {
         assert.equal(field.value, 'UFO-123');
     });
 
-    it('should not trim prefix when rawValueTrimPrefix is not enabled', function () {
+    it('should trim prefix when rawValueTrimPrefix is enabled', function () {
         var cleave = new Cleave(field, {
             prefix:             '$',
             rawValueTrimPrefix: true,
@@ -72,7 +72,7 @@ describe('Custom input field', function () {
         assert.equal(cleave.getRawValue(), '1234.56');
     });
 
-    it('should trim prefix when rawValueTrimPrefix is enabled', function () {
+    it('should not trim prefix when rawValueTrimPrefix is not enabled', function () {
         var cleave = new Cleave(field, {
             prefix:  '$',
             numeral: true
@@ -81,6 +81,27 @@ describe('Custom input field', function () {
         cleave.setRawValue('1234.56');
         assert.equal(cleave.getRawValue(), '$1234.56');
     });
+
+    it('should trim suffix when rawValueTrimSuffix is enabled', function () {
+        var cleave = new Cleave(field, {
+            suffix:             '%',
+            rawValueTrimSuffix: true,
+            numeral:            true
+        });
+
+        cleave.setRawValue('64');
+        assert.equal(cleave.getRawValue(), '64');
+    });
+
+    it('should not trim suffix when rawValueTrimSuffix is not enabled', function() {
+        var cleave = new Cleave(field, {
+            suffix: '%',
+            numeral: true
+        });
+
+        cleave.setRawValue('64');
+        assert.equal(cleave.getRawValue(), '64%');
+    })
 
     it('should use numeric only option', function () {
         var cleave = new Cleave(field, {
