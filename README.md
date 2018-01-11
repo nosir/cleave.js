@@ -153,6 +153,7 @@ Advanced usage:
 - [How to get ref of cleave instance and call methods](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-component-usage.md#how-to-call-public-methods)
 - [How to update raw value](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-component-usage.md#how-to-update-raw-value)
 - [How to get ref of the input field](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-component-usage.md#how-to-get-ref-of-the-input-field)
+- [How to use it with redux form](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-component-usage.md#how-to-use-it-with-redux-form)
 
 Usage for `Webpack`, `Browserify` and more in documentation: [ReactJS component usage](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-component-usage.md)
 

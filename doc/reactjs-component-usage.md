@@ -336,6 +336,32 @@ Also please be aware cleave.js doesn't support [The ref String Attribute](https:
 
 Please avoid using this ref to get / set any value of the input field, which can lead to unexpected behaviour.
 
+### How to use it with Redux Form
+
+Create a stateless component function:
+
+```
+import Cleave from 'cleave.js/react';
+
+const renderCleaveField = (field) => (
+  <Cleave {...field.input} options={{creditCard: true}} />
+)
+```
+
+Render it into the normal `redux-form` `Field`
+
+```
+<form onSubmit={...}>
+       <Field name="creditCard" component={renderCleaveField}/>
+       <Field name="email" component="input" type="email" />
+      <button type="submit">Submit</button>
+</form>
+```
+
+Then it just works.
+
+Or, you could also use the normalize abstraction at `Field` level, check the discussion [here](https://github.com/nosir/cleave.js/issues/159#issuecomment-326487309)
+
 ## References
 
 - browserify: http://browserify.org/
