@@ -340,21 +340,21 @@ Please avoid using this ref to get / set any value of the input field, which can
 
 Create a stateless component function:
 
-```
+```js
 import Cleave from 'cleave.js/react';
 
-const renderCleaveField = (field) => (
-  <Cleave {...field.input} options={{creditCard: true}} />
+const renderCleaveField = field => (
+    <Cleave {...field.input} options={{creditCard: true}} />
 )
 ```
 
 Render it into the normal `redux-form` `Field`
 
-```
+```js
 <form onSubmit={...}>
-       <Field name="creditCard" component={renderCleaveField}/>
-       <Field name="email" component="input" type="email" />
-      <button type="submit">Submit</button>
+    <Field name="creditCard" component={renderCleaveField} />
+    <Field name="email" component="input" type="email" />
+    <button type="submit">Submit</button>
 </form>
 ```
 
