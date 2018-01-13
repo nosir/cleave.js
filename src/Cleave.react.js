@@ -374,6 +374,11 @@ var Cleave = CreateReactClass({
 
     updateValueState: function () {
         var owner = this;
+
+        if (!owner.element) {
+            owner.setState({ value: owner.properties.result });
+        }
+
         var endPos = owner.element.selectionEnd;
         var oldValue = owner.element.value;
         var newValue = owner.properties.result;

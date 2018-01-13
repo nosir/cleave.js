@@ -3,7 +3,7 @@
 /**
  * Construct a new Cleave instance by passing the configuration object
  *
- * @param {String|HTMLElement} element
+ * @param {String | HTMLElement} element
  * @param {Object} opts
  */
 var Cleave = function (element, opts) {
