@@ -161,7 +161,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        owner.initDateFormatter();
 	        owner.initNumeralFormatter();
 
-	        owner.onInput(pps.initValue);
+	        // avoid touch input field if value is null
+	        // otherwise Firefox will add red box-shadow for <input required />
+	        if (pps.initValue || pps.prefix && !pps.noImmediatePrefix) {
+	            owner.onInput(pps.initValue);
+	        }
 
 	        owner.registeredEvents.onInit(owner);
 	    },
@@ -435,6 +439,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    updateValueState: function updateValueState() {
 	        var owner = this;
+
+	        if (!owner.element) {
+	            owner.setState({ value: owner.properties.result });
+	        }
+
 	        var endPos = owner.element.selectionEnd;
 	        var oldValue = owner.element.value;
 	        var newValue = owner.properties.result;

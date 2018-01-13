@@ -59,7 +59,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	 * Construct a new Cleave instance by passing the configuration object
 	 *
-	 * @param {String / HTMLElement} element
+	 * @param {String | HTMLElement} element
 	 * @param {Object} opts
 	 */
 	var Cleave = function (element, opts) {
@@ -113,7 +113,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        owner.initDateFormatter();
 	        owner.initNumeralFormatter();
 
-	        owner.onInput(pps.initValue);
+	        // avoid touch input field if value is null
+	        // otherwise Firefox will add red box-shadow for <input required />
+	        if (pps.initValue || (pps.prefix && !pps.noImmediatePrefix)) {
+	            owner.onInput(pps.initValue);
+	        }
 	    },
 
 	    initNumeralFormatter: function () {
@@ -352,6 +356,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    updateValueState: function () {
 	        var owner = this;
+
+	        if (!owner.element) {
+	            return;
+	        }
+
 	        var endPos = owner.element.selectionEnd;
 	        var oldValue = owner.element.value;
 
