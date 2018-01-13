@@ -296,6 +296,11 @@ Cleave.prototype = {
 
     updateValueState: function () {
         var owner = this;
+
+        if (!owner.element) {
+            return;
+        }
+
         var endPos = owner.element.selectionEnd;
         var oldValue = owner.element.value;
 
