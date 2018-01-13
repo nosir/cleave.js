@@ -93,7 +93,11 @@ var Cleave = CreateReactClass({
         owner.initDateFormatter();
         owner.initNumeralFormatter();
 
-        owner.onInput(pps.initValue);
+        // avoid touch input field if value is null
+        // otherwise Firefox will add red box-shadow for <input required />
+        if (pps.initValue || (pps.prefix && !pps.noImmediatePrefix)) {
+            owner.onInput(pps.initValue);
+        }
 
         owner.registeredEvents.onInit(owner);
     },
