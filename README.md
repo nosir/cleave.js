@@ -1,7 +1,7 @@
 # Cleave.js
 
 [![Travis](https://img.shields.io/travis/nosir/cleave.js.svg?maxAge=2592000)](https://travis-ci.org/nosir/cleave.js)
-[![Codacy branch grade](https://img.shields.io/codacy/grade/b1c0b0da42fa418f887076a3f7352aea/master.svg?maxAge=2592000)](https://www.codacy.com/app/nosir/cleave-js)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b1c0b0da42fa418f887076a3f7352aea)](https://www.codacy.com/app/nosir/cleave-js?utm_source=github.com&utm_medium=referral&utm_content=nosir/cleave.js&utm_campaign=badger)
 [![npm version](https://badge.fury.io/js/cleave.js.svg)](https://badge.fury.io/js/cleave.js)
 [![npm downloads](https://img.shields.io/npm/dm/cleave.js.svg)](https://www.npmjs.com/package/cleave.js)
 [![Documents](https://img.shields.io/badge/documents-check-3362c2.svg)](https://github.com/nosir/cleave.js/blob/master/doc/doc.md)
