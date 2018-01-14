@@ -19,7 +19,7 @@
     - [numeralDecimalScale](#numeraldecimalscale)
     - [numeralDecimalMark](#numeraldecimalmark)
     - [numeralPositiveOnly](#numeralpositiveonly)
-    - [stripLeadingZeroes](#stripLeadingZeroes)
+    - [stripLeadingZeroes](#stripleadingzeroes)
 - General config:
     - [blocks](#blocks)
     - [delimiter](#delimiter)

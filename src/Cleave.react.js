@@ -10,7 +10,7 @@ var CreditCardDetector = require('./shortcuts/CreditCardDetector');
 var Util = require('./utils/Util');
 var DefaultProperties = require('./common/DefaultProperties');
 
-var Cleave = CreateReactClass({
+var cleaveReactClass = CreateReactClass({
     componentDidMount: function () {
         this.init();
     },
@@ -441,4 +441,4 @@ var Cleave = CreateReactClass({
     }
 });
 
-module.exports = Cleave;
+module.exports = cleaveReactClass;

@@ -70,7 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Util = __webpack_require__(13);
 	var DefaultProperties = __webpack_require__(14);
 
-	var Cleave = CreateReactClass({
+	var cleaveReactClass = CreateReactClass({
 	    componentDidMount: function componentDidMount() {
 	        this.init();
 	    },
@@ -505,7 +505,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	});
 
-	module.exports = Cleave;
+	module.exports = cleaveReactClass;
 
 /***/ }),
 /* 1 */
@@ -1733,7 +1733,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    owner.numeralDecimalScale = numeralDecimalScale >= 0 ? numeralDecimalScale : 2;
 	    owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
 	    owner.numeralPositiveOnly = !!numeralPositiveOnly;
-	    owner.stripLeadingZeroes = undefined == stripLeadingZeroes ? true : stripLeadingZeroes;
+	    owner.stripLeadingZeroes = stripLeadingZeroes !== false;
 	    owner.delimiter = delimiter || delimiter === '' ? delimiter : ',';
 	    owner.delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
 	};
@@ -2226,8 +2226,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var index = 0;
 
 	        while (prev.charAt(index) === current.charAt(index)) {
-	            if (prev.charAt(index++) === '') return -1;
-	        }return index;
+	            if (prev.charAt(index++) === '') {
+	                return -1;
+	            }
+	        }
+
+	        return index;
 	    },
 
 	    getFormattedValue: function getFormattedValue(value, blocks, blocksLength, delimiter, delimiters, delimiterLazyShow) {
@@ -2336,7 +2340,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        target.numeralDecimalMark = opts.numeralDecimalMark || '.';
 	        target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
 	        target.numeralPositiveOnly = !!opts.numeralPositiveOnly;
-	        target.stripLeadingZeroes = undefined == opts.stripLeadingZeroes ? true : opts.stripLeadingZeroes;
+	        target.stripLeadingZeroes = opts.stripLeadingZeroes !== false;
 
 	        // others
 	        target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;

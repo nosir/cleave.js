@@ -71,9 +71,11 @@ var Util = {
     getFirstDiffIndex: function (prev, current) {
         var index = 0;
 
-        while (prev.charAt(index) === current.charAt(index))
-            if (prev.charAt(index++) === '')
+        while (prev.charAt(index) === current.charAt(index)) {
+            if (prev.charAt(index++) === '') {
                 return -1;
+            }
+        }
 
         return index;
     },

@@ -35,7 +35,7 @@ var DefaultProperties = {
         target.numeralDecimalMark = opts.numeralDecimalMark || '.';
         target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
         target.numeralPositiveOnly = !!opts.numeralPositiveOnly;
-        target.stripLeadingZeroes = (undefined == opts.stripLeadingZeroes) ? true : opts.stripLeadingZeroes;
+        target.stripLeadingZeroes = opts.stripLeadingZeroes !== false;
 
         // others
         target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;

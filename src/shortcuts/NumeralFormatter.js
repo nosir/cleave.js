@@ -14,7 +14,7 @@ var NumeralFormatter = function (numeralDecimalMark,
     owner.numeralDecimalScale = numeralDecimalScale >= 0 ? numeralDecimalScale : 2;
     owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
     owner.numeralPositiveOnly = !!numeralPositiveOnly;
-    owner.stripLeadingZeroes = (undefined == stripLeadingZeroes) ? true : stripLeadingZeroes;
+    owner.stripLeadingZeroes = stripLeadingZeroes !== false;
     owner.delimiter = (delimiter || delimiter === '') ? delimiter : ',';
     owner.delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
 };

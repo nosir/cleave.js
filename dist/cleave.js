@@ -485,7 +485,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    owner.numeralDecimalScale = numeralDecimalScale >= 0 ? numeralDecimalScale : 2;
 	    owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
 	    owner.numeralPositiveOnly = !!numeralPositiveOnly;
-	    owner.stripLeadingZeroes = (undefined == stripLeadingZeroes) ? true : stripLeadingZeroes;
+	    owner.stripLeadingZeroes = stripLeadingZeroes !== false;
 	    owner.delimiter = (delimiter || delimiter === '') ? delimiter : ',';
 	    owner.delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
 	};
@@ -979,9 +979,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    getFirstDiffIndex: function (prev, current) {
 	        var index = 0;
 
-	        while (prev.charAt(index) === current.charAt(index))
-	            if (prev.charAt(index++) === '')
+	        while (prev.charAt(index) === current.charAt(index)) {
+	            if (prev.charAt(index++) === '') {
 	                return -1;
+	            }
+	        }
 
 	        return index;
 	    },
@@ -1090,7 +1092,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        target.numeralDecimalMark = opts.numeralDecimalMark || '.';
 	        target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
 	        target.numeralPositiveOnly = !!opts.numeralPositiveOnly;
-	        target.stripLeadingZeroes = (undefined == opts.stripLeadingZeroes) ? true : opts.stripLeadingZeroes;
+	        target.stripLeadingZeroes = opts.stripLeadingZeroes !== false;
 
 	        // others
 	        target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;
