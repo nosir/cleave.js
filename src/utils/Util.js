@@ -78,7 +78,7 @@ var Util = {
         return index;
     },
 
-    getFormattedValue: function (value, blocks, blocksLength, delimiter, delimiters) {
+    getFormattedValue: function (value, blocks, blocksLength, delimiter, delimiters, delimiterLazyShow) {
         var result = '',
             multipleDelimiters = delimiters.length > 0,
             currentDelimiter;
@@ -93,12 +93,24 @@ var Util = {
                 var sub = value.slice(0, length),
                     rest = value.slice(length);
 
-                result += sub;
+                if (multipleDelimiters) {
+                    currentDelimiter = delimiters[delimiterLazyShow ? (index - 1) : index] || currentDelimiter;
+                } else {
+                    currentDelimiter = delimiter;
+                }
 
-                currentDelimiter = multipleDelimiters ? (delimiters[index] || currentDelimiter) : delimiter;
+                if (delimiterLazyShow) {
+                    if (index > 0) {
+                        result += currentDelimiter;
+                    }
 
-                if (sub.length === length && index < blocksLength - 1) {
-                    result += currentDelimiter;
+                    result += sub;
+                } else {
+                    result += sub;
+
+                    if (sub.length === length && index < blocksLength - 1) {
+                        result += currentDelimiter;
+                    }
                 }
 
                 // update remaining string

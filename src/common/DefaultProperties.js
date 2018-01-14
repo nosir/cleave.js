@@ -58,6 +58,7 @@ var DefaultProperties = {
                         (opts.phone ? ' ' :
                             ' ')));
         target.delimiterLength = target.delimiter.length;
+        target.delimiterLazyShow = !!opts.delimiterLazyShow;
         target.delimiters = opts.delimiters || [];
 
         target.blocks = opts.blocks || [];

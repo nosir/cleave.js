@@ -10,6 +10,17 @@ describe('Custom input field', function () {
         assert.equal(field.value, '123 456 789');
     });
 
+    it('should use lazy show mode for delimiter', function () {
+        var cleave = new Cleave(field, {
+            blocks:    [3, 3, 3],
+            delimiterLazyShow: true,
+            delimiter: '|'
+        });
+
+        cleave.setRawValue('123456');
+        assert.equal(field.value, '123|456');
+    });
+
     it('should use custom delimiter', function () {
         var cleave = new Cleave(field, {
             blocks:    [3, 3, 3],

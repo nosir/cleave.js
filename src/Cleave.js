@@ -252,7 +252,11 @@ Cleave.prototype = {
         value = Util.headStr(value, pps.maxLength);
 
         // apply blocks
-        pps.result = Util.getFormattedValue(value, pps.blocks, pps.blocksLength, pps.delimiter, pps.delimiters);
+        pps.result = Util.getFormattedValue(
+            value,
+            pps.blocks, pps.blocksLength,
+            pps.delimiter, pps.delimiters, pps.delimiterLazyShow
+        );
 
         owner.updateValueState();
     },

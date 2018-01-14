@@ -320,7 +320,11 @@ var Cleave = CreateReactClass({
         value = pps.maxLength > 0 ? Util.headStr(value, pps.maxLength) : value;
 
         // apply blocks
-        pps.result = Util.getFormattedValue(value, pps.blocks, pps.blocksLength, pps.delimiter, pps.delimiters);
+        pps.result = Util.getFormattedValue(
+            value,
+            pps.blocks, pps.blocksLength,
+            pps.delimiter, pps.delimiters, pps.delimiterLazyShow
+        );
 
         owner.updateValueState();
     },

@@ -24,6 +24,7 @@
     - [blocks](#blocks)
     - [delimiter](#delimiter)
     - [delimiters](#delimiters)
+    - [delimiterLazyShow](#delimiterlazyshow)
     - [prefix](#prefix)
     - [noImmediatePrefix](#noImmediatePreix)
     - [rawValueTrimPrefix](#rawvaluetrimprefix)
@@ -344,6 +345,27 @@ new Cleave('.my-input', {
 
 ```js
 // XXX.XXX.XXX-XX
+```
+
+### `delimiterlazyshow`
+
+A `boolean` value that if true, will lazy add the delimiter only when the user starting typing the next group section
+
+This option is ignored by `phone`, and `numeral` shortcuts mode.
+
+**Default value**: `false`
+
+```js
+new Cleave('.my-input', {
+    blocks: [3, 3, 3],
+    delimiter: '-',
+    delimiterLazyShow: true
+});
+```
+
+```js
+// XXX
+// XXX-X
 ```
 
 ### `prefix`

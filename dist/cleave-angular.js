@@ -308,7 +308,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value = Util.headStr(value, pps.maxLength);
 
 	        // apply blocks
-	        pps.result = Util.getFormattedValue(value, pps.blocks, pps.blocksLength, pps.delimiter, pps.delimiters);
+	        pps.result = Util.getFormattedValue(
+	            value,
+	            pps.blocks, pps.blocksLength,
+	            pps.delimiter, pps.delimiters, pps.delimiterLazyShow
+	        );
 
 	        owner.updateValueState();
 	    },
@@ -982,7 +986,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return index;
 	    },
 
-	    getFormattedValue: function (value, blocks, blocksLength, delimiter, delimiters) {
+	    getFormattedValue: function (value, blocks, blocksLength, delimiter, delimiters, delimiterLazyShow) {
 	        var result = '',
 	            multipleDelimiters = delimiters.length > 0,
 	            currentDelimiter;
@@ -997,12 +1001,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	                var sub = value.slice(0, length),
 	                    rest = value.slice(length);
 
-	                result += sub;
+	                if (multipleDelimiters) {
+	                    currentDelimiter = delimiters[delimiterLazyShow ? (index - 1) : index] || currentDelimiter;
+	                } else {
+	                    currentDelimiter = delimiter;
+	                }
 
-	                currentDelimiter = multipleDelimiters ? (delimiters[index] || currentDelimiter) : delimiter;
+	                if (delimiterLazyShow) {
+	                    if (index > 0) {
+	                        result += currentDelimiter;
+	                    }
 
-	                if (sub.length === length && index < blocksLength - 1) {
-	                    result += currentDelimiter;
+	                    result += sub;
+	                } else {
+	                    result += sub;
+
+	                    if (sub.length === length && index < blocksLength - 1) {
+	                        result += currentDelimiter;
+	                    }
 	                }
 
 	                // update remaining string
@@ -1097,6 +1113,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        (opts.phone ? ' ' :
 	                            ' ')));
 	        target.delimiterLength = target.delimiter.length;
+	        target.delimiterLazyShow = !!opts.delimiterLazyShow;
 	        target.delimiters = opts.delimiters || [];
 
 	        target.blocks = opts.blocks || [];
