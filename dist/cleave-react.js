@@ -227,7 +227,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        owner.onChange({
 	            target: { value: value },
 
-	            // Fake methods to better resemble a SyntheticEvent
+	            // Methods to better resemble a SyntheticEvent
 	            stopPropagation: Util.noop,
 	            preventDefault: Util.noop,
 	            persist: Util.noop
