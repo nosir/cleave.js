@@ -167,7 +167,14 @@ var cleaveReactClass = CreateReactClass({
 
         pps.backspace = false;
 
-        owner.onChange({target: {value: value}});
+        owner.onChange({
+            target: {value: value},
+
+            // Methods to better resemble a SyntheticEvent
+            stopPropagation: Util.noop,
+            preventDefault: Util.noop,
+            persist: Util.noop
+        });
     },
 
     getRawValue: function () {
