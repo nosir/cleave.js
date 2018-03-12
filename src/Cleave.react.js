@@ -186,7 +186,7 @@ var cleaveReactClass = CreateReactClass({
         }
 
         if (pps.numeral) {
-            rawValue = pps.numeralFormatter.getRawValue(rawValue);
+            rawValue = pps.numeralFormatter ? pps.numeralFormatter.getRawValue(rawValue) : '';
         } else {
             rawValue = Util.stripDelimiters(rawValue, pps.delimiter, pps.delimiters);
         }
