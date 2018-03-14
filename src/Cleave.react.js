@@ -227,6 +227,8 @@ var cleaveReactClass = CreateReactClass({
         event.target.value = pps.result;
 
         owner.registeredEvents.onFocus(event);
+
+        Util.fixPrefixCursor(owner.element, pps.prefix, pps.delimiter, pps.delimiters);
     },
 
     onBlur: function (event) {

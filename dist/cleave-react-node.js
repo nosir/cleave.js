@@ -286,6 +286,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        event.target.value = pps.result;
 
 	        owner.registeredEvents.onFocus(event);
+
+	        Util.fixPrefixCursor(owner.element, pps.prefix, pps.delimiter, pps.delimiters);
 	    },
 
 	    onBlur: function onBlur(event) {
@@ -2282,6 +2284,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 
 	        return result;
+	    },
+
+	    // move cursor to the end
+	    // the first time user focuses on an input with prefix
+	    fixPrefixCursor: function fixPrefixCursor(el, prefix, delimiter, delimiters) {
+	        var val = el.value,
+	            appendix = delimiter || delimiters[0] || ' ';
+
+	        if (!el.setSelectionRange || !prefix || prefix.length + appendix.length < val.length) {
+	            return;
+	        }
+
+	        var len = val.length * 2;
+
+	        // set timeout to avoid blink
+	        setTimeout(function () {
+	            el.setSelectionRange(len, len);
+	        }, 1);
 	    },
 
 	    isAndroid: function isAndroid() {
