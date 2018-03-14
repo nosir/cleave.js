@@ -100,11 +100,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        owner.onChangeListener = owner.onChange.bind(owner);
 	        owner.onKeyDownListener = owner.onKeyDown.bind(owner);
+	        owner.onFocusListener = owner.onFocus.bind(owner);
 	        owner.onCutListener = owner.onCut.bind(owner);
 	        owner.onCopyListener = owner.onCopy.bind(owner);
 
 	        owner.element.addEventListener('input', owner.onChangeListener);
 	        owner.element.addEventListener('keydown', owner.onKeyDownListener);
+	        owner.element.addEventListener('focus', owner.onFocusListener);
 	        owner.element.addEventListener('cut', owner.onCutListener);
 	        owner.element.addEventListener('copy', owner.onCopyListener);
 
@@ -194,6 +196,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    onChange: function () {
 	        this.onInput(this.element.value);
+	    },
+
+	    onFocus: function () {
+	        var owner = this,
+	            pps = owner.properties;
+
+	        Cleave.Util.fixPrefixCursor(owner.element, pps.prefix, pps.delimiter, pps.delimiters);
 	    },
 
 	    onCut: function (e) {
@@ -441,6 +450,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        owner.element.removeEventListener('input', owner.onChangeListener);
 	        owner.element.removeEventListener('keydown', owner.onKeyDownListener);
+	        owner.element.removeEventListener('focus', owner.onFocusListener);
 	        owner.element.removeEventListener('cut', owner.onCutListener);
 	        owner.element.removeEventListener('copy', owner.onCopyListener);
 	    },
@@ -1029,6 +1039,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 
 	        return result;
+	    },
+
+	    // move cursor to the end
+	    // the first time user focuses on an input with prefix
+	    fixPrefixCursor: function (el, prefix, delimiter, delimiters) {
+	        var val = el.value,
+	            appendix = delimiter || (delimiters[0] || ' ');
+
+	        if (!el.setSelectionRange || !prefix || (prefix.length + appendix.length) < val.length) {
+	            return;
+	        }
+
+	        var len = val.length * 2;
+
+	        // set timeout to avoid blink
+	        setTimeout(function () {
+	            el.setSelectionRange(len, len);
+	        }, 1);
 	    },
 
 	    isAndroid: function () {
