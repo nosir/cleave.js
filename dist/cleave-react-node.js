@@ -2081,8 +2081,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        maestro: [4, 4, 4, 4],
 	        visa: [4, 4, 4, 4],
 	        mir: [4, 4, 4, 4],
-	        general: [4, 4, 4, 4],
 	        unionPay: [4, 4, 4, 4],
+	        general: [4, 4, 4, 4],
 	        generalStrict: [4, 4, 4, 7]
 	    },
 
@@ -2128,20 +2128,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var blocks = CreditCardDetector.blocks,
 	            re = CreditCardDetector.re;
 
-	        // In theory, visa credit card can have up to 19 digits number.
+	        // Some credit card can have up to 19 digits number.
 	        // Set strictMode to true will remove the 16 max-length restrain,
 	        // however, I never found any website validate card number like
-	        // this, hence probably you don't need to enable this option.
+	        // this, hence probably you don't want to enable this option.
 	        strictMode = !!strictMode;
 
 	        for (var key in re) {
 	            if (re[key].test(value)) {
 	                var block;
-	                if (key === 'discover' || key === 'maestro' || key === 'visa' || key === 'mir' || key === 'unionPay') {
-	                    block = strictMode ? blocks.generalStrict : blocks[key];
+
+	                if (strictMode) {
+	                    block = blocks.generalStrict;
 	                } else {
 	                    block = blocks[key];
 	                }
+
 	                return {
 	                    type: key,
 	                    blocks: block

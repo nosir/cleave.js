@@ -63,7 +63,7 @@ You can also custom the [delimiter](#delimiter) for credit card numbers
 
 A `Boolean` value indicates if enable credit card strict mode.
 
-Expand use of 19-digit PANs for visa credit card.
+Expand use of 19-digit PANs for supported credit card.
 
 **Default value**: `false`
 
@@ -75,7 +75,7 @@ new Cleave('.my-input', {
 ```
 
 ```js
-// Visa: XXXX XXXX XXXX XXXXXXX
+// XXXX XXXX XXXX XXXXXXX
 ...
 ```
 
