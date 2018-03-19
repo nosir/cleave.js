@@ -2116,7 +2116,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            yearStartIndex = 0,
 	            day,
 	            month,
-	            year;
+	            year,
+	            fullYearDone = false;
 
 	        // mm-dd || dd-mm
 	        if (value.length === 4 && datePattern[0].toLowerCase() !== 'y' && datePattern[1].toLowerCase() !== 'y') {
@@ -2152,6 +2153,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            month = parseInt(value.slice(monthStartIndex, monthStartIndex + 2), 10);
 	            year = parseInt(value.slice(yearStartIndex, yearStartIndex + 4), 10);
 
+	            fullYearDone = value.slice(yearStartIndex, yearStartIndex + 4).length === 4;
+
 	            date = this.getFixedDate(day, month, year);
 	        }
 
@@ -2164,7 +2167,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                case 'm':
 	                    return previous + owner.addLeadingZero(date[1]);
 	                default:
-	                    return previous + '' + (date[2] || '');
+	                    return previous + (fullYearDone ? owner.addLeadingZeroForYear(date[2]) : '');
 	            }
 	        }, '');
 	    },
@@ -2187,6 +2190,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    addLeadingZero: function addLeadingZero(number) {
 	        return (number < 10 ? '0' : '') + number;
+	    },
+
+	    addLeadingZeroForYear: function addLeadingZeroForYear(number) {
+	        return (number < 10 ? '000' : number < 100 ? '00' : number < 1000 ? '0' : '') + number;
 	    }
 	};
 
