@@ -13,7 +13,8 @@ angular.module('cleave.js', [])
             compile: function () {
                 return {
                     pre: function ($scope, $element, attrs, ngModelCtrl) {
-                        $scope.instance = new window.Cleave($element[0], $scope.cleave());
+                        // eslint-disable-next-line
+                        $scope.instance = new Cleave($element[0], $scope.cleave());
 
                         if ($scope.onInit) {
                             $scope.onInit()($scope.instance);
