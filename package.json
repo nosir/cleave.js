@@ -10,7 +10,7 @@
     "form",
     "input"
   ],
-  "version": "1.2.0",
+  "version": "1.2.1",
   "author": {
     "name": "Max Huang",
     "url": "http://github.com/nosir",
@@ -61,5 +61,8 @@
     "watchify": "^3.7.0",
     "webpack": "^1.13.1",
     "webpack-stream": "^3.2.0"
+  },
+  "dependencies": {
+    "del": "^3.0.0"
   }
 }

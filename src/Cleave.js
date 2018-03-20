@@ -407,12 +407,12 @@ Cleave.prototype = {
     }
 };
 
-Cleave.NumeralFormatter = require('./shortcuts/NumeralFormatter');
-Cleave.DateFormatter = require('./shortcuts/DateFormatter');
-Cleave.PhoneFormatter = require('./shortcuts/PhoneFormatter');
-Cleave.CreditCardDetector = require('./shortcuts/CreditCardDetector');
-Cleave.Util = require('./utils/Util');
-Cleave.DefaultProperties = require('./common/DefaultProperties');
+Cleave.NumeralFormatter = require('../src/shortcuts/NumeralFormatter');
+Cleave.DateFormatter = require('../src/shortcuts/DateFormatter');
+Cleave.PhoneFormatter = require('../src/shortcuts/PhoneFormatter');
+Cleave.CreditCardDetector = require('../src/shortcuts/CreditCardDetector');
+Cleave.Util = require('../src/utils/Util');
+Cleave.DefaultProperties = require('../src/common/DefaultProperties');
 
 // for angular directive
 ((typeof global === 'object' && global) ? global : window)['Cleave'] = Cleave;
