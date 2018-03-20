@@ -26,6 +26,16 @@ var Util = {
         return new RegExp(delimiter.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1'), 'g');
     },
 
+    getPositionOffset: function (prevPos, oldValue, newValue, delimiter, delimiters) {
+        var oldRawValue, newRawValue, lengthOffset;
+
+        oldRawValue = this.stripDelimiters(oldValue.slice(0, prevPos), delimiter, delimiters);
+        newRawValue = this.stripDelimiters(newValue.slice(0, prevPos), delimiter, delimiters);
+        lengthOffset = oldRawValue.length - newRawValue.length;
+
+        return (lengthOffset !== 0) ? (lengthOffset / Math.abs(lengthOffset)) : 0;
+    },
+
     stripDelimiters: function (value, delimiter, delimiters) {
         var owner = this;
 
@@ -126,6 +136,10 @@ var Util = {
     // move cursor to the end
     // the first time user focuses on an input with prefix
     fixPrefixCursor: function (el, prefix, delimiter, delimiters) {
+        if (!el) {
+            return;
+        }
+
         var val = el.value,
             appendix = delimiter || (delimiters[0] || ' ');
 

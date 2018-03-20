@@ -93,7 +93,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (newValue !== undefined) {
 	            newValue = newValue.toString();
 
-	            if (newValue !== owner.state.value && newValue !== owner.properties.result) {
+	            if (newValue !== owner.properties.initValue && newValue !== owner.properties.result) {
 	                owner.properties.initValue = newValue;
 	                owner.onInput(newValue, true);
 	            }
@@ -447,24 +447,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    updateValueState: function updateValueState() {
-	        var owner = this;
+	        var owner = this,
+	            pps = owner.properties;
 
 	        if (!owner.element) {
-	            owner.setState({ value: owner.properties.result });
+	            owner.setState({ value: pps.result });
 	        }
 
 	        var endPos = owner.element.selectionEnd;
 	        var oldValue = owner.element.value;
-	        var newValue = owner.properties.result;
-	        var nextCursorPosition = owner.getNextCursorPosition(endPos, oldValue, newValue);
+	        var newValue = pps.result;
 
-	        owner.lastInputValue = owner.properties.result;
+	        owner.lastInputValue = pps.result;
+
+	        endPos = owner.getNextCursorPosition(endPos, oldValue, newValue);
+	        endPos += Util.getPositionOffset(endPos, oldValue, newValue, pps.delimiter, pps.delimiters);
 
 	        if (owner.isAndroid) {
 	            window.setTimeout(function () {
 	                owner.setState({
-	                    value: owner.properties.result,
-	                    cursorPosition: nextCursorPosition,
+	                    value: newValue,
+	                    cursorPosition: endPos,
 	                    updateCursorPosition: true
 	                });
 	            }, 1);
@@ -473,8 +476,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 
 	        owner.setState({
-	            value: owner.properties.result,
-	            cursorPosition: nextCursorPosition,
+	            value: newValue,
+	            cursorPosition: endPos,
 	            updateCursorPosition: true
 	        });
 	    },
@@ -2392,6 +2395,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return new RegExp(delimiter.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1'), 'g');
 	    },
 
+	    getPositionOffset: function getPositionOffset(prevPos, oldValue, newValue, delimiter, delimiters) {
+	        var oldRawValue, newRawValue, lengthOffset;
+
+	        oldRawValue = this.stripDelimiters(oldValue.slice(0, prevPos), delimiter, delimiters);
+	        newRawValue = this.stripDelimiters(newValue.slice(0, prevPos), delimiter, delimiters);
+	        lengthOffset = oldRawValue.length - newRawValue.length;
+
+	        return lengthOffset !== 0 ? lengthOffset / Math.abs(lengthOffset) : 0;
+	    },
+
 	    stripDelimiters: function stripDelimiters(value, delimiter, delimiters) {
 	        var owner = this;
 
@@ -2492,6 +2505,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // move cursor to the end
 	    // the first time user focuses on an input with prefix
 	    fixPrefixCursor: function fixPrefixCursor(el, prefix, delimiter, delimiters) {
+	        if (!el) {
+	            return;
+	        }
+
 	        var val = el.value,
 	            appendix = delimiter || delimiters[0] || ' ';
 

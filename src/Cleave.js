@@ -312,7 +312,8 @@ Cleave.prototype = {
     },
 
     updateValueState: function () {
-        var owner = this;
+        var owner = this,
+            pps = owner.properties;
 
         if (!owner.element) {
             return;
@@ -321,18 +322,20 @@ Cleave.prototype = {
         var endPos = owner.element.selectionEnd;
         var oldValue = owner.element.value;
 
+        endPos += Cleave.Util.getPositionOffset(endPos, oldValue, pps.result, pps.delimiter, pps.delimiters);
+
         // fix Android browser type="text" input field
         // cursor not jumping issue
         if (owner.isAndroid) {
             window.setTimeout(function () {
-                owner.element.value = owner.properties.result;
+                owner.element.value = pps.result;
                 owner.setCurrentSelection(endPos, oldValue);
             }, 1);
 
             return;
         }
 
-        owner.element.value = owner.properties.result;
+        owner.element.value = pps.result;
         owner.setCurrentSelection(endPos, oldValue);
     },
 

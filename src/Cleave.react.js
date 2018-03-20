@@ -33,7 +33,7 @@ var cleaveReactClass = CreateReactClass({
         if (newValue !== undefined) {
             newValue = newValue.toString();
 
-            if (newValue !== owner.state.value && newValue !== owner.properties.result) {                
+            if (newValue !== owner.properties.initValue && newValue !== owner.properties.result) {
                 owner.properties.initValue = newValue;
                 owner.onInput(newValue, true);                
             }
@@ -390,24 +390,27 @@ var cleaveReactClass = CreateReactClass({
     },
 
     updateValueState: function () {
-        var owner = this;
+        var owner = this,
+            pps = owner.properties;
 
         if (!owner.element) {
-            owner.setState({ value: owner.properties.result });
+            owner.setState({ value: pps.result });
         }
 
         var endPos = owner.element.selectionEnd;
         var oldValue = owner.element.value;
-        var newValue = owner.properties.result;
-        var nextCursorPosition = owner.getNextCursorPosition(endPos, oldValue, newValue);
+        var newValue = pps.result;
 
-        owner.lastInputValue = owner.properties.result;
-        
+        owner.lastInputValue = pps.result;
+
+        endPos = owner.getNextCursorPosition(endPos, oldValue, newValue);
+        endPos += Util.getPositionOffset(endPos, oldValue, newValue, pps.delimiter, pps.delimiters);
+
         if (owner.isAndroid) {
             window.setTimeout(function () {
                 owner.setState({
-                    value: owner.properties.result,
-                    cursorPosition: nextCursorPosition,
+                    value: newValue,
+                    cursorPosition: endPos,
                     updateCursorPosition: true
                 });
             }, 1);
@@ -416,8 +419,8 @@ var cleaveReactClass = CreateReactClass({
         }
 
         owner.setState({
-            value: owner.properties.result,
-            cursorPosition: nextCursorPosition,
+            value: newValue,
+            cursorPosition: endPos,
             updateCursorPosition: true
         });
     },

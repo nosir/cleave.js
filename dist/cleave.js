@@ -368,7 +368,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    updateValueState: function () {
-	        var owner = this;
+	        var owner = this,
+	            pps = owner.properties;
 
 	        if (!owner.element) {
 	            return;
@@ -377,18 +378,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var endPos = owner.element.selectionEnd;
 	        var oldValue = owner.element.value;
 
+	        endPos += Cleave.Util.getPositionOffset(endPos, oldValue, pps.result, pps.delimiter, pps.delimiters);
+
 	        // fix Android browser type="text" input field
 	        // cursor not jumping issue
 	        if (owner.isAndroid) {
 	            window.setTimeout(function () {
-	                owner.element.value = owner.properties.result;
+	                owner.element.value = pps.result;
 	                owner.setCurrentSelection(endPos, oldValue);
 	            }, 1);
 
 	            return;
 	        }
 
-	        owner.element.value = owner.properties.result;
+	        owner.element.value = pps.result;
 	        owner.setCurrentSelection(endPos, oldValue);
 	    },
 
@@ -946,6 +949,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return new RegExp(delimiter.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1'), 'g');
 	    },
 
+	    getPositionOffset: function (prevPos, oldValue, newValue, delimiter, delimiters) {
+	        var oldRawValue, newRawValue, lengthOffset;
+
+	        oldRawValue = this.stripDelimiters(oldValue.slice(0, prevPos), delimiter, delimiters);
+	        newRawValue = this.stripDelimiters(newValue.slice(0, prevPos), delimiter, delimiters);
+	        lengthOffset = oldRawValue.length - newRawValue.length;
+
+	        return (lengthOffset !== 0) ? (lengthOffset / Math.abs(lengthOffset)) : 0;
+	    },
+
 	    stripDelimiters: function (value, delimiter, delimiters) {
 	        var owner = this;
 
@@ -1046,6 +1059,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // move cursor to the end
 	    // the first time user focuses on an input with prefix
 	    fixPrefixCursor: function (el, prefix, delimiter, delimiters) {
+	        if (!el) {
+	            return;
+	        }
+
 	        var val = el.value,
 	            appendix = delimiter || (delimiters[0] || ' ');
 
