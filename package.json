@@ -11,6 +11,10 @@
     "input"
   ],
   "version": "1.2.1",
+   "files": [
+    "src",
+    "dist"
+  ],
   "author": {
     "name": "Max Huang",
     "url": "http://github.com/nosir",
