@@ -39,6 +39,7 @@
     "browserify": "^13.0.1",
     "chai": "^3.5.0",
     "create-react-class": "^15.5.2",
+    "del": "^3.0.0",
     "errorify": "^0.3.1",
     "eslint-plugin-react": "^5.2.2",
     "gulp": "^3.9.1",
@@ -61,8 +62,5 @@
     "watchify": "^3.7.0",
     "webpack": "^1.13.1",
     "webpack-stream": "^3.2.0"
-  },
-  "dependencies": {
-    "del": "^3.0.0"
   }
 }
