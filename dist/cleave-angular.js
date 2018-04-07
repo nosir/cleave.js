@@ -393,6 +393,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        owner.element.value = pps.result;
 	        owner.setCurrentSelection(endPos, oldValue);
+
+	        pps.onValueChanged.call(owner, {
+	            target: {
+	                value: pps.result,
+	                rawValue: owner.getRawValue()
+	            }
+	        });
 	    },
 
 	    setPhoneRegionCode: function (phoneRegionCode) {
@@ -491,6 +498,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            compile: function () {
 	                return {
 	                    pre: function ($scope, $element, attrs, ngModelCtrl) {
+	                        // eslint-disable-next-line
 	                        $scope.instance = new Cleave($element[0], $scope.cleave());
 
 	                        if ($scope.onInit) {
@@ -1214,6 +1222,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        target.backspace = false;
 	        target.result = '';
+
+	        target.onValueChanged = opts.onValueChanged || (function () {});
 
 	        return target;
 	    }

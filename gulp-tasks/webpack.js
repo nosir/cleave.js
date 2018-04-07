@@ -32,7 +32,7 @@ gulp.task('js:angular-merge', function () {
 });
 
 gulp.task('js:angular', function () {
-    return gulp.src(path.join(paths.tmp + 'cleave-angular.js'))
+    return gulp.src(path.join(paths.tmp, 'cleave-angular.js'))
         .pipe(webpack({
             output: {
                 library: 'Cleave',
