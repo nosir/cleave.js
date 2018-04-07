@@ -337,6 +337,13 @@ Cleave.prototype = {
 
         owner.element.value = pps.result;
         owner.setCurrentSelection(endPos, oldValue);
+
+        pps.onValueChanged.call(owner, {
+            target: {
+                value: pps.result,
+                rawValue: owner.getRawValue()
+            }
+        });
     },
 
     setPhoneRegionCode: function (phoneRegionCode) {

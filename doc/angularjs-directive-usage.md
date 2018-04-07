@@ -30,10 +30,8 @@ angular.module('app', ['cleave.js'])
     };
     
     $scope.options = {
-        creditCard: {
-            creditCard: true,
-            onCreditCardTypeChanged: $scope.onCreditCardTypeChanged
-        }
+        creditCard: true,
+        onCreditCardTypeChanged: $scope.onCreditCardTypeChanged
     };
 });
 ```
@@ -43,7 +41,7 @@ Then easily you can apply `cleave` directive to `input` field:
 ```html
 <div ng-controller="AppController">
     <input ng-model="model.rawValue" ng-whatever="..." type="text" placeholder="Enter credit card number"
-        cleave="options.creditCard"/>
+        cleave="options"/>
 </div>
 ```
 
@@ -55,30 +53,32 @@ By using `Cleave.js`, angular renders the input field with the formatted value, 
 
 If you are looking to obtain the formatted value, here is the way:
 
+To get input changed value object from [on value changed](https://github.com/nosir/cleave.js/blob/master/doc/options.md#onvaluechanged) callback:
+
 First in you model:
 
 ```js
 angular.module('app', ['cleave.js'])
 
 .controller('AppController', function($scope) {
-    $scope.onCleaveValueChange = function(formattedValue) {
-        $scope.model.formattedValue = formattedValue;
-    };
-    
     $scope.onCreditCardTypeChanged = function(type) {
         $scope.model.creditCardType = type;
     };
     
+    $scope.onValueChanged = function(e) {
+        $scope.model.formattedValue = e.target.value;
+    };
+    
     $scope.model = {
+        creditCardType: '',
         rawValue: '',
         formattedValue: ''
     };
     
     $scope.options = {
-        creditCard: {
-            creditCard: true,
-            onCreditCardTypeChanged: $scope.onCreditCardTypeChanged
-        }
+        creditCard: true,
+        onCreditCardTypeChanged: $scope.onCreditCardTypeChanged
+        onValueChanged: $scope.onValueChanged
     };
 });
 ```
@@ -87,19 +87,15 @@ Then in your html:
 
 ```html
 <div ng-controller="AppController">
-    <input ng-model="model.rawValue" ng-whatever="..." type="text" placeholder="Enter credit card number"
-        cleave="options.creditCard" on-value-change="onCleaveValueChange"/>
+    <input ng-model="model.rawValue" ng-whatever="..."
+        type="text" placeholder="Enter credit card number"
+        cleave="options" />
     
     <p>raw (ng-model) value: {{model.rawValue}}</p>
     <p>formatted value: {{model.formattedValue}}</p>
-    
     <p>type: {{model.creditCardType}}</p>
 </div>
 ```
-
-As you can see, by passing the function (without `()`) to `on-value-change`, you register a callback from `cleave.js` directive.
-
-Then in the callback, it returns `formattedValue` as the only parameter.
 
 ### How to call public methods
 

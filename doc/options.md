@@ -31,6 +31,7 @@
     - [numericOnly](#numericonly)
     - [uppercase](#uppercase)
     - [lowercase](#lowercase)
+    - [onValueChanged](#onvaluechange)
 
 ## Credit card numbers
 
@@ -450,3 +451,18 @@ A `Boolean` value indicates if it converts value to lowercase letters.
 `lowercase` doesn't work on it's own, you have to either specify the shortcuts mode or `blocks` option to enable the formatter.
 
 **Default value**: `false`
+
+### `onValueChanged`
+
+A callback `Function`. Triggered after value changes.
+
+It returns an object, which has a target key, value is the formatted and raw input value.
+
+```js
+new Cleave('.my-input', {
+    creditCard: true,
+    onValueChanged: function (e) {
+        // e.target = { value: '5000-1234', rawValue: '51001234' }
+    }
+});
+```

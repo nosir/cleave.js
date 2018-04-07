@@ -393,6 +393,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        owner.element.value = pps.result;
 	        owner.setCurrentSelection(endPos, oldValue);
+
+	        pps.onValueChanged.call(owner, {
+	            target: {
+	                value: pps.result,
+	                rawValue: owner.getRawValue()
+	            }
+	        });
 	    },
 
 	    setPhoneRegionCode: function (phoneRegionCode) {
@@ -1174,6 +1181,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        target.backspace = false;
 	        target.result = '';
+
+	        target.onValueChanged = opts.onValueChanged || (function () {});
 
 	        return target;
 	    }
