@@ -31,7 +31,7 @@
     - [numericOnly](#numericonly)
     - [uppercase](#uppercase)
     - [lowercase](#lowercase)
-    - [onValueChanged](#onvaluechange)
+    - [onValueChanged](#onvaluechanged)
 
 ## Credit card numbers
 
