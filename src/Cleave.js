@@ -330,6 +330,7 @@ Cleave.prototype = {
             window.setTimeout(function () {
                 owner.element.value = pps.result;
                 owner.setCurrentSelection(endPos, oldValue);
+                owner.emitEvent('update-value');
             }, 1);
 
             return;
@@ -337,6 +338,15 @@ Cleave.prototype = {
 
         owner.element.value = pps.result;
         owner.setCurrentSelection(endPos, oldValue);
+        owner.emitEvent('update-value');
+    },
+
+    emitEvent: function(name) {
+        var owner = this;
+        var event = document.createEvent('Event');
+        event.initEvent(name, true, true);
+
+        owner.element.dispatchEvent(event);
     },
 
     setPhoneRegionCode: function (phoneRegionCode) {
