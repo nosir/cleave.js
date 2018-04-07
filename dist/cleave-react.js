@@ -2618,6 +2618,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        target.backspace = false;
 	        target.result = '';
 
+	        target.onValueChanged = opts.onValueChanged || function () {};
+
 	        return target;
 	    }
 	};
