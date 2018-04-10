@@ -295,20 +295,13 @@ Cleave.prototype = {
     },
 
     setCurrentSelection: function (endPos, oldValue) {
-        var elem = this.element;
-
         // If cursor was at the end of value, just place it back.
         // Because new value could contain additional chars.
-        if (oldValue.length !== endPos && elem === document.activeElement) {
-          if ( elem.createTextRange ) {
-            var range = elem.createTextRange();
-
-            range.move('character', endPos);
-            range.select();
-          } else {
-            elem.setSelectionRange(endPos, endPos);
-          }
+        if (oldValue.length === endPos) {
+            return;
         }
+
+        Cleave.Util.setSelection(this.element, endPos);
     },
 
     updateValueState: function () {

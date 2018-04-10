@@ -351,20 +351,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    setCurrentSelection: function (endPos, oldValue) {
-	        var elem = this.element;
-
 	        // If cursor was at the end of value, just place it back.
 	        // Because new value could contain additional chars.
-	        if (oldValue.length !== endPos && elem === document.activeElement) {
-	          if ( elem.createTextRange ) {
-	            var range = elem.createTextRange();
-
-	            range.move('character', endPos);
-	            range.select();
-	          } else {
-	            elem.setSelectionRange(endPos, endPos);
-	          }
+	        if (oldValue.length === endPos) {
+	            return;
 	        }
+
+	        Cleave.Util.setSelection(this.element, endPos);
 	    },
 
 	    updateValueState: function () {
@@ -1083,6 +1076,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	        setTimeout(function () {
 	            el.setSelectionRange(len, len);
 	        }, 1);
+	    },
+
+	    setSelection: function (element, position) {
+	        if (element !== document.activeElement) {
+	            return;
+	        }
+
+	        if (element.createTextRange) {
+	            var range = element.createTextRange();
+
+	            range.move('character', position);
+	            range.select();
+	        } else {
+	            try {
+	                element.setSelectionRange(position, position);
+	            } catch (e) {
+	                // eslint-disable-next-line
+	                console.warn('The input element type does not support selection');
+	            }
+	        }
 	    },
 
 	    isAndroid: function () {

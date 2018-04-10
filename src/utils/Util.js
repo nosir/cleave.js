@@ -155,6 +155,26 @@ var Util = {
         }, 1);
     },
 
+    setSelection: function (element, position) {
+        if (element !== document.activeElement) {
+            return;
+        }
+
+        if (element.createTextRange) {
+            var range = element.createTextRange();
+
+            range.move('character', position);
+            range.select();
+        } else {
+            try {
+                element.setSelectionRange(position, position);
+            } catch (e) {
+                // eslint-disable-next-line
+                console.warn('The input element type does not support selection');
+            }
+        }
+    },
+
     isAndroid: function () {
         return navigator && /android/i.test(navigator.userAgent);
     },
