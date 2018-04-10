@@ -372,21 +372,11 @@ var cleaveReactClass = CreateReactClass({
     },
 
     setCurrentSelection: function (cursorPosition) {
-        var elem = this.element;
-
         this.setState({
             updateCursorPosition: false
         });
 
-        if ( elem === document.activeElement ) {
-          if ( elem.createTextRange ) {
-            var range = elem.createTextRange();
-            range.move('character', cursorPosition);
-            range.select();
-          } else {
-            elem.setSelectionRange(cursorPosition, cursorPosition);
-          }
-        }
+        Util.setSelection(this.element, cursorPosition);
     },
 
     updateValueState: function () {

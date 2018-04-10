@@ -429,21 +429,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    setCurrentSelection: function setCurrentSelection(cursorPosition) {
-	        var elem = this.element;
-
 	        this.setState({
 	            updateCursorPosition: false
 	        });
 
-	        if (elem === document.activeElement) {
-	            if (elem.createTextRange) {
-	                var range = elem.createTextRange();
-	                range.move('character', cursorPosition);
-	                range.select();
-	            } else {
-	                elem.setSelectionRange(cursorPosition, cursorPosition);
-	            }
-	        }
+	        Util.setSelection(this.element, cursorPosition);
 	    },
 
 	    updateValueState: function updateValueState() {
@@ -2328,6 +2318,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	        setTimeout(function () {
 	            el.setSelectionRange(len, len);
 	        }, 1);
+	    },
+
+	    setSelection: function setSelection(element, position) {
+	        if (element !== document.activeElement) {
+	            return;
+	        }
+
+	        if (element.createTextRange) {
+	            var range = element.createTextRange();
+
+	            range.move('character', position);
+	            range.select();
+	        } else {
+	            try {
+	                element.setSelectionRange(position, position);
+	            } catch (e) {
+	                // eslint-disable-next-line
+	                console.warn('The input element type does not support selection');
+	            }
+	        }
 	    },
 
 	    isAndroid: function isAndroid() {
