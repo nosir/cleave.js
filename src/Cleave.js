@@ -295,13 +295,16 @@ Cleave.prototype = {
     },
 
     setCurrentSelection: function (endPos, oldValue) {
+        var owner = this,
+            pps = owner.properties;
+
         // If cursor was at the end of value, just place it back.
         // Because new value could contain additional chars.
         if (oldValue.length === endPos) {
             return;
         }
 
-        Cleave.Util.setSelection(this.element, endPos);
+        Cleave.Util.setSelection(this.element, endPos, pps.document);
     },
 
     updateValueState: function () {
@@ -357,7 +360,7 @@ Cleave.prototype = {
         }
 
         pps.backspace = false;
-        
+
         owner.element.value = value;
         owner.onInput(value);
     },
