@@ -117,5 +117,25 @@
       ],
       "expected": "123-456X789"
     }
+  ],
+  "getPrefixStrippedValue": [
+    {
+      "params": [
+        "tst123",
+        "test",
+        4,
+        "test123"
+      ],
+      "expected": "123"
+    },
+    {
+      "params": [
+        "teast",
+        "test",
+        4,
+        "test"
+      ],
+      "expected": "a"
+    }
   ]
 }

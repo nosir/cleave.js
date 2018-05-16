@@ -20,4 +20,13 @@ describe('Util', function () {
             });
         });
     });
+
+    describe('getPrefixStrippedValue:', function () {
+        _.each(json.getPrefixStrippedValue, function (data) {
+            var params = data.params;
+            it('should get prefix stripped value for: ' + params[0] + ' as: ' + data.expected, function () {
+                Util.getPrefixStrippedValue(params[0], params[1], params[2], params[3]).should.eql(data.expected);
+            });
+        });
+    })
 });
