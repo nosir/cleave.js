@@ -37,14 +37,15 @@ angular.module('cleave.js', [])
                         // Recreate cleave instance if any cleave options change
                         $scope.$watch(function() {
                             return $scope.cleave();
+                            // eslint-disable-next-line
                         }, function (newOptions, oldOptions) {
-                            
                             $scope.instance.destroy();
+                            // eslint-disable-next-line
                             $scope.instance = new Cleave($element[0], newOptions);
                         }, true);
 
                         $scope.$on('$destroy', function () {
-                            
+
                             $scope.instance.destroy();
                             $scope.instance = null;
                         });

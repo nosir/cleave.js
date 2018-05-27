@@ -304,7 +304,7 @@ Cleave.prototype = {
             return;
         }
 
-        Cleave.Util.setSelection(this.element, endPos, pps.document);
+        Cleave.Util.setSelection(owner.element, endPos, pps.document);
     },
 
     updateValueState: function () {

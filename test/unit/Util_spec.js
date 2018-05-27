@@ -28,5 +28,5 @@ describe('Util', function () {
                 Util.getPrefixStrippedValue(params[0], params[1], params[2], params[3]).should.eql(data.expected);
             });
         });
-    })
+    });
 });

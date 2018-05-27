@@ -372,11 +372,14 @@ var cleaveReactClass = CreateReactClass({
     },
 
     setCurrentSelection: function (cursorPosition) {
+        var owner = this,
+            pps = owner.properties;
+
         this.setState({
             updateCursorPosition: false
         });
 
-        Util.setSelection(this.element, cursorPosition);
+        Util.setSelection(owner.element, cursorPosition, pps.document);
     },
 
     updateValueState: function () {

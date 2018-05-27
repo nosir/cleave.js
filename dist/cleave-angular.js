@@ -286,7 +286,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value = Util.stripDelimiters(value, pps.delimiter, pps.delimiters);
 
 	        // strip prefix
-	        value = Util.getPrefixStrippedValue(value, pps.prefix, pps.prefixLength);
+	        value = Util.getPrefixStrippedValue(value, pps.prefix, pps.prefixLength, pps.result);
 
 	        // strip non-numeric characters
 	        value = pps.numericOnly ? Util.strip(value, /[^\d]/g) : value;
@@ -351,13 +351,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    setCurrentSelection: function (endPos, oldValue) {
+	        var owner = this,
+	            pps = owner.properties;
+
 	        // If cursor was at the end of value, just place it back.
 	        // Because new value could contain additional chars.
 	        if (oldValue.length === endPos) {
 	            return;
 	        }
 
-	        Cleave.Util.setSelection(this.element, endPos);
+	        Cleave.Util.setSelection(owner.element, endPos, pps.document);
 	    },
 
 	    updateValueState: function () {
@@ -413,7 +416,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 
 	        pps.backspace = false;
-	        
+
 	        owner.element.value = value;
 	        owner.onInput(value);
 	    },
@@ -425,7 +428,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            rawValue = owner.element.value;
 
 	        if (pps.rawValueTrimPrefix) {
-	            rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength);
+	            rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength, pps.result);
 	        }
 
 	        if (pps.numeral) {
@@ -510,6 +513,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	                            }
 
 	                            return $scope.instance.getRawValue();
+	                        });
+
+	                        // Recreate cleave instance if any cleave options change
+	                        $scope.$watch(function() {
+	                            return $scope.cleave();
+	                            // eslint-disable-next-line
+	                        }, function (newOptions, oldOptions) {
+	                            $scope.instance.destroy();
+	                            // eslint-disable-next-line
+	                            $scope.instance = new Cleave($element[0], newOptions);
+	                        }, true);
+
+	                        $scope.$on('$destroy', function () {
+
+	                            $scope.instance.destroy();
+	                            $scope.instance = null;
 	                        });
 	                    }
 	                };
@@ -1032,11 +1051,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // for prefix: PRE
 	    // (PRE123, 3) -> 123
 	    // (PR123, 3) -> 23 this happens when user hits backspace in front of "PRE"
-	    getPrefixStrippedValue: function (value, prefix, prefixLength) {
+	    getPrefixStrippedValue: function (value, prefix, prefixLength, prevValue) {
 	        if (value.slice(0, prefixLength) !== prefix) {
-	            var diffIndex = this.getFirstDiffIndex(prefix, value.slice(0, prefixLength));
 
-	            value = prefix + value.slice(diffIndex, diffIndex + 1) + value.slice(prefixLength + 1);
+	            // Check whether if it is a deletion
+	            if (value.length < prevValue.length) {
+	                value = value.length > prefixLength ? prevValue : prefix;
+	            } else {
+	                var diffIndex = this.getFirstDiffIndex(prefix, value.slice(0, prefixLength));
+	                value = prefix + value.slice(diffIndex, diffIndex + 1) + value.slice(prefixLength + 1);
+	            }
 	        }
 
 	        return value.slice(prefixLength);
@@ -1119,8 +1143,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }, 1);
 	    },
 
-	    setSelection: function (element, position) {
-	        if (element !== document.activeElement) {
+	    setSelection: function (element, position, doc) {
+	        if (element !== doc.activeElement) {
 	            return;
 	        }
 
@@ -1228,7 +1252,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        target.blocks = opts.blocks || [];
 	        target.blocksLength = target.blocks.length;
-
+	        
+	        target.document = opts.document || document;
 	        target.root = (typeof global === 'object' && global) ? global : window;
 
 	        target.maxLength = 0;
