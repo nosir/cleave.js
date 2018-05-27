@@ -68,11 +68,16 @@ var Util = {
     // for prefix: PRE
     // (PRE123, 3) -> 123
     // (PR123, 3) -> 23 this happens when user hits backspace in front of "PRE"
-    getPrefixStrippedValue: function (value, prefix, prefixLength) {
+    getPrefixStrippedValue: function (value, prefix, prefixLength, prevValue) {
         if (value.slice(0, prefixLength) !== prefix) {
-            var diffIndex = this.getFirstDiffIndex(prefix, value.slice(0, prefixLength));
 
-            value = prefix + value.slice(diffIndex, diffIndex + 1) + value.slice(prefixLength + 1);
+            // Check whether if it is a deletion
+            if (value.length < prevValue.length) {
+                value = value.length > prefixLength ? prevValue : prefix;
+            } else {
+                var diffIndex = this.getFirstDiffIndex(prefix, value.slice(0, prefixLength));
+                value = prefix + value.slice(diffIndex, diffIndex + 1) + value.slice(prefixLength + 1);
+            }
         }
 
         return value.slice(prefixLength);

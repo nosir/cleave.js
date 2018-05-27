@@ -35,7 +35,7 @@ var cleaveReactClass = CreateReactClass({
 
             if (newValue !== owner.properties.initValue && newValue !== owner.properties.result) {
                 owner.properties.initValue = newValue;
-                owner.onInput(newValue, true);                
+                owner.onInput(newValue, true);
             }
         }
 
@@ -182,7 +182,7 @@ var cleaveReactClass = CreateReactClass({
             rawValue = pps.result;
 
         if (pps.rawValueTrimPrefix) {
-            rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength);
+            rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength, pps.result);
         }
 
         if (pps.numeral) {
@@ -255,7 +255,7 @@ var cleaveReactClass = CreateReactClass({
     onInput: function (value, fromProps) {
         var owner = this, pps = owner.properties;
 
-        if (Util.isAndroidBackspaceKeydown(owner.lastInputValue, owner.element.value) && 
+        if (Util.isAndroidBackspaceKeydown(owner.lastInputValue, owner.element.value) &&
         Util.isDelimiter(pps.result.slice(-pps.delimiterLength), pps.delimiter, pps.delimiters)) {
             pps.backspace = true;
         }
@@ -298,7 +298,7 @@ var cleaveReactClass = CreateReactClass({
         value = Util.stripDelimiters(value, pps.delimiter, pps.delimiters);
 
         // strip prefix
-        value = Util.getPrefixStrippedValue(value, pps.prefix, pps.prefixLength);
+        value = Util.getPrefixStrippedValue(value, pps.prefix, pps.prefixLength, pps.result);
 
         // strip non-numeric characters
         value = pps.numericOnly ? Util.strip(value, /[^\d]/g) : value;
