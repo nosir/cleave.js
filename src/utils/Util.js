@@ -155,8 +155,8 @@ var Util = {
         }, 1);
     },
 
-    setSelection: function (element, position) {
-        if (element !== document.activeElement) {
+    setSelection: function (element, position, doc) {
+        if (element !== doc.activeElement) {
             return;
         }
 

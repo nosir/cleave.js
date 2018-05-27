@@ -63,7 +63,8 @@ var DefaultProperties = {
 
         target.blocks = opts.blocks || [];
         target.blocksLength = target.blocks.length;
-
+        
+        target.document = opts.document || document;
         target.root = (typeof global === 'object' && global) ? global : window;
 
         target.maxLength = 0;
