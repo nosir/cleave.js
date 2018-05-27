@@ -33,6 +33,21 @@ angular.module('cleave.js', [])
 
                             return $scope.instance.getRawValue();
                         });
+
+                        // Recreate cleave instance if any cleave options change
+                        $scope.$watch(function() {
+                            return $scope.cleave();
+                        }, function (newOptions, oldOptions) {
+                            
+                            $scope.instance.destroy();
+                            $scope.instance = new Cleave($element[0], newOptions);
+                        }, true);
+
+                        $scope.$on('$destroy', function () {
+                            
+                            $scope.instance.destroy();
+                            $scope.instance = null;
+                        });
                     }
                 };
             }
