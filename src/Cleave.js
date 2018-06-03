@@ -326,6 +326,7 @@ Cleave.prototype = {
             window.setTimeout(function () {
                 owner.element.value = pps.result;
                 owner.setCurrentSelection(endPos, oldValue);
+                owner.callOnValueChanged();
             }, 1);
 
             return;
@@ -334,6 +335,12 @@ Cleave.prototype = {
         owner.element.value = pps.result;
         owner.setCurrentSelection(endPos, oldValue);
 
+        owner.callOnValueChanged();
+    },
+
+    callOnValueChanged: function () {
+        var owner = this,
+            pps = owner.properties;
         pps.onValueChanged.call(owner, {
             target: {
                 value: pps.result,
