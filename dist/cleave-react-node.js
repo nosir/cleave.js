@@ -76,13 +76,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    componentDidUpdate: function componentDidUpdate() {
-	        var owner = this;
+	        var owner = this,
+	            pps = owner.properties;
 
-	        if (!owner.state.updateCursorPosition) {
-	            return;
-	        }
-
-	        owner.setCurrentSelection(owner.state.cursorPosition);
+	        Util.setSelection(owner.element, owner.state.cursorPosition, pps.document);
 	    },
 
 	    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
@@ -130,14 +127,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (!options) {
 	            options = {};
 	        }
+
 	        options.initValue = value;
 
 	        owner.properties = DefaultProperties.assign({}, options);
 
 	        return {
 	            value: owner.properties.result,
-	            cursorPosition: 0,
-	            updateCursorPosition: false
+	            cursorPosition: 0
 	        };
 	    },
 
@@ -418,27 +415,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    },
 
-	    getNextCursorPosition: function getNextCursorPosition(endPos, oldValue, newValue) {
-	        // If cursor was at the end of value, just place it back.
-	        // Because new value could contain additional chars.
-	        if (oldValue.length === endPos) {
-	            return newValue.length;
-	        }
-
-	        return endPos;
-	    },
-
-	    setCurrentSelection: function setCurrentSelection(cursorPosition) {
-	        var owner = this,
-	            pps = owner.properties;
-
-	        this.setState({
-	            updateCursorPosition: false
-	        });
-
-	        Util.setSelection(owner.element, cursorPosition, pps.document);
-	    },
-
 	    updateValueState: function updateValueState() {
 	        var owner = this,
 	            pps = owner.properties;
@@ -451,28 +427,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var oldValue = owner.element.value;
 	        var newValue = pps.result;
 
-	        owner.lastInputValue = pps.result;
+	        owner.lastInputValue = newValue;
 
-	        endPos = owner.getNextCursorPosition(endPos, oldValue, newValue);
-	        endPos += Util.getPositionOffset(endPos, oldValue, newValue, pps.delimiter, pps.delimiters);
+	        endPos = Util.getNextCursorPosition(endPos, oldValue, newValue, pps.delimiter, pps.delimiters);
 
 	        if (owner.isAndroid) {
 	            window.setTimeout(function () {
-	                owner.setState({
-	                    value: newValue,
-	                    cursorPosition: endPos,
-	                    updateCursorPosition: true
-	                });
+	                owner.setState({ value: newValue, cursorPosition: endPos });
 	            }, 1);
 
 	            return;
 	        }
 
-	        owner.setState({
-	            value: newValue,
-	            cursorPosition: endPos,
-	            updateCursorPosition: true
-	        });
+	        owner.setState({ value: newValue, cursorPosition: endPos });
 	    },
 
 	    render: function render() {
@@ -2198,6 +2165,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return new RegExp(delimiter.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1'), 'g');
 	    },
 
+	    getNextCursorPosition: function getNextCursorPosition(prevPos, oldValue, newValue, delimiter, delimiters) {
+	        // If cursor was at the end of value, just place it back.
+	        // Because new value could contain additional chars.
+	        if (oldValue.length === prevPos) {
+	            return newValue.length;
+	        }
+
+	        return prevPos + this.getPositionOffset(prevPos, oldValue, newValue, delimiter, delimiters);
+	    },
+
 	    getPositionOffset: function getPositionOffset(prevPos, oldValue, newValue, delimiter, delimiters) {
 	        var oldRawValue, newRawValue, lengthOffset;
 
@@ -2334,6 +2311,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    setSelection: function setSelection(element, position, doc) {
 	        if (element !== doc.activeElement) {
+	            return;
+	        }
+
+	        // cursor is already in the end
+	        if (element && element.value.length <= position) {
 	            return;
 	        }
 

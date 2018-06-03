@@ -16,13 +16,10 @@ var cleaveReactClass = CreateReactClass({
     },
 
     componentDidUpdate: function () {
-        var owner = this;
+        var owner = this,
+            pps = owner.properties;
 
-        if (!owner.state.updateCursorPosition) {
-            return;
-        }
-
-        owner.setCurrentSelection(owner.state.cursorPosition);
+        Util.setSelection(owner.element, owner.state.cursorPosition, pps.document);
     },
 
     componentWillReceiveProps: function (nextProps) {
@@ -62,14 +59,14 @@ var cleaveReactClass = CreateReactClass({
         if (!options) {
             options = {};
         }
+
         options.initValue = value;
 
         owner.properties = DefaultProperties.assign({}, options);
 
         return {
             value: owner.properties.result,
-            cursorPosition: 0,
-            updateCursorPosition: false
+            cursorPosition: 0
         };
     },
 
@@ -361,27 +358,6 @@ var cleaveReactClass = CreateReactClass({
         }
     },
 
-    getNextCursorPosition: function (endPos, oldValue, newValue) {
-        // If cursor was at the end of value, just place it back.
-        // Because new value could contain additional chars.
-        if (oldValue.length === endPos) {
-            return newValue.length;
-        }
-
-        return endPos;
-    },
-
-    setCurrentSelection: function (cursorPosition) {
-        var owner = this,
-            pps = owner.properties;
-
-        this.setState({
-            updateCursorPosition: false
-        });
-
-        Util.setSelection(owner.element, cursorPosition, pps.document);
-    },
-
     updateValueState: function () {
         var owner = this,
             pps = owner.properties;
@@ -394,28 +370,19 @@ var cleaveReactClass = CreateReactClass({
         var oldValue = owner.element.value;
         var newValue = pps.result;
 
-        owner.lastInputValue = pps.result;
+        owner.lastInputValue = newValue;
 
-        endPos = owner.getNextCursorPosition(endPos, oldValue, newValue);
-        endPos += Util.getPositionOffset(endPos, oldValue, newValue, pps.delimiter, pps.delimiters);
+        endPos = Util.getNextCursorPosition(endPos, oldValue, newValue, pps.delimiter, pps.delimiters);
 
         if (owner.isAndroid) {
             window.setTimeout(function () {
-                owner.setState({
-                    value: newValue,
-                    cursorPosition: endPos,
-                    updateCursorPosition: true
-                });
+                owner.setState({ value: newValue, cursorPosition: endPos });
             }, 1);
 
             return;
         }
 
-        owner.setState({
-            value: newValue,
-            cursorPosition: endPos,
-            updateCursorPosition: true
-        });
+        owner.setState({ value: newValue, cursorPosition: endPos });
     },
 
     render: function () {

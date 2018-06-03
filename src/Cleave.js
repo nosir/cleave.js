@@ -294,21 +294,9 @@ Cleave.prototype = {
         }
     },
 
-    setCurrentSelection: function (endPos, oldValue) {
-        var owner = this,
-            pps = owner.properties;
-
-        // If cursor was at the end of value, just place it back.
-        // Because new value could contain additional chars.
-        if (oldValue.length === endPos) {
-            return;
-        }
-
-        Cleave.Util.setSelection(owner.element, endPos, pps.document);
-    },
-
     updateValueState: function () {
         var owner = this,
+            Util = Cleave.Util,
             pps = owner.properties;
 
         if (!owner.element) {
@@ -317,30 +305,31 @@ Cleave.prototype = {
 
         var endPos = owner.element.selectionEnd;
         var oldValue = owner.element.value;
+        var newValue = pps.result;
 
-        endPos += Cleave.Util.getPositionOffset(endPos, oldValue, pps.result, pps.delimiter, pps.delimiters);
+        endPos = Util.getNextCursorPosition(endPos, oldValue, newValue, pps.delimiter, pps.delimiters);
 
         // fix Android browser type="text" input field
         // cursor not jumping issue
         if (owner.isAndroid) {
             window.setTimeout(function () {
-                owner.element.value = pps.result;
-                owner.setCurrentSelection(endPos, oldValue);
+                owner.element.value = newValue;
+                Util.setSelection(owner.element, endPos, pps.document, false);
                 owner.callOnValueChanged();
             }, 1);
 
             return;
         }
 
-        owner.element.value = pps.result;
-        owner.setCurrentSelection(endPos, oldValue);
-
+        owner.element.value = newValue;
+        Util.setSelection(owner.element, endPos, pps.document, false);
         owner.callOnValueChanged();
     },
 
     callOnValueChanged: function () {
         var owner = this,
             pps = owner.properties;
+
         pps.onValueChanged.call(owner, {
             target: {
                 value: pps.result,
