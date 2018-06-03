@@ -2080,6 +2080,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        mastercard: [4, 4, 4, 4],
 	        dankort: [4, 4, 4, 4],
 	        instapayment: [4, 4, 4, 4],
+	        jcb15: [4, 6, 5],
 	        jcb: [4, 4, 4, 4],
 	        maestro: [4, 4, 4, 4],
 	        visa: [4, 4, 4, 4],
@@ -2111,8 +2112,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // starts with 637-639; 16 digits
 	        instapayment: /^63[7-9]\d{0,13}/,
 
+	        // starts with 2131/1800; 15 digits
+	        jcb15: /^(?:2131|1800)\d{0,11}/,
+
 	        // starts with 2131/1800/35; 16 digits
-	        jcb: /^(?:2131|1800|35\d{0,2})\d{0,12}/,
+	        jcb: /^(?:35\d{0,2})\d{0,12}/,
 
 	        // starts with 50/56-58/6304/67; 16 digits
 	        maestro: /^(?:5[0678]\d{0,2}|6304|67\d{0,2})\d{0,12}/,

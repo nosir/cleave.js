@@ -82,6 +82,11 @@ describe('Credit card type change', function () {
 
     it('should identify jcb', function () {
         cleave.setRawValue('2131');
+        assert.equal(cardType, 'jcb15');
+    });
+
+    it('should identify jcb', function () {
+        cleave.setRawValue('35');
         assert.equal(cardType, 'jcb');
     });
 
@@ -105,4 +110,3 @@ describe('Credit card type change', function () {
         assert.equal(cardType, 'unionPay');
     });
 });
-
