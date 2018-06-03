@@ -11,6 +11,8 @@ var selectedCardIcon = null;
 var cleaveCreditCard = new Cleave('.input-credit-card', {
     creditCard:              true,
     onCreditCardTypeChanged: function (type) {
+        type = type.split('15')[0];
+        
         if (selectedCardIcon) {
             DOM.removeClass(selectedCardIcon, 'active');
         }
