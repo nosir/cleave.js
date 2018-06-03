@@ -26,6 +26,16 @@ var Util = {
         return new RegExp(delimiter.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1'), 'g');
     },
 
+    getNextCursorPosition: function (prevPos, oldValue, newValue, delimiter, delimiters) {
+      // If cursor was at the end of value, just place it back.
+      // Because new value could contain additional chars.
+      if (oldValue.length === prevPos) {
+          return newValue.length;
+      }
+
+      return prevPos + this.getPositionOffset(prevPos, oldValue, newValue, delimiter ,delimiters);
+    },
+
     getPositionOffset: function (prevPos, oldValue, newValue, delimiter, delimiters) {
         var oldRawValue, newRawValue, lengthOffset;
 
@@ -163,6 +173,11 @@ var Util = {
     setSelection: function (element, position, doc) {
         if (element !== doc.activeElement) {
             return;
+        }
+
+        // cursor is already in the end
+        if (element && element.value.length <= position) {
+          return;
         }
 
         if (element.createTextRange) {
