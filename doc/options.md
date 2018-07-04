@@ -26,7 +26,7 @@
     - [delimiters](#delimiters)
     - [delimiterLazyShow](#delimiterlazyshow)
     - [prefix](#prefix)
-    - [noImmediatePrefix](#noImmediatePreix)
+    - [noImmediatePrefix](#noimmediateprefix)
     - [rawValueTrimPrefix](#rawvaluetrimprefix)
     - [numericOnly](#numericonly)
     - [uppercase](#uppercase)
