@@ -1,4 +1,5 @@
 'use strict';
+var Util = require('../utils/Util');
 
 var NumeralFormatter = function (numeralDecimalMark,
                                  numeralIntegerScale,
@@ -6,7 +7,8 @@ var NumeralFormatter = function (numeralDecimalMark,
                                  numeralThousandsGroupStyle,
                                  numeralPositiveOnly,
                                  stripLeadingZeroes,
-                                 delimiter) {
+                                 delimiter,
+                                 alwaysShowDecimals) {
     var owner = this;
 
     owner.numeralDecimalMark = numeralDecimalMark || '.';
@@ -17,6 +19,7 @@ var NumeralFormatter = function (numeralDecimalMark,
     owner.stripLeadingZeroes = stripLeadingZeroes !== false;
     owner.delimiter = (delimiter || delimiter === '') ? delimiter : ',';
     owner.delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
+    owner.alwaysShowDecimals = !!alwaysShowDecimals;
 };
 
 NumeralFormatter.groupStyle = {
@@ -87,6 +90,13 @@ NumeralFormatter.prototype = {
             partInteger = partInteger.replace(/(\d)(?=(\d{3})+$)/g, '$1' + owner.delimiter);
 
             break;
+        }
+
+        if (owner.alwaysShowDecimals && partDecimal.length !== owner.numeralDecimalScale + 1) {
+            if (partDecimal.toString() === '') {
+                partDecimal = owner.numeralDecimalMark;
+            }
+            partDecimal = Util.padEnd(partDecimal, owner.numeralDecimalScale + 1, '0');
         }
 
         return partInteger.toString() + (owner.numeralDecimalScale > 0 ? partDecimal.toString() : '');

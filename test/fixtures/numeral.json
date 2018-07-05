@@ -279,6 +279,29 @@
   },
   {
     "thousandsGroupStyle": "thousand",
+    "alwaysShowDecimals": true,
+    "numeralDecimalScale": 2,
+    "numbers": [
+      [
+        "12",
+        "12.00"
+      ],
+      [
+        "12.01",
+        "12.01"
+      ],
+      [
+        "12.1",
+        "12.10"
+      ],
+      [
+        "12345.0",
+        "12,345.00"
+      ]
+    ]
+  },
+  {
+    "thousandsGroupStyle": "thousand",
     "stripLeadingZeroes": false,
     "numbers": [
       [

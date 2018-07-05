@@ -195,6 +195,25 @@ var Util = {
         }
     },
 
+    padEnd: function (target, length, padString) {
+        length = Math.floor(length) || 0;
+        if(length < target.length) return target;
+    
+        padString = padString ? String(padString) : ' ';
+    
+        var pad = '';
+        var len = length - target.length;
+        var i = 0;
+        while(pad.length < len) {
+            if(!padString[i]) {
+                i = 0;
+            }
+            pad += padString[i];
+            i++;
+        }
+        return target + pad;
+    },
+
     isAndroid: function () {
         return navigator && /android/i.test(navigator.userAgent);
     },

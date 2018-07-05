@@ -36,6 +36,7 @@ var DefaultProperties = {
         target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
         target.numeralPositiveOnly = !!opts.numeralPositiveOnly;
         target.stripLeadingZeroes = opts.stripLeadingZeroes !== false;
+        target.alwaysShowDecimals = !!opts.alwaysShowDecimals;
 
         // others
         target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;
