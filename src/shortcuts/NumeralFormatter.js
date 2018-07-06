@@ -26,7 +26,7 @@ NumeralFormatter.groupStyle = {
     thousand: 'thousand',
     lakh:     'lakh',
     wan:      'wan',
-    none:     'none'    
+    none:     'none'
 };
 
 NumeralFormatter.prototype = {

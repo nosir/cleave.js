@@ -64,10 +64,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var CreateReactClass = __webpack_require__(2);
 
 	var NumeralFormatter = __webpack_require__(10);
-	var DateFormatter = __webpack_require__(11);
-	var PhoneFormatter = __webpack_require__(12);
-	var CreditCardDetector = __webpack_require__(13);
-	var Util = __webpack_require__(14);
+	var DateFormatter = __webpack_require__(12);
+	var PhoneFormatter = __webpack_require__(13);
+	var CreditCardDetector = __webpack_require__(14);
+	var Util = __webpack_require__(11);
 	var DefaultProperties = __webpack_require__(15);
 
 	var cleaveReactClass = CreateReactClass({
@@ -175,7 +175,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return;
 	        }
 
-	        pps.numeralFormatter = new NumeralFormatter(pps.numeralDecimalMark, pps.numeralIntegerScale, pps.numeralDecimalScale, pps.numeralThousandsGroupStyle, pps.numeralPositiveOnly, pps.stripLeadingZeroes, pps.delimiter);
+	        pps.numeralFormatter = new NumeralFormatter(pps.numeralDecimalMark, pps.numeralIntegerScale, pps.numeralDecimalScale, pps.numeralThousandsGroupStyle, pps.numeralPositiveOnly, pps.stripLeadingZeroes, pps.delimiter, pps.alwaysShowDecimals);
 	    },
 
 	    initDateFormatter: function initDateFormatter() {
@@ -1887,11 +1887,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ }),
 /* 10 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var NumeralFormatter = function NumeralFormatter(numeralDecimalMark, numeralIntegerScale, numeralDecimalScale, numeralThousandsGroupStyle, numeralPositiveOnly, stripLeadingZeroes, delimiter) {
+	var Util = __webpack_require__(11);
+
+	var NumeralFormatter = function NumeralFormatter(numeralDecimalMark, numeralIntegerScale, numeralDecimalScale, numeralThousandsGroupStyle, numeralPositiveOnly, stripLeadingZeroes, delimiter, alwaysShowDecimals) {
 	    var owner = this;
 
 	    owner.numeralDecimalMark = numeralDecimalMark || '.';
@@ -1902,6 +1904,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    owner.stripLeadingZeroes = stripLeadingZeroes !== false;
 	    owner.delimiter = delimiter || delimiter === '' ? delimiter : ',';
 	    owner.delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
+	    owner.alwaysShowDecimals = !!alwaysShowDecimals;
 	};
 
 	NumeralFormatter.groupStyle = {
@@ -1977,6 +1980,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	                break;
 	        }
 
+	        if (owner.alwaysShowDecimals && partDecimal.length !== owner.numeralDecimalScale + 1) {
+	            if (partDecimal.toString() === '') {
+	                partDecimal = owner.numeralDecimalMark;
+	            }
+	            partDecimal = Util.padEnd(partDecimal, owner.numeralDecimalScale + 1, '0');
+	        }
+
 	        return partInteger.toString() + (owner.numeralDecimalScale > 0 ? partDecimal.toString() : '');
 	    }
 	};
@@ -1985,351 +1995,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ }),
 /* 11 */
-/***/ (function(module, exports) {
-
-	'use strict';
-
-	var DateFormatter = function DateFormatter(datePattern) {
-	    var owner = this;
-
-	    owner.date = [];
-	    owner.blocks = [];
-	    owner.datePattern = datePattern;
-	    owner.initBlocks();
-	};
-
-	DateFormatter.prototype = {
-	    initBlocks: function initBlocks() {
-	        var owner = this;
-	        owner.datePattern.forEach(function (value) {
-	            if (value === 'Y') {
-	                owner.blocks.push(4);
-	            } else {
-	                owner.blocks.push(2);
-	            }
-	        });
-	    },
-
-	    getISOFormatDate: function getISOFormatDate() {
-	        var owner = this,
-	            date = owner.date;
-
-	        return date[2] ? date[2] + '-' + owner.addLeadingZero(date[1]) + '-' + owner.addLeadingZero(date[0]) : '';
-	    },
-
-	    getBlocks: function getBlocks() {
-	        return this.blocks;
-	    },
-
-	    getValidatedDate: function getValidatedDate(value) {
-	        var owner = this,
-	            result = '';
-
-	        value = value.replace(/[^\d]/g, '');
-
-	        owner.blocks.forEach(function (length, index) {
-	            if (value.length > 0) {
-	                var sub = value.slice(0, length),
-	                    sub0 = sub.slice(0, 1),
-	                    rest = value.slice(length);
-
-	                switch (owner.datePattern[index]) {
-	                    case 'd':
-	                        if (sub === '00') {
-	                            sub = '01';
-	                        } else if (parseInt(sub0, 10) > 3) {
-	                            sub = '0' + sub0;
-	                        } else if (parseInt(sub, 10) > 31) {
-	                            sub = '31';
-	                        }
-
-	                        break;
-
-	                    case 'm':
-	                        if (sub === '00') {
-	                            sub = '01';
-	                        } else if (parseInt(sub0, 10) > 1) {
-	                            sub = '0' + sub0;
-	                        } else if (parseInt(sub, 10) > 12) {
-	                            sub = '12';
-	                        }
-
-	                        break;
-	                }
-
-	                result += sub;
-
-	                // update remaining string
-	                value = rest;
-	            }
-	        });
-
-	        return this.getFixedDateString(result);
-	    },
-
-	    getFixedDateString: function getFixedDateString(value) {
-	        var owner = this,
-	            datePattern = owner.datePattern,
-	            date = [],
-	            dayIndex = 0,
-	            monthIndex = 0,
-	            yearIndex = 0,
-	            dayStartIndex = 0,
-	            monthStartIndex = 0,
-	            yearStartIndex = 0,
-	            day,
-	            month,
-	            year,
-	            fullYearDone = false;
-
-	        // mm-dd || dd-mm
-	        if (value.length === 4 && datePattern[0].toLowerCase() !== 'y' && datePattern[1].toLowerCase() !== 'y') {
-	            dayStartIndex = datePattern[0] === 'd' ? 0 : 2;
-	            monthStartIndex = 2 - dayStartIndex;
-	            day = parseInt(value.slice(dayStartIndex, dayStartIndex + 2), 10);
-	            month = parseInt(value.slice(monthStartIndex, monthStartIndex + 2), 10);
-
-	            date = this.getFixedDate(day, month, 0);
-	        }
-
-	        // yyyy-mm-dd || yyyy-dd-mm || mm-dd-yyyy || dd-mm-yyyy || dd-yyyy-mm || mm-yyyy-dd
-	        if (value.length === 8) {
-	            datePattern.forEach(function (type, index) {
-	                switch (type) {
-	                    case 'd':
-	                        dayIndex = index;
-	                        break;
-	                    case 'm':
-	                        monthIndex = index;
-	                        break;
-	                    default:
-	                        yearIndex = index;
-	                        break;
-	                }
-	            });
-
-	            yearStartIndex = yearIndex * 2;
-	            dayStartIndex = dayIndex <= yearIndex ? dayIndex * 2 : dayIndex * 2 + 2;
-	            monthStartIndex = monthIndex <= yearIndex ? monthIndex * 2 : monthIndex * 2 + 2;
-
-	            day = parseInt(value.slice(dayStartIndex, dayStartIndex + 2), 10);
-	            month = parseInt(value.slice(monthStartIndex, monthStartIndex + 2), 10);
-	            year = parseInt(value.slice(yearStartIndex, yearStartIndex + 4), 10);
-
-	            fullYearDone = value.slice(yearStartIndex, yearStartIndex + 4).length === 4;
-
-	            date = this.getFixedDate(day, month, year);
-	        }
-
-	        owner.date = date;
-
-	        return date.length === 0 ? value : datePattern.reduce(function (previous, current) {
-	            switch (current) {
-	                case 'd':
-	                    return previous + owner.addLeadingZero(date[0]);
-	                case 'm':
-	                    return previous + owner.addLeadingZero(date[1]);
-	                default:
-	                    return previous + (fullYearDone ? owner.addLeadingZeroForYear(date[2]) : '');
-	            }
-	        }, '');
-	    },
-
-	    getFixedDate: function getFixedDate(day, month, year) {
-	        day = Math.min(day, 31);
-	        month = Math.min(month, 12);
-	        year = parseInt(year || 0, 10);
-
-	        if (month < 7 && month % 2 === 0 || month > 8 && month % 2 === 1) {
-	            day = Math.min(day, month === 2 ? this.isLeapYear(year) ? 29 : 28 : 30);
-	        }
-
-	        return [day, month, year];
-	    },
-
-	    isLeapYear: function isLeapYear(year) {
-	        return year % 4 === 0 && year % 100 !== 0 || year % 400 === 0;
-	    },
-
-	    addLeadingZero: function addLeadingZero(number) {
-	        return (number < 10 ? '0' : '') + number;
-	    },
-
-	    addLeadingZeroForYear: function addLeadingZeroForYear(number) {
-	        return (number < 10 ? '000' : number < 100 ? '00' : number < 1000 ? '0' : '') + number;
-	    }
-	};
-
-	module.exports = DateFormatter;
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports) {
-
-	'use strict';
-
-	var PhoneFormatter = function PhoneFormatter(formatter, delimiter) {
-	    var owner = this;
-
-	    owner.delimiter = delimiter || delimiter === '' ? delimiter : ' ';
-	    owner.delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
-
-	    owner.formatter = formatter;
-	};
-
-	PhoneFormatter.prototype = {
-	    setFormatter: function setFormatter(formatter) {
-	        this.formatter = formatter;
-	    },
-
-	    format: function format(phoneNumber) {
-	        var owner = this;
-
-	        owner.formatter.clear();
-
-	        // only keep number and +
-	        phoneNumber = phoneNumber.replace(/[^\d+]/g, '');
-
-	        // strip delimiter
-	        phoneNumber = phoneNumber.replace(owner.delimiterRE, '');
-
-	        var result = '',
-	            current,
-	            validated = false;
-
-	        for (var i = 0, iMax = phoneNumber.length; i < iMax; i++) {
-	            current = owner.formatter.inputDigit(phoneNumber.charAt(i));
-
-	            // has ()- or space inside
-	            if (/[\s()-]/g.test(current)) {
-	                result = current;
-
-	                validated = true;
-	            } else {
-	                if (!validated) {
-	                    result = current;
-	                }
-	                // else: over length input
-	                // it turns to invalid number again
-	            }
-	        }
-
-	        // strip ()
-	        // e.g. US: 7161234567 returns (716) 123-4567
-	        result = result.replace(/[()]/g, '');
-	        // replace library delimiter with user customized delimiter
-	        result = result.replace(/[\s-]/g, owner.delimiter);
-
-	        return result;
-	    }
-	};
-
-	module.exports = PhoneFormatter;
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports) {
-
-	'use strict';
-
-	var CreditCardDetector = {
-	    blocks: {
-	        uatp: [4, 5, 6],
-	        amex: [4, 6, 5],
-	        diners: [4, 6, 4],
-	        discover: [4, 4, 4, 4],
-	        mastercard: [4, 4, 4, 4],
-	        dankort: [4, 4, 4, 4],
-	        instapayment: [4, 4, 4, 4],
-	        jcb15: [4, 6, 5],
-	        jcb: [4, 4, 4, 4],
-	        maestro: [4, 4, 4, 4],
-	        visa: [4, 4, 4, 4],
-	        mir: [4, 4, 4, 4],
-	        unionPay: [4, 4, 4, 4],
-	        general: [4, 4, 4, 4],
-	        generalStrict: [4, 4, 4, 7]
-	    },
-
-	    re: {
-	        // starts with 1; 15 digits, not starts with 1800 (jcb card)
-	        uatp: /^(?!1800)1\d{0,14}/,
-
-	        // starts with 34/37; 15 digits
-	        amex: /^3[47]\d{0,13}/,
-
-	        // starts with 6011/65/644-649; 16 digits
-	        discover: /^(?:6011|65\d{0,2}|64[4-9]\d?)\d{0,12}/,
-
-	        // starts with 300-305/309 or 36/38/39; 14 digits
-	        diners: /^3(?:0([0-5]|9)|[689]\d?)\d{0,11}/,
-
-	        // starts with 51-55/2221–2720; 16 digits
-	        mastercard: /^(5[1-5]\d{0,2}|22[2-9]\d{0,1}|2[3-7]\d{0,2})\d{0,12}/,
-
-	        // starts with 5019/4175/4571; 16 digits
-	        dankort: /^(5019|4175|4571)\d{0,12}/,
-
-	        // starts with 637-639; 16 digits
-	        instapayment: /^63[7-9]\d{0,13}/,
-
-	        // starts with 2131/1800; 15 digits
-	        jcb15: /^(?:2131|1800)\d{0,11}/,
-
-	        // starts with 2131/1800/35; 16 digits
-	        jcb: /^(?:35\d{0,2})\d{0,12}/,
-
-	        // starts with 50/56-58/6304/67; 16 digits
-	        maestro: /^(?:5[0678]\d{0,2}|6304|67\d{0,2})\d{0,12}/,
-
-	        // starts with 22; 16 digits
-	        mir: /^220[0-4]\d{0,12}/,
-
-	        // starts with 4; 16 digits
-	        visa: /^4\d{0,15}/,
-
-	        // starts with 62; 16 digits
-	        unionPay: /^62\d{0,14}/
-	    },
-
-	    getInfo: function getInfo(value, strictMode) {
-	        var blocks = CreditCardDetector.blocks,
-	            re = CreditCardDetector.re;
-
-	        // Some credit card can have up to 19 digits number.
-	        // Set strictMode to true will remove the 16 max-length restrain,
-	        // however, I never found any website validate card number like
-	        // this, hence probably you don't want to enable this option.
-	        strictMode = !!strictMode;
-
-	        for (var key in re) {
-	            if (re[key].test(value)) {
-	                var block;
-
-	                if (strictMode) {
-	                    block = blocks.generalStrict;
-	                } else {
-	                    block = blocks[key];
-	                }
-
-	                return {
-	                    type: key,
-	                    blocks: block
-	                };
-	            }
-	        }
-
-	        return {
-	            type: 'unknown',
-	            blocks: strictMode ? blocks.generalStrict : blocks.general
-	        };
-	    }
-	};
-
-	module.exports = CreditCardDetector;
-
-/***/ }),
-/* 14 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -2528,6 +2193,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    },
 
+	    padEnd: function padEnd(target, length, padString) {
+	        length = Math.floor(length) || 0;
+	        if (length < target.length) return target;
+
+	        padString = padString ? String(padString) : ' ';
+
+	        var pad = '';
+	        var len = length - target.length;
+	        var i = 0;
+	        while (pad.length < len) {
+	            if (!padString[i]) {
+	                i = 0;
+	            }
+	            pad += padString[i];
+	            i++;
+	        }
+	        return target + pad;
+	    },
+
 	    isAndroid: function isAndroid() {
 	        return navigator && /android/i.test(navigator.userAgent);
 	    },
@@ -2546,6 +2230,351 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	module.exports = Util;
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	var DateFormatter = function DateFormatter(datePattern) {
+	    var owner = this;
+
+	    owner.date = [];
+	    owner.blocks = [];
+	    owner.datePattern = datePattern;
+	    owner.initBlocks();
+	};
+
+	DateFormatter.prototype = {
+	    initBlocks: function initBlocks() {
+	        var owner = this;
+	        owner.datePattern.forEach(function (value) {
+	            if (value === 'Y') {
+	                owner.blocks.push(4);
+	            } else {
+	                owner.blocks.push(2);
+	            }
+	        });
+	    },
+
+	    getISOFormatDate: function getISOFormatDate() {
+	        var owner = this,
+	            date = owner.date;
+
+	        return date[2] ? date[2] + '-' + owner.addLeadingZero(date[1]) + '-' + owner.addLeadingZero(date[0]) : '';
+	    },
+
+	    getBlocks: function getBlocks() {
+	        return this.blocks;
+	    },
+
+	    getValidatedDate: function getValidatedDate(value) {
+	        var owner = this,
+	            result = '';
+
+	        value = value.replace(/[^\d]/g, '');
+
+	        owner.blocks.forEach(function (length, index) {
+	            if (value.length > 0) {
+	                var sub = value.slice(0, length),
+	                    sub0 = sub.slice(0, 1),
+	                    rest = value.slice(length);
+
+	                switch (owner.datePattern[index]) {
+	                    case 'd':
+	                        if (sub === '00') {
+	                            sub = '01';
+	                        } else if (parseInt(sub0, 10) > 3) {
+	                            sub = '0' + sub0;
+	                        } else if (parseInt(sub, 10) > 31) {
+	                            sub = '31';
+	                        }
+
+	                        break;
+
+	                    case 'm':
+	                        if (sub === '00') {
+	                            sub = '01';
+	                        } else if (parseInt(sub0, 10) > 1) {
+	                            sub = '0' + sub0;
+	                        } else if (parseInt(sub, 10) > 12) {
+	                            sub = '12';
+	                        }
+
+	                        break;
+	                }
+
+	                result += sub;
+
+	                // update remaining string
+	                value = rest;
+	            }
+	        });
+
+	        return this.getFixedDateString(result);
+	    },
+
+	    getFixedDateString: function getFixedDateString(value) {
+	        var owner = this,
+	            datePattern = owner.datePattern,
+	            date = [],
+	            dayIndex = 0,
+	            monthIndex = 0,
+	            yearIndex = 0,
+	            dayStartIndex = 0,
+	            monthStartIndex = 0,
+	            yearStartIndex = 0,
+	            day,
+	            month,
+	            year,
+	            fullYearDone = false;
+
+	        // mm-dd || dd-mm
+	        if (value.length === 4 && datePattern[0].toLowerCase() !== 'y' && datePattern[1].toLowerCase() !== 'y') {
+	            dayStartIndex = datePattern[0] === 'd' ? 0 : 2;
+	            monthStartIndex = 2 - dayStartIndex;
+	            day = parseInt(value.slice(dayStartIndex, dayStartIndex + 2), 10);
+	            month = parseInt(value.slice(monthStartIndex, monthStartIndex + 2), 10);
+
+	            date = this.getFixedDate(day, month, 0);
+	        }
+
+	        // yyyy-mm-dd || yyyy-dd-mm || mm-dd-yyyy || dd-mm-yyyy || dd-yyyy-mm || mm-yyyy-dd
+	        if (value.length === 8) {
+	            datePattern.forEach(function (type, index) {
+	                switch (type) {
+	                    case 'd':
+	                        dayIndex = index;
+	                        break;
+	                    case 'm':
+	                        monthIndex = index;
+	                        break;
+	                    default:
+	                        yearIndex = index;
+	                        break;
+	                }
+	            });
+
+	            yearStartIndex = yearIndex * 2;
+	            dayStartIndex = dayIndex <= yearIndex ? dayIndex * 2 : dayIndex * 2 + 2;
+	            monthStartIndex = monthIndex <= yearIndex ? monthIndex * 2 : monthIndex * 2 + 2;
+
+	            day = parseInt(value.slice(dayStartIndex, dayStartIndex + 2), 10);
+	            month = parseInt(value.slice(monthStartIndex, monthStartIndex + 2), 10);
+	            year = parseInt(value.slice(yearStartIndex, yearStartIndex + 4), 10);
+
+	            fullYearDone = value.slice(yearStartIndex, yearStartIndex + 4).length === 4;
+
+	            date = this.getFixedDate(day, month, year);
+	        }
+
+	        owner.date = date;
+
+	        return date.length === 0 ? value : datePattern.reduce(function (previous, current) {
+	            switch (current) {
+	                case 'd':
+	                    return previous + owner.addLeadingZero(date[0]);
+	                case 'm':
+	                    return previous + owner.addLeadingZero(date[1]);
+	                default:
+	                    return previous + (fullYearDone ? owner.addLeadingZeroForYear(date[2]) : '');
+	            }
+	        }, '');
+	    },
+
+	    getFixedDate: function getFixedDate(day, month, year) {
+	        day = Math.min(day, 31);
+	        month = Math.min(month, 12);
+	        year = parseInt(year || 0, 10);
+
+	        if (month < 7 && month % 2 === 0 || month > 8 && month % 2 === 1) {
+	            day = Math.min(day, month === 2 ? this.isLeapYear(year) ? 29 : 28 : 30);
+	        }
+
+	        return [day, month, year];
+	    },
+
+	    isLeapYear: function isLeapYear(year) {
+	        return year % 4 === 0 && year % 100 !== 0 || year % 400 === 0;
+	    },
+
+	    addLeadingZero: function addLeadingZero(number) {
+	        return (number < 10 ? '0' : '') + number;
+	    },
+
+	    addLeadingZeroForYear: function addLeadingZeroForYear(number) {
+	        return (number < 10 ? '000' : number < 100 ? '00' : number < 1000 ? '0' : '') + number;
+	    }
+	};
+
+	module.exports = DateFormatter;
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	var PhoneFormatter = function PhoneFormatter(formatter, delimiter) {
+	    var owner = this;
+
+	    owner.delimiter = delimiter || delimiter === '' ? delimiter : ' ';
+	    owner.delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
+
+	    owner.formatter = formatter;
+	};
+
+	PhoneFormatter.prototype = {
+	    setFormatter: function setFormatter(formatter) {
+	        this.formatter = formatter;
+	    },
+
+	    format: function format(phoneNumber) {
+	        var owner = this;
+
+	        owner.formatter.clear();
+
+	        // only keep number and +
+	        phoneNumber = phoneNumber.replace(/[^\d+]/g, '');
+
+	        // strip delimiter
+	        phoneNumber = phoneNumber.replace(owner.delimiterRE, '');
+
+	        var result = '',
+	            current,
+	            validated = false;
+
+	        for (var i = 0, iMax = phoneNumber.length; i < iMax; i++) {
+	            current = owner.formatter.inputDigit(phoneNumber.charAt(i));
+
+	            // has ()- or space inside
+	            if (/[\s()-]/g.test(current)) {
+	                result = current;
+
+	                validated = true;
+	            } else {
+	                if (!validated) {
+	                    result = current;
+	                }
+	                // else: over length input
+	                // it turns to invalid number again
+	            }
+	        }
+
+	        // strip ()
+	        // e.g. US: 7161234567 returns (716) 123-4567
+	        result = result.replace(/[()]/g, '');
+	        // replace library delimiter with user customized delimiter
+	        result = result.replace(/[\s-]/g, owner.delimiter);
+
+	        return result;
+	    }
+	};
+
+	module.exports = PhoneFormatter;
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	var CreditCardDetector = {
+	    blocks: {
+	        uatp: [4, 5, 6],
+	        amex: [4, 6, 5],
+	        diners: [4, 6, 4],
+	        discover: [4, 4, 4, 4],
+	        mastercard: [4, 4, 4, 4],
+	        dankort: [4, 4, 4, 4],
+	        instapayment: [4, 4, 4, 4],
+	        jcb15: [4, 6, 5],
+	        jcb: [4, 4, 4, 4],
+	        maestro: [4, 4, 4, 4],
+	        visa: [4, 4, 4, 4],
+	        mir: [4, 4, 4, 4],
+	        unionPay: [4, 4, 4, 4],
+	        general: [4, 4, 4, 4],
+	        generalStrict: [4, 4, 4, 7]
+	    },
+
+	    re: {
+	        // starts with 1; 15 digits, not starts with 1800 (jcb card)
+	        uatp: /^(?!1800)1\d{0,14}/,
+
+	        // starts with 34/37; 15 digits
+	        amex: /^3[47]\d{0,13}/,
+
+	        // starts with 6011/65/644-649; 16 digits
+	        discover: /^(?:6011|65\d{0,2}|64[4-9]\d?)\d{0,12}/,
+
+	        // starts with 300-305/309 or 36/38/39; 14 digits
+	        diners: /^3(?:0([0-5]|9)|[689]\d?)\d{0,11}/,
+
+	        // starts with 51-55/2221–2720; 16 digits
+	        mastercard: /^(5[1-5]\d{0,2}|22[2-9]\d{0,1}|2[3-7]\d{0,2})\d{0,12}/,
+
+	        // starts with 5019/4175/4571; 16 digits
+	        dankort: /^(5019|4175|4571)\d{0,12}/,
+
+	        // starts with 637-639; 16 digits
+	        instapayment: /^63[7-9]\d{0,13}/,
+
+	        // starts with 2131/1800; 15 digits
+	        jcb15: /^(?:2131|1800)\d{0,11}/,
+
+	        // starts with 2131/1800/35; 16 digits
+	        jcb: /^(?:35\d{0,2})\d{0,12}/,
+
+	        // starts with 50/56-58/6304/67; 16 digits
+	        maestro: /^(?:5[0678]\d{0,2}|6304|67\d{0,2})\d{0,12}/,
+
+	        // starts with 22; 16 digits
+	        mir: /^220[0-4]\d{0,12}/,
+
+	        // starts with 4; 16 digits
+	        visa: /^4\d{0,15}/,
+
+	        // starts with 62; 16 digits
+	        unionPay: /^62\d{0,14}/
+	    },
+
+	    getInfo: function getInfo(value, strictMode) {
+	        var blocks = CreditCardDetector.blocks,
+	            re = CreditCardDetector.re;
+
+	        // Some credit card can have up to 19 digits number.
+	        // Set strictMode to true will remove the 16 max-length restrain,
+	        // however, I never found any website validate card number like
+	        // this, hence probably you don't want to enable this option.
+	        strictMode = !!strictMode;
+
+	        for (var key in re) {
+	            if (re[key].test(value)) {
+	                var block;
+
+	                if (strictMode) {
+	                    block = blocks.generalStrict;
+	                } else {
+	                    block = blocks[key];
+	                }
+
+	                return {
+	                    type: key,
+	                    blocks: block
+	                };
+	            }
+	        }
+
+	        return {
+	            type: 'unknown',
+	            blocks: strictMode ? blocks.generalStrict : blocks.general
+	        };
+	    }
+	};
+
+	module.exports = CreditCardDetector;
 
 /***/ }),
 /* 15 */
@@ -2592,6 +2621,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
 	        target.numeralPositiveOnly = !!opts.numeralPositiveOnly;
 	        target.stripLeadingZeroes = opts.stripLeadingZeroes !== false;
+	        target.alwaysShowDecimals = !!opts.alwaysShowDecimals;
 
 	        // others
 	        target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;
@@ -2615,8 +2645,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        target.blocks = opts.blocks || [];
 	        target.blocksLength = target.blocks.length;
 
-	        target.document = opts.document || document;
 	        target.root = (typeof global === 'undefined' ? 'undefined' : _typeof(global)) === 'object' && global ? global : window;
+	        target.document = opts.document || target.root.document;
 
 	        target.maxLength = 0;
 
