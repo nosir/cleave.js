@@ -114,7 +114,8 @@ var cleaveReactClass = CreateReactClass({
             pps.numeralThousandsGroupStyle,
             pps.numeralPositiveOnly,
             pps.stripLeadingZeroes,
-            pps.delimiter
+            pps.delimiter,
+            pps.alwaysShowDecimals
         );
     },
 

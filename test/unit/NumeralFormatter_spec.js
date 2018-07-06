@@ -38,6 +38,10 @@ describe('NumeralFormatter', function () {
             title.push('Strip leading zeroes:' + numeral.stripLeadingZeroes);
         }
 
+        if (numeral.alwaysShowDecimals) {
+            title.push('Always show decimals:' + numeral.alwaysShowDecimals);
+        }
+
         describe(title.join(', '), function () {
             var numeralFormatter = new NumeralFormatter(
                 numeral.numeralDecimalMark,
@@ -46,7 +50,8 @@ describe('NumeralFormatter', function () {
                 numeral.thousandsGroupStyle,
                 numeral.numeralPositiveOnly,
                 numeral.stripLeadingZeroes,
-                numeral.delimiter
+                numeral.delimiter,
+                numeral.alwaysShowDecimals
             );
 
             _.each(numeral.numbers, function (number) {

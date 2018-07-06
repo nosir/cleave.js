@@ -54,7 +54,6 @@ Cleave.prototype = {
         owner.element.addEventListener('cut', owner.onCutListener);
         owner.element.addEventListener('copy', owner.onCopyListener);
 
-
         owner.initPhoneFormatter();
         owner.initDateFormatter();
         owner.initNumeralFormatter();
@@ -80,8 +79,10 @@ Cleave.prototype = {
             pps.numeralThousandsGroupStyle,
             pps.numeralPositiveOnly,
             pps.stripLeadingZeroes,
-            pps.delimiter
+            pps.delimiter,
+            pps.alwaysShowDecimals
         );
+
     },
 
     initDateFormatter: function () {

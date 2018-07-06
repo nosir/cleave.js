@@ -8,6 +8,14 @@
 
 Cleave.js has a simple purpose: to help you format input text content automatically.
 
+## Why is Carecloud forking this library?
+
+The main, and only so far, reason why we are forking this library into our own repository is because it lacks an important feature.
+Our requirements specify that we show the add the decimal value on currencies even if it is zero.
+So values like $5 should be formatted to $5.00, always.
+
+This is now done through the 
+
 ## Features
 
 - Credit card number formatting
