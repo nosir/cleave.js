@@ -366,27 +366,7 @@ Or, you could also use the normalize abstraction at `Field` level, check the dis
 
 Create an adapter with cleave.js:
 
-```js
-import Cleave from 'cleave.js/react';
-
-const renderCleaveField = field => (
-    <Cleave {...field.input} options={{creditCard: true}} />
-)
-```
-
-Render it into the normal `redux-form` `Field`
-
-```js
-<form onSubmit={...}>
-    <Field name="creditCard" component={renderCleaveField} />
-    <Field name="email" component="input" type="email" />
-    <button type="submit">Submit</button>
-</form>
-```
-
-Then it just works.
-
-Or, you could also use the normalize abstraction at `Field` level, check the discussion [here](https://github.com/nosir/cleave.js/issues/159#issuecomment-326487309)
+[here](https://github.com/nosir/cleave.js/issues/335#issuecomment-402936738)
 
 ## References
 
