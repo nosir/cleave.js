@@ -1266,9 +1266,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        target.blocks = opts.blocks || [];
 	        target.blocksLength = target.blocks.length;
-	        
-	        target.document = opts.document || document;
+
 	        target.root = (typeof global === 'object' && global) ? global : window;
+	        target.document = opts.document || target.root.document;
 
 	        target.maxLength = 0;
 
@@ -1282,7 +1282,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	module.exports = DefaultProperties;
-
 
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
