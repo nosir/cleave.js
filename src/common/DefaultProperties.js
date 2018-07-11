@@ -23,6 +23,11 @@ var DefaultProperties = {
         target.phoneRegionCode = opts.phoneRegionCode || 'AU';
         target.phoneFormatter = {};
 
+        // time
+        target.time = !!opts.time;
+        target.timePattern = opts.timePattern || ['h', 'm'];
+        target.timeFormatter = {};
+
         // date
         target.date = !!opts.date;
         target.datePattern = opts.datePattern || ['d', 'm', 'Y'];
