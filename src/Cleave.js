@@ -31,7 +31,7 @@ Cleave.prototype = {
         var owner = this, pps = owner.properties;
 
         // no need to use this lib
-        if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.date && (pps.blocksLength === 0 && !pps.prefix)) {
+        if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.time &&!pps.date && (pps.blocksLength === 0 && !pps.prefix)) {
             owner.onInput(pps.initValue);
 
             return;
@@ -57,6 +57,7 @@ Cleave.prototype = {
 
         owner.initPhoneFormatter();
         owner.initDateFormatter();
+        owner.initTimeFormatter();
         owner.initNumeralFormatter();
 
         // avoid touch input field if value is null
@@ -82,6 +83,19 @@ Cleave.prototype = {
             pps.stripLeadingZeroes,
             pps.delimiter
         );
+    },
+
+    initTimeFormatter: function() {
+        var owner = this, pps = owner.properties;
+
+        if (!pps.time) {
+            return;
+        }
+
+        pps.timeFormatter = new Cleave.TimeFormatter(pps.timePattern);
+        pps.blocks = pps.timeFormatter.getBlocks();
+        pps.blocksLength = pps.blocks.length;
+        pps.maxLength = Cleave.Util.getMaxLength(pps.blocks);
     },
 
     initDateFormatter: function () {
@@ -224,6 +238,11 @@ Cleave.prototype = {
         // date
         if (pps.date) {
             value = pps.dateFormatter.getValidatedDate(value);
+        }
+
+        // time
+        if (pps.time) {
+            value = pps.timeFormatter.getValidatedTime(value);
         }
 
         // strip delimiters
@@ -408,6 +427,7 @@ Cleave.prototype = {
 
 Cleave.NumeralFormatter = require('../src/shortcuts/NumeralFormatter');
 Cleave.DateFormatter = require('../src/shortcuts/DateFormatter');
+Cleave.TimeFormatter = require('../src/shortcuts/TimeFormatter');
 Cleave.PhoneFormatter = require('../src/shortcuts/PhoneFormatter');
 Cleave.CreditCardDetector = require('../src/shortcuts/CreditCardDetector');
 Cleave.Util = require('../src/utils/Util');
