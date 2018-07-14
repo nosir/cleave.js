@@ -59,9 +59,10 @@ var DefaultProperties = {
         target.delimiter =
             (opts.delimiter || opts.delimiter === '') ? opts.delimiter :
                 (opts.date ? '/' :
-                    (opts.numeral ? ',' :
-                        (opts.phone ? ' ' :
-                            ' ')));
+                    (opts.time ? ':' :
+                        (opts.numeral ? ',' :
+                            (opts.phone ? ' ' :
+                                ' '))));
         target.delimiterLength = target.delimiter.length;
         target.delimiterLazyShow = !!opts.delimiterLazyShow;
         target.delimiters = opts.delimiters || [];

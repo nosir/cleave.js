@@ -12,7 +12,7 @@ var TimeFormatter = function (timePattern) {
 TimeFormatter.prototype = {
     initBlocks: function () {
         var owner = this;
-        owner.timePattern.forEach(function (value) {
+        owner.timePattern.forEach(function () {
             owner.blocks.push(2);
         });
     },
@@ -154,4 +154,3 @@ TimeFormatter.prototype = {
 };
 
 module.exports = TimeFormatter;
-

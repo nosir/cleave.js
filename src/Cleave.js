@@ -31,7 +31,7 @@ Cleave.prototype = {
         var owner = this, pps = owner.properties;
 
         // no need to use this lib
-        if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.time &&!pps.date && (pps.blocksLength === 0 && !pps.prefix)) {
+        if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.time && !pps.date && (pps.blocksLength === 0 && !pps.prefix)) {
             owner.onInput(pps.initValue);
 
             return;

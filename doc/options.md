@@ -12,6 +12,9 @@
 - Date:
     - [date](#date)
     - [datePattern](#datepattern)
+- Time:
+    - [time](#time)
+    - [timePattern](#timepattern)
 - Numerals:
     - [numeral](#numeral)
     - [numeralThousandsGroupStyle](#numeralthousandsgroupstyle)
@@ -160,6 +163,37 @@ new Cleave('.my-input', {
 ```
 
 You can also custom the [delimiter](#delimiter) for date
+
+## Time
+
+### `time`
+
+A `Boolean` value indicates if this is a time input field. Enable to trigger time shortcut mode.
+
+**Default value**: `false`
+
+### `timePattern`
+
+An `Array` value indicates the time pattern.
+
+Since it's an input field, leading `0` before hour, minute and second is required. To indicate what patterns it should apply, you can use: 'h', 'm' and 's'.
+
+**Default value**: `['h', 'm', 's']`
+
+```js
+new Cleave('.my-input', {
+    time: true,
+    timePattern: ['h', 'm']
+});
+```
+
+```js
+['h', 'm', 's']: 14:56:37
+['h', 'm']: 21:56
+['s', 'm', 'h']: 37:56:14
+```
+
+You can also custom the [delimiter](#delimiter) for time
 
 ## Numerals
 
@@ -402,7 +436,7 @@ new Cleave('.my-input', {
 
 ```js
 // before input
-// 
+//
 // after input of 5
 // $5
 ```

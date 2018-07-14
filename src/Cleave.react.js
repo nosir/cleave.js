@@ -5,6 +5,7 @@ var CreateReactClass = require('create-react-class');
 
 var NumeralFormatter = require('./shortcuts/NumeralFormatter');
 var DateFormatter = require('./shortcuts/DateFormatter');
+var TimeFormatter = require('./shortcuts/TimeFormatter');
 var PhoneFormatter = require('./shortcuts/PhoneFormatter');
 var CreditCardDetector = require('./shortcuts/CreditCardDetector');
 var Util = require('./utils/Util');
@@ -75,7 +76,7 @@ var cleaveReactClass = CreateReactClass({
             pps = owner.properties;
 
         // so no need for this lib at all
-        if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.date && (pps.blocksLength === 0 && !pps.prefix)) {
+        if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.time && !pps.date && (pps.blocksLength === 0 && !pps.prefix)) {
             owner.onInput(pps.initValue);
             owner.registeredEvents.onInit(owner);
 
@@ -88,6 +89,7 @@ var cleaveReactClass = CreateReactClass({
 
         owner.initPhoneFormatter();
         owner.initDateFormatter();
+        owner.initTimeFormatter();
         owner.initNumeralFormatter();
 
         // avoid touch input field if value is null
@@ -116,6 +118,20 @@ var cleaveReactClass = CreateReactClass({
             pps.stripLeadingZeroes,
             pps.delimiter
         );
+    },
+
+    initTimeFormatter: function () {
+        var owner = this,
+            pps = owner.properties;
+
+        if (!pps.time) {
+            return;
+        }
+
+        pps.timeFormatter = new TimeFormatter(pps.timePattern);
+        pps.blocks = pps.timeFormatter.getBlocks();
+        pps.blocksLength = pps.blocks.length;
+        pps.maxLength = Util.getMaxLength(pps.blocks);
     },
 
     initDateFormatter: function () {
@@ -289,6 +305,11 @@ var cleaveReactClass = CreateReactClass({
         // date
         if (pps.date) {
             value = pps.dateFormatter.getValidatedDate(value);
+        }
+
+        // time
+        if (pps.time) {
+            value = pps.timeFormatter.getValidatedTime(value);
         }
 
         // strip delimiters
