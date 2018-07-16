@@ -25,7 +25,7 @@ var DefaultProperties = {
 
         // time
         target.time = !!opts.time;
-        target.timePattern = opts.timePattern || ['h', 'm'];
+        target.timePattern = opts.timePattern || ['h', 'm', 's'];
         target.timeFormatter = {};
 
         // date

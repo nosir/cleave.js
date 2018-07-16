@@ -144,7 +144,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            pps = owner.properties;
 
 	        // so no need for this lib at all
-	        if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.date && pps.blocksLength === 0 && !pps.prefix) {
+	        if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.time && !pps.date && pps.blocksLength === 0 && !pps.prefix) {
 	            owner.onInput(pps.initValue);
 	            owner.registeredEvents.onInit(owner);
 
@@ -2576,7 +2576,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        // time
 	        target.time = !!opts.time;
-	        target.timePattern = opts.timePattern || ['h', 'm'];
+	        target.timePattern = opts.timePattern || ['h', 'm', 's'];
 	        target.timeFormatter = {};
 
 	        // date
