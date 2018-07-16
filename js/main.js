@@ -12,7 +12,7 @@ var cleaveCreditCard = new Cleave('.input-credit-card', {
     creditCard:              true,
     onCreditCardTypeChanged: function (type) {
         type = type.split('15')[0];
-        
+
         if (selectedCardIcon) {
             DOM.removeClass(selectedCardIcon, 'active');
         }
@@ -77,6 +77,17 @@ var cleaveDateA = new Cleave('.input-date-a', {
 var cleaveDateB = new Cleave('.input-date-b', {
     date:        true,
     datePattern: ['m', 'y']
+});
+
+// time
+var cleaveTimeA = new Cleave('.input-time-a', {
+    time:        true,
+    timePattern: ['h', 'm', 's']
+});
+
+var cleaveTimeB = new Cleave('.input-time-b', {
+    time:        true,
+    timePattern: ['h', 'm']
 });
 
 // numeral

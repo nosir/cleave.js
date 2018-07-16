@@ -304,6 +304,40 @@
     </section>
 
     <section>
+        <h3>Time formatting</h3>
+
+        <div class="demo">
+            <p class="input-title">hh:mm:ss</p>
+
+            <div class="field">
+                <input class="input-time-a" placeholder="hh:mm:ss" type="tel"/>
+            </div>
+
+            <div class="code">
+<pre><code class="language-javascript">var cleave = new Cleave('.input-element', {
+    time: true,
+    timePattern: ['h', 'm', 's']
+});</code></pre>
+            </div>
+        </div>
+
+        <div class="demo">
+            <p class="input-title">hh:mm</p>
+
+            <div class="field">
+                <input class="input-time-b" placeholder="hh:mm" type="tel"/>
+            </div>
+
+            <div class="code">
+<pre><code class="language-javascript">var cleave = new Cleave('.input-element', {
+    time: true,
+    timePattern: ['h', 'm']
+});</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <section>
         <h3>Numeral formatting</h3>
 
         <div class="demo">
