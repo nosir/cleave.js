@@ -2379,6 +2379,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // only keep number and +
 	        phoneNumber = phoneNumber.replace(/[^\d+]/g, '');
 
+	        // strip non-leading +
+	        phoneNumber = phoneNumber.replace(/^\+/, 'B').replace(/\+/g, '').replace('B', '+');
+
 	        // strip delimiter
 	        phoneNumber = phoneNumber.replace(owner.delimiterRE, '');
 
