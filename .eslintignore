@@ -1,3 +1,4 @@
 src/build/**/*.js
 src/addons/**/*.js
 test/addons/**/*.js
+dist/**/*.js

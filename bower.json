@@ -1,13 +1,8 @@
 {
   "name": "cleave.js",
-  "description": "JavaScript library for formatting input text content when you are typing",
-  "keywords": [
-    "cleave",
-    "javascript",
-    "html",
-    "form",
-    "input"
-  ],
+  "description":
+    "JavaScript library for formatting input text content when you are typing",
+  "keywords": ["cleave", "javascript", "html", "form", "input"],
   "version": "1.4.2",
   "author": {
     "name": "Max Huang",
@@ -28,13 +23,10 @@
     "package.json"
   ],
   "homepage": "https://github.com/nosir/cleave.js",
-  "main": [
-    "dist/cleave.js"
-  ],
+  "main": ["dist/cleave.js"],
   "repository": {
     "type": "git",
     "url": "https://github.com/nosir/cleave.js.git"
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }
