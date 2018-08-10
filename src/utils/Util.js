@@ -171,7 +171,7 @@ var Util = {
     },
 
     setSelection: function (element, position, doc) {
-        if (element !== doc.activeElement) {
+        if (element !== this.getActiveElement(doc)) {
             return;
         }
 
@@ -193,6 +193,14 @@ var Util = {
                 console.warn('The input element type does not support selection');
             }
         }
+    },
+    
+    getActiveElement: function(doc) {
+        var activeElement = doc.activeElement;
+        if (doc.activeElement && doc.activeElement.shadowRoot) {
+            return this.getActiveElement(doc.activeElement.shadowRoot);
+        }
+        return activeElement;
     },
 
     isAndroid: function () {
