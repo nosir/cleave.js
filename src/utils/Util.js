@@ -171,7 +171,7 @@ var Util = {
     },
 
     setSelection: function (element, position, doc) {
-        if (element !== this.getActiveElement(doc.activeElement)) {
+        if (element !== this.getActiveElement(doc)) {
             return;
         }
 
@@ -195,7 +195,8 @@ var Util = {
         }
     },
     
-    getActiveElement: function(activeElement) {
+    getActiveElement: function(parent) {
+        var activeElement = parent.activeElement;
         if (activeElement && activeElement.shadowRoot) {
             return this.getActiveElement(activeElement.shadowRoot);
         }
