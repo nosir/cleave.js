@@ -1280,7 +1280,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    setSelection: function (element, position, doc) {
-	        if (element !== doc.activeElement) {
+	        if (element !== this.getActiveElement(doc)) {
 	            return;
 	        }
 
@@ -1302,6 +1302,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	                console.warn('The input element type does not support selection');
 	            }
 	        }
+	    },
+	    
+	    getActiveElement: function(parent) {
+	        var activeElement = parent.activeElement;
+	        if (activeElement && activeElement.shadowRoot) {
+	            return this.getActiveElement(activeElement.shadowRoot);
+	        }
+	        return activeElement;
 	    },
 
 	    isAndroid: function () {
