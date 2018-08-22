@@ -136,7 +136,9 @@ Cleave.prototype = {
             Util = Cleave.Util,
             currentValue = owner.element.value;
 
-        if (Util.isAndroidBackspaceKeydown(owner.lastInputValue, currentValue)) {
+        if (charCode === 229
+            && Util.isAndroidBackspaceKeydown(owner.lastInputValue, currentValue)
+        ) {
             charCode = 8;
         }
 
