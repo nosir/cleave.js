@@ -136,8 +136,11 @@ Cleave.prototype = {
             Util = Cleave.Util,
             currentValue = owner.element.value;
 
-        if (charCode === 229
-            && Util.isAndroidBackspaceKeydown(owner.lastInputValue, currentValue)
+        // if we got any charCode === 8, this means, that this device correctly
+        // sends backspace keys in event, so we do not need to apply any hacks
+        owner.hasBackspaceSupport = owner.hasBackspaceSupport || charCode === 8;
+        if (!owner.hasBackspaceSupport
+          && Util.isAndroidBackspaceKeydown(owner.lastInputValue, currentValue)
         ) {
             charCode = 8;
         }
