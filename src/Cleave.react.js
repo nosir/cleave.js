@@ -26,6 +26,7 @@ var cleaveReactClass = CreateReactClass({
     componentWillReceiveProps: function (nextProps) {
         var owner = this,
             phoneRegionCode = (nextProps.options || {}).phoneRegionCode,
+            numeralDecimalScale = (nextProps.options || {}).numeralDecimalScale,
             newValue = nextProps.value;
 
         if (newValue !== undefined) {
@@ -41,6 +42,13 @@ var cleaveReactClass = CreateReactClass({
         if (phoneRegionCode && phoneRegionCode !== owner.properties.phoneRegionCode) {
             owner.properties.phoneRegionCode = phoneRegionCode;
             owner.initPhoneFormatter();
+            owner.onInput(owner.properties.result);
+        }
+
+        // Update numeral decimal scale
+        if (numeralDecimalScale && numeralDecimalScale !== owner.properties.numeralDecimalScale) {
+            owner.properties.numeralDecimalScale = numeralDecimalScale;
+            owner.initNumeralFormatter();
             owner.onInput(owner.properties.result);
         }
     },
