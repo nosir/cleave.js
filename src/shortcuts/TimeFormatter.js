@@ -31,7 +31,7 @@ TimeFormatter.prototype = {
         return this.blocks;
     },
 
-    getTimeFormatOptions() {
+    getTimeFormatOptions: function () {
         var owner = this;
         if (owner.timeFormat === '12') {
             return {
