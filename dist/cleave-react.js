@@ -188,7 +188,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return;
 	        }
 
-	        pps.timeFormatter = new TimeFormatter(pps.timePattern);
+	        pps.timeFormatter = new TimeFormatter(pps.timePattern, pps.timeFormat);
 	        pps.blocks = pps.timeFormatter.getBlocks();
 	        pps.blocksLength = pps.blocks.length;
 	        pps.maxLength = Util.getMaxLength(pps.blocks);
@@ -2189,12 +2189,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var TimeFormatter = function TimeFormatter(timePattern) {
+	var TimeFormatter = function TimeFormatter(timePattern, timeFormat) {
 	    var owner = this;
 
 	    owner.time = [];
 	    owner.blocks = [];
 	    owner.timePattern = timePattern;
+	    owner.timeFormat = timeFormat;
 	    owner.initBlocks();
 	};
 
@@ -2217,11 +2218,32 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return this.blocks;
 	    },
 
+	    getTimeFormatOptions: function getTimeFormatOptions() {
+	        var owner = this;
+	        if (String(owner.timeFormat) === '12') {
+	            return {
+	                maxHourFirstDigit: 1,
+	                maxHours: 12,
+	                maxMinutesFirstDigit: 5,
+	                maxMinutes: 60
+	            };
+	        }
+
+	        return {
+	            maxHourFirstDigit: 2,
+	            maxHours: 23,
+	            maxMinutesFirstDigit: 5,
+	            maxMinutes: 60
+	        };
+	    },
+
 	    getValidatedTime: function getValidatedTime(value) {
 	        var owner = this,
 	            result = '';
 
 	        value = value.replace(/[^\d]/g, '');
+
+	        var timeFormatOptions = owner.getTimeFormatOptions();
 
 	        owner.blocks.forEach(function (length, index) {
 	            if (value.length > 0) {
@@ -2232,20 +2254,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	                switch (owner.timePattern[index]) {
 
 	                    case 'h':
-	                        if (parseInt(sub0, 10) > 2) {
+	                        if (parseInt(sub0, 10) > timeFormatOptions.maxHourFirstDigit) {
 	                            sub = '0' + sub0;
-	                        } else if (parseInt(sub, 10) > 23) {
-	                            sub = '23';
+	                        } else if (parseInt(sub, 10) > timeFormatOptions.maxHours) {
+	                            sub = timeFormatOptions.maxHours + '';
 	                        }
 
 	                        break;
 
 	                    case 'm':
 	                    case 's':
-	                        if (parseInt(sub0, 10) > 5) {
+	                        if (parseInt(sub0, 10) > timeFormatOptions.maxMinutesFirstDigit) {
 	                            sub = '0' + sub0;
-	                        } else if (parseInt(sub, 10) > 60) {
-	                            sub = '60';
+	                        } else if (parseInt(sub, 10) > timeFormatOptions.maxMinutes) {
+	                            sub = timeFormatOptions.maxMinutes + '';
 	                        }
 	                        break;
 	                }
@@ -2782,6 +2804,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // time
 	        target.time = !!opts.time;
 	        target.timePattern = opts.timePattern || ['h', 'm', 's'];
+	        target.timeFormat = opts.timeFormat || '24';
 	        target.timeFormatter = {};
 
 	        // date
