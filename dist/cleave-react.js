@@ -272,6 +272,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return pps.date ? pps.dateFormatter.getISOFormatDate() : '';
 	    },
 
+	    getISOFormatTime: function getISOFormatTime() {
+	        var owner = this,
+	            pps = owner.properties;
+
+	        return pps.time ? pps.timeFormatter.getISOFormatTime() : '';
+	    },
+
 	    onInit: function onInit(owner) {
 	        return owner;
 	    },

@@ -21,7 +21,7 @@ describe('Time input field', function () {
 
     it('should correct large time hour to add leading 0', function () {
         cleave.setRawValue('4');
-        assert.equal(field.value, '02:');
+        assert.equal(field.value, '04:');
     });
 
     it('should correct large min to add leading 0', function () {

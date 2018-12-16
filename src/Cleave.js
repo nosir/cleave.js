@@ -411,6 +411,13 @@ Cleave.prototype = {
         return pps.date ? pps.dateFormatter.getISOFormatDate() : '';
     },
 
+    getISOFormatTime: function () {
+        var owner = this,
+            pps = owner.properties;
+
+        return pps.time ? pps.timeFormatter.getISOFormatTime() : '';
+    },
+
     getFormattedValue: function () {
         return this.element.value;
     },
