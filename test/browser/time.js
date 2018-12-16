@@ -39,7 +39,7 @@ describe('Date input field with pattern', function () {
     var field = document.querySelector('.input-time');
     var cleave = new Cleave(field, {
         time:        true,
-        timePattern: ['m': 's']
+        timePattern: ['m', 's']
     });
 
     it('should format fully matched input value', function () {
