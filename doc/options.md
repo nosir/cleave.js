@@ -195,14 +195,14 @@ new Cleave('.my-input', {
 
 ### `timeFormat`
 
-A `String` value indicates time format.
+A `String` value indicates time format
 
-**Default value** `"24"`
+**Default value** `'24'` Military time format
 
 ```js
 new Cleave('.my-input', {
     time: true,
-    timeFormat: "12"
+    timeFormat: '12'
 });
 ```
 

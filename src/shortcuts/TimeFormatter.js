@@ -33,10 +33,10 @@ TimeFormatter.prototype = {
 
     getTimeFormatOptions: function () {
         var owner = this;
-        if (owner.timeFormat === '12') {
+        if (String(owner.timeFormat) === '12') {
             return {
                 maxHourFirstDigit: 1,
-                maxHours: 11,
+                maxHours: 12,
                 maxMinutesFirstDigit: 5,
                 maxMinutes: 60
             };
