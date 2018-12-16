@@ -200,6 +200,9 @@ Then easily you can apply `cleave` directive to `input` field:
 
 More usage in documentation: [Angular directive usage](https://github.com/nosir/cleave.js/blob/master/doc/angularjs-directive-usage.md)
 
+## jQuery fn usage
+Please check [here](https://github.com/nosir/cleave.js/issues/341)
+
 ## Playground
 
 - [Plain JSFiddle (Basic usage)](https://jsfiddle.net/nosir/kbaxx64s/)
