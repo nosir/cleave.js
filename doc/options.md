@@ -193,6 +193,19 @@ new Cleave('.my-input', {
 ['s', 'm', 'h']: 37:56:14
 ```
 
+### `timeFormat`
+
+A `String` value indicates time format.
+
+**Default value** `"24"`
+
+```js
+new Cleave('.my-input', {
+    time: true,
+    timeFormat: "12"
+});
+```
+
 You can also custom the [delimiter](#delimiter) for time
 
 ## Numerals

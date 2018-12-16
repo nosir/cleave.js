@@ -92,7 +92,7 @@ Cleave.prototype = {
             return;
         }
 
-        pps.timeFormatter = new Cleave.TimeFormatter(pps.timePattern);
+        pps.timeFormatter = new Cleave.TimeFormatter(pps.timePattern, pps.timeFormat);
         pps.blocks = pps.timeFormatter.getBlocks();
         pps.blocksLength = pps.blocks.length;
         pps.maxLength = Cleave.Util.getMaxLength(pps.blocks);

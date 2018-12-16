@@ -128,7 +128,7 @@ var cleaveReactClass = CreateReactClass({
             return;
         }
 
-        pps.timeFormatter = new TimeFormatter(pps.timePattern);
+        pps.timeFormatter = new TimeFormatter(pps.timePattern, pps.timeFormat);
         pps.blocks = pps.timeFormatter.getBlocks();
         pps.blocksLength = pps.blocks.length;
         pps.maxLength = Util.getMaxLength(pps.blocks);
