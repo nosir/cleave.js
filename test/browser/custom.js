@@ -41,6 +41,16 @@ describe('Custom input field', function () {
         assert.equal(field.value, '123-456-789~000');
     });
 
+    it('should use custom multiple delimiters with more than one letter', function () {
+        var cleave = new Cleave(field, {
+            blocks:     [0, 3, 3, 3],
+            delimiters: ['(', ') ', ' - ']
+        });
+
+        cleave.setRawValue('123456789000');
+        assert.equal(field.value, '(123) 456 - 789');
+    });
+
     it('should use custom multiple delimiters with default value', function () {
         var cleave = new Cleave(field, {
             blocks:     [3, 3, 3, 3],

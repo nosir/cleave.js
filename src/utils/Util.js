@@ -8,18 +8,21 @@ var Util = {
         return value.replace(re, '');
     },
 
-    isDelimiter: function (letter, delimiter, delimiters) {
+    getPostDelimiter: function (value, delimiter, delimiters) {
         // single delimiter
         if (delimiters.length === 0) {
-            return letter === delimiter;
+            return value.slice(-delimiter.length) === delimiter ? delimiter : '';
         }
 
         // multiple delimiters
-        return delimiters.some(function (current) {
-            if (letter === current) {
-                return true;
+        var matchedDelimiter = '';
+        delimiters.forEach(function (current) {
+            if (value.slice(-current.length) === current) {
+                matchedDelimiter = current;
             }
         });
+
+        return matchedDelimiter;
     },
 
     getDelimiterREByDelimiter: function (delimiter) {
@@ -58,7 +61,9 @@ var Util = {
 
         // multiple delimiters
         delimiters.forEach(function (current) {
-            value = value.replace(owner.getDelimiterREByDelimiter(current), '');
+            current.split('').forEach(function (letter) {
+                value = value.replace(owner.getDelimiterREByDelimiter(letter), '');
+            });
         });
 
         return value;
@@ -194,7 +199,7 @@ var Util = {
             }
         }
     },
-    
+
     getActiveElement: function(parent) {
         var activeElement = parent.activeElement;
         if (activeElement && activeElement.shadowRoot) {

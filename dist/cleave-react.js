@@ -235,7 +235,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            value = value.replace('.', pps.numeralDecimalMark);
 	        }
 
-	        pps.backspace = false;
+	        pps.postDelimiterBackspace = false;
 
 	        owner.onChange({
 	            target: { value: value },
@@ -288,11 +288,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	            pps = owner.properties,
 	            charCode = event.which || event.keyCode;
 
+	        // if we got any charCode === 8, this means, that this device correctly
+	        // sends backspace keys in event, so we do not need to apply any hacks
+	        owner.hasBackspaceSupport = owner.hasBackspaceSupport || charCode === 8;
+	        if (!owner.hasBackspaceSupport && Util.isAndroidBackspaceKeydown(owner.lastInputValue, pps.result)) {
+	            charCode = 8;
+	        }
+
 	        // hit backspace when last character is delimiter
-	        if (charCode === 8 && Util.isDelimiter(pps.result.slice(-pps.delimiterLength), pps.delimiter, pps.delimiters)) {
-	            pps.backspace = true;
+	        var postDelimiter = Util.getPostDelimiter(pps.result, pps.delimiter, pps.delimiters);
+	        if (charCode === 8 && postDelimiter) {
+	            pps.postDelimiterBackspace = postDelimiter;
 	        } else {
-	            pps.backspace = false;
+	            pps.postDelimiterBackspace = false;
 	        }
 
 	        owner.registeredEvents.onKeyDown(event);
@@ -336,17 +344,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var owner = this,
 	            pps = owner.properties;
 
-	        if (Util.isAndroidBackspaceKeydown(owner.lastInputValue, owner.element.value) && Util.isDelimiter(pps.result.slice(-pps.delimiterLength), pps.delimiter, pps.delimiters)) {
-	            pps.backspace = true;
-	        }
-
 	        // case 1: delete one more character "4"
 	        // 1234*| -> hit backspace -> 123|
 	        // case 2: last character is not delimiter which is:
 	        // 12|34* -> hit backspace -> 1|34*
-
-	        if (!fromProps && !pps.numeral && pps.backspace && !Util.isDelimiter(value.slice(-pps.delimiterLength), pps.delimiter, pps.delimiters)) {
-	            value = Util.headStr(value, value.length - pps.delimiterLength);
+	        var postDelimiterAfter = Util.getPostDelimiter(value, pps.delimiter, pps.delimiters);
+	        if (!fromProps && !pps.numeral && pps.postDelimiterBackspace && !postDelimiterAfter) {
+	            value = Util.headStr(value, value.length - pps.postDelimiterBackspace.length);
 	        }
 
 	        // phone formatter
@@ -2562,18 +2566,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return value.replace(re, '');
 	    },
 
-	    isDelimiter: function isDelimiter(letter, delimiter, delimiters) {
+	    getPostDelimiter: function getPostDelimiter(value, delimiter, delimiters) {
 	        // single delimiter
 	        if (delimiters.length === 0) {
-	            return letter === delimiter;
+	            return value.slice(-delimiter.length) === delimiter ? delimiter : '';
 	        }
 
 	        // multiple delimiters
-	        return delimiters.some(function (current) {
-	            if (letter === current) {
-	                return true;
+	        var matchedDelimiter = '';
+	        delimiters.forEach(function (current) {
+	            if (value.slice(-current.length) === current) {
+	                matchedDelimiter = current;
 	            }
 	        });
+
+	        return matchedDelimiter;
 	    },
 
 	    getDelimiterREByDelimiter: function getDelimiterREByDelimiter(delimiter) {
@@ -2612,7 +2619,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        // multiple delimiters
 	        delimiters.forEach(function (current) {
-	            value = value.replace(owner.getDelimiterREByDelimiter(current), '');
+	            current.split('').forEach(function (letter) {
+	                value = value.replace(owner.getDelimiterREByDelimiter(letter), '');
+	            });
 	        });
 
 	        return value;

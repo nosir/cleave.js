@@ -178,7 +178,7 @@ var cleaveReactClass = CreateReactClass({
             value = value.replace('.', pps.numeralDecimalMark);
         }
 
-        pps.backspace = false;
+        pps.postDelimiterBackspace = false;
 
         owner.onChange({
             target: {value: value},
@@ -230,11 +230,21 @@ var cleaveReactClass = CreateReactClass({
             pps = owner.properties,
             charCode = event.which || event.keyCode;
 
+        // if we got any charCode === 8, this means, that this device correctly
+        // sends backspace keys in event, so we do not need to apply any hacks
+        owner.hasBackspaceSupport = owner.hasBackspaceSupport || charCode === 8;
+        if (!owner.hasBackspaceSupport
+          && Util.isAndroidBackspaceKeydown(owner.lastInputValue, pps.result)
+        ) {
+            charCode = 8;
+        }
+
         // hit backspace when last character is delimiter
-        if (charCode === 8 && Util.isDelimiter(pps.result.slice(-pps.delimiterLength), pps.delimiter, pps.delimiters)) {
-            pps.backspace = true;
+        var postDelimiter = Util.getPostDelimiter(pps.result, pps.delimiter, pps.delimiters);
+        if (charCode === 8 && postDelimiter) {
+            pps.postDelimiterBackspace = postDelimiter;
         } else {
-            pps.backspace = false;
+            pps.postDelimiterBackspace = false;
         }
 
         owner.registeredEvents.onKeyDown(event);
@@ -275,18 +285,13 @@ var cleaveReactClass = CreateReactClass({
     onInput: function (value, fromProps) {
         var owner = this, pps = owner.properties;
 
-        if (Util.isAndroidBackspaceKeydown(owner.lastInputValue, owner.element.value) &&
-        Util.isDelimiter(pps.result.slice(-pps.delimiterLength), pps.delimiter, pps.delimiters)) {
-            pps.backspace = true;
-        }
-
         // case 1: delete one more character "4"
         // 1234*| -> hit backspace -> 123|
         // case 2: last character is not delimiter which is:
         // 12|34* -> hit backspace -> 1|34*
-
-        if (!fromProps && !pps.numeral && pps.backspace && !Util.isDelimiter(value.slice(-pps.delimiterLength), pps.delimiter, pps.delimiters)) {
-            value = Util.headStr(value, value.length - pps.delimiterLength);
+        var postDelimiterAfter = Util.getPostDelimiter(value, pps.delimiter, pps.delimiters);
+        if (!fromProps && !pps.numeral && pps.postDelimiterBackspace && !postDelimiterAfter) {
+            value = Util.headStr(value, value.length - pps.postDelimiterBackspace.length);
         }
 
         // phone formatter
