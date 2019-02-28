@@ -254,7 +254,8 @@ Cleave.prototype = {
         value = Util.stripDelimiters(value, pps.delimiter, pps.delimiters);
 
         // strip prefix
-        value = Util.getPrefixStrippedValue(value, pps.prefix, pps.prefixLength, pps.result);
+        var strippedPreviousResult = Util.stripDelimiters(pps.result, pps.delimiter, pps.delimiters);
+        value = Util.getPrefixStrippedValue(value, pps.prefix, pps.prefixLength, strippedPreviousResult);
 
         // strip non-numeric characters
         value = pps.numericOnly ? Util.strip(value, /[^\d]/g) : value;
