@@ -362,7 +362,7 @@ Then it just works.
 
 Or, you could also use the normalize abstraction at `Field` level, check the discussion [here](https://github.com/nosir/cleave.js/issues/159#issuecomment-326487309)
 
-### How to use it with Redux Final Form
+### How to use it with React Final Form
 
 Create an adapter with cleave.js:
 
