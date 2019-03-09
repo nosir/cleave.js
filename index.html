@@ -273,15 +273,16 @@
         <h3>Date formatting</h3>
 
         <div class="demo">
-            <p class="input-title">YYYY/MM/DD</p>
+            <p class="input-title">YYYY-MM-DD</p>
 
             <div class="field">
-                <input class="input-date-a" placeholder="YYYY/MM/DD" type="tel"/>
+                <input class="input-date-a" placeholder="YYYY-MM-DD" type="tel"/>
             </div>
 
             <div class="code">
 <pre><code class="language-javascript">var cleave = new Cleave('.input-element', {
     date: true,
+    delimter: '-',
     datePattern: ['Y', 'm', 'd']
 });</code></pre>
             </div>
@@ -524,14 +525,28 @@ class MyComponent extends React.Component {
 <script src="./js/main.js"></script>
 
 <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+(function(i, s, o, g, r, a, m) {
+  i["GoogleAnalyticsObject"] = r;
+  (i[r] =
+    i[r] ||
+    function() {
+      (i[r].q = i[r].q || []).push(arguments);
+    }),
+    (i[r].l = 1 * new Date());
+  (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
+  a.async = 1;
+  a.src = g;
+  m.parentNode.insertBefore(a, m);
+})(
+  window,
+  document,
+  "script",
+  "https://www.google-analytics.com/analytics.js",
+  "ga"
+);
 
-    ga('create', 'UA-79828599-2', 'auto');
-    ga('send', 'pageview');
-
+ga("create", "UA-79828599-2", "auto");
+ga("send", "pageview");
 </script>
 </body>
 </html>
