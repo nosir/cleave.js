@@ -355,7 +355,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        // phone formatter
 	        if (pps.phone) {
-	            pps.result = pps.phoneFormatter.format(value);
+	            if (pps.prefix && (!pps.noImmediatePrefix || value.length)) {
+	                pps.result = pps.prefix + pps.phoneFormatter.format(value).slice(pps.prefix.length);
+	            } else {
+	                pps.result = pps.phoneFormatter.format(value);
+	            }
 	            owner.updateValueState();
 
 	            return;
