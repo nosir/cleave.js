@@ -8,15 +8,31 @@
  */
 var Cleave = function (element, opts) {
     var owner = this;
+    var hasMultipleElements = false;
 
     if (typeof element === 'string') {
         owner.element = document.querySelector(element);
+        hasMultipleElements = document.querySelectorAll(element).length > 1;
     } else {
-        owner.element = ((typeof element.length !== 'undefined') && element.length > 0) ? element[0] : element;
+      if (typeof element.length !== 'undefined' && element.length > 0) {
+        owner.element = element[0];
+        hasMultipleElements = element.length > 1;
+      } else {
+        owner.element = element;
+      }
     }
 
     if (!owner.element) {
         throw new Error('[cleave.js] Please check the element');
+    }
+
+    if (hasMultipleElements) {
+      try {
+        // eslint-disable-next-line
+        console.warn('[cleave.js] Multiple input fields matched, cleave.js will only take the first one.');
+      } catch (e) {
+        // Old IE
+      }
     }
 
     opts.initValue = owner.element.value;
