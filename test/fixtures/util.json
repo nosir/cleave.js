@@ -121,21 +121,47 @@
   "getPrefixStrippedValue": [
     {
       "params": [
-        "tst123",
+        "test123",
         "test",
         4,
-        "test123"
+        "test12",
+        "-",
+        []
       ],
       "expected": "123"
     },
     {
       "params": [
-        "teast",
+        "test23",
         "test",
         4,
-        "test"
+        "test123",
+        "-",
+        []
       ],
-      "expected": "a"
+      "expected": "23"
+    },
+    {
+      "params": [
+        "test123",
+        "test",
+        4,
+        "tst",
+        "-",
+        []
+      ],
+      "expected": ""
+    },
+    {
+      "params": [
+        "tst123",
+        "test",
+        4,
+        "test12",
+        "-",
+        []
+      ],
+      "expected": "12"
     }
   ]
 }

@@ -195,7 +195,7 @@ var cleaveReactClass = CreateReactClass({
             rawValue = pps.result;
 
         if (pps.rawValueTrimPrefix) {
-            rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength, pps.result);
+            rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters);
         }
 
         if (pps.numeral) {
@@ -296,7 +296,11 @@ var cleaveReactClass = CreateReactClass({
 
         // phone formatter
         if (pps.phone) {
-            pps.result = pps.phoneFormatter.format(value);
+            if (pps.prefix && (!pps.noImmediatePrefix || value.length)) {
+                pps.result = pps.prefix + pps.phoneFormatter.format(value).slice(pps.prefix.length);
+            } else {
+                pps.result = pps.phoneFormatter.format(value);
+            }
             owner.updateValueState();
 
             return;
@@ -328,7 +332,7 @@ var cleaveReactClass = CreateReactClass({
         value = Util.stripDelimiters(value, pps.delimiter, pps.delimiters);
 
         // strip prefix
-        value = Util.getPrefixStrippedValue(value, pps.prefix, pps.prefixLength, pps.result);
+        value = Util.getPrefixStrippedValue(value, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters);
 
         // strip non-numeric characters
         value = pps.numericOnly ? Util.strip(value, /[^\d]/g) : value;

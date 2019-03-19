@@ -509,7 +509,7 @@ It returns an object, which has a target key, value is the formatted and raw inp
 new Cleave('.my-input', {
     creditCard: true,
     onValueChanged: function (e) {
-        // e.target = { value: '5000-1234', rawValue: '51001234' }
+        // e.target = { value: '5100-1234', rawValue: '51001234' }
     }
 });
 ```

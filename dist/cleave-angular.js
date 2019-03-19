@@ -64,15 +64,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	var Cleave = function (element, opts) {
 	    var owner = this;
+	    var hasMultipleElements = false;
 
 	    if (typeof element === 'string') {
 	        owner.element = document.querySelector(element);
+	        hasMultipleElements = document.querySelectorAll(element).length > 1;
 	    } else {
-	        owner.element = ((typeof element.length !== 'undefined') && element.length > 0) ? element[0] : element;
+	      if (typeof element.length !== 'undefined' && element.length > 0) {
+	        owner.element = element[0];
+	        hasMultipleElements = element.length > 1;
+	      } else {
+	        owner.element = element;
+	      }
 	    }
 
 	    if (!owner.element) {
 	        throw new Error('[cleave.js] Please check the element');
+	    }
+
+	    if (hasMultipleElements) {
+	      try {
+	        // eslint-disable-next-line
+	        console.warn('[cleave.js] Multiple input fields matched, cleave.js will only take the first one.');
+	      } catch (e) {
+	        // Old IE
+	      }
 	    }
 
 	    opts.initValue = owner.element.value;
@@ -310,7 +326,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value = Util.stripDelimiters(value, pps.delimiter, pps.delimiters);
 
 	        // strip prefix
-	        value = Util.getPrefixStrippedValue(value, pps.prefix, pps.prefixLength, pps.result);
+	        // var strippedPreviousResult = Util.stripDelimiters(pps.result, pps.delimiter, pps.delimiters);
+	        value = Util.getPrefixStrippedValue(value, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters);
 
 	        // strip non-numeric characters
 	        value = pps.numericOnly ? Util.strip(value, /[^\d]/g) : value;
@@ -448,7 +465,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            rawValue = owner.element.value;
 
 	        if (pps.rawValueTrimPrefix) {
-	            rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength, pps.result);
+	            rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters);
 	        }
 
 	        if (pps.numeral) {
@@ -1279,22 +1296,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }, 0);
 	    },
 
-	    // strip value by prefix length
-	    // for prefix: PRE
-	    // (PRE123, 3) -> 123
-	    // (PR123, 3) -> 23 this happens when user hits backspace in front of "PRE"
-	    getPrefixStrippedValue: function (value, prefix, prefixLength, prevValue) {
-	        if (value.slice(0, prefixLength) !== prefix) {
-
-	            // Check whether if it is a deletion
-	            if (value.length < prevValue.length) {
-	                value = value.length > prefixLength ? prevValue : prefix;
-	            } else {
-	                var diffIndex = this.getFirstDiffIndex(prefix, value.slice(0, prefixLength));
-	                value = prefix + value.slice(diffIndex, diffIndex + 1) + value.slice(prefixLength + 1);
-	            }
+	    // strip prefix
+	    // Before type  |   After type    |     Return value
+	    // PEFIX-...    |   PEFIX-...     |     ''
+	    // PREFIX-123   |   PEFIX-123     |     123
+	    // PREFIX-123   |   PREFIX-23     |     23
+	    // PREFIX-123   |   PREFIX-1234   |     1234
+	    getPrefixStrippedValue: function (value, prefix, prefixLength, prevResult, delimiter, delimiters) {
+	        // No prefix
+	        if (prefixLength === 0) {
+	          return value;
 	        }
 
+	        // Pre result has issue
+	        // Revert to raw prefix
+	        if (prevResult.slice(0, prefixLength) !== prefix) {
+	          return '';
+	        }
+
+	        var prevValue = this.stripDelimiters(prevResult, delimiter, delimiters);
+
+	        // New value has issue, someone typed in between prefix letters
+	        // Revert to pre value
+	        if (value.slice(0, prefixLength) !== prefix) {
+	          return prevValue.slice(prefixLength);
+	        }
+
+	        // No issue, strip prefix for new value
 	        return value.slice(prefixLength);
 	    },
 
