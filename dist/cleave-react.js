@@ -526,12 +526,10 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
-	 * Copyright 2013-present, Facebook, Inc.
-	 * All rights reserved.
+	 * Copyright (c) 2013-present, Facebook, Inc.
 	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
+	 * This source code is licensed under the MIT license found in the
+	 * LICENSE file in the root directory of this source tree.
 	 *
 	 */
 
@@ -562,12 +560,10 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright 2013-present, Facebook, Inc.
-	 * All rights reserved.
+	 * Copyright (c) 2013-present, Facebook, Inc.
 	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
+	 * This source code is licensed under the MIT license found in the
+	 * LICENSE file in the root directory of this source tree.
 	 *
 	 */
 
@@ -835,6 +831,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	     */
 	    componentWillUnmount: 'DEFINE_MANY',
 
+	    /**
+	     * Replacement for (deprecated) `componentWillMount`.
+	     *
+	     * @optional
+	     */
+	    UNSAFE_componentWillMount: 'DEFINE_MANY',
+
+	    /**
+	     * Replacement for (deprecated) `componentWillReceiveProps`.
+	     *
+	     * @optional
+	     */
+	    UNSAFE_componentWillReceiveProps: 'DEFINE_MANY',
+
+	    /**
+	     * Replacement for (deprecated) `componentWillUpdate`.
+	     *
+	     * @optional
+	     */
+	    UNSAFE_componentWillUpdate: 'DEFINE_MANY',
+
 	    // ==== Advanced methods ====
 
 	    /**
@@ -848,6 +865,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @overridable
 	     */
 	    updateComponent: 'OVERRIDE_BASE'
+	  };
+
+	  /**
+	   * Similar to ReactClassInterface but for static methods.
+	   */
+	  var ReactClassStaticInterface = {
+	    /**
+	     * This method is invoked after a component is instantiated and when it
+	     * receives new props. Return an object to update state in response to
+	     * prop changes. Return null to indicate no change to state.
+	     *
+	     * If an object is returned, its keys will be merged into the existing state.
+	     *
+	     * @return {object || null}
+	     * @optional
+	     */
+	    getDerivedStateFromProps: 'DEFINE_MANY_MERGED'
 	  };
 
 	  /**
@@ -1084,6 +1118,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (!statics) {
 	      return;
 	    }
+
 	    for (var name in statics) {
 	      var property = statics[name];
 	      if (!statics.hasOwnProperty(name)) {
@@ -1100,14 +1135,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	        name
 	      );
 
-	      var isInherited = name in Constructor;
-	      _invariant(
-	        !isInherited,
-	        'ReactClass: You are attempting to define ' +
-	          '`%s` on your component more than once. This conflict may be ' +
-	          'due to a mixin.',
-	        name
-	      );
+	      var isAlreadyDefined = name in Constructor;
+	      if (isAlreadyDefined) {
+	        var specPolicy = ReactClassStaticInterface.hasOwnProperty(name)
+	          ? ReactClassStaticInterface[name]
+	          : null;
+
+	        _invariant(
+	          specPolicy === 'DEFINE_MANY_MERGED',
+	          'ReactClass: You are attempting to define ' +
+	            '`%s` on your component more than once. This conflict may be ' +
+	            'due to a mixin.',
+	          name
+	        );
+
+	        Constructor[name] = createMergedResultFunction(Constructor[name], property);
+
+	        return;
+	      }
+
 	      Constructor[name] = property;
 	    }
 	  }
@@ -1415,6 +1461,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        !Constructor.prototype.componentWillRecieveProps,
 	        '%s has a method called ' +
 	          'componentWillRecieveProps(). Did you mean componentWillReceiveProps()?',
+	        spec.displayName || 'A component'
+	      );
+	      warning(
+	        !Constructor.prototype.UNSAFE_componentWillRecieveProps,
+	        '%s has a method called UNSAFE_componentWillRecieveProps(). ' +
+	          'Did you mean UNSAFE_componentWillReceiveProps()?',
 	        spec.displayName || 'A component'
 	      );
 	    }
@@ -1728,11 +1780,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
-	 * All rights reserved.
 	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
+	 * This source code is licensed under the MIT license found in the
+	 * LICENSE file in the root directory of this source tree.
 	 *
 	 */
 
@@ -1753,11 +1803,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
-	 * All rights reserved.
 	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
+	 * This source code is licensed under the MIT license found in the
+	 * LICENSE file in the root directory of this source tree.
 	 *
 	 */
 
@@ -1813,12 +1861,10 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright 2014-2015, Facebook, Inc.
-	 * All rights reserved.
+	 * Copyright (c) 2014-present, Facebook, Inc.
 	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
+	 * This source code is licensed under the MIT license found in the
+	 * LICENSE file in the root directory of this source tree.
 	 *
 	 */
 
@@ -1886,11 +1932,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
-	 * All rights reserved.
 	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
+	 * This source code is licensed under the MIT license found in the
+	 * LICENSE file in the root directory of this source tree.
 	 *
 	 * 
 	 */
@@ -2462,97 +2506,97 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	var CreditCardDetector = {
-	    blocks: {
-	        uatp: [4, 5, 6],
-	        amex: [4, 6, 5],
-	        diners: [4, 6, 4],
-	        discover: [4, 4, 4, 4],
-	        mastercard: [4, 4, 4, 4],
-	        dankort: [4, 4, 4, 4],
-	        instapayment: [4, 4, 4, 4],
-	        jcb15: [4, 6, 5],
-	        jcb: [4, 4, 4, 4],
-	        maestro: [4, 4, 4, 4],
-	        visa: [4, 4, 4, 4],
-	        mir: [4, 4, 4, 4],
-	        unionPay: [4, 4, 4, 4],
-	        general: [4, 4, 4, 4],
-	        generalStrict: [4, 4, 4, 7]
-	    },
+	        blocks: {
+	                uatp: [4, 5, 6],
+	                amex: [4, 6, 5],
+	                diners: [4, 6, 4],
+	                discover: [4, 4, 4, 4],
+	                mastercard: [4, 4, 4, 4],
+	                dankort: [4, 4, 4, 4],
+	                instapayment: [4, 4, 4, 4],
+	                jcb15: [4, 6, 5],
+	                jcb: [4, 4, 4, 4],
+	                maestro: [4, 4, 4, 4],
+	                visa: [4, 4, 4, 4],
+	                mir: [4, 4, 4, 4],
+	                unionPay: [4, 4, 4, 4],
+	                general: [4, 4, 4, 4],
+	                generalStrict: [4, 4, 4, 7]
+	        },
 
-	    re: {
-	        // starts with 1; 15 digits, not starts with 1800 (jcb card)
-	        uatp: /^(?!1800)1\d{0,14}/,
+	        re: {
+	                // starts with 1; 15 digits, not starts with 1800 (jcb card)
+	                uatp: /^(?!1800)1\d{0,14}/,
 
-	        // starts with 34/37; 15 digits
-	        amex: /^3[47]\d{0,13}/,
+	                // starts with 34/37; 15 digits
+	                amex: /^3[47]\d{0,13}/,
 
-	        // starts with 6011/65/644-649; 16 digits
-	        discover: /^(?:6011|65\d{0,2}|64[4-9]\d?)\d{0,12}/,
+	                // starts with 6011/65/644-649; 16 digits
+	                discover: /^(?:6011|65\d{0,2}|64[4-9]\d?)\d{0,12}/,
 
-	        // starts with 300-305/309 or 36/38/39; 14 digits
-	        diners: /^3(?:0([0-5]|9)|[689]\d?)\d{0,11}/,
+	                // starts with 300-305/309 or 36/38/39; 14 digits
+	                diners: /^3(?:0([0-5]|9)|[689]\d?)\d{0,11}/,
 
-	        // starts with 51-55/2221–2720; 16 digits
-	        mastercard: /^(5[1-5]\d{0,2}|22[2-9]\d{0,1}|2[3-7]\d{0,2})\d{0,12}/,
+	                // starts with 51-55/2221–2720; 16 digits
+	                mastercard: /^(5[1-5]\d{0,2}|22[2-9]\d{0,1}|2[3-7]\d{0,2})\d{0,12}/,
 
-	        // starts with 5019/4175/4571; 16 digits
-	        dankort: /^(5019|4175|4571)\d{0,12}/,
+	                // starts with 5019/4175/4571; 16 digits
+	                dankort: /^(5019|4175|4571)\d{0,12}/,
 
-	        // starts with 637-639; 16 digits
-	        instapayment: /^63[7-9]\d{0,13}/,
+	                // starts with 637-639; 16 digits
+	                instapayment: /^63[7-9]\d{0,13}/,
 
-	        // starts with 2131/1800; 15 digits
-	        jcb15: /^(?:2131|1800)\d{0,11}/,
+	                // starts with 2131/1800; 15 digits
+	                jcb15: /^(?:2131|1800)\d{0,11}/,
 
-	        // starts with 2131/1800/35; 16 digits
-	        jcb: /^(?:35\d{0,2})\d{0,12}/,
+	                // starts with 2131/1800/35; 16 digits
+	                jcb: /^(?:35\d{0,2})\d{0,12}/,
 
-	        // starts with 50/56-58/6304/67; 16 digits
-	        maestro: /^(?:5[0678]\d{0,2}|6304|67\d{0,2})\d{0,12}/,
+	                // starts with 50/56-58/6304/67; 16 digits
+	                maestro: /^(?:5[0678]\d{0,2}|6304|67\d{0,2})\d{0,12}/,
 
-	        // starts with 22; 16 digits
-	        mir: /^220[0-4]\d{0,12}/,
+	                // starts with 22; 16 digits
+	                mir: /^220[0-4]\d{0,12}/,
 
-	        // starts with 4; 16 digits
-	        visa: /^4\d{0,15}/,
+	                // starts with 4; 16 digits
+	                visa: /^4\d{0,15}/,
 
-	        // starts with 62; 16 digits
-	        unionPay: /^62\d{0,14}/
-	    },
+	                // starts with 62; 16 digits
+	                unionPay: /^62\d{0,14}/
+	        },
 
-	    getInfo: function getInfo(value, strictMode) {
-	        var blocks = CreditCardDetector.blocks,
-	            re = CreditCardDetector.re;
+	        getInfo: function getInfo(value, strictMode) {
+	                var blocks = CreditCardDetector.blocks,
+	                    re = CreditCardDetector.re;
 
-	        // Some credit card can have up to 19 digits number.
-	        // Set strictMode to true will remove the 16 max-length restrain,
-	        // however, I never found any website validate card number like
-	        // this, hence probably you don't want to enable this option.
-	        strictMode = !!strictMode;
+	                // Some credit card can have up to 19 digits number.
+	                // Set strictMode to true will remove the 16 max-length restrain,
+	                // however, I never found any website validate card number like
+	                // this, hence probably you don't want to enable this option.
+	                strictMode = !!strictMode;
 
-	        for (var key in re) {
-	            if (re[key].test(value)) {
-	                var block;
+	                for (var key in re) {
+	                        if (re[key].test(value)) {
+	                                var block;
 
-	                if (strictMode) {
-	                    block = blocks.generalStrict;
-	                } else {
-	                    block = blocks[key];
+	                                if (strictMode) {
+	                                        block = blocks.generalStrict;
+	                                } else {
+	                                        block = blocks[key];
+	                                }
+
+	                                return {
+	                                        type: key,
+	                                        blocks: block
+	                                };
+	                        }
 	                }
 
 	                return {
-	                    type: key,
-	                    blocks: block
+	                        type: 'unknown',
+	                        blocks: strictMode ? blocks.generalStrict : blocks.general
 	                };
-	            }
 	        }
-
-	        return {
-	            type: 'unknown',
-	            blocks: strictMode ? blocks.generalStrict : blocks.general
-	        };
-	    }
 	};
 
 	module.exports = CreditCardDetector;
@@ -2815,77 +2859,77 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	var DefaultProperties = {
-	    // Maybe change to object-assign
-	    // for now just keep it as simple
-	    assign: function assign(target, opts) {
-	        target = target || {};
-	        opts = opts || {};
+	        // Maybe change to object-assign
+	        // for now just keep it as simple
+	        assign: function assign(target, opts) {
+	                target = target || {};
+	                opts = opts || {};
 
-	        // credit card
-	        target.creditCard = !!opts.creditCard;
-	        target.creditCardStrictMode = !!opts.creditCardStrictMode;
-	        target.creditCardType = '';
-	        target.onCreditCardTypeChanged = opts.onCreditCardTypeChanged || function () {};
+	                // credit card
+	                target.creditCard = !!opts.creditCard;
+	                target.creditCardStrictMode = !!opts.creditCardStrictMode;
+	                target.creditCardType = '';
+	                target.onCreditCardTypeChanged = opts.onCreditCardTypeChanged || function () {};
 
-	        // phone
-	        target.phone = !!opts.phone;
-	        target.phoneRegionCode = opts.phoneRegionCode || 'AU';
-	        target.phoneFormatter = {};
+	                // phone
+	                target.phone = !!opts.phone;
+	                target.phoneRegionCode = opts.phoneRegionCode || 'AU';
+	                target.phoneFormatter = {};
 
-	        // time
-	        target.time = !!opts.time;
-	        target.timePattern = opts.timePattern || ['h', 'm', 's'];
-	        target.timeFormat = opts.timeFormat || '24';
-	        target.timeFormatter = {};
+	                // time
+	                target.time = !!opts.time;
+	                target.timePattern = opts.timePattern || ['h', 'm', 's'];
+	                target.timeFormat = opts.timeFormat || '24';
+	                target.timeFormatter = {};
 
-	        // date
-	        target.date = !!opts.date;
-	        target.datePattern = opts.datePattern || ['d', 'm', 'Y'];
-	        target.dateFormatter = {};
+	                // date
+	                target.date = !!opts.date;
+	                target.datePattern = opts.datePattern || ['d', 'm', 'Y'];
+	                target.dateFormatter = {};
 
-	        // numeral
-	        target.numeral = !!opts.numeral;
-	        target.numeralIntegerScale = opts.numeralIntegerScale > 0 ? opts.numeralIntegerScale : 0;
-	        target.numeralDecimalScale = opts.numeralDecimalScale >= 0 ? opts.numeralDecimalScale : 2;
-	        target.numeralDecimalMark = opts.numeralDecimalMark || '.';
-	        target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
-	        target.numeralPositiveOnly = !!opts.numeralPositiveOnly;
-	        target.stripLeadingZeroes = opts.stripLeadingZeroes !== false;
+	                // numeral
+	                target.numeral = !!opts.numeral;
+	                target.numeralIntegerScale = opts.numeralIntegerScale > 0 ? opts.numeralIntegerScale : 0;
+	                target.numeralDecimalScale = opts.numeralDecimalScale >= 0 ? opts.numeralDecimalScale : 2;
+	                target.numeralDecimalMark = opts.numeralDecimalMark || '.';
+	                target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
+	                target.numeralPositiveOnly = !!opts.numeralPositiveOnly;
+	                target.stripLeadingZeroes = opts.stripLeadingZeroes !== false;
 
-	        // others
-	        target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;
+	                // others
+	                target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;
 
-	        target.uppercase = !!opts.uppercase;
-	        target.lowercase = !!opts.lowercase;
+	                target.uppercase = !!opts.uppercase;
+	                target.lowercase = !!opts.lowercase;
 
-	        target.prefix = target.creditCard || target.date ? '' : opts.prefix || '';
-	        target.noImmediatePrefix = !!opts.noImmediatePrefix;
-	        target.prefixLength = target.prefix.length;
-	        target.rawValueTrimPrefix = !!opts.rawValueTrimPrefix;
-	        target.copyDelimiter = !!opts.copyDelimiter;
+	                target.prefix = target.creditCard || target.date ? '' : opts.prefix || '';
+	                target.noImmediatePrefix = !!opts.noImmediatePrefix;
+	                target.prefixLength = target.prefix.length;
+	                target.rawValueTrimPrefix = !!opts.rawValueTrimPrefix;
+	                target.copyDelimiter = !!opts.copyDelimiter;
 
-	        target.initValue = opts.initValue !== undefined && opts.initValue !== null ? opts.initValue.toString() : '';
+	                target.initValue = opts.initValue !== undefined && opts.initValue !== null ? opts.initValue.toString() : '';
 
-	        target.delimiter = opts.delimiter || opts.delimiter === '' ? opts.delimiter : opts.date ? '/' : opts.time ? ':' : opts.numeral ? ',' : opts.phone ? ' ' : ' ';
-	        target.delimiterLength = target.delimiter.length;
-	        target.delimiterLazyShow = !!opts.delimiterLazyShow;
-	        target.delimiters = opts.delimiters || [];
+	                target.delimiter = opts.delimiter || opts.delimiter === '' ? opts.delimiter : opts.date ? '/' : opts.time ? ':' : opts.numeral ? ',' : opts.phone ? ' ' : ' ';
+	                target.delimiterLength = target.delimiter.length;
+	                target.delimiterLazyShow = !!opts.delimiterLazyShow;
+	                target.delimiters = opts.delimiters || [];
 
-	        target.blocks = opts.blocks || [];
-	        target.blocksLength = target.blocks.length;
+	                target.blocks = opts.blocks || [];
+	                target.blocksLength = target.blocks.length;
 
-	        target.root = (typeof global === 'undefined' ? 'undefined' : _typeof(global)) === 'object' && global ? global : window;
-	        target.document = opts.document || target.root.document;
+	                target.root = (typeof global === 'undefined' ? 'undefined' : _typeof(global)) === 'object' && global ? global : window;
+	                target.document = opts.document || target.root.document;
 
-	        target.maxLength = 0;
+	                target.maxLength = 0;
 
-	        target.backspace = false;
-	        target.result = '';
+	                target.backspace = false;
+	                target.result = '';
 
-	        target.onValueChanged = opts.onValueChanged || function () {};
+	                target.onValueChanged = opts.onValueChanged || function () {};
 
-	        return target;
-	    }
+	                return target;
+	        }
 	};
 
 	module.exports = DefaultProperties;

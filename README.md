@@ -84,6 +84,20 @@ require(['cleave.js/dist/cleave.min', 'cleave.js/dist/addons/cleave-phone.{count
 });
 ```
 
+#### ES Module (Rollup, WebPack)
+```js
+import Cleave from 'cleave.js';
+
+var cleave = new Cleave(...)
+```
+
+#### ES Module (Browser)
+```js
+import Cleave from 'node_modules/cleave.js/dist/cleave-esm.min.js';
+
+var cleave = new Cleave(...)
+```
+
 #### TypeScript
 
 Types are contributed by the community and are available via `npm install --save-dev @types/cleave.js`. Once installed, you can import Cleave like the following:
