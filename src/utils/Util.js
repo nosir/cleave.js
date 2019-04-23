@@ -186,6 +186,18 @@ var Util = {
         }, 1);
     },
 
+    // Check if input field is fully selected
+    checkFullSelection: function(value) {
+      try {
+        var selection = window.getSelection() || document.getSelection() || {};
+        return selection.toString().length === value.length;
+      } catch (ex) {
+        // Ignore
+      }
+
+      return false;
+    },
+
     setSelection: function (element, position, doc) {
         if (element !== this.getActiveElement(doc)) {
             return;

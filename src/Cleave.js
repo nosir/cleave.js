@@ -184,11 +184,13 @@ Cleave.prototype = {
     },
 
     onCut: function (e) {
+        if (!Cleave.Util.checkFullSelection(this.element.value)) return;
         this.copyClipboardData(e);
         this.onInput('');
     },
 
     onCopy: function (e) {
+        if (!Cleave.Util.checkFullSelection(this.element.value)) return;
         this.copyClipboardData(e);
     },
 
