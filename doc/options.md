@@ -190,8 +190,8 @@ new Cleave('.my-input', {
 ```js
 new Cleave('.my-input', {
     date: true,
-    dateMin: '18-01-01',
-    dateMax: '28-12-31',
+    dateMin: '18-01',
+    dateMax: '28-12',
     datePattern: ['m', 'y']
 });
 ```
