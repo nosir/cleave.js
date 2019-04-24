@@ -32,6 +32,8 @@ var DefaultProperties = {
         // date
         target.date = !!opts.date;
         target.datePattern = opts.datePattern || ['d', 'm', 'Y'];
+        target.dateMin = opts.dateMin || '';
+        target.dateMax = opts.dateMax || '';
         target.dateFormatter = {};
 
         // numeral
