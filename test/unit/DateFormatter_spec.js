@@ -4,7 +4,12 @@ var dateGroups = require('../fixtures/date.json');
 
 describe('DateFormatter', function () {
     _.each(dateGroups, function (dateGroup) {
-        describe('pattern: ' + dateGroup.datePattern.join(', '), function () {
+        var boundary = dateGroup.dateMin || dateGroup.dateMax;
+        describe(
+          'pattern: ' + dateGroup.datePattern.join(', ') + (boundary
+            ? (' min: ' + dateGroup.dateMin + ' max: ' + dateGroup.dateMax)
+            : ''),
+        function () {
             var dateFormatter = new DateFormatter(dateGroup.datePattern, dateGroup.dateMin || '', dateGroup.dateMax || '');
 
             _.each(dateGroup.date, function (date) {

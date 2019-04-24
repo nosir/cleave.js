@@ -12,12 +12,16 @@ var DateFormatter = function (datePattern, dateMin, dateMax) {
       .map(function(x) {
         return parseInt(x, 10);
       });
+    if (owner.dateMin.length === 2) owner.dateMin.unshift(0);
+
     owner.dateMax = dateMax
       .split('-')
       .reverse()
       .map(function(x) {
         return parseInt(x, 10);
       });
+    if (owner.dateMax.length === 2) owner.dateMax.unshift(0);
+    
     owner.initBlocks();
 };
 
@@ -185,7 +189,7 @@ DateFormatter.prototype = {
             dateMin = owner.dateMin || [],
             dateMax = owner.dateMax || [];
 
-        if (!date.length || (dateMin.length < 2 && dateMax.length < 2)) return date;
+        if (!date.length || (dateMin.length < 3 && dateMax.length < 3)) return date;
 
         if (
           datePattern.find(function(x) {
