@@ -42,6 +42,7 @@ var DefaultProperties = {
         target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
         target.numeralPositiveOnly = !!opts.numeralPositiveOnly;
         target.stripLeadingZeroes = opts.stripLeadingZeroes !== false;
+        target.signBeforePrefix = !!opts.signBeforePrefix;
 
         // others
         target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;

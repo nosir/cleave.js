@@ -22,6 +22,7 @@
     - [numeralDecimalScale](#numeraldecimalscale)
     - [numeralDecimalMark](#numeraldecimalmark)
     - [numeralPositiveOnly](#numeralpositiveonly)
+    - [signBeforePrefix](#signbeforeprefix)
     - [stripLeadingZeroes](#stripleadingzeroes)
 - General config:
     - [blocks](#blocks)
@@ -317,6 +318,23 @@ new Cleave('.my-input', {
 
 ```js
 // 1234.56
+```
+
+### `signBeforePrefix`
+
+A `Boolean` value indicates if the sign of the numeral should appear before the prefix.
+
+**Default value**: `false`
+
+```js
+new Cleave('.my-input', {
+    numeral: true,
+    signBeforePrefix: true
+});
+```
+
+```js
+// -$1234.56
 ```
 
 ### `stripLeadingZeroes`
