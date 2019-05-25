@@ -361,6 +361,7 @@ A `Boolean` value indicates if the sign of the numeral should appear before the 
 ```js
 new Cleave('.my-input', {
     numeral: true,
+    prefix: '$',
     signBeforePrefix: true
 });
 ```
