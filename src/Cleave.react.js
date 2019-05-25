@@ -401,6 +401,7 @@ var cleaveReactClass = CreateReactClass({
 
         if (!owner.element) {
             owner.setState({ value: pps.result });
+            return;
         }
 
         var endPos = owner.element.selectionEnd;
