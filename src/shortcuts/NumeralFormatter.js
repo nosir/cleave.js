@@ -6,6 +6,8 @@ var NumeralFormatter = function (numeralDecimalMark,
                                  numeralThousandsGroupStyle,
                                  numeralPositiveOnly,
                                  stripLeadingZeroes,
+                                 prefix,
+                                 signBeforePrefix,
                                  delimiter) {
     var owner = this;
 
@@ -15,6 +17,8 @@ var NumeralFormatter = function (numeralDecimalMark,
     owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
     owner.numeralPositiveOnly = !!numeralPositiveOnly;
     owner.stripLeadingZeroes = stripLeadingZeroes !== false;
+    owner.prefix = (prefix || prefix === '') ? prefix : '';
+    owner.signBeforePrefix = !!signBeforePrefix;
     owner.delimiter = (delimiter || delimiter === '') ? delimiter : ',';
     owner.delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
 };
@@ -32,7 +36,7 @@ NumeralFormatter.prototype = {
     },
 
     format: function (value) {
-        var owner = this, parts, partInteger, partDecimal = '';
+        var owner = this, parts, partSign, partSignAndPrefix, partInteger, partDecimal = '';
 
         // strip alphabet letters
         value = value.replace(/[A-Za-z]/g, '')
@@ -60,6 +64,17 @@ NumeralFormatter.prototype = {
             value = value.replace(/^(-)?0+(?=\d)/, '$1');
         }
 
+        partSign = value.slice(0, 1) === '-' ? '-' : '';
+        if (typeof owner.prefix != 'undefined') {
+            if (owner.signBeforePrefix) {
+                partSignAndPrefix = partSign + owner.prefix;
+            } else {
+                partSignAndPrefix = owner.prefix + partSign;
+            }
+        } else {
+            partSignAndPrefix = partSign;
+        }
+        
         partInteger = value;
 
         if (value.indexOf(owner.numeralDecimalMark) >= 0) {
@@ -68,8 +83,12 @@ NumeralFormatter.prototype = {
             partDecimal = owner.numeralDecimalMark + parts[1].slice(0, owner.numeralDecimalScale);
         }
 
+        if(partSign === '-') {
+            partInteger = partInteger.slice(1);
+        }
+
         if (owner.numeralIntegerScale > 0) {
-          partInteger = partInteger.slice(0, owner.numeralIntegerScale + (value.slice(0, 1) === '-' ? 1 : 0));
+          partInteger = partInteger.slice(0, owner.numeralIntegerScale);
         }
 
         switch (owner.numeralThousandsGroupStyle) {
@@ -89,7 +108,7 @@ NumeralFormatter.prototype = {
             break;
         }
 
-        return partInteger.toString() + (owner.numeralDecimalScale > 0 ? partDecimal.toString() : '');
+        return partSignAndPrefix + partInteger.toString() + (owner.numeralDecimalScale > 0 ? partDecimal.toString() : '');
     }
 };
 

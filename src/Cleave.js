@@ -97,6 +97,8 @@ Cleave.prototype = {
             pps.numeralThousandsGroupStyle,
             pps.numeralPositiveOnly,
             pps.stripLeadingZeroes,
+            pps.prefix,
+            pps.signBeforePrefix,
             pps.delimiter
         );
     },
@@ -248,10 +250,10 @@ Cleave.prototype = {
 
         // numeral formatter
         if (pps.numeral) {
-            if (pps.prefix && (!pps.noImmediatePrefix || value.length)) {
-                pps.result = pps.prefix + pps.numeralFormatter.format(value);
-            } else {
+            if (!pps.prefix || (pps.prefix && (!pps.noImmediatePrefix || value.length))) {
                 pps.result = pps.numeralFormatter.format(value);
+            } else {
+                pps.result = '';
             }
             owner.updateValueState();
 

@@ -38,6 +38,14 @@ describe('NumeralFormatter', function () {
             title.push('Strip leading zeroes:' + numeral.stripLeadingZeroes);
         }
 
+        if (numeral.prefix) {
+            title.push('Prefix:' + numeral.prefix);
+        }
+
+        if (numeral.signBeforePrefix) {
+            title.push('Sign before prefix:' + numeral.signBeforePrefix);
+        }
+
         describe(title.join(', '), function () {
             var numeralFormatter = new NumeralFormatter(
                 numeral.numeralDecimalMark,
@@ -46,6 +54,8 @@ describe('NumeralFormatter', function () {
                 numeral.thousandsGroupStyle,
                 numeral.numeralPositiveOnly,
                 numeral.stripLeadingZeroes,
+                numeral.prefix,
+                numeral.signBeforePrefix,
                 numeral.delimiter
             );
 
