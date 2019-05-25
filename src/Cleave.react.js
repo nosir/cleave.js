@@ -31,7 +31,7 @@ var cleaveReactClass = CreateReactClass({
         if (newValue !== undefined) {
             newValue = newValue.toString();
 
-            if (newValue !== owner.properties.initValue && newValue !== owner.properties.result) {
+            if (newValue !== owner.properties.result) {
                 owner.properties.initValue = newValue;
                 owner.onInput(newValue, true);
             }
