@@ -121,7 +121,7 @@ Cleave.prototype = {
             return;
         }
 
-        pps.dateFormatter = new Cleave.DateFormatter(pps.datePattern);
+        pps.dateFormatter = new Cleave.DateFormatter(pps.datePattern, pps.dateMin, pps.dateMax);
         pps.blocks = pps.dateFormatter.getBlocks();
         pps.blocksLength = pps.blocks.length;
         pps.maxLength = Cleave.Util.getMaxLength(pps.blocks);
