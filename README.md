@@ -64,7 +64,7 @@ var cleave = new Cleave('.input-phone', {
 });
 ```
 
-> `.input-element` here is a unique DOM element. If you want to apply Cleave for multiple elements, you need to give different css selectors and apply to each of them, effectively, you might want to create individual instance by a loop, e.g. [loop  solution](https://github.com/nosir/cleave.js/issues/138#issuecomment-268024840) 
+> `.input-element` here is a unique DOM element. If you want to apply Cleave for multiple elements, you need to give different CSS selectors and apply to each of them, effectively, you might want to create individual instance by a loop, e.g. [loop  solution](https://github.com/nosir/cleave.js/issues/138#issuecomment-268024840) 
 
 More examples: [the demo page](http://nosir.github.io/cleave.js/)
 
