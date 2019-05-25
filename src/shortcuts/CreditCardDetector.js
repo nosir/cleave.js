@@ -15,8 +15,7 @@ var CreditCardDetector = {
         visa:          [4, 4, 4, 4],
         mir:           [4, 4, 4, 4],
         unionPay:      [4, 4, 4, 4],
-        general:       [4, 4, 4, 4],
-        generalStrict: [4, 4, 4, 7]
+        general:       [4, 4, 4, 4]
     },
 
     re: {
@@ -60,6 +59,14 @@ var CreditCardDetector = {
         unionPay: /^62\d{0,14}/
     },
 
+    getStrictBlocks: function (block) {
+      var total = block.reduce(function (prev, current) {
+        return prev + current;
+      }, 0);
+
+      return block.concat(19 - total);
+    },
+
     getInfo: function (value, strictMode) {
         var blocks = CreditCardDetector.blocks,
             re = CreditCardDetector.re;
@@ -72,24 +79,17 @@ var CreditCardDetector = {
 
         for (var key in re) {
             if (re[key].test(value)) {
-                var block;
-
-                if (strictMode) {
-                    block = blocks.generalStrict;
-                } else {
-                    block = blocks[key];
-                }
-
+                var matchedBlocks = blocks[key];
                 return {
                     type: key,
-                    blocks: block
+                    blocks: strictMode ? this.getStrictBlocks(matchedBlocks) : matchedBlocks
                 };
             }
         }
 
         return {
-            type:   'unknown',
-            blocks: strictMode ? blocks.generalStrict : blocks.general
+            type: 'unknown',
+            blocks: strictMode ? this.getStrictBlocks(blocks.general) : blocks.general
         };
     }
 };

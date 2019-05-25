@@ -31,7 +31,7 @@ describe('Credit card input field', function () {
         });
 
         cleave.setRawValue('4000123400001234567');
-        assert.equal(field.value, '4000 1234 0000 1234567');
+        assert.equal(field.value, '4000 1234 0000 1234 567');
     });
 });
 
