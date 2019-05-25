@@ -10,7 +10,7 @@
     "form",
     "input"
   ],
-  "version": "1.4.10",
+  "version": "1.5.0",
   "files": [
     "src",
     "dist",
