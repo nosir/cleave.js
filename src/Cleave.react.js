@@ -28,6 +28,8 @@ var cleaveReactClass = CreateReactClass({
             phoneRegionCode = (nextProps.options || {}).phoneRegionCode,
             newValue = nextProps.value;
 
+        owner.updateRegisteredEvents(nextProps);
+
         if (newValue !== undefined) {
             newValue = newValue.toString();
 
@@ -43,6 +45,19 @@ var cleaveReactClass = CreateReactClass({
             owner.initPhoneFormatter();
             owner.onInput(owner.properties.result);
         }
+    },
+
+    updateRegisteredEvents: function (props) {
+        var owner = this,
+            { onKeyDown, onChange, onFocus, onBlur, onInit } = owner.registeredEvents;
+
+        owner.registeredEvents = {
+            onInit:    props.onInit === onInit ? onInit : props.onInit,
+            onChange:  props.onChange === onChange ? onChange : props.onChange,
+            onFocus:   props.onFocus === onFocus ? onFocus : props.onFocus,
+            onBlur:    props.onBlur === onBlur ? onBlur : props.onBlur,
+            onKeyDown: props.onKeyDown === onKeyDown ? onKeyDown : props.onKeyDown
+        };
     },
 
     getInitialState: function () {
