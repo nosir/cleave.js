@@ -31,7 +31,7 @@ var cleaveReactClass = CreateReactClass({
         if (newValue !== undefined) {
             newValue = newValue.toString();
 
-            if (newValue !== owner.properties.initValue && newValue !== owner.properties.result) {
+            if (newValue !== owner.properties.result) {
                 owner.properties.initValue = newValue;
                 owner.onInput(newValue, true);
             }
@@ -116,6 +116,8 @@ var cleaveReactClass = CreateReactClass({
             pps.numeralThousandsGroupStyle,
             pps.numeralPositiveOnly,
             pps.stripLeadingZeroes,
+            pps.prefix,
+            pps.signBeforePrefix,
             pps.delimiter
         );
     },
@@ -308,8 +310,10 @@ var cleaveReactClass = CreateReactClass({
 
         // numeral formatter
         if (pps.numeral) {
-            if (pps.prefix && (!pps.noImmediatePrefix || value.length)) {
-                pps.result = pps.prefix + pps.numeralFormatter.format(value);
+            // Do not show prefix when noImmediatePrefix is specified
+            // This mostly because we need to show user the native input placeholder
+            if (pps.prefix && pps.noImmediatePrefix && value.length === 0) {
+                pps.result = '';
             } else {
                 pps.result = pps.numeralFormatter.format(value);
             }
@@ -401,6 +405,7 @@ var cleaveReactClass = CreateReactClass({
 
         if (!owner.element) {
             owner.setState({ value: pps.result });
+            return;
         }
 
         var endPos = owner.element.selectionEnd;

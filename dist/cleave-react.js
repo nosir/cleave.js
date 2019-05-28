@@ -91,7 +91,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (newValue !== undefined) {
 	            newValue = newValue.toString();
 
-	            if (newValue !== owner.properties.initValue && newValue !== owner.properties.result) {
+	            if (newValue !== owner.properties.result) {
 	                owner.properties.initValue = newValue;
 	                owner.onInput(newValue, true);
 	            }
@@ -177,7 +177,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return;
 	        }
 
-	        pps.numeralFormatter = new NumeralFormatter(pps.numeralDecimalMark, pps.numeralIntegerScale, pps.numeralDecimalScale, pps.numeralThousandsGroupStyle, pps.numeralPositiveOnly, pps.stripLeadingZeroes, pps.delimiter);
+	        pps.numeralFormatter = new NumeralFormatter(pps.numeralDecimalMark, pps.numeralIntegerScale, pps.numeralDecimalScale, pps.numeralThousandsGroupStyle, pps.numeralPositiveOnly, pps.stripLeadingZeroes, pps.prefix, pps.signBeforePrefix, pps.delimiter);
 	    },
 
 	    initTimeFormatter: function initTimeFormatter() {
@@ -367,8 +367,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        // numeral formatter
 	        if (pps.numeral) {
-	            if (pps.prefix && (!pps.noImmediatePrefix || value.length)) {
-	                pps.result = pps.prefix + pps.numeralFormatter.format(value);
+	            // Do not show prefix when noImmediatePrefix is specified
+	            // This mostly because we need to show user the native input placeholder
+	            if (pps.prefix && pps.noImmediatePrefix && value.length === 0) {
+	                pps.result = '';
 	            } else {
 	                pps.result = pps.numeralFormatter.format(value);
 	            }
@@ -457,6 +459,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        if (!owner.element) {
 	            owner.setState({ value: pps.result });
+	            return;
 	        }
 
 	        var endPos = owner.element.selectionEnd;
@@ -1971,7 +1974,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var NumeralFormatter = function NumeralFormatter(numeralDecimalMark, numeralIntegerScale, numeralDecimalScale, numeralThousandsGroupStyle, numeralPositiveOnly, stripLeadingZeroes, delimiter) {
+	var NumeralFormatter = function NumeralFormatter(numeralDecimalMark, numeralIntegerScale, numeralDecimalScale, numeralThousandsGroupStyle, numeralPositiveOnly, stripLeadingZeroes, prefix, signBeforePrefix, delimiter) {
 	    var owner = this;
 
 	    owner.numeralDecimalMark = numeralDecimalMark || '.';
@@ -1980,6 +1983,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
 	    owner.numeralPositiveOnly = !!numeralPositiveOnly;
 	    owner.stripLeadingZeroes = stripLeadingZeroes !== false;
+	    owner.prefix = prefix || prefix === '' ? prefix : '';
+	    owner.signBeforePrefix = !!signBeforePrefix;
 	    owner.delimiter = delimiter || delimiter === '' ? delimiter : ',';
 	    owner.delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
 	};
@@ -1999,6 +2004,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    format: function format(value) {
 	        var owner = this,
 	            parts,
+	            partSign,
+	            partSignAndPrefix,
 	            partInteger,
 	            partDecimal = '';
 
@@ -2028,6 +2035,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	            value = value.replace(/^(-)?0+(?=\d)/, '$1');
 	        }
 
+	        partSign = value.slice(0, 1) === '-' ? '-' : '';
+	        if (typeof owner.prefix != 'undefined') {
+	            if (owner.signBeforePrefix) {
+	                partSignAndPrefix = partSign + owner.prefix;
+	            } else {
+	                partSignAndPrefix = owner.prefix + partSign;
+	            }
+	        } else {
+	            partSignAndPrefix = partSign;
+	        }
+
 	        partInteger = value;
 
 	        if (value.indexOf(owner.numeralDecimalMark) >= 0) {
@@ -2036,8 +2054,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	            partDecimal = owner.numeralDecimalMark + parts[1].slice(0, owner.numeralDecimalScale);
 	        }
 
+	        if (partSign === '-') {
+	            partInteger = partInteger.slice(1);
+	        }
+
 	        if (owner.numeralIntegerScale > 0) {
-	            partInteger = partInteger.slice(0, owner.numeralIntegerScale + (value.slice(0, 1) === '-' ? 1 : 0));
+	            partInteger = partInteger.slice(0, owner.numeralIntegerScale);
 	        }
 
 	        switch (owner.numeralThousandsGroupStyle) {
@@ -2057,7 +2079,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                break;
 	        }
 
-	        return partInteger.toString() + (owner.numeralDecimalScale > 0 ? partDecimal.toString() : '');
+	        return partSignAndPrefix + partInteger.toString() + (owner.numeralDecimalScale > 0 ? partDecimal.toString() : '');
 	    }
 	};
 
@@ -2069,12 +2091,22 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var DateFormatter = function DateFormatter(datePattern) {
+	var DateFormatter = function DateFormatter(datePattern, dateMin, dateMax) {
 	    var owner = this;
 
 	    owner.date = [];
 	    owner.blocks = [];
 	    owner.datePattern = datePattern;
+	    owner.dateMin = dateMin.split('-').reverse().map(function (x) {
+	        return parseInt(x, 10);
+	    });
+	    if (owner.dateMin.length === 2) owner.dateMin.unshift(0);
+
+	    owner.dateMax = dateMax.split('-').reverse().map(function (x) {
+	        return parseInt(x, 10);
+	    });
+	    if (owner.dateMax.length === 2) owner.dateMax.unshift(0);
+
 	    owner.initBlocks();
 	};
 
@@ -2201,18 +2233,66 @@ return /******/ (function(modules) { // webpackBootstrap
 	            date = this.getFixedDate(day, month, year);
 	        }
 
+	        // mm-yy || yy-mm
+	        if (value.length === 4 && (datePattern[0] === 'y' || datePattern[1] === 'y')) {
+	            monthStartIndex = datePattern[0] === 'm' ? 0 : 2;
+	            yearStartIndex = 2 - monthStartIndex;
+	            month = parseInt(value.slice(monthStartIndex, monthStartIndex + 2), 10);
+	            year = parseInt(value.slice(yearStartIndex, yearStartIndex + 2), 10);
+
+	            fullYearDone = value.slice(yearStartIndex, yearStartIndex + 2).length === 2;
+
+	            date = [0, month, year];
+	        }
+
+	        // mm-yyyy || yyyy-mm
+	        if (value.length === 6 && (datePattern[0] === 'Y' || datePattern[1] === 'Y')) {
+	            monthStartIndex = datePattern[0] === 'm' ? 0 : 4;
+	            yearStartIndex = 2 - 0.5 * monthStartIndex;
+	            month = parseInt(value.slice(monthStartIndex, monthStartIndex + 2), 10);
+	            year = parseInt(value.slice(yearStartIndex, yearStartIndex + 4), 10);
+
+	            fullYearDone = value.slice(yearStartIndex, yearStartIndex + 4).length === 4;
+
+	            date = [0, month, year];
+	        }
+
+	        date = owner.getRangeFixedDate(date);
 	        owner.date = date;
 
-	        return date.length === 0 ? value : datePattern.reduce(function (previous, current) {
+	        var result = date.length === 0 ? value : datePattern.reduce(function (previous, current) {
 	            switch (current) {
 	                case 'd':
-	                    return previous + owner.addLeadingZero(date[0]);
+	                    return previous + (date[0] === 0 ? '' : owner.addLeadingZero(date[0]));
 	                case 'm':
-	                    return previous + owner.addLeadingZero(date[1]);
-	                default:
-	                    return previous + (fullYearDone ? owner.addLeadingZeroForYear(date[2]) : '');
+	                    return previous + (date[1] === 0 ? '' : owner.addLeadingZero(date[1]));
+	                case 'y':
+	                    return previous + (fullYearDone ? owner.addLeadingZeroForYear(date[2], false) : '');
+	                case 'Y':
+	                    return previous + (fullYearDone ? owner.addLeadingZeroForYear(date[2], true) : '');
 	            }
 	        }, '');
+
+	        return result;
+	    },
+
+	    getRangeFixedDate: function getRangeFixedDate(date) {
+	        var owner = this,
+	            datePattern = owner.datePattern,
+	            dateMin = owner.dateMin || [],
+	            dateMax = owner.dateMax || [];
+
+	        if (!date.length || dateMin.length < 3 && dateMax.length < 3) return date;
+
+	        if (datePattern.find(function (x) {
+	            return x.toLowerCase() === 'y';
+	        }) && date[2] === 0) return date;
+
+	        if (dateMax.length && (dateMax[2] < date[2] || dateMax[2] === date[2] && (dateMax[1] < date[1] || dateMax[1] === date[1] && dateMax[0] < date[0]))) return dateMax;
+
+	        if (dateMin.length && (dateMin[2] > date[2] || dateMin[2] === date[2] && (dateMin[1] > date[1] || dateMin[1] === date[1] && dateMin[0] > date[0]))) return dateMin;
+
+	        return date;
 	    },
 
 	    getFixedDate: function getFixedDate(day, month, year) {
@@ -2235,8 +2315,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return (number < 10 ? '0' : '') + number;
 	    },
 
-	    addLeadingZeroForYear: function addLeadingZeroForYear(number) {
-	        return (number < 10 ? '000' : number < 100 ? '00' : number < 1000 ? '0' : '') + number;
+	    addLeadingZeroForYear: function addLeadingZeroForYear(number, fullYearMode) {
+	        if (fullYearMode) {
+	            return (number < 10 ? '000' : number < 100 ? '00' : number < 1000 ? '0' : '') + number;
+	        }
+
+	        return (number < 10 ? '0' : '') + number;
 	    }
 	};
 
@@ -2506,97 +2590,96 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	var CreditCardDetector = {
-	        blocks: {
-	                uatp: [4, 5, 6],
-	                amex: [4, 6, 5],
-	                diners: [4, 6, 4],
-	                discover: [4, 4, 4, 4],
-	                mastercard: [4, 4, 4, 4],
-	                dankort: [4, 4, 4, 4],
-	                instapayment: [4, 4, 4, 4],
-	                jcb15: [4, 6, 5],
-	                jcb: [4, 4, 4, 4],
-	                maestro: [4, 4, 4, 4],
-	                visa: [4, 4, 4, 4],
-	                mir: [4, 4, 4, 4],
-	                unionPay: [4, 4, 4, 4],
-	                general: [4, 4, 4, 4],
-	                generalStrict: [4, 4, 4, 7]
-	        },
+	    blocks: {
+	        uatp: [4, 5, 6],
+	        amex: [4, 6, 5],
+	        diners: [4, 6, 4],
+	        discover: [4, 4, 4, 4],
+	        mastercard: [4, 4, 4, 4],
+	        dankort: [4, 4, 4, 4],
+	        instapayment: [4, 4, 4, 4],
+	        jcb15: [4, 6, 5],
+	        jcb: [4, 4, 4, 4],
+	        maestro: [4, 4, 4, 4],
+	        visa: [4, 4, 4, 4],
+	        mir: [4, 4, 4, 4],
+	        unionPay: [4, 4, 4, 4],
+	        general: [4, 4, 4, 4]
+	    },
 
-	        re: {
-	                // starts with 1; 15 digits, not starts with 1800 (jcb card)
-	                uatp: /^(?!1800)1\d{0,14}/,
+	    re: {
+	        // starts with 1; 15 digits, not starts with 1800 (jcb card)
+	        uatp: /^(?!1800)1\d{0,14}/,
 
-	                // starts with 34/37; 15 digits
-	                amex: /^3[47]\d{0,13}/,
+	        // starts with 34/37; 15 digits
+	        amex: /^3[47]\d{0,13}/,
 
-	                // starts with 6011/65/644-649; 16 digits
-	                discover: /^(?:6011|65\d{0,2}|64[4-9]\d?)\d{0,12}/,
+	        // starts with 6011/65/644-649; 16 digits
+	        discover: /^(?:6011|65\d{0,2}|64[4-9]\d?)\d{0,12}/,
 
-	                // starts with 300-305/309 or 36/38/39; 14 digits
-	                diners: /^3(?:0([0-5]|9)|[689]\d?)\d{0,11}/,
+	        // starts with 300-305/309 or 36/38/39; 14 digits
+	        diners: /^3(?:0([0-5]|9)|[689]\d?)\d{0,11}/,
 
-	                // starts with 51-55/2221–2720; 16 digits
-	                mastercard: /^(5[1-5]\d{0,2}|22[2-9]\d{0,1}|2[3-7]\d{0,2})\d{0,12}/,
+	        // starts with 51-55/2221–2720; 16 digits
+	        mastercard: /^(5[1-5]\d{0,2}|22[2-9]\d{0,1}|2[3-7]\d{0,2})\d{0,12}/,
 
-	                // starts with 5019/4175/4571; 16 digits
-	                dankort: /^(5019|4175|4571)\d{0,12}/,
+	        // starts with 5019/4175/4571; 16 digits
+	        dankort: /^(5019|4175|4571)\d{0,12}/,
 
-	                // starts with 637-639; 16 digits
-	                instapayment: /^63[7-9]\d{0,13}/,
+	        // starts with 637-639; 16 digits
+	        instapayment: /^63[7-9]\d{0,13}/,
 
-	                // starts with 2131/1800; 15 digits
-	                jcb15: /^(?:2131|1800)\d{0,11}/,
+	        // starts with 2131/1800; 15 digits
+	        jcb15: /^(?:2131|1800)\d{0,11}/,
 
-	                // starts with 2131/1800/35; 16 digits
-	                jcb: /^(?:35\d{0,2})\d{0,12}/,
+	        // starts with 2131/1800/35; 16 digits
+	        jcb: /^(?:35\d{0,2})\d{0,12}/,
 
-	                // starts with 50/56-58/6304/67; 16 digits
-	                maestro: /^(?:5[0678]\d{0,2}|6304|67\d{0,2})\d{0,12}/,
+	        // starts with 50/56-58/6304/67; 16 digits
+	        maestro: /^(?:5[0678]\d{0,2}|6304|67\d{0,2})\d{0,12}/,
 
-	                // starts with 22; 16 digits
-	                mir: /^220[0-4]\d{0,12}/,
+	        // starts with 22; 16 digits
+	        mir: /^220[0-4]\d{0,12}/,
 
-	                // starts with 4; 16 digits
-	                visa: /^4\d{0,15}/,
+	        // starts with 4; 16 digits
+	        visa: /^4\d{0,15}/,
 
-	                // starts with 62; 16 digits
-	                unionPay: /^62\d{0,14}/
-	        },
+	        // starts with 62; 16 digits
+	        unionPay: /^62\d{0,14}/
+	    },
 
-	        getInfo: function getInfo(value, strictMode) {
-	                var blocks = CreditCardDetector.blocks,
-	                    re = CreditCardDetector.re;
+	    getStrictBlocks: function getStrictBlocks(block) {
+	        var total = block.reduce(function (prev, current) {
+	            return prev + current;
+	        }, 0);
 
-	                // Some credit card can have up to 19 digits number.
-	                // Set strictMode to true will remove the 16 max-length restrain,
-	                // however, I never found any website validate card number like
-	                // this, hence probably you don't want to enable this option.
-	                strictMode = !!strictMode;
+	        return block.concat(19 - total);
+	    },
 
-	                for (var key in re) {
-	                        if (re[key].test(value)) {
-	                                var block;
+	    getInfo: function getInfo(value, strictMode) {
+	        var blocks = CreditCardDetector.blocks,
+	            re = CreditCardDetector.re;
 
-	                                if (strictMode) {
-	                                        block = blocks.generalStrict;
-	                                } else {
-	                                        block = blocks[key];
-	                                }
+	        // Some credit card can have up to 19 digits number.
+	        // Set strictMode to true will remove the 16 max-length restrain,
+	        // however, I never found any website validate card number like
+	        // this, hence probably you don't want to enable this option.
+	        strictMode = !!strictMode;
 
-	                                return {
-	                                        type: key,
-	                                        blocks: block
-	                                };
-	                        }
-	                }
-
+	        for (var key in re) {
+	            if (re[key].test(value)) {
+	                var matchedBlocks = blocks[key];
 	                return {
-	                        type: 'unknown',
-	                        blocks: strictMode ? blocks.generalStrict : blocks.general
+	                    type: key,
+	                    blocks: strictMode ? this.getStrictBlocks(matchedBlocks) : matchedBlocks
 	                };
 	        }
+
+	        return {
+	            type: 'unknown',
+	            blocks: strictMode ? this.getStrictBlocks(blocks.general) : blocks.general
+	        };
+	    }
 	};
 
 	module.exports = CreditCardDetector;
@@ -2792,6 +2875,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }, 1);
 	    },
 
+	    // Check if input field is fully selected
+	    checkFullSelection: function checkFullSelection(value) {
+	        try {
+	            var selection = window.getSelection() || document.getSelection() || {};
+	            return selection.toString().length === value.length;
+	        } catch (ex) {
+	            // Ignore
+	        }
+
+	        return false;
+	    },
+
 	    setSelection: function setSelection(element, position, doc) {
 	        if (element !== this.getActiveElement(doc)) {
 	            return;
@@ -2871,16 +2966,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	                target.creditCardType = '';
 	                target.onCreditCardTypeChanged = opts.onCreditCardTypeChanged || function () {};
 
-	                // phone
-	                target.phone = !!opts.phone;
-	                target.phoneRegionCode = opts.phoneRegionCode || 'AU';
-	                target.phoneFormatter = {};
+	        // date
+	        target.date = !!opts.date;
+	        target.datePattern = opts.datePattern || ['d', 'm', 'Y'];
+	        target.dateMin = opts.dateMin || '';
+	        target.dateMax = opts.dateMax || '';
+	        target.dateFormatter = {};
 
-	                // time
-	                target.time = !!opts.time;
-	                target.timePattern = opts.timePattern || ['h', 'm', 's'];
-	                target.timeFormat = opts.timeFormat || '24';
-	                target.timeFormatter = {};
+	        // numeral
+	        target.numeral = !!opts.numeral;
+	        target.numeralIntegerScale = opts.numeralIntegerScale > 0 ? opts.numeralIntegerScale : 0;
+	        target.numeralDecimalScale = opts.numeralDecimalScale >= 0 ? opts.numeralDecimalScale : 2;
+	        target.numeralDecimalMark = opts.numeralDecimalMark || '.';
+	        target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
+	        target.numeralPositiveOnly = !!opts.numeralPositiveOnly;
+	        target.stripLeadingZeroes = opts.stripLeadingZeroes !== false;
+	        target.signBeforePrefix = !!opts.signBeforePrefix;
 
 	                // date
 	                target.date = !!opts.date;
