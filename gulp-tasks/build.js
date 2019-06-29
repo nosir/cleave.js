@@ -66,6 +66,10 @@ gulp.task('build', gulpsync.sync([
     'js:angular-merge',
     'js:angular',
     [
+        'js:esm',
+        'js:esm-min'
+    ],
+    [
         // async
         'min-mangle',
         'min-no-mangle'
