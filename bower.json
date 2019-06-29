@@ -3,7 +3,7 @@
   "description":
     "JavaScript library for formatting input text content when you are typing",
   "keywords": ["cleave", "javascript", "html", "form", "input"],
-  "version": "1.5.1",
+  "version": "1.5.2",
   "author": {
     "name": "Max Huang",
     "email": "risonhuang@gmail.com",

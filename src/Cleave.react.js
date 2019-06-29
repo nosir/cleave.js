@@ -28,6 +28,7 @@ var cleaveReactClass = CreateReactClass({
             phoneRegionCode = (nextProps.options || {}).phoneRegionCode,
             newValue = nextProps.value;
 
+        // update registed events
         owner.updateRegisteredEvents(nextProps);
 
         if (newValue !== undefined) {
@@ -51,13 +52,11 @@ var cleaveReactClass = CreateReactClass({
         var owner = this,
             { onKeyDown, onChange, onFocus, onBlur, onInit } = owner.registeredEvents;
 
-        owner.registeredEvents = {
-            onInit:    props.onInit === onInit ? onInit : props.onInit,
-            onChange:  props.onChange === onChange ? onChange : props.onChange,
-            onFocus:   props.onFocus === onFocus ? onFocus : props.onFocus,
-            onBlur:    props.onBlur === onBlur ? onBlur : props.onBlur,
-            onKeyDown: props.onKeyDown === onKeyDown ? onKeyDown : props.onKeyDown
-        };
+        if (props.onInit && props.onInit !== onInit) owner.registeredEvents.onInit = props.onInit;
+        if (props.onChange && props.onChange !== onChange) owner.registeredEvents.onChange = props.onChange;
+        if (props.onFocus && props.onFocus !== onFocus) owner.registeredEvents.onFocus = props.onFocus;
+        if (props.onBlur && props.onBlur !== onBlur) owner.registeredEvents.onBlur = props.onBlur;
+        if (props.onKeyDown && props.onKeyDown !== onKeyDown) owner.registeredEvents.onKeyDown = props.onKeyDown;
     },
 
     getInitialState: function () {
