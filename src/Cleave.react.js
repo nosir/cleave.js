@@ -144,7 +144,7 @@ var cleaveReactClass = CreateReactClass({
             return;
         }
 
-        pps.dateFormatter = new DateFormatter(pps.datePattern);
+        pps.dateFormatter = new DateFormatter(pps.datePattern, pps.dateMin, pps.dateMax);
         pps.blocks = pps.dateFormatter.getBlocks();
         pps.blocksLength = pps.blocks.length;
         pps.maxLength = Util.getMaxLength(pps.blocks);
