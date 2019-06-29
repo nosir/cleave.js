@@ -88,6 +88,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            phoneRegionCode = (nextProps.options || {}).phoneRegionCode,
 	            newValue = nextProps.value;
 
+	        owner.updateRegisteredEvents(nextProps);
+
 	        if (newValue !== undefined) {
 	            newValue = newValue.toString();
 
@@ -103,6 +105,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	            owner.initPhoneFormatter();
 	            owner.onInput(owner.properties.result);
 	        }
+	    },
+
+	    updateRegisteredEvents: function updateRegisteredEvents(props) {
+	        var owner = this,
+	            _owner$registeredEven = owner.registeredEvents,
+	            onKeyDown = _owner$registeredEven.onKeyDown,
+	            onChange = _owner$registeredEven.onChange,
+	            onFocus = _owner$registeredEven.onFocus,
+	            onBlur = _owner$registeredEven.onBlur,
+	            onInit = _owner$registeredEven.onInit;
+
+
+	        owner.registeredEvents = {
+	            onInit: props.onInit === onInit ? onInit : props.onInit,
+	            onChange: props.onChange === onChange ? onChange : props.onChange,
+	            onFocus: props.onFocus === onFocus ? onFocus : props.onFocus,
+	            onBlur: props.onBlur === onBlur ? onBlur : props.onBlur,
+	            onKeyDown: props.onKeyDown === onKeyDown ? onKeyDown : props.onKeyDown
+	        };
 	    },
 
 	    getInitialState: function getInitialState() {
@@ -202,7 +223,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return;
 	        }
 
-	        pps.dateFormatter = new DateFormatter(pps.datePattern);
+	        pps.dateFormatter = new DateFormatter(pps.datePattern, pps.dateMin, pps.dateMax);
 	        pps.blocks = pps.dateFormatter.getBlocks();
 	        pps.blocksLength = pps.blocks.length;
 	        pps.maxLength = Util.getMaxLength(pps.blocks);
@@ -2673,6 +2694,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    type: key,
 	                    blocks: strictMode ? this.getStrictBlocks(matchedBlocks) : matchedBlocks
 	                };
+	            }
 	        }
 
 	        return {
@@ -2954,17 +2976,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	var DefaultProperties = {
-	        // Maybe change to object-assign
-	        // for now just keep it as simple
-	        assign: function assign(target, opts) {
-	                target = target || {};
-	                opts = opts || {};
+	    // Maybe change to object-assign
+	    // for now just keep it as simple
+	    assign: function assign(target, opts) {
+	        target = target || {};
+	        opts = opts || {};
 
-	                // credit card
-	                target.creditCard = !!opts.creditCard;
-	                target.creditCardStrictMode = !!opts.creditCardStrictMode;
-	                target.creditCardType = '';
-	                target.onCreditCardTypeChanged = opts.onCreditCardTypeChanged || function () {};
+	        // credit card
+	        target.creditCard = !!opts.creditCard;
+	        target.creditCardStrictMode = !!opts.creditCardStrictMode;
+	        target.creditCardType = '';
+	        target.onCreditCardTypeChanged = opts.onCreditCardTypeChanged || function () {};
+
+	        // phone
+	        target.phone = !!opts.phone;
+	        target.phoneRegionCode = opts.phoneRegionCode || 'AU';
+	        target.phoneFormatter = {};
+
+	        // time
+	        target.time = !!opts.time;
+	        target.timePattern = opts.timePattern || ['h', 'm', 's'];
+	        target.timeFormat = opts.timeFormat || '24';
+	        target.timeFormatter = {};
 
 	        // date
 	        target.date = !!opts.date;
@@ -2983,54 +3016,40 @@ return /******/ (function(modules) { // webpackBootstrap
 	        target.stripLeadingZeroes = opts.stripLeadingZeroes !== false;
 	        target.signBeforePrefix = !!opts.signBeforePrefix;
 
-	                // date
-	                target.date = !!opts.date;
-	                target.datePattern = opts.datePattern || ['d', 'm', 'Y'];
-	                target.dateFormatter = {};
+	        // others
+	        target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;
 
-	                // numeral
-	                target.numeral = !!opts.numeral;
-	                target.numeralIntegerScale = opts.numeralIntegerScale > 0 ? opts.numeralIntegerScale : 0;
-	                target.numeralDecimalScale = opts.numeralDecimalScale >= 0 ? opts.numeralDecimalScale : 2;
-	                target.numeralDecimalMark = opts.numeralDecimalMark || '.';
-	                target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
-	                target.numeralPositiveOnly = !!opts.numeralPositiveOnly;
-	                target.stripLeadingZeroes = opts.stripLeadingZeroes !== false;
+	        target.uppercase = !!opts.uppercase;
+	        target.lowercase = !!opts.lowercase;
 
-	                // others
-	                target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;
+	        target.prefix = target.creditCard || target.date ? '' : opts.prefix || '';
+	        target.noImmediatePrefix = !!opts.noImmediatePrefix;
+	        target.prefixLength = target.prefix.length;
+	        target.rawValueTrimPrefix = !!opts.rawValueTrimPrefix;
+	        target.copyDelimiter = !!opts.copyDelimiter;
 
-	                target.uppercase = !!opts.uppercase;
-	                target.lowercase = !!opts.lowercase;
+	        target.initValue = opts.initValue !== undefined && opts.initValue !== null ? opts.initValue.toString() : '';
 
-	                target.prefix = target.creditCard || target.date ? '' : opts.prefix || '';
-	                target.noImmediatePrefix = !!opts.noImmediatePrefix;
-	                target.prefixLength = target.prefix.length;
-	                target.rawValueTrimPrefix = !!opts.rawValueTrimPrefix;
-	                target.copyDelimiter = !!opts.copyDelimiter;
+	        target.delimiter = opts.delimiter || opts.delimiter === '' ? opts.delimiter : opts.date ? '/' : opts.time ? ':' : opts.numeral ? ',' : opts.phone ? ' ' : ' ';
+	        target.delimiterLength = target.delimiter.length;
+	        target.delimiterLazyShow = !!opts.delimiterLazyShow;
+	        target.delimiters = opts.delimiters || [];
 
-	                target.initValue = opts.initValue !== undefined && opts.initValue !== null ? opts.initValue.toString() : '';
+	        target.blocks = opts.blocks || [];
+	        target.blocksLength = target.blocks.length;
 
-	                target.delimiter = opts.delimiter || opts.delimiter === '' ? opts.delimiter : opts.date ? '/' : opts.time ? ':' : opts.numeral ? ',' : opts.phone ? ' ' : ' ';
-	                target.delimiterLength = target.delimiter.length;
-	                target.delimiterLazyShow = !!opts.delimiterLazyShow;
-	                target.delimiters = opts.delimiters || [];
+	        target.root = (typeof global === 'undefined' ? 'undefined' : _typeof(global)) === 'object' && global ? global : window;
+	        target.document = opts.document || target.root.document;
 
-	                target.blocks = opts.blocks || [];
-	                target.blocksLength = target.blocks.length;
+	        target.maxLength = 0;
 
-	                target.root = (typeof global === 'undefined' ? 'undefined' : _typeof(global)) === 'object' && global ? global : window;
-	                target.document = opts.document || target.root.document;
+	        target.backspace = false;
+	        target.result = '';
 
-	                target.maxLength = 0;
+	        target.onValueChanged = opts.onValueChanged || function () {};
 
-	                target.backspace = false;
-	                target.result = '';
-
-	                target.onValueChanged = opts.onValueChanged || function () {};
-
-	                return target;
-	        }
+	        return target;
+	    }
 	};
 
 	module.exports = DefaultProperties;

@@ -88,6 +88,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            phoneRegionCode = (nextProps.options || {}).phoneRegionCode,
 	            newValue = nextProps.value;
 
+	        owner.updateRegisteredEvents(nextProps);
+
 	        if (newValue !== undefined) {
 	            newValue = newValue.toString();
 
@@ -103,6 +105,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	            owner.initPhoneFormatter();
 	            owner.onInput(owner.properties.result);
 	        }
+	    },
+
+	    updateRegisteredEvents: function updateRegisteredEvents(props) {
+	        var owner = this,
+	            _owner$registeredEven = owner.registeredEvents,
+	            onKeyDown = _owner$registeredEven.onKeyDown,
+	            onChange = _owner$registeredEven.onChange,
+	            onFocus = _owner$registeredEven.onFocus,
+	            onBlur = _owner$registeredEven.onBlur,
+	            onInit = _owner$registeredEven.onInit;
+
+
+	        owner.registeredEvents = {
+	            onInit: props.onInit === onInit ? onInit : props.onInit,
+	            onChange: props.onChange === onChange ? onChange : props.onChange,
+	            onFocus: props.onFocus === onFocus ? onFocus : props.onFocus,
+	            onBlur: props.onBlur === onBlur ? onBlur : props.onBlur,
+	            onKeyDown: props.onKeyDown === onKeyDown ? onKeyDown : props.onKeyDown
+	        };
 	    },
 
 	    getInitialState: function getInitialState() {
@@ -202,7 +223,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return;
 	        }
 
-	        pps.dateFormatter = new DateFormatter(pps.datePattern);
+	        pps.dateFormatter = new DateFormatter(pps.datePattern, pps.dateMin, pps.dateMax);
 	        pps.blocks = pps.dateFormatter.getBlocks();
 	        pps.blocksLength = pps.blocks.length;
 	        pps.maxLength = Util.getMaxLength(pps.blocks);
@@ -2479,6 +2500,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    type: key,
 	                    blocks: strictMode ? this.getStrictBlocks(matchedBlocks) : matchedBlocks
 	                };
+	            }
 	        }
 
 	        return {
