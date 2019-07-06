@@ -64,10 +64,10 @@ var cleaveReactClass = CreateReactClass({
             { value, options, onKeyDown, onChange, onFocus, onBlur, onInit } = owner.props;
 
         owner.registeredEvents = {
-            onInit:    onInit || Util.noop,
-            onChange:  onChange || Util.noop,
-            onFocus:   onFocus || Util.noop,
-            onBlur:    onBlur || Util.noop,
+            onInit: onInit || Util.noop,
+            onChange: onChange || Util.noop,
+            onFocus: onFocus || Util.noop,
+            onBlur: onBlur || Util.noop,
             onKeyDown: onKeyDown || Util.noop
         };
 
@@ -132,6 +132,7 @@ var cleaveReactClass = CreateReactClass({
             pps.stripLeadingZeroes,
             pps.prefix,
             pps.signBeforePrefix,
+            pps.postFix,
             pps.delimiter
         );
     },
@@ -197,7 +198,7 @@ var cleaveReactClass = CreateReactClass({
         pps.postDelimiterBackspace = false;
 
         owner.onChange({
-            target: {value: value},
+            target: { value: value },
 
             // Methods to better resemble a SyntheticEvent
             stopPropagation: Util.noop,
@@ -211,7 +212,7 @@ var cleaveReactClass = CreateReactClass({
             rawValue = pps.result;
 
         if (pps.rawValueTrimPrefix) {
-            rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters);
+            rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters, pps.postFix);
         }
 
         if (pps.numeral) {
@@ -250,7 +251,7 @@ var cleaveReactClass = CreateReactClass({
         // sends backspace keys in event, so we do not need to apply any hacks
         owner.hasBackspaceSupport = owner.hasBackspaceSupport || charCode === 8;
         if (!owner.hasBackspaceSupport
-          && Util.isAndroidBackspaceKeydown(owner.lastInputValue, pps.result)
+            && Util.isAndroidBackspaceKeydown(owner.lastInputValue, pps.result)
         ) {
             charCode = 8;
         }
@@ -331,6 +332,7 @@ var cleaveReactClass = CreateReactClass({
             } else {
                 pps.result = pps.numeralFormatter.format(value);
             }
+
             owner.updateValueState();
 
             return;
@@ -350,7 +352,7 @@ var cleaveReactClass = CreateReactClass({
         value = Util.stripDelimiters(value, pps.delimiter, pps.delimiters);
 
         // strip prefix
-        value = Util.getPrefixStrippedValue(value, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters);
+        value = Util.getPrefixStrippedValue(value, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters, pps.postFix);
 
         // strip non-numeric characters
         value = pps.numericOnly ? Util.strip(value, /[^\d]/g) : value;
@@ -361,7 +363,11 @@ var cleaveReactClass = CreateReactClass({
 
         // prefix
         if (pps.prefix && (!pps.noImmediatePrefix || value.length)) {
-            value = pps.prefix + value;
+            if (pps.postFix) {
+                value = value + pps.prefix;
+            } else {
+                value = pps.prefix + value;
+            }
 
             // no blocks specified, no need to do formatting
             if (pps.blocksLength === 0) {

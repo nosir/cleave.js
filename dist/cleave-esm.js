@@ -1,14 +1,15 @@
-var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 var NumeralFormatter = function (numeralDecimalMark,
-                                 numeralIntegerScale,
-                                 numeralDecimalScale,
-                                 numeralThousandsGroupStyle,
-                                 numeralPositiveOnly,
-                                 stripLeadingZeroes,
-                                 prefix,
-                                 signBeforePrefix,
-                                 delimiter) {
+    numeralIntegerScale,
+    numeralDecimalScale,
+    numeralThousandsGroupStyle,
+    numeralPositiveOnly,
+    stripLeadingZeroes,
+    prefix,
+    signBeforePrefix,
+    postFix,
+    delimiter) {
     var owner = this;
 
     owner.numeralDecimalMark = numeralDecimalMark || '.';
@@ -19,15 +20,16 @@ var NumeralFormatter = function (numeralDecimalMark,
     owner.stripLeadingZeroes = stripLeadingZeroes !== false;
     owner.prefix = (prefix || prefix === '') ? prefix : '';
     owner.signBeforePrefix = !!signBeforePrefix;
+    owner.postFix = !!postFix;
     owner.delimiter = (delimiter || delimiter === '') ? delimiter : ',';
     owner.delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
 };
 
 NumeralFormatter.groupStyle = {
     thousand: 'thousand',
-    lakh:     'lakh',
-    wan:      'wan',
-    none:     'none'    
+    lakh: 'lakh',
+    wan: 'wan',
+    none: 'none'
 };
 
 NumeralFormatter.prototype = {
@@ -74,7 +76,7 @@ NumeralFormatter.prototype = {
         } else {
             partSignAndPrefix = partSign;
         }
-        
+
         partInteger = value;
 
         if (value.indexOf(owner.numeralDecimalMark) >= 0) {
@@ -83,29 +85,33 @@ NumeralFormatter.prototype = {
             partDecimal = owner.numeralDecimalMark + parts[1].slice(0, owner.numeralDecimalScale);
         }
 
-        if(partSign === '-') {
+        if (partSign === '-') {
             partInteger = partInteger.slice(1);
         }
 
         if (owner.numeralIntegerScale > 0) {
-          partInteger = partInteger.slice(0, owner.numeralIntegerScale);
+            partInteger = partInteger.slice(0, owner.numeralIntegerScale);
         }
 
         switch (owner.numeralThousandsGroupStyle) {
-        case NumeralFormatter.groupStyle.lakh:
-            partInteger = partInteger.replace(/(\d)(?=(\d\d)+\d$)/g, '$1' + owner.delimiter);
+            case NumeralFormatter.groupStyle.lakh:
+                partInteger = partInteger.replace(/(\d)(?=(\d\d)+\d$)/g, '$1' + owner.delimiter);
 
-            break;
+                break;
 
-        case NumeralFormatter.groupStyle.wan:
-            partInteger = partInteger.replace(/(\d)(?=(\d{4})+$)/g, '$1' + owner.delimiter);
+            case NumeralFormatter.groupStyle.wan:
+                partInteger = partInteger.replace(/(\d)(?=(\d{4})+$)/g, '$1' + owner.delimiter);
 
-            break;
+                break;
 
-        case NumeralFormatter.groupStyle.thousand:
-            partInteger = partInteger.replace(/(\d)(?=(\d{3})+$)/g, '$1' + owner.delimiter);
+            case NumeralFormatter.groupStyle.thousand:
+                partInteger = partInteger.replace(/(\d)(?=(\d{3})+$)/g, '$1' + owner.delimiter);
 
-            break;
+                break;
+        }
+
+        if (owner.postFix) {
+            return partSign + partInteger.toString() + (owner.numeralDecimalScale > 0 ? partDecimal.toString() : '') + owner.prefix;
         }
 
         return partSignAndPrefix + partInteger.toString() + (owner.numeralDecimalScale > 0 ? partDecimal.toString() : '');
@@ -720,13 +726,13 @@ var Util = {
     },
 
     getNextCursorPosition: function (prevPos, oldValue, newValue, delimiter, delimiters) {
-      // If cursor was at the end of value, just place it back.
-      // Because new value could contain additional chars.
-      if (oldValue.length === prevPos) {
-          return newValue.length;
-      }
+        // If cursor was at the end of value, just place it back.
+        // Because new value could contain additional chars.
+        if (oldValue.length === prevPos) {
+            return newValue.length;
+        }
 
-      return prevPos + this.getPositionOffset(prevPos, oldValue, newValue, delimiter ,delimiters);
+        return prevPos + this.getPositionOffset(prevPos, oldValue, newValue, delimiter, delimiters);
     },
 
     getPositionOffset: function (prevPos, oldValue, newValue, delimiter, delimiters) {
@@ -775,28 +781,32 @@ var Util = {
     // PREFIX-123   |   PEFIX-123     |     123
     // PREFIX-123   |   PREFIX-23     |     23
     // PREFIX-123   |   PREFIX-1234   |     1234
-    getPrefixStrippedValue: function (value, prefix, prefixLength, prevResult, delimiter, delimiters) {
+    getPrefixStrippedValue: function (value, prefix, prefixLength, prevResult, delimiter, delimiters, postFix) {
         // No prefix
         if (prefixLength === 0) {
-          return value;
+            return value;
         }
 
         // Pre result has issue
         // Revert to raw prefix
-        if (prevResult.slice(0, prefixLength) !== prefix) {
-          return '';
+        if (prevResult.slice(0, prefixLength) !== prefix && !postFix) {
+            return '';
+        } else if (prevResult.slice(-prefixLength) !== prefix && postFix) {
+            return '';
         }
 
         var prevValue = this.stripDelimiters(prevResult, delimiter, delimiters);
 
         // New value has issue, someone typed in between prefix letters
         // Revert to pre value
-        if (value.slice(0, prefixLength) !== prefix) {
-          return prevValue.slice(prefixLength);
+        if (value.slice(0, prefixLength) !== prefix && !postFix) {
+            return prevValue.slice(prefixLength);
+        } else if (value.slice(-prefixLength) !== prefix && postFix) {
+            return prevValue.slice(0, -prefixLength - 1);
         }
 
         // No issue, strip prefix for new value
-        return value.slice(prefixLength);
+        return postFix ? value.slice(0, -prefixLength) : value.slice(prefixLength);
     },
 
     getFirstDiffIndex: function (prev, current) {
@@ -877,15 +887,15 @@ var Util = {
     },
 
     // Check if input field is fully selected
-    checkFullSelection: function(value) {
-      try {
-        var selection = window.getSelection() || document.getSelection() || {};
-        return selection.toString().length === value.length;
-      } catch (ex) {
-        // Ignore
-      }
+    checkFullSelection: function (value) {
+        try {
+            var selection = window.getSelection() || document.getSelection() || {};
+            return selection.toString().length === value.length;
+        } catch (ex) {
+            // Ignore
+        }
 
-      return false;
+        return false;
     },
 
     setSelection: function (element, position, doc) {
@@ -895,7 +905,7 @@ var Util = {
 
         // cursor is already in the end
         if (element && element.value.length <= position) {
-          return;
+            return;
         }
 
         if (element.createTextRange) {
@@ -913,7 +923,7 @@ var Util = {
         }
     },
 
-    getActiveElement: function(parent) {
+    getActiveElement: function (parent) {
         var activeElement = parent.activeElement;
         if (activeElement && activeElement.shadowRoot) {
             return this.getActiveElement(activeElement.shadowRoot);
@@ -956,7 +966,7 @@ var DefaultProperties = {
         target.creditCard = !!opts.creditCard;
         target.creditCardStrictMode = !!opts.creditCardStrictMode;
         target.creditCardType = '';
-        target.onCreditCardTypeChanged = opts.onCreditCardTypeChanged || (function () {});
+        target.onCreditCardTypeChanged = opts.onCreditCardTypeChanged || (function () { });
 
         // phone
         target.phone = !!opts.phone;
@@ -985,6 +995,7 @@ var DefaultProperties = {
         target.numeralPositiveOnly = !!opts.numeralPositiveOnly;
         target.stripLeadingZeroes = opts.stripLeadingZeroes !== false;
         target.signBeforePrefix = !!opts.signBeforePrefix;
+        target.postFix = !!opts.postFix;
 
         // others
         target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;
@@ -1022,7 +1033,7 @@ var DefaultProperties = {
         target.backspace = false;
         target.result = '';
 
-        target.onValueChanged = opts.onValueChanged || (function () {});
+        target.onValueChanged = opts.onValueChanged || (function () { });
 
         return target;
     }
@@ -1044,12 +1055,12 @@ var Cleave = function (element, opts) {
         owner.element = document.querySelector(element);
         hasMultipleElements = document.querySelectorAll(element).length > 1;
     } else {
-      if (typeof element.length !== 'undefined' && element.length > 0) {
-        owner.element = element[0];
-        hasMultipleElements = element.length > 1;
-      } else {
-        owner.element = element;
-      }
+        if (typeof element.length !== 'undefined' && element.length > 0) {
+            owner.element = element[0];
+            hasMultipleElements = element.length > 1;
+        } else {
+            owner.element = element;
+        }
     }
 
     if (!owner.element) {
@@ -1057,12 +1068,12 @@ var Cleave = function (element, opts) {
     }
 
     if (hasMultipleElements) {
-      try {
-        // eslint-disable-next-line
-        console.warn('[cleave.js] Multiple input fields matched, cleave.js will only take the first one.');
-      } catch (e) {
-        // Old IE
-      }
+        try {
+            // eslint-disable-next-line
+            console.warn('[cleave.js] Multiple input fields matched, cleave.js will only take the first one.');
+        } catch (e) {
+            // Old IE
+        }
     }
 
     opts.initValue = owner.element.value;
@@ -1129,11 +1140,12 @@ Cleave.prototype = {
             pps.stripLeadingZeroes,
             pps.prefix,
             pps.signBeforePrefix,
+            pps.postFix,
             pps.delimiter
         );
     },
 
-    initTimeFormatter: function() {
+    initTimeFormatter: function () {
         var owner = this, pps = owner.properties;
 
         if (!pps.time) {
@@ -1188,7 +1200,7 @@ Cleave.prototype = {
         // sends backspace keys in event, so we do not need to apply any hacks
         owner.hasBackspaceSupport = owner.hasBackspaceSupport || charCode === 8;
         if (!owner.hasBackspaceSupport
-          && Util.isAndroidBackspaceKeydown(owner.lastInputValue, currentValue)
+            && Util.isAndroidBackspaceKeydown(owner.lastInputValue, currentValue)
         ) {
             charCode = 8;
         }
@@ -1307,7 +1319,7 @@ Cleave.prototype = {
 
         // strip prefix
         // var strippedPreviousResult = Util.stripDelimiters(pps.result, pps.delimiter, pps.delimiters);
-        value = Util.getPrefixStrippedValue(value, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters);
+        value = Util.getPrefixStrippedValue(value, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters, pps.postFix);
 
         // strip non-numeric characters
         value = pps.numericOnly ? Util.strip(value, /[^\d]/g) : value;
@@ -1318,7 +1330,12 @@ Cleave.prototype = {
 
         // prefix
         if (pps.prefix && (!pps.noImmediatePrefix || value.length)) {
-            value = pps.prefix + value;
+            if (pps.postFix) {
+                value = value + pps.prefix;
+            } else {
+                value = pps.prefix + value;
+            }
+
 
             // no blocks specified, no need to do formatting
             if (pps.blocksLength === 0) {
@@ -1445,7 +1462,7 @@ Cleave.prototype = {
             rawValue = owner.element.value;
 
         if (pps.rawValueTrimPrefix) {
-            rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters);
+            rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters, pps.postFix);
         }
 
         if (pps.numeral) {

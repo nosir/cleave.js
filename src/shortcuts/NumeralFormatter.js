@@ -1,14 +1,15 @@
 'use strict';
 
 var NumeralFormatter = function (numeralDecimalMark,
-                                 numeralIntegerScale,
-                                 numeralDecimalScale,
-                                 numeralThousandsGroupStyle,
-                                 numeralPositiveOnly,
-                                 stripLeadingZeroes,
-                                 prefix,
-                                 signBeforePrefix,
-                                 delimiter) {
+    numeralIntegerScale,
+    numeralDecimalScale,
+    numeralThousandsGroupStyle,
+    numeralPositiveOnly,
+    stripLeadingZeroes,
+    prefix,
+    signBeforePrefix,
+    postFix,
+    delimiter) {
     var owner = this;
 
     owner.numeralDecimalMark = numeralDecimalMark || '.';
@@ -19,15 +20,16 @@ var NumeralFormatter = function (numeralDecimalMark,
     owner.stripLeadingZeroes = stripLeadingZeroes !== false;
     owner.prefix = (prefix || prefix === '') ? prefix : '';
     owner.signBeforePrefix = !!signBeforePrefix;
+    owner.postFix = !!postFix;
     owner.delimiter = (delimiter || delimiter === '') ? delimiter : ',';
     owner.delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
 };
 
 NumeralFormatter.groupStyle = {
     thousand: 'thousand',
-    lakh:     'lakh',
-    wan:      'wan',
-    none:     'none'    
+    lakh: 'lakh',
+    wan: 'wan',
+    none: 'none'
 };
 
 NumeralFormatter.prototype = {
@@ -74,7 +76,7 @@ NumeralFormatter.prototype = {
         } else {
             partSignAndPrefix = partSign;
         }
-        
+
         partInteger = value;
 
         if (value.indexOf(owner.numeralDecimalMark) >= 0) {
@@ -83,29 +85,33 @@ NumeralFormatter.prototype = {
             partDecimal = owner.numeralDecimalMark + parts[1].slice(0, owner.numeralDecimalScale);
         }
 
-        if(partSign === '-') {
+        if (partSign === '-') {
             partInteger = partInteger.slice(1);
         }
 
         if (owner.numeralIntegerScale > 0) {
-          partInteger = partInteger.slice(0, owner.numeralIntegerScale);
+            partInteger = partInteger.slice(0, owner.numeralIntegerScale);
         }
 
         switch (owner.numeralThousandsGroupStyle) {
-        case NumeralFormatter.groupStyle.lakh:
-            partInteger = partInteger.replace(/(\d)(?=(\d\d)+\d$)/g, '$1' + owner.delimiter);
+            case NumeralFormatter.groupStyle.lakh:
+                partInteger = partInteger.replace(/(\d)(?=(\d\d)+\d$)/g, '$1' + owner.delimiter);
 
-            break;
+                break;
 
-        case NumeralFormatter.groupStyle.wan:
-            partInteger = partInteger.replace(/(\d)(?=(\d{4})+$)/g, '$1' + owner.delimiter);
+            case NumeralFormatter.groupStyle.wan:
+                partInteger = partInteger.replace(/(\d)(?=(\d{4})+$)/g, '$1' + owner.delimiter);
 
-            break;
+                break;
 
-        case NumeralFormatter.groupStyle.thousand:
-            partInteger = partInteger.replace(/(\d)(?=(\d{3})+$)/g, '$1' + owner.delimiter);
+            case NumeralFormatter.groupStyle.thousand:
+                partInteger = partInteger.replace(/(\d)(?=(\d{3})+$)/g, '$1' + owner.delimiter);
 
-            break;
+                break;
+        }
+
+        if (owner.postFix) {
+            return partSign + partInteger.toString() + (owner.numeralDecimalScale > 0 ? partDecimal.toString() : '') + owner.prefix;
         }
 
         return partSignAndPrefix + partInteger.toString() + (owner.numeralDecimalScale > 0 ? partDecimal.toString() : '');

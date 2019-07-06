@@ -25,6 +25,7 @@
     - [numeralDecimalMark](#numeraldecimalmark)
     - [numeralPositiveOnly](#numeralpositiveonly)
     - [signBeforePrefix](#signbeforeprefix)
+    - [postFix](#postfix)
     - [stripLeadingZeroes](#stripleadingzeroes)
 - General config:
     - [blocks](#blocks)
@@ -368,6 +369,24 @@ new Cleave('.my-input', {
 
 ```js
 // -$1234.56
+```
+
+### `postFix`
+
+A `Boolean` value makes prefix should be appear after the numeral.
+
+**Default value**: `false`
+
+```js
+new Cleave('.my-input', {
+    numeral: true,
+    prefix: '€',
+    postFix: true
+});
+```
+
+```js
+// 1234.56€
 ```
 
 ### `stripLeadingZeroes`

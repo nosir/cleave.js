@@ -14,12 +14,12 @@ var Cleave = function (element, opts) {
         owner.element = document.querySelector(element);
         hasMultipleElements = document.querySelectorAll(element).length > 1;
     } else {
-      if (typeof element.length !== 'undefined' && element.length > 0) {
-        owner.element = element[0];
-        hasMultipleElements = element.length > 1;
-      } else {
-        owner.element = element;
-      }
+        if (typeof element.length !== 'undefined' && element.length > 0) {
+            owner.element = element[0];
+            hasMultipleElements = element.length > 1;
+        } else {
+            owner.element = element;
+        }
     }
 
     if (!owner.element) {
@@ -27,12 +27,12 @@ var Cleave = function (element, opts) {
     }
 
     if (hasMultipleElements) {
-      try {
-        // eslint-disable-next-line
-        console.warn('[cleave.js] Multiple input fields matched, cleave.js will only take the first one.');
-      } catch (e) {
-        // Old IE
-      }
+        try {
+            // eslint-disable-next-line
+            console.warn('[cleave.js] Multiple input fields matched, cleave.js will only take the first one.');
+        } catch (e) {
+            // Old IE
+        }
     }
 
     opts.initValue = owner.element.value;
@@ -99,11 +99,12 @@ Cleave.prototype = {
             pps.stripLeadingZeroes,
             pps.prefix,
             pps.signBeforePrefix,
+            pps.postFix,
             pps.delimiter
         );
     },
 
-    initTimeFormatter: function() {
+    initTimeFormatter: function () {
         var owner = this, pps = owner.properties;
 
         if (!pps.time) {
@@ -158,7 +159,7 @@ Cleave.prototype = {
         // sends backspace keys in event, so we do not need to apply any hacks
         owner.hasBackspaceSupport = owner.hasBackspaceSupport || charCode === 8;
         if (!owner.hasBackspaceSupport
-          && Util.isAndroidBackspaceKeydown(owner.lastInputValue, currentValue)
+            && Util.isAndroidBackspaceKeydown(owner.lastInputValue, currentValue)
         ) {
             charCode = 8;
         }
@@ -277,7 +278,7 @@ Cleave.prototype = {
 
         // strip prefix
         // var strippedPreviousResult = Util.stripDelimiters(pps.result, pps.delimiter, pps.delimiters);
-        value = Util.getPrefixStrippedValue(value, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters);
+        value = Util.getPrefixStrippedValue(value, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters, pps.postFix);
 
         // strip non-numeric characters
         value = pps.numericOnly ? Util.strip(value, /[^\d]/g) : value;
@@ -288,7 +289,12 @@ Cleave.prototype = {
 
         // prefix
         if (pps.prefix && (!pps.noImmediatePrefix || value.length)) {
-            value = pps.prefix + value;
+            if (pps.postFix) {
+                value = value + pps.prefix;
+            } else {
+                value = pps.prefix + value;
+            }
+
 
             // no blocks specified, no need to do formatting
             if (pps.blocksLength === 0) {
@@ -415,7 +421,7 @@ Cleave.prototype = {
             rawValue = owner.element.value;
 
         if (pps.rawValueTrimPrefix) {
-            rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters);
+            rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters, pps.postFix);
         }
 
         if (pps.numeral) {

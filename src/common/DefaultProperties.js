@@ -16,7 +16,7 @@ var DefaultProperties = {
         target.creditCard = !!opts.creditCard;
         target.creditCardStrictMode = !!opts.creditCardStrictMode;
         target.creditCardType = '';
-        target.onCreditCardTypeChanged = opts.onCreditCardTypeChanged || (function () {});
+        target.onCreditCardTypeChanged = opts.onCreditCardTypeChanged || (function () { });
 
         // phone
         target.phone = !!opts.phone;
@@ -45,6 +45,7 @@ var DefaultProperties = {
         target.numeralPositiveOnly = !!opts.numeralPositiveOnly;
         target.stripLeadingZeroes = opts.stripLeadingZeroes !== false;
         target.signBeforePrefix = !!opts.signBeforePrefix;
+        target.postFix = !!opts.postFix;
 
         // others
         target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;
@@ -82,7 +83,7 @@ var DefaultProperties = {
         target.backspace = false;
         target.result = '';
 
-        target.onValueChanged = opts.onValueChanged || (function () {});
+        target.onValueChanged = opts.onValueChanged || (function () { });
 
         return target;
     }
