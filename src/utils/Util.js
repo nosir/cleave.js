@@ -85,15 +85,17 @@ var Util = {
     // PREFIX-123   |   PEFIX-123     |     123
     // PREFIX-123   |   PREFIX-23     |     23
     // PREFIX-123   |   PREFIX-1234   |     1234
-    getPrefixStrippedValue: function (value, prefix, prefixLength, prevResult, delimiter, delimiters) {
+    getPrefixStrippedValue: function (value, prefix, prefixLength, prevResult, delimiter, delimiters, noImmediatePrefix) {
         // No prefix
         if (prefixLength === 0) {
           return value;
         }
 
-        // Pre result has issue
-        // Revert to raw prefix
+        // Pre result prefix string does not match pre-defined prefix
         if (prevResult.slice(0, prefixLength) !== prefix) {
+          // Check if the first time user entered something
+          if (noImmediatePrefix && !prevResult && value) return value;
+
           return '';
         }
 

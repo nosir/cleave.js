@@ -413,7 +413,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value = Util.stripDelimiters(value, pps.delimiter, pps.delimiters);
 
 	        // strip prefix
-	        value = Util.getPrefixStrippedValue(value, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters);
+	        value = Util.getPrefixStrippedValue(value, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters, pps.noImmediatePrefix);
 
 	        // strip non-numeric characters
 	        value = pps.numericOnly ? Util.strip(value, /[^\d]/g) : value;
@@ -422,7 +422,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value = pps.uppercase ? value.toUpperCase() : value;
 	        value = pps.lowercase ? value.toLowerCase() : value;
 
-	        // prefix
+	        // prevent from showing prefix when no immediate option enabled with empty input value
 	        if (pps.prefix && (!pps.noImmediatePrefix || value.length)) {
 	            value = pps.prefix + value;
 
@@ -2795,15 +2795,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // PREFIX-123   |   PEFIX-123     |     123
 	    // PREFIX-123   |   PREFIX-23     |     23
 	    // PREFIX-123   |   PREFIX-1234   |     1234
-	    getPrefixStrippedValue: function getPrefixStrippedValue(value, prefix, prefixLength, prevResult, delimiter, delimiters) {
+	    getPrefixStrippedValue: function getPrefixStrippedValue(value, prefix, prefixLength, prevResult, delimiter, delimiters, noImmediatePrefix) {
 	        // No prefix
 	        if (prefixLength === 0) {
 	            return value;
 	        }
 
-	        // Pre result has issue
-	        // Revert to raw prefix
+	        // Pre result prefix string does not match pre-defined prefix
 	        if (prevResult.slice(0, prefixLength) !== prefix) {
+	            // Check if the first time user entered something
+	            if (noImmediatePrefix && !prevResult && value) return value;
+
 	            return '';
 	        }
 

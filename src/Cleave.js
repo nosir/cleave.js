@@ -276,8 +276,10 @@ Cleave.prototype = {
         value = Util.stripDelimiters(value, pps.delimiter, pps.delimiters);
 
         // strip prefix
-        // var strippedPreviousResult = Util.stripDelimiters(pps.result, pps.delimiter, pps.delimiters);
-        value = Util.getPrefixStrippedValue(value, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters);
+        value = Util.getPrefixStrippedValue(
+            value, pps.prefix, pps.prefixLength,
+            pps.result, pps.delimiter, pps.delimiters, pps.noImmediatePrefix
+        );
 
         // strip non-numeric characters
         value = pps.numericOnly ? Util.strip(value, /[^\d]/g) : value;
@@ -286,7 +288,7 @@ Cleave.prototype = {
         value = pps.uppercase ? value.toUpperCase() : value;
         value = pps.lowercase ? value.toLowerCase() : value;
 
-        // prefix
+        // prevent from showing prefix when no immediate option enabled with empty input value
         if (pps.prefix && (!pps.noImmediatePrefix || value.length)) {
             value = pps.prefix + value;
 

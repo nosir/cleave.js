@@ -126,20 +126,34 @@
         4,
         "test12",
         "-",
-        []
+        [],
+        false
       ],
       "expected": "123"
     },
     {
       "params": [
-        "test23",
+        "1",
         "test",
         4,
-        "test123",
+        "",
         "-",
-        []
+        [],
+        false
       ],
-      "expected": "23"
+      "expected": ""
+    },
+    {
+      "params": [
+        "1",
+        "test",
+        4,
+        "",
+        "-",
+        [],
+        true
+      ],
+      "expected": "1"
     },
     {
       "params": [
