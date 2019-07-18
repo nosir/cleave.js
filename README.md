@@ -212,6 +212,61 @@ Then easily you can apply `cleave` directive to `input` field:
 
 More usage in documentation: [Angular directive usage](https://github.com/nosir/cleave.js/blob/master/doc/angularjs-directive-usage.md)
 
+## Use in VueJs 
+
+While this package does not have an official support for use in VueJs. This can be done in few simple steps.
+
+### To use globally
+
+```js
+import Vue from 'vue'
+import Cleave from 'cleave.js';
+
+Vue.directive('cleave', {
+    inserted: (el, binding) => {
+        el.cleave = new Cleave(el, binding.value || {})
+    },
+    update: (el) => {
+        el.value = el.cleave.properties.result
+        const event = new Event('input', { bubbles: true });
+        el.dispatchEvent(event)
+    }
+})
+```
+
+### To use as a local local directive
+
+```js
+import Cleave from 'cleave.js';
+export default {
+ 
+    ...
+    directives: {
+        cleave: {
+            inserted: (el, binding) => {
+                el.cleave = new Cleave(el, binding.value || {})
+            },
+            update: (el) => {
+                el.value = el.cleave.properties.result
+                const event = new Event('input', { bubbles: true });
+                el.dispatchEvent(event)
+            }
+        }
+    }
+    ...
+}
+```
+
+And use it in your HTML like
+
+```html
+    <input v-model="ccNumber" class="input-element" v-cleave="{creditCard: true, onCreditCardTypeChanged : cardChanged}">                      
+    <input name="text"  v-model="ccMonth" v-cleave="{date: true,datePattern: ['m']}">             
+    <input type="number" v-model="ccv" v-cleave="{numeral: true,numeralPositiveOnly: true,numeralIntegerScale: 3}">           
+```
+
+Here is a [codesandbox](https://codesandbox.io/s/cleave-js-vue-integration-qmw28)
+
 ## jQuery fn usage
 Please check [here](https://github.com/nosir/cleave.js/issues/341)
 
