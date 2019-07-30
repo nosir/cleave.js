@@ -227,7 +227,6 @@ Vue.directive('cleave', {
         el.cleave = new Cleave(el, binding.value || {})
     },
     update: (el) => {
-        el.value = el.cleave.properties.result
         const event = new Event('input', { bubbles: true });
         el.dispatchEvent(event)
     }
@@ -247,7 +246,6 @@ export default {
                 el.cleave = new Cleave(el, binding.value || {})
             },
             update: (el) => {
-                el.value = el.cleave.properties.result
                 const event = new Event('input', { bubbles: true });
                 el.dispatchEvent(event)
             }
