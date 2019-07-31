@@ -227,8 +227,11 @@ Vue.directive('cleave', {
         el.cleave = new Cleave(el, binding.value || {})
     },
     update: (el) => {
-        const event = new Event('input', { bubbles: true });
-        el.dispatchEvent(event)
+        const event = new Event('input', {bubbles: true});
+        setTimeout(function () {
+            el.value = el.cleave.properties.result
+            el.dispatchEvent(event)
+        }, 100);
     }
 })
 ```
@@ -246,8 +249,11 @@ export default {
                 el.cleave = new Cleave(el, binding.value || {})
             },
             update: (el) => {
-                const event = new Event('input', { bubbles: true });
-                el.dispatchEvent(event)
+                const event = new Event('input', {bubbles: true});
+                setTimeout(function () {
+                    el.value = el.cleave.properties.result
+                    el.dispatchEvent(event)
+                }, 100);
             }
         }
     }
