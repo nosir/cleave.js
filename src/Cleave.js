@@ -381,6 +381,7 @@ Cleave.prototype = {
 
         pps.onValueChanged.call(owner, {
             target: {
+                name: owner.element.name,
                 value: pps.result,
                 rawValue: owner.getRawValue()
             }
