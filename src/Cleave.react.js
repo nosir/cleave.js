@@ -23,7 +23,7 @@ var cleaveReactClass = CreateReactClass({
         Util.setSelection(owner.element, owner.state.cursorPosition, pps.document);
     },
 
-    componentWillReceiveProps: function (nextProps) {
+    UNSAFE_componentWillReceiveProps: function (nextProps) {
         var owner = this,
             phoneRegionCode = (nextProps.options || {}).phoneRegionCode,
             newValue = nextProps.value;
