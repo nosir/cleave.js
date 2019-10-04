@@ -8,7 +8,13 @@
     "html",
     "format",
     "form",
-    "input"
+    "input",
+    "input-mask",
+    "mask",
+    "formatter",
+    "filter",
+    "vanilla",
+    "react"
   ],
   "version": "1.5.3",
   "files": [
