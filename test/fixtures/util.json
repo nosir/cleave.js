@@ -127,6 +127,7 @@
         "test12",
         "-",
         [],
+        false,
         false
       ],
       "expected": "123"
@@ -139,6 +140,7 @@
         "",
         "-",
         [],
+        false,
         false
       ],
       "expected": ""
@@ -151,6 +153,7 @@
         "",
         "-",
         [],
+        false,
         true
       ],
       "expected": "1"
@@ -176,6 +179,19 @@
         []
       ],
       "expected": "12"
+    },
+    {
+      "params": [
+        "-test123",
+        "test",
+        4,
+        "-test123",
+        "-",
+        [],
+        true,
+        false
+      ],
+      "expected":  "-123"
     }
   ]
 }
