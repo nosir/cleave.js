@@ -278,7 +278,7 @@ Cleave.prototype = {
         // strip prefix
         value = Util.getPrefixStrippedValue(
             value, pps.prefix, pps.prefixLength,
-            pps.result, pps.delimiter, pps.delimiters, pps.noImmediatePrefix
+            pps.result, pps.delimiter, pps.delimiters, pps.signBeforePrefix, pps.noImmediatePrefix
         );
 
         // strip non-numeric characters
@@ -417,7 +417,7 @@ Cleave.prototype = {
             rawValue = owner.element.value;
 
         if (pps.rawValueTrimPrefix) {
-            rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters);
+            rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters, pps.signBeforePrefix);
         }
 
         if (pps.numeral) {
