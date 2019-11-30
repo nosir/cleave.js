@@ -448,7 +448,7 @@ Cleave.prototype = {
     },
 
     modify: function (opts) {
-        Cleave.DefaultProperties.assign(this.properties, opts);
+        Cleave.ExistingProperties.assign(this.properties, opts);
         this.init();
     },
 
