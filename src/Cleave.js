@@ -447,6 +447,11 @@ Cleave.prototype = {
         return this.element.value;
     },
 
+    modify: function (opts) {
+        Cleave.DefaultProperties.assign(this.properties, opts);
+        this.init();
+    },
+
     destroy: function () {
         var owner = this;
 
@@ -469,6 +474,7 @@ Cleave.PhoneFormatter = require('../src/shortcuts/PhoneFormatter');
 Cleave.CreditCardDetector = require('../src/shortcuts/CreditCardDetector');
 Cleave.Util = require('../src/utils/Util');
 Cleave.DefaultProperties = require('../src/common/DefaultProperties');
+Cleave.ExistingProperties = require('../src/common/ExistingProperties');
 
 // for angular directive
 ((typeof global === 'object' && global) ? global : window)['Cleave'] = Cleave;
