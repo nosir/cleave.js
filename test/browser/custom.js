@@ -59,6 +59,20 @@ describe('Custom input field', function () {
         assert.equal(field.value, '123|456|789');
     });
 
+    it('should allow custom delimiter modification', function () {
+        var cleave = new Cleave(field, {
+            blocks:    [3, 3, 3],
+            delimiter: '|'
+        });
+
+        cleave.modify({
+            delimiter: ':'
+        });
+
+        cleave.setRawValue('123456789');
+        assert.equal(field.value, '123:456:789');
+    });
+
     it('should use custom multiple delimiters', function () {
         var cleave = new Cleave(field, {
             blocks:     [3, 3, 3, 3],
@@ -67,6 +81,20 @@ describe('Custom input field', function () {
 
         cleave.setRawValue('123456789000');
         assert.equal(field.value, '123-456-789~000');
+    });
+
+    it('should allow custom multiple delimiters modification', function () {
+        var cleave = new Cleave(field, {
+            blocks:     [3, 3, 3, 3],
+            delimiters: ['-', '-', '~']
+        });
+
+        cleave.modify({
+            delimiters: ['-', '~', '-']
+        });
+
+        cleave.setRawValue('123456789000');
+        assert.equal(field.value, '123-456~789-000');
     });
 
     it('should use custom multiple delimiters with more than one letter', function () {
@@ -79,6 +107,20 @@ describe('Custom input field', function () {
         assert.equal(field.value, '(123) 456 - 789');
     });
 
+    it('should allow custom multiple delimiters with more than one letter modification', function () {
+        var cleave = new Cleave(field, {
+            blocks:     [0, 3, 3, 3],
+            delimiters: ['(', ') ', ' - ']
+        });
+
+        cleave.modify({
+            delimiters: ['[', ']:', ' -- ']
+        });
+
+        cleave.setRawValue('123456789000');
+        assert.equal(field.value, '[123]:456 -- 789');
+    });
+
     it('should use custom multiple delimiters with default value', function () {
         var cleave = new Cleave(field, {
             blocks:     [3, 3, 3, 3],
@@ -89,9 +131,37 @@ describe('Custom input field', function () {
         assert.equal(field.value, '123-456~789~000');
     });
 
+    it('should allow custom multiple delimiters with default value modification', function () {
+        var cleave = new Cleave(field, {
+            blocks:     [3, 3, 3, 3],
+            delimiters: ['-', '~']
+        });
+
+        cleave.modify({
+            delimiters: ['~', ':']
+        });
+
+        cleave.setRawValue('123456789000');
+        assert.equal(field.value, '123~456:789:000');
+    });
+
     it('should use empty delimiter', function () {
         var cleave = new Cleave(field, {
             blocks:    [3, 3, 3],
+            delimiter: ''
+        });
+
+        cleave.setRawValue('123456789');
+        assert.equal(field.value, '123456789');
+    });
+
+    it('should allow change to empty delimiter', function () {
+        var cleave = new Cleave(field, {
+            blocks:    [3, 3, 3],
+            delimiter: '|'
+        });
+
+        cleave.modify({
             delimiter: ''
         });
 
@@ -108,6 +178,21 @@ describe('Custom input field', function () {
 
         cleave.setRawValue('UFO123');
         assert.equal(field.value, 'UFO-123');
+    });
+
+    it('should allow defined prefix modification', function () {
+        var cleave = new Cleave(field, {
+            prefix:    'UFO',
+            blocks:    [3, 3],
+            delimiter: '-'
+        });
+
+        cleave.modify({
+            prefix: 'PRO'
+        });
+
+        cleave.setRawValue('PRO123');
+        assert.equal(field.value, 'PRO-123');
     });
 
     it('should not trim prefix when rawValueTrimPrefix is not enabled', function () {
@@ -131,6 +216,35 @@ describe('Custom input field', function () {
         assert.equal(cleave.getRawValue(), '$1234.56');
     });
 
+    it('should trim prefix when rawValueTrimPrefix is changed from not enabled to enabled', function () {
+        var cleave = new Cleave(field, {
+            prefix:  '$',
+            numeral: true
+        });
+
+        cleave.modify({
+            rawValueTrimPrefix: true
+        });
+
+        cleave.setRawValue('1234.56');
+        assert.equal(cleave.getRawValue(), '1234.56');
+    });
+
+    it('should not trim prefix when rawValueTrimPrefix is changed from enabled to not enabled', function () {
+        var cleave = new Cleave(field, {
+            prefix:  '$',
+            rawValueTrimPrefix: true,
+            numeral: true
+        });
+
+        cleave.modify({
+            rawValueTrimPrefix: false
+        });
+
+        cleave.setRawValue('1234.56');
+        assert.equal(cleave.getRawValue(), '$1234.56');
+    });
+
     it('should use numeric only option', function () {
         var cleave = new Cleave(field, {
             numericOnly: true,
@@ -139,6 +253,20 @@ describe('Custom input field', function () {
 
         cleave.setRawValue('12a3b4c5');
         assert.equal(field.value, '123 45');
+    });
+
+    it('should allow numeric only option change', function () {
+        var cleave = new Cleave(field, {
+            numericOnly: true,
+            blocks:      [3, 3, 3]
+        });
+
+        cleave.modify({
+            numericOnly: false
+        });
+
+        cleave.setRawValue('12a3b4c5');
+        assert.equal(field.value, '12a 3b4 c5');
     });
 
     it('should use uppercase option', function () {
@@ -151,6 +279,20 @@ describe('Custom input field', function () {
         assert.equal(field.value, 'ABC DEF ');
     });
 
+    it('should allow uppercase option modification', function () {
+        var cleave = new Cleave(field, {
+            uppercase: true,
+            blocks:    [3, 3, 3]
+        });
+
+        cleave.modify({
+            uppercase: false
+        });
+
+        cleave.setRawValue('abcdef');
+        assert.equal(field.value, 'abc def ');
+    });
+
     it('should use lowercase option', function () {
         var cleave = new Cleave(field, {
             lowercase: true,
@@ -159,5 +301,19 @@ describe('Custom input field', function () {
 
         cleave.setRawValue('ABCDEF');
         assert.equal(field.value, 'abc def ');
+    });
+
+    it('should allow lowercase option modification', function () {
+        var cleave = new Cleave(field, {
+            lowercase: true,
+            blocks:    [3, 3, 3]
+        });
+
+        cleave.modify({
+            lowercase: false
+        });
+
+        cleave.setRawValue('ABCDEF');
+        assert.equal(field.value, 'ABC DEF ');
     });
 });
