@@ -9,7 +9,7 @@ var ExistingProperties = {
         // credit card
         target.creditCard = opts.creditCard === undefined ? target.creditCard : opts.creditCard;
         target.creditCardStrictMode = opts.creditCardStrictMode === undefined ? target.creditCardStrictMode : opts.creditCardStrictMode;
-        target.onCreditCardTypeChanged = opts.onCreditCardTypeChanged || target.creditCardStrictMode;
+        target.onCreditCardTypeChanged = opts.onCreditCardTypeChanged || target.onCreditCardTypeChanged;
 
         // phone
         target.phone = opts.phone === undefined ? target.phone : opts.phone;
@@ -37,7 +37,7 @@ var ExistingProperties = {
         target.signBeforePrefix = opts.signBeforePrefix || target.signBeforePrefix;
 
         // others
-        target.numericOnly = opts.numericOnly === undefined ? target.numericOnly : opts.numericOnly;
+        target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;
 
         target.uppercase = opts.uppercase === undefined ? target.uppercase : opts.uppercase;
         target.lowercase = opts.lowercase === undefined ? target.lowercase : opts.lowercase;

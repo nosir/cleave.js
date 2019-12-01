@@ -9,6 +9,7 @@
 var Cleave = function (element, opts) {
     var owner = this;
     var hasMultipleElements = false;
+    opts = opts || {};
 
     if (typeof element === 'string') {
         owner.element = document.querySelector(element);
