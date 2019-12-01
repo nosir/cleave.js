@@ -34,7 +34,7 @@ describe('Custom input field', function () {
         assert.equal(field.value, '123|456');
     });
 
-    it('should use modified lazy show mode for delimiter', function () {
+    it('should not use lazy show mode for delimiter on modification', function () {
         var cleave = new Cleave(field, {
             blocks:    [3, 3, 3],
             delimiterLazyShow: true,
@@ -47,6 +47,21 @@ describe('Custom input field', function () {
 
         cleave.setRawValue('123456');
         assert.equal(field.value, '123|456|');
+    });
+    
+    it('should use lazy show mode for delimiter on modification', function () {
+        var cleave = new Cleave(field, {
+            blocks:    [3, 3, 3],
+            delimiterLazyShow: false,
+            delimiter: '|'
+        });
+
+        cleave.modify({
+            delimiterLazyShow: true
+        });
+
+        cleave.setRawValue('123456');
+        assert.equal(field.value, '123|456');
     });
 
     it('should use custom delimiter', function () {
@@ -216,9 +231,10 @@ describe('Custom input field', function () {
         assert.equal(cleave.getRawValue(), '$1234.56');
     });
 
-    it('should trim prefix when rawValueTrimPrefix is changed from not enabled to enabled', function () {
+    it('should trim prefix when rawValueTrimPrefix is modified to enabled', function () {
         var cleave = new Cleave(field, {
             prefix:  '$',
+            rawValueTrimPrefix: false,
             numeral: true
         });
 
@@ -230,7 +246,7 @@ describe('Custom input field', function () {
         assert.equal(cleave.getRawValue(), '1234.56');
     });
 
-    it('should not trim prefix when rawValueTrimPrefix is changed from enabled to not enabled', function () {
+    it('should not trim prefix when rawValueTrimPrefix is modified to not enabled', function () {
         var cleave = new Cleave(field, {
             prefix:  '$',
             rawValueTrimPrefix: true,
@@ -255,6 +271,20 @@ describe('Custom input field', function () {
         assert.equal(field.value, '123 45');
     });
 
+    it('should use numeric only option on modification', function () {
+        var cleave = new Cleave(field, {
+            numericOnly: false,
+            blocks:      [3, 3, 3]
+        });
+
+        cleave.modify({
+            numericOnly: true
+        });
+
+        cleave.setRawValue('12a3b4c5');
+        assert.equal(field.value, '123 45');
+    });
+    
     it('should not use numeric only option on modification', function () {
         var cleave = new Cleave(field, {
             numericOnly: true,
@@ -279,6 +309,20 @@ describe('Custom input field', function () {
         assert.equal(field.value, 'ABC DEF ');
     });
 
+    it('should use uppercase option on modification', function () {
+        var cleave = new Cleave(field, {
+            uppercase: false,
+            blocks:    [3, 3, 3]
+        });
+
+        cleave.modify({
+            uppercase: true
+        });
+
+        cleave.setRawValue('abcdef');
+        assert.equal(field.value, 'ABC DEF ');
+    });
+    
     it('should not use uppercase option on modification', function () {
         var cleave = new Cleave(field, {
             uppercase: true,
@@ -303,6 +347,20 @@ describe('Custom input field', function () {
         assert.equal(field.value, 'abc def ');
     });
 
+    it('should use lowercase option on modification', function () {
+        var cleave = new Cleave(field, {
+            lowercase: false,
+            blocks:    [3, 3, 3]
+        });
+
+        cleave.modify({
+            lowercase: true
+        });
+
+        cleave.setRawValue('ABCDEF');
+        assert.equal(field.value, 'abc def ');
+    });
+    
     it('should not use lowercase option on modification', function () {
         var cleave = new Cleave(field, {
             lowercase: true,
