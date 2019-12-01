@@ -10,6 +10,16 @@ describe('Numeral input field', function () {
         assert.equal(field.value, '1,234.56');
     });
 
+    it('should add large number delimiter on modification', function () {
+        var cleave = new Cleave(field);
+        cleave.modify({
+            numeral: true
+        });
+
+        cleave.setRawValue('1234.56');
+        assert.equal(field.value, '1,234.56');
+    });
+
     it('should use defined decimal scale', function () {
         var cleave = new Cleave(field, {
             numeral:             true,
@@ -18,6 +28,20 @@ describe('Numeral input field', function () {
 
         cleave.setRawValue('1.2345678');
         assert.equal(field.value, '1.2345');
+    });
+
+    it('should use modified decimal scale', function () {
+        var cleave = new Cleave(field, {
+            numeral:             true,
+            numeralDecimalScale: 4
+        });
+
+        cleave.modify({
+            numeralDecimalScale: 3
+        });
+
+        cleave.setRawValue('1.2345678');
+        assert.equal(field.value, '1.234');
     });
 
     it('should use defined decimal mark', function () {
@@ -31,9 +55,38 @@ describe('Numeral input field', function () {
         assert.equal(field.value, '1.234,56');
     });
 
+    it('should use modified decimal mark', function () {
+        var cleave = new Cleave(field, {
+            numeral:            true,
+            numeralDecimalMark: ',',
+            delimiter:          '.'
+        });
+
+        cleave.modify({
+            numeralDecimalMark: ';',
+            delimiter:          ':'
+        });
+
+        cleave.setRawValue('1234.56');
+        assert.equal(field.value, '1:234;56');
+    });
+
     it('should use defined group lakh style', function () {
         var cleave = new Cleave(field, {
             numeral:                    true,
+            numeralThousandsGroupStyle: 'lakh'
+        });
+
+        cleave.setRawValue('12345678.90');
+        assert.equal(field.value, '1,23,45,678.90');
+    });
+
+    it('should use modified group lakh style', function () {
+        var cleave = new Cleave(field, {
+            numeral: true
+        });
+        
+        cleave.modify({
             numeralThousandsGroupStyle: 'lakh'
         });
 
@@ -51,9 +104,35 @@ describe('Numeral input field', function () {
         assert.equal(field.value, '1,2345,6789.01');
     });
 
+    it('should use modified group wan style', function () {
+        var cleave = new Cleave(field, {
+            numeral: true
+        });
+        
+        cleave.modify({
+            numeralThousandsGroupStyle: 'wan'
+        });
+
+        cleave.setRawValue('123456789.01');
+        assert.equal(field.value, '1,2345,6789.01');
+    });
+
     it('should use no comma style', function () {
         var cleave = new Cleave(field, {
             numeral:                    true,
+            numeralThousandsGroupStyle: 'none'
+        });
+
+        cleave.setRawValue('123456789.01');
+        assert.equal(field.value, '123456789.01');
+    });
+
+    it('should use modified no comma style', function () {
+        var cleave = new Cleave(field, {
+            numeral: true
+        });
+        
+        cleave.modify({
             numeralThousandsGroupStyle: 'none'
         });
 
@@ -71,9 +150,35 @@ describe('Numeral input field', function () {
         assert.equal(field.value, '1,234.56');
     });
 
+    it('should use modified positive only option', function () {
+        var cleave = new Cleave(field, {
+            numeral: true
+        });
+        
+        cleave.modify({
+            numeralPositiveOnly: true
+        });
+
+        cleave.setRawValue('-1234.56');
+        assert.equal(field.value, '1,234.56');
+    });
+
     it('it should not strip leading zeroes', function () {
         var cleave = new Cleave(field, {
             numeral:             true,
+            stripLeadingZeroes:  false
+        });
+
+        cleave.setRawValue('000,001.01');
+        assert.equal(field.value, '000,001.01');
+    });
+
+    it('it should not strip leading zeroes on modification', function () {
+        var cleave = new Cleave(field, {
+            numeral: true
+        });
+        
+        cleave.modify({
             stripLeadingZeroes:  false
         });
 
