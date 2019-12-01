@@ -10,7 +10,7 @@ describe('Custom input field', function () {
         assert.equal(field.value, '123 456 789');
     });
 
-    it('should allow custom blocks modification', function () {
+    it('should use modified custom blocks', function () {
         var cleave = new Cleave(field, {
             blocks: [2, 3, 4]
         });
@@ -34,7 +34,7 @@ describe('Custom input field', function () {
         assert.equal(field.value, '123|456');
     });
 
-    it('should allow lazy show mode for delimiter modification', function () {
+    it('should use modified lazy show mode for delimiter', function () {
         var cleave = new Cleave(field, {
             blocks:    [3, 3, 3],
             delimiterLazyShow: true,
@@ -59,7 +59,7 @@ describe('Custom input field', function () {
         assert.equal(field.value, '123|456|789');
     });
 
-    it('should allow custom delimiter modification', function () {
+    it('should use modified custom delimiter', function () {
         var cleave = new Cleave(field, {
             blocks:    [3, 3, 3],
             delimiter: '|'
@@ -83,7 +83,7 @@ describe('Custom input field', function () {
         assert.equal(field.value, '123-456-789~000');
     });
 
-    it('should allow custom multiple delimiters modification', function () {
+    it('should use modified custom multiple delimiters', function () {
         var cleave = new Cleave(field, {
             blocks:     [3, 3, 3, 3],
             delimiters: ['-', '-', '~']
@@ -107,7 +107,7 @@ describe('Custom input field', function () {
         assert.equal(field.value, '(123) 456 - 789');
     });
 
-    it('should allow custom multiple delimiters with more than one letter modification', function () {
+    it('should use modified custom multiple delimiters with more than one letter', function () {
         var cleave = new Cleave(field, {
             blocks:     [0, 3, 3, 3],
             delimiters: ['(', ') ', ' - ']
@@ -131,7 +131,7 @@ describe('Custom input field', function () {
         assert.equal(field.value, '123-456~789~000');
     });
 
-    it('should allow custom multiple delimiters with default value modification', function () {
+    it('should use modified custom multiple delimiters with default value', function () {
         var cleave = new Cleave(field, {
             blocks:     [3, 3, 3, 3],
             delimiters: ['-', '~']
@@ -155,7 +155,7 @@ describe('Custom input field', function () {
         assert.equal(field.value, '123456789');
     });
 
-    it('should allow change to empty delimiter', function () {
+    it('should use modified empty delimiter', function () {
         var cleave = new Cleave(field, {
             blocks:    [3, 3, 3],
             delimiter: '|'
@@ -180,7 +180,7 @@ describe('Custom input field', function () {
         assert.equal(field.value, 'UFO-123');
     });
 
-    it('should allow defined prefix modification', function () {
+    it('should use modified defined prefix', function () {
         var cleave = new Cleave(field, {
             prefix:    'UFO',
             blocks:    [3, 3],
@@ -255,7 +255,7 @@ describe('Custom input field', function () {
         assert.equal(field.value, '123 45');
     });
 
-    it('should allow numeric only option change', function () {
+    it('should not use numeric only option on modification', function () {
         var cleave = new Cleave(field, {
             numericOnly: true,
             blocks:      [3, 3, 3]
@@ -279,7 +279,7 @@ describe('Custom input field', function () {
         assert.equal(field.value, 'ABC DEF ');
     });
 
-    it('should allow uppercase option modification', function () {
+    it('should not use uppercase option on modification', function () {
         var cleave = new Cleave(field, {
             uppercase: true,
             blocks:    [3, 3, 3]
@@ -303,7 +303,7 @@ describe('Custom input field', function () {
         assert.equal(field.value, 'abc def ');
     });
 
-    it('should allow lowercase option modification', function () {
+    it('should not use lowercase option on modification', function () {
         var cleave = new Cleave(field, {
             lowercase: true,
             blocks:    [3, 3, 3]
