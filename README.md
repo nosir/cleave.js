@@ -38,9 +38,7 @@ npm install --save cleave.js
 
 #### CDN
 
-```html
-<script src="https://cdn.jsdelivr.net/npm/cleave.js@1/dist/cleave.min.js"></script>
-```
+cleave.js is available on [jsDelivr](https://www.jsdelivr.com/package/npm/cleave.js) and on [cdnjs.com](https://cdnjs.com/libraries/cleave.js)
 
 #### old school
 Grab file from [dist](https://github.com/nosir/cleave.js/tree/master/dist) directory
