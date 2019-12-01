@@ -446,7 +446,7 @@ new Cleave('.my-input', {
 // XXX.XXX.XXX-XX
 ```
 
-### `delimiterlazyshow`
+### `delimiterLazyShow`
 
 A `boolean` value that if true, will lazy add the delimiter only when the user starting typing the next group section
 
