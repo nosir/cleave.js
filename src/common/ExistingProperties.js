@@ -22,7 +22,7 @@ var ExistingProperties = {
 
         // date
         target.date = opts.date === undefined ? target.date : opts.date;
-        target.datePattern = opts.datePattern || target.date;
+        target.datePattern = opts.datePattern || target.datePattern;
         target.dateMin = opts.dateMin || target.dateMin;
         target.dateMax = opts.dateMax || target.dateMax;
 
