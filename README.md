@@ -36,6 +36,10 @@ However, this isn't meant to replace any validation or mask library, you should 
 npm install --save cleave.js
 ```
 
+#### CDN
+
+cleave.js is available on [jsDelivr](https://www.jsdelivr.com/package/npm/cleave.js) and on [cdnjs.com](https://cdnjs.com/libraries/cleave.js)
+
 #### old school
 Grab file from [dist](https://github.com/nosir/cleave.js/tree/master/dist) directory
 
