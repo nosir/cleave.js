@@ -23,7 +23,8 @@ var cleaveReactClass = CreateReactClass({
             pps = owner.properties;
 
         owner.updateRegisteredEvents(owner.props);
-        if (newValue !== undefined) {
+        if (newValue !== undefined && newValue !== null) {
+
             newValue = newValue.toString();
 
             if (newValue !== owner.properties.result) {
