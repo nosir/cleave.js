@@ -20,6 +20,14 @@ Under `dist/addons` directory, you can find:
 
 - i18n all-in-one `cleave-phone.i18n.js` but with large size
 
+- bring your own libphonenumber instance (reduces bundle size)
+
+    ```JS
+    const AsYouTypeFormatter = require('google-libphonenumber').AsYouTypeFormatter;
+    window.Cleave = window.Cleave || {};
+    window.Cleave.AsYouTypeFormatter = AsYouTypeFormatter;
+    ```
+
 > You can find your country code in [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements) list.
 
 ### Simply HTML include
