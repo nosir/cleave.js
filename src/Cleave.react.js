@@ -18,20 +18,13 @@ var cleaveReactClass = CreateReactClass({
 
     componentDidUpdate: function () {
         var owner = this,
+            phoneRegionCode = (owner.props.options || {}).phoneRegionCode,
+            newValue = owner.props.value,
             pps = owner.properties;
 
-        Util.setSelection(owner.element, owner.state.cursorPosition, pps.document);
-    },
-
-    componentWillReceiveProps: function (nextProps) {
-        var owner = this,
-            phoneRegionCode = (nextProps.options || {}).phoneRegionCode,
-            newValue = nextProps.value;
-
-        // update registed events
-        owner.updateRegisteredEvents(nextProps);
-
+        owner.updateRegisteredEvents(owner.props);
         if (newValue !== undefined && newValue !== null) {
+
             newValue = newValue.toString();
 
             if (newValue !== owner.properties.result) {
@@ -46,6 +39,8 @@ var cleaveReactClass = CreateReactClass({
             owner.initPhoneFormatter();
             owner.onInput(owner.properties.result);
         }
+
+        Util.setSelection(owner.element, owner.state.cursorPosition, pps.document);
     },
 
     updateRegisteredEvents: function (props) {
