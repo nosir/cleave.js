@@ -437,6 +437,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        pps.onValueChanged.call(owner, {
 	            target: {
+	                name: owner.element.name,
 	                value: pps.result,
 	                rawValue: owner.getRawValue()
 	            }
@@ -1274,8 +1275,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // starts with 4; 16 digits
 	        visa: /^4\d{0,15}/,
 
-	        // starts with 62; 16 digits
-	        unionPay: /^62\d{0,14}/
+	        // starts with 62/81; 16 digits
+	        unionPay: /^(62|81)\d{0,14}/
 	    },
 
 	    getStrictBlocks: function (block) {

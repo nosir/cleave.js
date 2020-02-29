@@ -78,20 +78,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    componentDidUpdate: function componentDidUpdate() {
 	        var owner = this,
+	            phoneRegionCode = (owner.props.options || {}).phoneRegionCode,
+	            newValue = owner.props.value,
 	            pps = owner.properties;
 
-	        Util.setSelection(owner.element, owner.state.cursorPosition, pps.document);
-	    },
+	        owner.updateRegisteredEvents(owner.props);
+	        if (newValue !== undefined && newValue !== null) {
 
-	    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-	        var owner = this,
-	            phoneRegionCode = (nextProps.options || {}).phoneRegionCode,
-	            newValue = nextProps.value;
-
-	        // update registed events
-	        owner.updateRegisteredEvents(nextProps);
-
-	        if (newValue !== undefined) {
 	            newValue = newValue.toString();
 
 	            if (newValue !== owner.properties.result) {
@@ -106,6 +99,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            owner.initPhoneFormatter();
 	            owner.onInput(owner.properties.result);
 	        }
+
+	        Util.setSelection(owner.element, owner.state.cursorPosition, pps.document);
 	    },
 
 	    updateRegisteredEvents: function updateRegisteredEvents(props) {
@@ -2470,8 +2465,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // starts with 4; 16 digits
 	        visa: /^4\d{0,15}/,
 
-	        // starts with 62; 16 digits
-	        unionPay: /^62\d{0,14}/
+	        // starts with 62/81; 16 digits
+	        unionPay: /^(62|81)\d{0,14}/
 	    },
 
 	    getStrictBlocks: function getStrictBlocks(block) {
