@@ -216,6 +216,10 @@ Then easily you can apply `cleave` directive to `input` field:
 
 More usage in documentation: [Angular directive usage](https://github.com/nosir/cleave.js/blob/master/doc/angularjs-directive-usage.md)
 
+## Use in VueJs
+While this package does not have an official support for use in VueJs. This can be done in few simple steps.
+Please check [here](https://github.com/nosir/cleave.js/blob/master/doc/vue.md)
+
 ## jQuery fn usage
 Please check [here](https://github.com/nosir/cleave.js/issues/341)
 
