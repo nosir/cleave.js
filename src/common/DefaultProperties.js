@@ -45,6 +45,7 @@ var DefaultProperties = {
         target.numeralPositiveOnly = !!opts.numeralPositiveOnly;
         target.stripLeadingZeroes = opts.stripLeadingZeroes !== false;
         target.signBeforePrefix = !!opts.signBeforePrefix;
+        target.tailPrefix = !!opts.tailPrefix;
 
         // others
         target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;

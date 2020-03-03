@@ -8,6 +8,7 @@ var NumeralFormatter = function (numeralDecimalMark,
                                  stripLeadingZeroes,
                                  prefix,
                                  signBeforePrefix,
+                                 tailPrefix,
                                  delimiter) {
     var owner = this;
 
@@ -19,6 +20,7 @@ var NumeralFormatter = function (numeralDecimalMark,
     owner.stripLeadingZeroes = stripLeadingZeroes !== false;
     owner.prefix = (prefix || prefix === '') ? prefix : '';
     owner.signBeforePrefix = !!signBeforePrefix;
+    owner.tailPrefix = !!tailPrefix;
     owner.delimiter = (delimiter || delimiter === '') ? delimiter : ',';
     owner.delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
 };
@@ -106,6 +108,10 @@ NumeralFormatter.prototype = {
             partInteger = partInteger.replace(/(\d)(?=(\d{3})+$)/g, '$1' + owner.delimiter);
 
             break;
+        }
+
+        if (owner.tailPrefix) {
+            return partSign + partInteger.toString() + (owner.numeralDecimalScale > 0 ? partDecimal.toString() : '') + owner.prefix;
         }
 
         return partSignAndPrefix + partInteger.toString() + (owner.numeralDecimalScale > 0 ? partDecimal.toString() : '');

@@ -127,6 +127,7 @@ var cleaveReactClass = CreateReactClass({
             pps.stripLeadingZeroes,
             pps.prefix,
             pps.signBeforePrefix,
+            pps.tailPrefix,
             pps.delimiter
         );
     },
@@ -206,7 +207,7 @@ var cleaveReactClass = CreateReactClass({
             rawValue = pps.result;
 
         if (pps.rawValueTrimPrefix) {
-            rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters);
+            rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters, pps.noImmediatePrefix, pps.tailPrefix);
         }
 
         if (pps.numeral) {
@@ -345,10 +346,7 @@ var cleaveReactClass = CreateReactClass({
         value = Util.stripDelimiters(value, pps.delimiter, pps.delimiters);
 
         // strip prefix
-        value = Util.getPrefixStrippedValue(
-            value, pps.prefix, pps.prefixLength,
-            pps.result, pps.delimiter, pps.delimiters, pps.noImmediatePrefix
-        );
+        value = Util.getPrefixStrippedValue(value, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters, pps.noImmediatePrefix, pps.tailPrefix);
 
         // strip non-numeric characters
         value = pps.numericOnly ? Util.strip(value, /[^\d]/g) : value;
@@ -359,7 +357,11 @@ var cleaveReactClass = CreateReactClass({
 
         // prevent from showing prefix when no immediate option enabled with empty input value
         if (pps.prefix && (!pps.noImmediatePrefix || value.length)) {
-            value = pps.prefix + value;
+            if (pps.tailPrefix) {
+                value = value + pps.prefix;
+            } else {
+                value = pps.prefix + value;
+            }
 
             // no blocks specified, no need to do formatting
             if (pps.blocksLength === 0) {

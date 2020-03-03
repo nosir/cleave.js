@@ -46,6 +46,10 @@ describe('NumeralFormatter', function () {
             title.push('Sign before prefix:' + numeral.signBeforePrefix);
         }
 
+        if (numeral.tailPrefix) {
+            title.push('Tail prefix:' + numeral.tailPrefix);
+        }
+
         describe(title.join(', '), function () {
             var numeralFormatter = new NumeralFormatter(
                 numeral.numeralDecimalMark,
@@ -56,6 +60,7 @@ describe('NumeralFormatter', function () {
                 numeral.stripLeadingZeroes,
                 numeral.prefix,
                 numeral.signBeforePrefix,
+                numeral.tailPrefix,
                 numeral.delimiter
             );
 
