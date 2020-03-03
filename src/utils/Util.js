@@ -85,30 +85,35 @@ var Util = {
     // PREFIX-123   |   PEFIX-123     |     123
     // PREFIX-123   |   PREFIX-23     |     23
     // PREFIX-123   |   PREFIX-1234   |     1234
-    getPrefixStrippedValue: function (value, prefix, prefixLength, prevResult, delimiter, delimiters, noImmediatePrefix) {
+    getPrefixStrippedValue: function (value, prefix, prefixLength, prevResult, delimiter, delimiters, noImmediatePrefix, tailPrefix) {
         // No prefix
         if (prefixLength === 0) {
           return value;
         }
 
         // Pre result prefix string does not match pre-defined prefix
-        if (prevResult.slice(0, prefixLength) !== prefix) {
-          // Check if the first time user entered something
-          if (noImmediatePrefix && !prevResult && value) return value;
-
-          return '';
+        if (prevResult.slice(0, prefixLength) !== prefix && !tailPrefix) {
+            // Check if the first time user entered something
+            if (noImmediatePrefix && !prevResult && value) return value;
+            return '';
+        } else if (prevResult.slice(-prefixLength) !== prefix && tailPrefix) {
+            // Check if the first time user entered something
+            if (noImmediatePrefix && !prevResult && value) return value;
+            return '';
         }
 
         var prevValue = this.stripDelimiters(prevResult, delimiter, delimiters);
 
         // New value has issue, someone typed in between prefix letters
         // Revert to pre value
-        if (value.slice(0, prefixLength) !== prefix) {
-          return prevValue.slice(prefixLength);
+        if (value.slice(0, prefixLength) !== prefix && !tailPrefix) {
+            return prevValue.slice(prefixLength);
+        } else if (value.slice(-prefixLength) !== prefix && tailPrefix) {
+            return prevValue.slice(0, -prefixLength - 1);
         }
 
         // No issue, strip prefix for new value
-        return value.slice(prefixLength);
+        return tailPrefix ? value.slice(0, -prefixLength) : value.slice(prefixLength);
     },
 
     getFirstDiffIndex: function (prev, current) {
