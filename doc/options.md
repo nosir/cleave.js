@@ -373,7 +373,7 @@ new Cleave('.my-input', {
 
 ### `tailPrefix`
 
-A `Boolean` value makes prefix should be appear after the input.
+A `Boolean` value makes prefix should be appear after the numeral.
 
 **Default value**: `false`
 
