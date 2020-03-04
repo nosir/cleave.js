@@ -443,7 +443,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value = pps.maxLength > 0 ? Util.headStr(value, pps.maxLength) : value;
 
 	        // apply blocks
-	        pps.result = Util.getFormattedValue(value, pps.blocks, pps.blocksLength, pps.delimiter, pps.delimiters, pps.delimiterLazyShow);
+	        pps.result = Util.getFormattedValue(value, pps.blocks, pps.blocksLength, pps.delimiter, pps.delimiters, pps.delimiterLazyShow, pps.dynamicBlocks, pps.blocksSplitLengths);
 
 	        owner.updateValueState();
 	    },
@@ -2842,17 +2842,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return index;
 	    },
 
-	    getFormattedValue: function getFormattedValue(value, blocks, blocksLength, delimiter, delimiters, delimiterLazyShow) {
+	    getFormattedValue: function getFormattedValue(value, blocks, blocksLength, delimiter, delimiters, delimiterLazyShow, dynamicBlocks, blocksSplitLengths) {
 	        var result = '',
 	            multipleDelimiters = delimiters.length > 0,
 	            currentDelimiter;
 
 	        // no options, normal input
-	        if (blocksLength === 0) {
+	        if (blocksLength === 0 && !dynamicBlocks) {
 	            return value;
 	        }
 
-	        blocks.forEach(function (length, index) {
+	        var currentBlocks = blocks;
+	        var currentBlockLength = blocksLength;
+
+	        if (dynamicBlocks) {
+	            var currentBlockIndex = blocksSplitLengths.findIndex(function (bsl) {
+	                return value.length <= bsl;
+	            });
+	            var currentBlocks = dynamicBlocks[currentBlockIndex];
+	            var currentBlockLength = currentBlocks.length;
+	        }
+
+	        currentBlocks.forEach(function (length, index) {
 	            if (value.length > 0) {
 	                var sub = value.slice(0, length),
 	                    rest = value.slice(length);
@@ -2872,7 +2883,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                } else {
 	                    result += sub;
 
-	                    if (sub.length === length && index < blocksLength - 1) {
+	                    if (sub.length === length && index < currentBlockLength - 1) {
 	                        result += currentDelimiter;
 	                    }
 	                }
@@ -3048,6 +3059,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        target.blocks = opts.blocks || [];
 	        target.blocksLength = target.blocks.length;
+	        target.dynamicBlocks = opts.dynamicBlocks;
+	        target.blocksSplitLengths = opts.blocksSplitLengths;
 
 	        target.root = (typeof global === 'undefined' ? 'undefined' : _typeof(global)) === 'object' && global ? global : window;
 	        target.document = opts.document || target.root.document;
