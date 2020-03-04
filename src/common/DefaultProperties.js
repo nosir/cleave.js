@@ -74,6 +74,8 @@ var DefaultProperties = {
 
         target.blocks = opts.blocks || [];
         target.blocksLength = target.blocks.length;
+        target.dynamicBlocks = opts.dynamicBlocks;
+        target.blocksSplitLengths = opts.blocksSplitLengths;
 
         target.root = (typeof global === 'object' && global) ? global : window;
         target.document = opts.document || target.root.document;

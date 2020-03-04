@@ -128,17 +128,26 @@ var Util = {
         return index;
     },
 
-    getFormattedValue: function (value, blocks, blocksLength, delimiter, delimiters, delimiterLazyShow) {
+    getFormattedValue: function (value, blocks, blocksLength, delimiter, delimiters, delimiterLazyShow, dynamicBlocks, blocksSplitLengths) {
         var result = '',
             multipleDelimiters = delimiters.length > 0,
             currentDelimiter;
 
         // no options, normal input
-        if (blocksLength === 0) {
+        if (blocksLength === 0 && !dynamicBlocks) {
             return value;
         }
 
-        blocks.forEach(function (length, index) {
+       var currentBlocks = blocks;
+       var currentBlockLength = blocksLength;
+
+       if (dynamicBlocks) {
+         var currentBlockIndex = blocksSplitLengths.findIndex(function(bsl) { return value.length <= bsl });
+         var currentBlocks = dynamicBlocks[currentBlockIndex];
+         var currentBlockLength = currentBlocks.length;
+       }
+
+        currentBlocks.forEach(function (length, index) {
             if (value.length > 0) {
                 var sub = value.slice(0, length),
                     rest = value.slice(length);
@@ -158,7 +167,7 @@ var Util = {
                 } else {
                     result += sub;
 
-                    if (sub.length === length && index < blocksLength - 1) {
+                    if (sub.length === length && index < currentBlockLength - 1) {
                         result += currentDelimiter;
                     }
                 }

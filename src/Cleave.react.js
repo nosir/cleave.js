@@ -384,7 +384,7 @@ var cleaveReactClass = CreateReactClass({
         pps.result = Util.getFormattedValue(
             value,
             pps.blocks, pps.blocksLength,
-            pps.delimiter, pps.delimiters, pps.delimiterLazyShow
+            pps.delimiter, pps.delimiters, pps.delimiterLazyShow, pps.dynamicBlocks, pps.blocksSplitLengths,
         );
 
         owner.updateValueState();
