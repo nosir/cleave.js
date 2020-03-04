@@ -16,15 +16,14 @@ var cleaveReactClass = CreateReactClass({
         this.init();
     },
 
-    componentDidUpdate: function () {
+    componentDidUpdate: function (prevProps) {
         var owner = this,
             phoneRegionCode = (owner.props.options || {}).phoneRegionCode,
             newValue = owner.props.value,
             pps = owner.properties;
 
         owner.updateRegisteredEvents(owner.props);
-        if (newValue !== undefined && newValue !== null) {
-
+        if (prevProps.value !== newValue && newValue !== undefined && newValue !== null) {
             newValue = newValue.toString();
 
             if (newValue !== owner.properties.result) {
@@ -34,7 +33,8 @@ var cleaveReactClass = CreateReactClass({
         }
 
         // update phone region code
-        if (phoneRegionCode && phoneRegionCode !== owner.properties.phoneRegionCode) {
+        const prevPhoneRegionCode = (prevProps.options || {}).phoneRegionCode;
+        if (prevPhoneRegionCode !== phoneRegionCode && phoneRegionCode && phoneRegionCode !== owner.properties.phoneRegionCode) {
             owner.properties.phoneRegionCode = phoneRegionCode;
             owner.initPhoneFormatter();
             owner.onInput(owner.properties.result);
