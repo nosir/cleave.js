@@ -76,15 +76,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.init();
 	    },
 
-	    componentDidUpdate: function componentDidUpdate() {
+	    componentDidUpdate: function componentDidUpdate(prevProps) {
 	        var owner = this,
 	            phoneRegionCode = (owner.props.options || {}).phoneRegionCode,
 	            newValue = owner.props.value,
 	            pps = owner.properties;
 
 	        owner.updateRegisteredEvents(owner.props);
-	        if (newValue !== undefined && newValue !== null) {
-
+	        if (prevProps.value !== newValue && newValue !== undefined && newValue !== null) {
 	            newValue = newValue.toString();
 
 	            if (newValue !== owner.properties.result) {
@@ -94,7 +93,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 
 	        // update phone region code
-	        if (phoneRegionCode && phoneRegionCode !== owner.properties.phoneRegionCode) {
+	        var prevPhoneRegionCode = (prevProps.options || {}).phoneRegionCode;
+	        if (prevPhoneRegionCode !== phoneRegionCode && phoneRegionCode && phoneRegionCode !== owner.properties.phoneRegionCode) {
 	            owner.properties.phoneRegionCode = phoneRegionCode;
 	            owner.initPhoneFormatter();
 	            owner.onInput(owner.properties.result);
