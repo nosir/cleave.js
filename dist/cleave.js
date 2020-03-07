@@ -333,7 +333,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value = Util.stripDelimiters(value, pps.delimiter, pps.delimiters);
 
 	        // strip prefix
-	        value = Util.getPrefixStrippedValue(value, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters, pps.noImmediatePrefix, pps.tailPrefix);
+	        value = Util.getPrefixStrippedValue(value, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters, pps.noImmediatePrefix, pps.tailPrefix, pps.signBeforePrefix);
 
 	        // strip non-numeric characters
 	        value = pps.numericOnly ? Util.strip(value, /[^\d]/g) : value;
@@ -477,7 +477,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            rawValue = owner.element.value;
 
 	        if (pps.rawValueTrimPrefix) {
-	            rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters, pps.noImmediatePrefix, pps.tailPrefix);
+	            rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters, pps.noImmediatePrefix, pps.tailPrefix, pps.signBeforePrefix);
 	        }
 
 	        if (pps.numeral) {
@@ -1360,10 +1360,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // PREFIX-123   |   PEFIX-123     |     123
 	    // PREFIX-123   |   PREFIX-23     |     23
 	    // PREFIX-123   |   PREFIX-1234   |     1234
-	    getPrefixStrippedValue: function (value, prefix, prefixLength, prevResult, delimiter, delimiters, noImmediatePrefix, tailPrefix) {
+	    getPrefixStrippedValue: function (value, prefix, prefixLength, prevResult, delimiter, delimiters, noImmediatePrefix, tailPrefix, signBeforePrefix) {
 	        // No prefix
 	        if (prefixLength === 0) {
 	          return value;
+	        }
+
+	        if (signBeforePrefix && (value.slice(0, 1) == '-')) {
+	            var prev = (prevResult.slice(0, 1) == '-') ? prevResult.slice(1) : prevResult;
+	            return '-' + this.getPrefixStrippedValue(value.slice(1), prefix, prefixLength, prev, delimiter, delimiters, noImmediatePrefix, tailPrefix, signBeforePrefix);
 	        }
 
 	        // Pre result prefix string does not match pre-defined prefix
