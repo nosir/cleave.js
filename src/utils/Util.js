@@ -186,7 +186,7 @@ var Util = {
         var val = el.value,
             appendix = delimiter || (delimiters[0] || ' ');
 
-        if (!el.setSelectionRange || !prefix || (prefix.length + appendix.length) < val.length) {
+        if (!el.setSelectionRange || !prefix || (prefix.length + appendix.length) <= val.length) {
             return;
         }
 
