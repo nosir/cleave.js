@@ -460,9 +460,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        value = value !== undefined && value !== null ? value.toString() : '';
 
+	        /*
 	        if (pps.numeral) {
 	            value = value.replace('.', pps.numeralDecimalMark);
 	        }
+	        */
 
 	        pps.postDelimiterBackspace = false;
 
@@ -613,7 +615,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                 delimiter) {
 	    var owner = this;
 
-	    owner.numeralDecimalMark = numeralDecimalMark || '.';
+	    if (Array.isArray(numeralDecimalMark)) {
+	        owner.numeralDecimalMark = numeralDecimalMark[0];
+	        owner.numeralDecimalMarkAlt = numeralDecimalMark;
+	    } else {
+	        owner.numeralDecimalMark = numeralDecimalMark  || '.';
+	        owner.numeralDecimalMarkAlt = [owner.numeralDecimalMark];
+	    }
 	    owner.numeralIntegerScale = numeralIntegerScale > 0 ? numeralIntegerScale : 0;
 	    owner.numeralDecimalScale = numeralDecimalScale >= 0 ? numeralDecimalScale : 2;
 	    owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
@@ -635,6 +643,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	NumeralFormatter.prototype = {
 	    getRawValue: function (value) {
+	        console.log('cleave getRawValue!!',value);
 	        return value.replace(this.delimiterRE, '').replace(this.numeralDecimalMark, '.');
 	    },
 
@@ -642,13 +651,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var owner = this, parts, partSign, partSignAndPrefix, partInteger, partDecimal = '';
 
 	        // strip alphabet letters
-	        value = value.replace(/[A-Za-z]/g, '')
-	            // replace the first decimal mark with reserved placeholder
-	            .replace(owner.numeralDecimalMark, 'M')
+	        value = value.replace(/[A-Za-z]/g, '');
 
-	            // strip non numeric letters except minus and "M"
-	            // this is to ensure prefix has been stripped
-	            .replace(/[^\dM-]/g, '')
+	        // replace the first decimal mark with reserved placeholders
+	        //.replace(owner.numeralDecimalMark, 'M')
+	        console.log('cleave format!!',value,owner.numeralDecimalMarkAlt);
+	        for (var i in owner.numeralDecimalMarkAlt) {
+	            value = value.replace(owner.numeralDecimalMarkAlt[i], 'M');
+	        }
+	        console.log('cleave format2!!',value);
+
+	        // strip non numeric letters except minus and "M"
+	        // this is to ensure prefix has been stripped
+	        value = value.replace(/[^\dM-]/g, '')
 
 	            // replace the leading minus with reserved placeholder
 	            .replace(/^\-/, 'N')

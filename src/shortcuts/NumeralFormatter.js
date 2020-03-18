@@ -12,7 +12,13 @@ var NumeralFormatter = function (numeralDecimalMark,
                                  delimiter) {
     var owner = this;
 
-    owner.numeralDecimalMark = numeralDecimalMark || '.';
+    if (Array.isArray(numeralDecimalMark)) {
+        owner.numeralDecimalMark = numeralDecimalMark[0];
+        owner.numeralDecimalMarkAlt = numeralDecimalMark;
+    } else {
+        owner.numeralDecimalMark = numeralDecimalMark  || '.';
+        owner.numeralDecimalMarkAlt = [owner.numeralDecimalMark];
+    }
     owner.numeralIntegerScale = numeralIntegerScale > 0 ? numeralIntegerScale : 0;
     owner.numeralDecimalScale = numeralDecimalScale >= 0 ? numeralDecimalScale : 2;
     owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
@@ -41,13 +47,17 @@ NumeralFormatter.prototype = {
         var owner = this, parts, partSign, partSignAndPrefix, partInteger, partDecimal = '';
 
         // strip alphabet letters
-        value = value.replace(/[A-Za-z]/g, '')
-            // replace the first decimal mark with reserved placeholder
-            .replace(owner.numeralDecimalMark, 'M')
+        value = value.replace(/[A-Za-z]/g, '');
 
-            // strip non numeric letters except minus and "M"
-            // this is to ensure prefix has been stripped
-            .replace(/[^\dM-]/g, '')
+        // replace the first decimal mark with reserved placeholders
+        //.replace(owner.numeralDecimalMark, 'M')
+        for (var i in owner.numeralDecimalMarkAlt) {
+            value = value.replace(owner.numeralDecimalMarkAlt[i], 'M');
+        }
+
+        // strip non numeric letters except minus and "M"
+        // this is to ensure prefix has been stripped
+        value = value.replace(/[^\dM-]/g, '')
 
             // replace the leading minus with reserved placeholder
             .replace(/^\-/, 'N')

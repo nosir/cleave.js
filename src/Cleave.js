@@ -404,9 +404,11 @@ Cleave.prototype = {
 
         value = value !== undefined && value !== null ? value.toString() : '';
 
+        /*
         if (pps.numeral) {
             value = value.replace('.', pps.numeralDecimalMark);
         }
+        */
 
         pps.postDelimiterBackspace = false;
 
