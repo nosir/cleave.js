@@ -64,6 +64,8 @@ Cleave.prototype = {
         owner.onCutListener = owner.onCut.bind(owner);
         owner.onCopyListener = owner.onCopy.bind(owner);
 
+        owner.initSwapHiddenInput();
+
         owner.element.addEventListener('input', owner.onChangeListener);
         owner.element.addEventListener('keydown', owner.onKeyDownListener);
         owner.element.addEventListener('focus', owner.onFocusListener);
@@ -81,6 +83,20 @@ Cleave.prototype = {
         if (pps.initValue || (pps.prefix && !pps.noImmediatePrefix)) {
             owner.onInput(pps.initValue);
         }
+    },
+
+    initSwapHiddenInput: function () {
+        var owner = this, pps = owner.properties;
+        if (!pps.swapHiddenInput) return;
+
+        var inputFormatter = owner.element.cloneNode(true);
+        owner.element.parentNode.insertBefore(inputFormatter, owner.element);
+
+        owner.elementSwapHidden = owner.element;
+        owner.elementSwapHidden.type = 'hidden';
+
+        owner.element = inputFormatter;
+        owner.element.id = '';
     },
 
     initNumeralFormatter: function () {
@@ -374,6 +390,8 @@ Cleave.prototype = {
         }
 
         owner.element.value = newValue;
+        if (pps.swapHiddenInput) owner.elementSwapHidden.value = owner.getRawValue();
+
         Util.setSelection(owner.element, endPos, pps.document, false);
         owner.callOnValueChanged();
     },
