@@ -570,7 +570,7 @@ A `Boolean` value indicates if it converts value to lowercase letters.
 
 **Default value**: `false`
 
-### `swaphiddeninput`
+### `swapHiddenInput`
 
 A `Boolean` value indicates if it swaps the input field to a hidden field.
 
