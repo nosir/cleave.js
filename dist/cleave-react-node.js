@@ -2839,6 +2839,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        target.tailPrefix = !!opts.tailPrefix;
 
 	        // others
+	        target.swapHiddenInput = !!opts.swapHiddenInput;
+
 	        target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;
 
 	        target.uppercase = !!opts.uppercase;

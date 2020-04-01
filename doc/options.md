@@ -38,6 +38,7 @@
     - [numericOnly](#numericonly)
     - [uppercase](#uppercase)
     - [lowercase](#lowercase)
+    - [swapHiddenInput](#swaphiddeninput)
     - [onValueChanged](#onvaluechanged)
 
 ## Credit card numbers
@@ -566,6 +567,14 @@ A `Boolean` value indicates if it converts value to uppercase letters.
 A `Boolean` value indicates if it converts value to lowercase letters.
 
 `lowercase` doesn't work on it's own, you have to either specify the shortcuts mode or `blocks` option to enable the formatter.
+
+**Default value**: `false`
+
+### `swaphiddeninput`
+
+A `Boolean` value indicates if it swaps the input field to a hidden field.
+
+This way, formatting only happens on the cloned (visible) UI input, the value of hidden field will be updated as raw value without formatting.
 
 **Default value**: `false`
 
