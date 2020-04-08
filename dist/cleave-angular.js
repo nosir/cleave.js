@@ -255,6 +255,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var owner = this,
 	            pps = owner.properties;
 
+	        if (pps.prefix && pps.noImmediatePrefix && !owner.element.value) {
+	            this.onInput(pps.prefix);
+	        }
+
 	        Cleave.Util.fixPrefixCursor(owner.element, pps.prefix, pps.delimiter, pps.delimiters);
 	    },
 

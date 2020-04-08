@@ -325,6 +325,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var owner = this,
 	            pps = owner.properties;
 
+	        if (pps.prefix && pps.noImmediatePrefix && !event.target.value) {
+	            owner.onInput(pps.prefix);
+	        }
+
 	        event.target.rawValue = owner.getRawValue();
 	        event.target.value = pps.result;
 
