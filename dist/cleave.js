@@ -1313,11 +1313,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        // multiple delimiters
 	        var matchedDelimiter = '';
-	        delimiters.forEach(function (current) {
+	        for (var i = 0; i < delimiters.length; i++) {
+	            var current = delimiters[i];
 	            if (value.slice(-current.length) === current) {
 	                matchedDelimiter = current;
+	                break;
 	            }
-	        });
+	        }
 
 	        return matchedDelimiter;
 	    },
