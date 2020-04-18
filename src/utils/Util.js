@@ -15,6 +15,7 @@ var Util = {
         }
 
         // multiple delimiters
+        var matchedDelimiter = '';
         for (var i = 0; i < delimiters.length; i++) {
             var current = delimiters[i];
             if (value.slice(-current.length) === current) {
