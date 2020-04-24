@@ -57,6 +57,7 @@ Cleave.prototype = {
 
         owner.isAndroid = Cleave.Util.isAndroid();
         owner.lastInputValue = '';
+        owner.isBackward = '';
 
         owner.onChangeListener = owner.onChange.bind(owner);
         owner.onKeyDownListener = owner.onKeyDown.bind(owner);
@@ -166,38 +167,34 @@ Cleave.prototype = {
     },
 
     onKeyDown: function (event) {
+        var owner = this,
+            charCode = event.which || event.keyCode;
+
+        owner.lastInputValue = owner.element.value;
+        owner.isBackward = charCode === 8;
+    },
+
+    onChange: function (event) {
         var owner = this, pps = owner.properties,
-            charCode = event.which || event.keyCode,
-            Util = Cleave.Util,
-            currentValue = owner.element.value;
+            Util = Cleave.Util;
 
-        // if we got any charCode === 8, this means, that this device correctly
-        // sends backspace keys in event, so we do not need to apply any hacks
-        owner.hasBackspaceSupport = owner.hasBackspaceSupport || charCode === 8;
-        if (!owner.hasBackspaceSupport
-          && Util.isAndroidBackspaceKeydown(owner.lastInputValue, currentValue)
-        ) {
-            charCode = 8;
-        }
+        owner.isBackward = owner.isBackward || event.inputType === "deleteContentBackward";
 
-        owner.lastInputValue = currentValue;
+        var postDelimiter = Util.getPostDelimiter(owner.lastInputValue, pps.delimiter, pps.delimiters);
 
-        // hit backspace when last character is delimiter
-        var postDelimiter = Util.getPostDelimiter(currentValue, pps.delimiter, pps.delimiters);
-        if (charCode === 8 && postDelimiter) {
+        if (owner.isBackward && postDelimiter) {
             pps.postDelimiterBackspace = postDelimiter;
         } else {
             pps.postDelimiterBackspace = false;
         }
-    },
 
-    onChange: function () {
         this.onInput(this.element.value);
     },
 
     onFocus: function () {
         var owner = this,
             pps = owner.properties;
+        owner.lastInputValue = owner.element.value;
 
         if (pps.prefix && pps.noImmediatePrefix && !owner.element.value) {
             this.onInput(pps.prefix);
