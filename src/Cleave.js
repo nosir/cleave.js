@@ -178,7 +178,7 @@ Cleave.prototype = {
         var owner = this, pps = owner.properties,
             Util = Cleave.Util;
 
-        owner.isBackward = owner.isBackward || event.inputType === "deleteContentBackward";
+        owner.isBackward = owner.isBackward || event.inputType === 'deleteContentBackward';
 
         var postDelimiter = Util.getPostDelimiter(owner.lastInputValue, pps.delimiter, pps.delimiters);
 
@@ -304,7 +304,7 @@ Cleave.prototype = {
         value = pps.lowercase ? value.toLowerCase() : value;
 
         // prevent from showing prefix when no immediate option enabled with empty input value
-        if (pps.prefix && (!pps.noImmediatePrefix || value.length)) {
+        if (pps.prefix) {
             if (pps.tailPrefix) {
                 value = value + pps.prefix;
             } else {

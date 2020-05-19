@@ -91,6 +91,11 @@ var Util = {
           return value;
         }
 
+        // Value is prefix
+        if (value === prefix && value !== '') {
+          return ''
+        }
+
         if (signBeforePrefix && (value.slice(0, 1) == '-')) {
             var prev = (prevResult.slice(0, 1) == '-') ? prevResult.slice(1) : prevResult;
             return '-' + this.getPrefixStrippedValue(value.slice(1), prefix, prefixLength, prev, delimiter, delimiters, noImmediatePrefix, tailPrefix, signBeforePrefix);
