@@ -307,7 +307,7 @@ Cleave.prototype = {
         if (pps.prefix) {
             if (pps.tailPrefix) {
                 value = value + pps.prefix;
-            } else {
+            } else if(value !== pps.prefix) {
                 value = pps.prefix + value;
             }
 
