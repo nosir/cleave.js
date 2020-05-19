@@ -136,7 +136,7 @@ var Util = {
     getFormattedValue: function (value, blocks, blocksLength, delimiter, delimiters, delimiterLazyShow) {
         var result = '',
             multipleDelimiters = delimiters.length > 0,
-            currentDelimiter;
+            currentDelimiter = '';
 
         // no options, normal input
         if (blocksLength === 0) {

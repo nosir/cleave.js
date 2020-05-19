@@ -2660,7 +2660,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    getFormattedValue: function getFormattedValue(value, blocks, blocksLength, delimiter, delimiters, delimiterLazyShow) {
 	        var result = '',
 	            multipleDelimiters = delimiters.length > 0,
-	            currentDelimiter;
+	            currentDelimiter = '';
 
 	        // no options, normal input
 	        if (blocksLength === 0) {
