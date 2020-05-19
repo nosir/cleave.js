@@ -359,7 +359,7 @@ var cleaveReactClass = CreateReactClass({
         if (pps.prefix) {
             if (pps.tailPrefix) {
                 value = value + pps.prefix;
-            } else if (value !== pps.prefix) {
+            } else {
                 value = pps.prefix + value;
             }
 
