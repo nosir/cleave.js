@@ -1,6 +1,8 @@
 describe('Custom input field', function () {
     var field = document.querySelector('.input-custom');
 
+    beforeEach(function(){ field.value = ''; });
+
     it('should use custom blocks', function () {
         var cleave = new Cleave(field, {
             blocks: [3, 3, 3]
@@ -80,6 +82,16 @@ describe('Custom input field', function () {
 
         cleave.setRawValue('UFO123');
         assert.equal(field.value, 'UFO-123');
+    });
+
+    it('should use defined prefix with noImmediatePrefix enabled', function() {
+        var cleave = new Cleave(field, {
+            prefix: 'GTM-',
+            noImmediatePrefix: true
+        });
+
+        cleave.setRawValue('1001');
+        assert.equal(cleave.getFormattedValue(), 'GTM-1001');
     });
 
     it('should not trim prefix when rawValueTrimPrefix is not enabled', function () {

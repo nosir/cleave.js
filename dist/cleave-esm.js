@@ -1,4 +1,4 @@
-var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 var NumeralFormatter = function (numeralDecimalMark,
                                  numeralIntegerScale,
@@ -1361,7 +1361,7 @@ Cleave.prototype = {
         if (pps.prefix && (!pps.noImmediatePrefix || value.length)) {
             if (pps.tailPrefix) {
                 value = value + pps.prefix;
-            } else {
+            } else if(value !== pps.prefix) {
                 value = pps.prefix + value;
             }
 

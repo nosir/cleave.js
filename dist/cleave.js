@@ -366,7 +366,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (pps.prefix && (!pps.noImmediatePrefix || value.length)) {
 	            if (pps.tailPrefix) {
 	                value = value + pps.prefix;
-	            } else {
+	            } else if(value !== pps.prefix) {
 	                value = pps.prefix + value;
 	            }
 
