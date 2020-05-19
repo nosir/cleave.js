@@ -303,20 +303,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            pps = owner.properties,
 	            charCode = event.which || event.keyCode;
 
-	        // if we got any charCode === 8, this means, that this device correctly
-	        // sends backspace keys in event, so we do not need to apply any hacks
-	        owner.hasBackspaceSupport = owner.hasBackspaceSupport || charCode === 8;
-	        if (!owner.hasBackspaceSupport && Util.isAndroidBackspaceKeydown(owner.lastInputValue, pps.result)) {
-	            charCode = 8;
-	        }
-
-	        // hit backspace when last character is delimiter
-	        var postDelimiter = Util.getPostDelimiter(pps.result, pps.delimiter, pps.delimiters);
-	        if (charCode === 8 && postDelimiter) {
-	            pps.postDelimiterBackspace = postDelimiter;
-	        } else {
-	            pps.postDelimiterBackspace = false;
-	        }
+	        owner.lastInputValue = pps.result;
+	        owner.isBackward = charCode === 8;
 
 	        owner.registeredEvents.onKeyDown(event);
 	    },
@@ -350,6 +338,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    onChange: function onChange(event) {
 	        var owner = this,
 	            pps = owner.properties;
+
+	        owner.isBackward = owner.isBackward || event.inputType === 'deleteContentBackward';
+	        // hit backspace when last character is delimiter
+	        var postDelimiter = Util.getPostDelimiter(owner.lastInputValue, pps.delimiter, pps.delimiters);
+
+	        if (owner.isBackward && postDelimiter) {
+	            pps.postDelimiterBackspace = postDelimiter;
+	        } else {
+	            pps.postDelimiterBackspace = false;
+	        }
 
 	        owner.onInput(event.target.value);
 
@@ -422,10 +420,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value = pps.lowercase ? value.toLowerCase() : value;
 
 	        // prevent from showing prefix when no immediate option enabled with empty input value
-	        if (pps.prefix && (!pps.noImmediatePrefix || value.length)) {
+	        if (pps.prefix) {
 	            if (pps.tailPrefix) {
 	                value = value + pps.prefix;
-	            } else if (value !== pps.prefix) {
+	            } else {
 	                value = pps.prefix + value;
 	            }
 
@@ -2807,6 +2805,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // No prefix
 	        if (prefixLength === 0) {
 	            return value;
+	        }
+
+	        // Value is prefix
+	        if (value === prefix && value !== '') {
+	            return '';
 	        }
 
 	        if (signBeforePrefix && value.slice(0, 1) == '-') {

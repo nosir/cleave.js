@@ -94,6 +94,16 @@ describe('Custom input field', function () {
         assert.equal(cleave.getFormattedValue(), 'GTM-1001');
     });
 
+    it('should use defined prefix with noImmediatePrefix enabled', function() {
+        var cleave = new Cleave(field, {
+            prefix: 'GTM-',
+            noImmediatePrefix: true
+        });
+
+        cleave.setRawValue('');
+        assert.equal(cleave.getFormattedValue(), 'GTM-');
+    });
+
     it('should not trim prefix when rawValueTrimPrefix is not enabled', function () {
         var cleave = new Cleave(field, {
             prefix:             '$',

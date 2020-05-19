@@ -93,7 +93,7 @@ var Util = {
 
         // Value is prefix
         if (value === prefix && value !== '') {
-          return ''
+          return '';
         }
 
         if (signBeforePrefix && (value.slice(0, 1) == '-')) {
