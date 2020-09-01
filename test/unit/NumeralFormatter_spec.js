@@ -68,6 +68,9 @@ describe('NumeralFormatter', function () {
                 it('should convert number ' + number[0] + ' to ' + number[1], function () {
                     numeralFormatter.format(number[0]).should.eql(number[1]);
                 });
+                it('should convert number ' + number[1] + ' to ' + number[1], function () {
+                    numeralFormatter.format(number[1]).should.eql(number[1]);
+                });
             });
         });
     });
