@@ -242,8 +242,7 @@ var cleaveReactClass = CreateReactClass({
             pps = owner.properties,
             charCode = event.which || event.keyCode;
 
-        if (pps.prefix) {
-          console.log(pps.prefix, ' here');
+        if (pps.prefix && pps.numeral) {
           var start = event.target.selectionStart;
           if (start === 0 && event.target.value[pps.prefix.length] === '0') {
             event.target.selectionStart = event.target.selectionEnd = start + pps.prefix.length + 1;
