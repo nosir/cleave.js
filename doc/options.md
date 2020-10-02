@@ -38,6 +38,7 @@
     - [numericOnly](#numericonly)
     - [uppercase](#uppercase)
     - [lowercase](#lowercase)
+    - [firstUppercase](#firstuppercase)
     - [swapHiddenInput](#swaphiddeninput)
     - [onValueChanged](#onvaluechanged)
 
@@ -567,6 +568,14 @@ A `Boolean` value indicates if it converts value to uppercase letters.
 A `Boolean` value indicates if it converts value to lowercase letters.
 
 `lowercase` doesn't work on it's own, you have to either specify the shortcuts mode or `blocks` option to enable the formatter.
+
+**Default value**: `false`
+
+### `firstUppercase`
+
+A `Boolean` value indicates if it converts value to first character uppercase.
+
+`firstUppercase` doesn't work on it's own, you have to either specify the shortcuts mode or `blocks` option to enable the formatter.
 
 **Default value**: `false`
 
