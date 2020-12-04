@@ -262,7 +262,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    onCut: function (e) {
 	        if (!Cleave.Util.checkFullSelection(this.element.value)) return;
 	        this.copyClipboardData(e);
-	        this.onInput('');
+	        if (!this.element.readonly) {
+	           this.onInput('');
+	        }
 	    },
 
 	    onCopy: function (e) {
