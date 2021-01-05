@@ -50,6 +50,12 @@ DateFormatter.prototype = {
         return this.blocks;
     },
 
+    getMaxStringLength: function () {
+        return this.getBlocks().reduce(function(a, b) {
+            return a + b;
+        }, 0);
+    },
+
     getValidatedDate: function (value) {
         var owner = this, result = '';
 

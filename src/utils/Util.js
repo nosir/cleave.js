@@ -69,6 +69,34 @@ var Util = {
         return value;
     },
 
+    getDateTimeValue: function (value, dateFormatter, timeFormatter, delimiters) {
+
+        var splitDelimiterIndex = dateFormatter.getBlocks().length - 1;
+        var splitDelimiter = delimiters[splitDelimiterIndex];
+
+        var dateMaxStringLength = dateFormatter.getMaxStringLength();
+
+        var splittedValues = value.split(splitDelimiter);
+
+        // Split even if it is raw value
+        if(splittedValues.length == 1 && value.length > dateMaxStringLength) {
+            splittedValues = [
+                value.substring(0, dateMaxStringLength),
+                value.substring(dateMaxStringLength)
+            ];
+        }
+
+        var dateValue = splittedValues[0] ? dateFormatter.getValidatedDate(splittedValues[0]) : '';
+        var timeValue = splittedValues[1] ? timeFormatter.getValidatedTime(splittedValues[1]) : '';
+
+        if(timeValue)
+            value = dateValue + timeValue;
+        else
+            value = dateValue;
+
+        return value;
+    },
+
     headStr: function (str, length) {
         return str.slice(0, length);
     },

@@ -129,7 +129,15 @@ Cleave.prototype = {
         }
 
         pps.timeFormatter = new Cleave.TimeFormatter(pps.timePattern, pps.timeFormat);
-        pps.blocks = pps.timeFormatter.getBlocks();
+
+        var timeFormatterBlocks = pps.timeFormatter.getBlocks();
+        if(!pps.date) {
+            pps.blocks = timeFormatterBlocks;
+        }
+        else {
+            pps.blocks = pps.blocks.concat(timeFormatterBlocks);
+        }
+
         pps.blocksLength = pps.blocks.length;
         pps.maxLength = Cleave.Util.getMaxLength(pps.blocks);
     },
@@ -280,13 +288,14 @@ Cleave.prototype = {
             return;
         }
 
-        // date
-        if (pps.date) {
+        // date and time
+        if(pps.date && pps.time) {
+            value = Util.getDateTimeValue(value, pps.dateFormatter, pps.timeFormatter, pps.delimiters);
+        }
+        else if (pps.date) { // only date
             value = pps.dateFormatter.getValidatedDate(value);
         }
-
-        // time
-        if (pps.time) {
+        else if (pps.time) { // only time
             value = pps.timeFormatter.getValidatedTime(value);
         }
 
@@ -464,6 +473,28 @@ Cleave.prototype = {
             pps = owner.properties;
 
         return pps.time ? pps.timeFormatter.getISOFormatTime() : '';
+    },
+
+    getISOFormatDateTime: function () {
+        var owner = this,
+            pps = owner.properties;
+
+        if(pps.date && pps.time) {
+            var formattedDateTime = '';
+
+            var date = owner.getISOFormatDate();
+            var time = owner.getISOFormatTime();
+
+            if(date)
+                formattedDateTime += date;
+
+            if(time)
+                formattedDateTime += 'T' + time;
+
+            return formattedDateTime;
+        }
+        
+        return '';
     },
 
     getFormattedValue: function () {
