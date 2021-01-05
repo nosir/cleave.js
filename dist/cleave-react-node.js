@@ -2860,6 +2860,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	var DefaultProperties = {
+
+	        getDelimitersFromPattern: function getDelimitersFromPattern(patternArray, delimiterToInsert) {
+	                return patternArray.flatMap(function (value, index) {
+	                        if (index == 0) return [];
+
+	                        return delimiterToInsert;
+	                });
+	        },
+
 	        // Maybe change to object-assign
 	        // for now just keep it as simple
 	        assign: function assign(target, opts) {
@@ -2920,7 +2929,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	                target.delimiter = opts.delimiter || opts.delimiter === '' ? opts.delimiter : opts.date ? '/' : opts.time ? ':' : opts.numeral ? ',' : opts.phone ? ' ' : ' ';
 	                target.delimiterLength = target.delimiter.length;
 	                target.delimiterLazyShow = !!opts.delimiterLazyShow;
-	                target.delimiters = opts.delimiters || [];
+
+	                target.delimiters = opts.delimiters ? opts.delimiters : target.date === true && target.time === true ? [this.getDelimitersFromPattern(target.datePattern, '/'), ' ', this.getDelimitersFromPattern(target.timePattern, ':')].flat() : [];
 
 	                target.blocks = opts.blocks || [];
 	                target.blocksLength = target.blocks.length;
