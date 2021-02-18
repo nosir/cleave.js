@@ -223,6 +223,10 @@ Please check [here](https://github.com/nosir/cleave.js/blob/master/doc/vue.md)
 ## jQuery fn usage
 Please check [here](https://github.com/nosir/cleave.js/issues/341)
 
+## Django Widget usage
+Please check [here](https://pypi.org/project/django-cleavejs/) for an integration into
+[Django](https://www.djangoproject.com/) forms.
+
 ## Playground
 
 - [Plain JSFiddle (Basic usage)](https://jsfiddle.net/nosir/kbaxx64s/)
