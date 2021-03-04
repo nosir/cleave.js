@@ -36,6 +36,7 @@
     - [noImmediatePrefix](#noimmediateprefix)
     - [rawValueTrimPrefix](#rawvaluetrimprefix)
     - [numericOnly](#numericonly)
+    - [hexadecimalOnly](#hexadecimalonly)
     - [uppercase](#uppercase)
     - [lowercase](#lowercase)
     - [swapHiddenInput](#swaphiddeninput)
@@ -551,6 +552,16 @@ A `Boolean` value indicates if it only allows numeric letters (0-9).
 Ignored by `creditCard` and `date` shortcuts mode, the value will always be `true`.
 
 `numericOnly` doesn't work on it's own, you have to either specify the shortcuts mode or `blocks` option to enable the formatter.
+
+**Default value**: `false`
+
+### `hexadecimalOnly`
+
+A `Boolean` value indicates if it only allows hexadecimal characters (0-9, a-f, A-F).
+
+Ignored by `creditCard` and `date` shortcuts mode, the value will always be `true`.
+
+`hexadecimalOnly` doesn't work on it's own, you have to either specify the shortcuts mode or `blocks` option to enable the formatter.
 
 **Default value**: `false`
 
