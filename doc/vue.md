@@ -5,6 +5,8 @@ While this package does not have an official support for use in VueJs. This can 
 
 ## To use globally
 
+### Vue 2.x
+
 ```js
 import Vue from 'vue'
 import Cleave from 'cleave.js';
@@ -22,8 +24,29 @@ Vue.directive('cleave', {
     }
 })
 ```
+### Vue 3.x
+
+```js
+import Vue from 'vue'
+import Cleave from 'cleave.js';
+
+Vue.directive('cleave', {
+    mounted: (el, binding) => {
+        el.cleave = new Cleave(el, binding.value || {})
+    },
+    updated: (el) => {
+        const event = new Event('input', {bubbles: true});
+        setTimeout(function () {
+            el.value = el.cleave.properties.result
+            el.dispatchEvent(event)
+        }, 100);
+    }
+})
+```
 
 ## To use as a local local directive
+
+### Vue 2.x
 
 ```js
 import Cleave from 'cleave.js';
@@ -36,6 +59,32 @@ export default {
                 el.cleave = new Cleave(el, binding.value || {})
             },
             update: (el) => {
+                const event = new Event('input', {bubbles: true});
+                setTimeout(function () {
+                    el.value = el.cleave.properties.result
+                    el.dispatchEvent(event)
+                }, 100);
+            }
+        }
+    }
+    ...
+}
+```
+
+### Vue 3.x
+
+
+```js
+import Cleave from 'cleave.js';
+export default {
+
+    ...
+    directives: {
+        mounted: {
+            inserted: (el, binding) => {
+                el.cleave = new Cleave(el, binding.value || {})
+            },
+            updated: (el) => {
                 const event = new Event('input', {bubbles: true});
                 setTimeout(function () {
                     el.value = el.cleave.properties.result
