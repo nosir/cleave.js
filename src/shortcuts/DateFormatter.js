@@ -218,9 +218,10 @@ DateFormatter.prototype = {
         month = Math.min(month, 12);
         year = parseInt((year || 0), 10);
 
-        if ((month < 7 && month % 2 === 0) || (month > 8 && month % 2 === 1)) {
-            day = Math.min(day, month === 2 ? (this.isLeapYear(year) ? 29 : 28) : 30);
-        }
+        // disable date auto correct based on month
+        // if ((month < 7 && month % 2 === 0) || (month > 8 && month % 2 === 1)) {
+        //     day = Math.min(day, month === 2 ? (this.isLeapYear(year) ? 29 : 28) : 30);
+        // }
 
         return [day, month, year];
     },
