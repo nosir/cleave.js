@@ -69,6 +69,8 @@ describe('Numeral input field', function () {
 
         cleave.setRawValue('-1234.56');
         assert.equal(field.value, '1,234.56');
+
+      // TODO: 'should use defined strict positive only option'
     });
 
     it('it should not strip leading zeroes', function () {

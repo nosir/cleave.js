@@ -6,6 +6,7 @@
  * @param {String | HTMLElement} element
  * @param {Object} opts
  */
+
 var Cleave = function (element, opts) {
     var owner = this;
     var hasMultipleElements = false;
@@ -60,6 +61,7 @@ Cleave.prototype = {
         owner.isBackward = '';
 
         owner.onChangeListener = owner.onChange.bind(owner);
+        owner.onBlurListener = owner.onBlur.bind(owner);
         owner.onKeyDownListener = owner.onKeyDown.bind(owner);
         owner.onFocusListener = owner.onFocus.bind(owner);
         owner.onCutListener = owner.onCut.bind(owner);
@@ -68,6 +70,7 @@ Cleave.prototype = {
         owner.initSwapHiddenInput();
 
         owner.element.addEventListener('input', owner.onChangeListener);
+        owner.element.addEventListener('blur', owner.onBlurListener );
         owner.element.addEventListener('keydown', owner.onKeyDownListener);
         owner.element.addEventListener('focus', owner.onFocusListener);
         owner.element.addEventListener('cut', owner.onCutListener);
@@ -339,6 +342,20 @@ Cleave.prototype = {
         owner.updateValueState();
     },
 
+    onBlur: function () {
+      var owner = this, pps = owner.properties,
+        value = parseFloat(owner.getRawValue());
+
+      // numeral formatter
+      if (pps.numeral && (isNaN(value) // if `.` only entered
+        || (pps.numeralPositiveOnly === 'strict' && value === 0))) {
+        pps.result = '';
+        owner.updateValueState();
+
+        return;
+      }
+    },
+
     updateCreditCardPropsByValue: function (value) {
         var owner = this, pps = owner.properties,
             Util = Cleave.Util,
@@ -474,6 +491,7 @@ Cleave.prototype = {
         var owner = this;
 
         owner.element.removeEventListener('input', owner.onChangeListener);
+        owner.element.removeEventListener('blur', owner.onBlurListener);
         owner.element.removeEventListener('keydown', owner.onKeyDownListener);
         owner.element.removeEventListener('focus', owner.onFocusListener);
         owner.element.removeEventListener('cut', owner.onCutListener);
