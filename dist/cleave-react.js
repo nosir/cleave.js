@@ -327,7 +327,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    onBlur: function onBlur(event) {
 	        var owner = this,
-	            pps = owner.properties;
+	            pps = owner.properties,
+	            value = parseFloat(owner.getRawValue());
+
+	        // numeral formatter
+	        if (pps.numeral && (isNaN(value) // if `.` only entered
+	        || pps.numeralPositiveOnly === 'strict' && value === 0)) {
+	            pps.result = '';
+	        }
 
 	        event.target.rawValue = owner.getRawValue();
 	        event.target.value = pps.result;
@@ -3034,7 +3041,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        target.numeralDecimalScale = opts.numeralDecimalScale >= 0 ? opts.numeralDecimalScale : 2;
 	        target.numeralDecimalMark = opts.numeralDecimalMark || '.';
 	        target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
-	        target.numeralPositiveOnly = !!opts.numeralPositiveOnly;
+	        target.numeralPositiveOnly = opts.numeralPositiveOnly;
 	        target.stripLeadingZeroes = opts.stripLeadingZeroes !== false;
 	        target.signBeforePrefix = !!opts.signBeforePrefix;
 	        target.tailPrefix = !!opts.tailPrefix;

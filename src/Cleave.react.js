@@ -264,7 +264,14 @@ var cleaveReactClass = CreateReactClass({
     },
 
     onBlur: function (event) {
-        var owner = this, pps = owner.properties;
+        var owner = this, pps = owner.properties,
+          value = parseFloat(owner.getRawValue());
+
+        // numeral formatter
+        if (pps.numeral && (isNaN(value) // if `.` only entered
+          || (pps.numeralPositiveOnly === 'strict' && value === 0))) {
+          pps.result = '';
+        }
 
         event.target.rawValue = owner.getRawValue();
         event.target.value = pps.result;

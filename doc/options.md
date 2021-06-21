@@ -339,7 +339,9 @@ new Cleave('.my-input', {
 
 ### `numeralPositiveOnly`
 
-A `Boolean` value indicates if it only allows positive numeral value
+A `Boolean` or `String` value indicates if it only allows positive numeral value
+
+For `String` type, only the word `strict` in lowercase is available to indicate even `zero (0)` is not acceptable.
 
 **Default value**: `false`
 
@@ -351,7 +353,20 @@ new Cleave('.my-input', {
 ```
 
 ```js
+// -1234.56 entered
 // 1234.56
+```
+
+```js
+new Cleave('.my-input', {
+    numeral: true,
+    numeralPositiveOnly: 'strict'
+});
+```
+
+```js
+// `zero` (-0.0000) entered
+// (blank)
 ```
 
 ### `signBeforePrefix`
