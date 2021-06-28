@@ -335,9 +335,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	        owner.registeredEvents.onBlur(event);
 	    },
 
+	    isComposition: false,
+
 	    onChange: function onChange(event) {
 	        var owner = this,
 	            pps = owner.properties;
+
+	        if (this.isComposition) {
+	            pps.result = event.target.value;
+	            owner.updateValueState();
+	            return;
+	        }
 
 	        owner.isBackward = owner.isBackward || event.inputType === 'deleteContentBackward';
 	        // hit backspace when last character is delimiter
@@ -355,6 +363,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	        event.target.value = pps.result;
 
 	        owner.registeredEvents.onChange(event);
+	    },
+
+	    onCompositionStart: function onCompositionStart(event) {
+	        this.isComposition = true;
+	    },
+
+	    onCompositionEnd: function onCompositionEnd(event) {
+	        this.isComposition = false;
+	        this.onChange(event);
 	    },
 
 	    onInput: function onInput(value, fromProps) {
@@ -532,7 +549,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            onKeyDown: owner.onKeyDown,
 	            onChange: owner.onChange,
 	            onFocus: owner.onFocus,
-	            onBlur: owner.onBlur
+	            onBlur: owner.onBlur,
+	            onCompositionStart: owner.onCompositionStart,
+	            onCompositionEnd: owner.onCompositionEnd
 	        }, propsToTransfer));
 	    }
 	});

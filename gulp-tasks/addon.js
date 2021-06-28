@@ -3,7 +3,6 @@ var path = require('path');
 var rename = require('gulp-rename');
 var rimraf = require('gulp-rimraf');
 var uglify = require('gulp-uglify');
-var gulpsync = require('gulp-sync')(gulp);
 
 var paths = {
     src:    './src',
@@ -29,4 +28,4 @@ gulp.task('addon:build', function () {
         .pipe(gulp.dest(path.join(paths.dist, paths.addons)));
 });
 
-gulp.task('addon', gulpsync.sync(['addon:clean', 'addon:build']));
+gulp.task('addon', gulp.parallel('addon:clean', 'addon:build'));

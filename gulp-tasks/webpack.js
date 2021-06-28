@@ -101,3 +101,14 @@ gulp.task('js:react', function () {
         }))
         .pipe(gulp.dest(paths.dist));
 });
+
+gulp.task('build', gulp.series(
+    // sync
+    'js:vanilla',
+    'js:react',
+    'js:react-node',
+    'js:angular-merge',
+    'js:angular',
+    'js:esm',
+    'js:esm-min',
+));

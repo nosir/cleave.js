@@ -272,9 +272,16 @@ var cleaveReactClass = CreateReactClass({
         owner.registeredEvents.onBlur(event);
     },
 
+    isComposition: false,
 
     onChange: function (event) {
         var owner = this, pps = owner.properties;
+
+        if (this.isComposition) {
+            pps.result = event.target.value;
+            owner.updateValueState();
+            return;
+        }
 
         owner.isBackward = owner.isBackward || event.inputType === 'deleteContentBackward';
         // hit backspace when last character is delimiter
@@ -292,6 +299,15 @@ var cleaveReactClass = CreateReactClass({
         event.target.value = pps.result;
 
         owner.registeredEvents.onChange(event);
+    },
+
+    onCompositionStart: function (event) {
+        this.isComposition = true;
+    },
+
+    onCompositionEnd: function (event) {
+        this.isComposition = false;
+        this.onChange(event);
     },
 
     onInput: function (value, fromProps) {
@@ -463,6 +479,8 @@ var cleaveReactClass = CreateReactClass({
                 onChange={owner.onChange}
                 onFocus={owner.onFocus}
                 onBlur={owner.onBlur}
+                onCompositionStart={owner.onCompositionStart}
+                onCompositionEnd={owner.onCompositionEnd}
                 {...propsToTransfer}
             />
         );

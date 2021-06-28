@@ -3,7 +3,6 @@ var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var path = require('path');
 var header = require('gulp-header');
-var gulpsync = require('gulp-sync')(gulp);
 var fs = require('fs');
 var del = require('del');
 
@@ -54,25 +53,22 @@ gulp.task('min-no-mangle', function () {
         .pipe(gulp.dest(path.join(paths.dist)));
 });
 
-gulp.task('clean', function () {
+gulp.task('clean', function (done) {
     del([paths.tmp])
+    done()
 });
 
-gulp.task('build', gulpsync.sync([
+gulp.task('build', gulp.parallel(
     // sync
-    'js:vanilla',
-    'js:react',
-    'js:react-node',
-    'js:angular-merge',
-    'js:angular',
-    [
-        'js:esm',
-        'js:esm-min'
-    ],
-    [
-        // async
-        'min-mangle',
-        'min-no-mangle'
-    ],
+    // 'js:vanilla',
+    // 'js:react',
+    // 'js:react-node',
+    // 'js:angular-merge',
+    // 'js:angular',
+    // 'js:esm',
+    // 'js:esm-min',
+    // async
+    'min-mangle',
+    'min-no-mangle',
     'clean'
-]));
+));
