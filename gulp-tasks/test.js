@@ -3,7 +3,6 @@ var mocha = require('gulp-mocha');
 var path = require('path');
 var should = require('should');
 var eslint = require('gulp-eslint');
-var gulpsync = require('gulp-sync')(gulp);
 var mochaPhantomJS = require('gulp-mocha-phantomjs');
 
 var paths = {
@@ -54,6 +53,6 @@ gulp.task('eslint', function () {
         .pipe(eslint.failAfterError());
 });
 
-gulp.task('test', gulpsync.sync(['unit', 'browser']));
+gulp.task('test', gulp.parallel('unit', 'browser'));
 
-gulp.task('publish', gulpsync.sync(['build', 'test', 'eslint']));
+gulp.task('publish', gulp.parallel('build', 'test', 'eslint'));
