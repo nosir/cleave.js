@@ -3,6 +3,8 @@ Please check [here](https://github.com/nosir/cleave.js/issues/341)
 
 While this package does not have an official support for use in VueJs. This can be done in few simple steps.
 
+**For Vue 3 it's necessary to migrate methods:** `inserted` → `mounted`, `update` → `updated`.
+
 ## To use globally
 
 ```js
