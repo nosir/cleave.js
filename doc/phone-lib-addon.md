@@ -68,7 +68,7 @@ Please be aware this is the **wrong** way:
 <script src="cleave-phone.us.js"></script>
 ```
 
-Don't include addons one by one, instead, you should build your owner country combination lib like `(US & CA).js`
+Don't include addons one by one, instead, you should build your own country combination lib like `(US & CA).js`
 
 To build it by yourself, please see [here](https://github.com/nosir/libphonenumber-country-metadata#build-phone-type-formatterjs-for-cleavejs).
 
