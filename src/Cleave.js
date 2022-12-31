@@ -113,6 +113,7 @@ Cleave.prototype = {
             pps.numeralDecimalScale,
             pps.numeralThousandsGroupStyle,
             pps.numeralPositiveOnly,
+            pps.numeralDecimalPadding,
             pps.stripLeadingZeroes,
             pps.prefix,
             pps.signBeforePrefix,
@@ -270,7 +271,7 @@ Cleave.prototype = {
         if (pps.numeral) {
             // Do not show prefix when noImmediatePrefix is specified
             // This mostly because we need to show user the native input placeholder
-            if (pps.prefix && pps.noImmediatePrefix && value.length === 0) {
+            if (pps.prefix && pps.noImmediatePrefix && value.length === 0 && !pps.numeralDecimalPadding) {
                 pps.result = '';
             } else {
                 pps.result = pps.numeralFormatter.format(value);
@@ -376,7 +377,7 @@ Cleave.prototype = {
         var oldValue = owner.element.value;
         var newValue = pps.result;
 
-        endPos = Util.getNextCursorPosition(endPos, oldValue, newValue, pps.delimiter, pps.delimiters);
+        endPos = Util.getNextCursorPosition(endPos, oldValue, newValue, pps);
 
         // fix Android browser type="text" input field
         // cursor not jumping issue

@@ -43,6 +43,7 @@ var DefaultProperties = {
         target.numeralDecimalMark = opts.numeralDecimalMark || '.';
         target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
         target.numeralPositiveOnly = !!opts.numeralPositiveOnly;
+        target.numeralDecimalPadding = opts.numeralDecimalPadding !== false;
         target.stripLeadingZeroes = opts.stripLeadingZeroes !== false;
         target.signBeforePrefix = !!opts.signBeforePrefix;
         target.tailPrefix = !!opts.tailPrefix;

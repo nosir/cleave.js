@@ -24,6 +24,7 @@
     - [numeralDecimalScale](#numeraldecimalscale)
     - [numeralDecimalMark](#numeraldecimalmark)
     - [numeralPositiveOnly](#numeralpositiveonly)
+    - [numeralDecimalPadding](#numeralDecimalPadding)
     - [signBeforePrefix](#signbeforeprefix)
     - [tailPrefix](#tailprefix)
     - [stripLeadingZeroes](#stripleadingzeroes)
@@ -352,6 +353,24 @@ new Cleave('.my-input', {
 
 ```js
 // 1234.56
+```
+
+### `numeralDecimalPadding`
+
+A `Boolean` value indicates padding decimals with zeros.
+
+**Default value**: `false`
+
+```js
+new Cleave('.my-input', {
+    numeral: true,
+    numeralDecimalScale: 2,
+    numeralDecimalPadding: true
+});
+```
+
+```js
+// 1234.00
 ```
 
 ### `signBeforePrefix`

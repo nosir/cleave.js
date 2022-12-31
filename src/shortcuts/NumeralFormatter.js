@@ -5,6 +5,7 @@ var NumeralFormatter = function (numeralDecimalMark,
                                  numeralDecimalScale,
                                  numeralThousandsGroupStyle,
                                  numeralPositiveOnly,
+                                 numeralDecimalPadding,
                                  stripLeadingZeroes,
                                  prefix,
                                  signBeforePrefix,
@@ -17,6 +18,7 @@ var NumeralFormatter = function (numeralDecimalMark,
     owner.numeralDecimalScale = numeralDecimalScale >= 0 ? numeralDecimalScale : 2;
     owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
     owner.numeralPositiveOnly = !!numeralPositiveOnly;
+    owner.numeralDecimalPadding = numeralDecimalPadding !== false;
     owner.stripLeadingZeroes = stripLeadingZeroes !== false;
     owner.prefix = (prefix || prefix === '') ? prefix : '';
     owner.signBeforePrefix = !!signBeforePrefix;
@@ -108,6 +110,17 @@ NumeralFormatter.prototype = {
             partInteger = partInteger.replace(/(\d)(?=(\d{3})+$)/g, '$1' + owner.delimiter);
 
             break;
+        }
+
+        if (owner.numeralDecimalPadding) {
+            if (owner.numeralDecimalScale > 0) {
+                if (partInteger.toString() === '') {
+                    partInteger = '0';
+                }
+                partDecimal = String((partDecimal === '' ? owner.numeralDecimalMark : partDecimal)).padEnd(
+                    owner.numeralDecimalScale + owner.numeralDecimalMark.length,
+                    '0');
+            }
         }
 
         if (owner.tailPrefix) {
