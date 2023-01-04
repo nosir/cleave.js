@@ -169,6 +169,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            pps.numeralDecimalScale,
 	            pps.numeralThousandsGroupStyle,
 	            pps.numeralPositiveOnly,
+	            pps.numeralDecimalPadding,
 	            pps.stripLeadingZeroes,
 	            pps.prefix,
 	            pps.signBeforePrefix,
@@ -326,7 +327,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (pps.numeral) {
 	            // Do not show prefix when noImmediatePrefix is specified
 	            // This mostly because we need to show user the native input placeholder
-	            if (pps.prefix && pps.noImmediatePrefix && value.length === 0) {
+	            if (pps.prefix && pps.noImmediatePrefix && value.length === 0 && !pps.numeralDecimalPadding) {
 	                pps.result = '';
 	            } else {
 	                pps.result = pps.numeralFormatter.format(value);
@@ -432,7 +433,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var oldValue = owner.element.value;
 	        var newValue = pps.result;
 
-	        endPos = Util.getNextCursorPosition(endPos, oldValue, newValue, pps.delimiter, pps.delimiters);
+	        endPos = Util.getNextCursorPosition(endPos, oldValue, newValue, pps);
 
 	        // fix Android browser type="text" input field
 	        // cursor not jumping issue
@@ -568,6 +569,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                 numeralDecimalScale,
 	                                 numeralThousandsGroupStyle,
 	                                 numeralPositiveOnly,
+	                                 numeralDecimalPadding,
 	                                 stripLeadingZeroes,
 	                                 prefix,
 	                                 signBeforePrefix,
@@ -580,6 +582,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    owner.numeralDecimalScale = numeralDecimalScale >= 0 ? numeralDecimalScale : 2;
 	    owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
 	    owner.numeralPositiveOnly = !!numeralPositiveOnly;
+	    owner.numeralDecimalPadding = numeralDecimalPadding !== false;
 	    owner.stripLeadingZeroes = stripLeadingZeroes !== false;
 	    owner.prefix = (prefix || prefix === '') ? prefix : '';
 	    owner.signBeforePrefix = !!signBeforePrefix;
@@ -671,6 +674,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	            partInteger = partInteger.replace(/(\d)(?=(\d{3})+$)/g, '$1' + owner.delimiter);
 
 	            break;
+	        }
+
+	        if (owner.numeralDecimalPadding) {
+	            if (owner.numeralDecimalScale > 0) {
+	                if (partInteger.toString() === '') {
+	                    partInteger = '0';
+	                }
+	                partDecimal = String((partDecimal === '' ? owner.numeralDecimalMark : partDecimal)).padEnd(
+	                    owner.numeralDecimalScale + owner.numeralDecimalMark.length,
+	                    '0');
+	            }
 	        }
 
 	        if (owner.tailPrefix) {
@@ -1323,24 +1337,64 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return new RegExp(delimiter.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1'), 'g');
 	    },
 
-	    getNextCursorPosition: function (prevPos, oldValue, newValue, delimiter, delimiters) {
-	      // If cursor was at the end of value, just place it back.
-	      // Because new value could contain additional chars.
-	      if (oldValue.length === prevPos) {
-	          return newValue.length;
-	      }
+	    getNextCursorPosition: function (prevPos, oldValue, newValue, pps) {
+	        // If cursor was at the end of value, just place it back.
+	        // Because new value could contain additional chars.
+	        if (oldValue.length === prevPos && !pps.numeralDecimalPadding) {
+	            return newValue.length;
+	        }
 
-	      return prevPos + this.getPositionOffset(prevPos, oldValue, newValue, delimiter ,delimiters);
+	        return prevPos + this.getPositionOffset(prevPos, oldValue, newValue, pps);
 	    },
 
-	    getPositionOffset: function (prevPos, oldValue, newValue, delimiter, delimiters) {
+	    getPositionOffset: function (prevPos, oldValue, newValue, pps) {
 	        var oldRawValue, newRawValue, lengthOffset;
 
-	        oldRawValue = this.stripDelimiters(oldValue.slice(0, prevPos), delimiter, delimiters);
-	        newRawValue = this.stripDelimiters(newValue.slice(0, prevPos), delimiter, delimiters);
+	        oldRawValue = this.stripDelimiters(oldValue.slice(0, prevPos), pps.delimiter, pps.delimiters);
+	        newRawValue = this.stripDelimiters(newValue.slice(0, prevPos), pps.delimiter, pps.delimiters);
 	        lengthOffset = oldRawValue.length - newRawValue.length;
 
-	        return (lengthOffset !== 0) ? (lengthOffset / Math.abs(lengthOffset)) : 0;
+	        if (pps.numeral && pps.numeralDecimalPadding && pps.numeralDecimalScale > 0) {
+	            // in prefix
+	            if (pps.prefix) {
+	                if (!pps.tailPrefix) {
+	                    if (prevPos <= pps.prefixLength) {
+	                        return pps.prefixLength;
+	                    }
+	                }
+	            }
+	            const decimalMarkPos = newValue.indexOf(pps.numeralDecimalMark);
+	            if (oldValue === '') {
+	                return -prevPos + decimalMarkPos;
+	            }
+	            if (oldValue.charAt(prevPos) === pps.numeralDecimalMark) {
+	                if (prevPos > 0 && oldValue.charAt(prevPos - 1) === pps.numeralDecimalMark) {
+	                    return -prevPos + decimalMarkPos + 1;
+	                }
+	                else {
+	                    return -prevPos + decimalMarkPos;
+	                }
+	            }
+	            // on the left of decimal mark
+	            if (prevPos < decimalMarkPos) {
+	                return (lengthOffset !== 0) ? (lengthOffset / Math.abs(lengthOffset)) : 0;
+	            }
+	            if (prevPos == decimalMarkPos) {
+	                return (lengthOffset !== 0) ? (lengthOffset / Math.abs(lengthOffset)) : 0;
+	            }
+	            else {
+	                // on the right of decimal mark
+	                if (prevPos <= decimalMarkPos + pps.numeralDecimalScale + 1) {
+	                    return 0;
+	                }
+	                else {
+	                    return -1;
+	                }
+	            }
+	        }
+	        else {
+	            return (lengthOffset !== 0) ? (lengthOffset / Math.abs(lengthOffset)) : 0;
+	        }
 	    },
 
 	    stripDelimiters: function (value, delimiter, delimiters) {
@@ -1611,6 +1665,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        target.numeralDecimalMark = opts.numeralDecimalMark || '.';
 	        target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
 	        target.numeralPositiveOnly = !!opts.numeralPositiveOnly;
+	        target.numeralDecimalPadding = opts.numeralDecimalPadding !== false;
 	        target.stripLeadingZeroes = opts.stripLeadingZeroes !== false;
 	        target.signBeforePrefix = !!opts.signBeforePrefix;
 	        target.tailPrefix = !!opts.tailPrefix;
