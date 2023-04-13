@@ -70,9 +70,11 @@ var cleaveReactClass = CreateReactClass({
             options = {};
         }
 
-        options.initValue = value;
-
-        owner.properties = DefaultProperties.assign({}, options);
+        owner.properties = DefaultProperties.assign(
+            {},
+            Object.assign({}, options, { initValue: value })
+        );
+      
 
         return {
             value: owner.properties.result,
