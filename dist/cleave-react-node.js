@@ -144,9 +144,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            options = {};
 	        }
 
-	        options.initValue = value;
-
-	        owner.properties = DefaultProperties.assign({}, options);
+	        owner.properties = DefaultProperties.assign({},
+	        // avoid mutating the `options` prop directly
+	        Object.assign({}, options, { initValue: value }));
 
 	        return {
 	            value: owner.properties.result,
