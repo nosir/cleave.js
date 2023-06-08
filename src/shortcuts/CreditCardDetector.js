@@ -15,6 +15,7 @@ var CreditCardDetector = {
         visa:          [4, 4, 4, 4],
         mir:           [4, 4, 4, 4],
         unionPay:      [4, 4, 4, 4],
+        troy:          [4, 4, 4, 4],
         general:       [4, 4, 4, 4]
     },
 
@@ -56,7 +57,10 @@ var CreditCardDetector = {
         visa: /^4\d{0,15}/,
 
         // starts with 62/81; 16 digits
-        unionPay: /^(62|81)\d{0,14}/
+        unionPay: /^(62|81)\d{0,14}/,
+
+        // starts with 9792; 16 digits
+        troy: /^9792\d{0,12}/
     },
 
     getStrictBlocks: function (block) {
