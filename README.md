@@ -1,3 +1,9 @@
+# ⚠️ Deprecated Message
+
+**Message:** Kindly note that this library has been deprecated. If you are still interested in using Cleave, please explore the new version available at: [cleave-zen](https://github.com/nosir/cleave-zen).
+
+And this is the message from author: https://github.com/nosir/cleave.js/issues/723
+
 # Cleave.js
 
 [![Travis](https://img.shields.io/travis/nosir/cleave.js.svg?maxAge=2592000)](https://travis-ci.org/nosir/cleave.js)
@@ -41,6 +47,7 @@ npm install --save cleave.js
 cleave.js is available on [jsDelivr](https://www.jsdelivr.com/package/npm/cleave.js) and on [cdnjs.com](https://cdnjs.com/libraries/cleave.js)
 
 #### old school
+
 Grab file from [dist](https://github.com/nosir/cleave.js/tree/master/dist) directory
 
 ## Usage
@@ -57,23 +64,24 @@ Simply include
 Then have a text field
 
 ```html
-<input class="input-phone" type="text"/>
+<input class="input-phone" type="text" />
 ```
 
 Now in your JavaScript
 
 ```js
 var cleave = new Cleave('.input-phone', {
-    phone: true,
-    phoneRegionCode: '{country}'
-});
+  phone: true,
+  phoneRegionCode: '{country}',
+})
 ```
 
-> `.input-element` here is a unique DOM element. If you want to apply Cleave for multiple elements, you need to give different CSS selectors and apply to each of them, effectively, you might want to create individual instance by a loop, e.g. [loop  solution](https://github.com/nosir/cleave.js/issues/138#issuecomment-268024840)
+> `.input-element` here is a unique DOM element. If you want to apply Cleave for multiple elements, you need to give different CSS selectors and apply to each of them, effectively, you might want to create individual instance by a loop, e.g. [loop solution](https://github.com/nosir/cleave.js/issues/138#issuecomment-268024840)
 
 More examples: [the demo page](http://nosir.github.io/cleave.js/)
 
 #### CommonJS
+
 ```js
 var Cleave = require('cleave.js');
 require('cleave.js/dist/addons/cleave-phone.{country}');
@@ -90,6 +98,7 @@ require(['cleave.js/dist/cleave.min', 'cleave.js/dist/addons/cleave-phone.{count
 ```
 
 #### ES Module
+
 ```js
 // Rollup, WebPack
 import Cleave from 'cleave.js';
@@ -105,55 +114,56 @@ var cleave = new Cleave(...)
 Types are contributed by the community and are available via `npm install --save-dev @types/cleave.js`. Once installed, you can import Cleave like the following:
 
 ```ts
-import Cleave = require('cleave.js');
+import Cleave = require('cleave.js')
 ```
 
 Types for the React-component are also available and can be imported in the same way.
 
 ```ts
-import Cleave = require('cleave.js/react');
+import Cleave = require('cleave.js/react')
 ```
 
 ## ReactJS component usage
 
 ```js
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
 
-import Cleave from 'cleave.js/react';
+import Cleave from 'cleave.js/react'
 ```
 
 Then in JSX:
 
 ```js
 class MyComponent extends React.Component {
+  constructor(props, context) {
+    super(props, context)
+    this.onCreditCardChange = this.onCreditCardChange.bind(this)
+    this.onCreditCardFocus = this.onCreditCardFocus.bind(this)
+  }
 
-    constructor(props, context) {
-        super(props, context);
-        this.onCreditCardChange = this.onCreditCardChange.bind(this);
-        this.onCreditCardFocus = this.onCreditCardFocus.bind(this);
-    }
+  onCreditCardChange(event) {
+    // formatted pretty value
+    console.log(event.target.value)
 
-    onCreditCardChange(event) {
-        // formatted pretty value
-        console.log(event.target.value);
+    // raw value
+    console.log(event.target.rawValue)
+  }
 
-        // raw value
-        console.log(event.target.rawValue);
-    }
+  onCreditCardFocus(event) {
+    // update some state
+  }
 
-    onCreditCardFocus(event) {
-        // update some state
-    }
-
-    render() {
-        return (
-            <Cleave placeholder="Enter your credit card number"
-                options={{creditCard: true}}
-                onFocus={this.onCreditCardFocus}
-                onChange={this.onCreditCardChange} />
-        );
-    }
+  render() {
+    return (
+      <Cleave
+        placeholder='Enter your credit card number'
+        options={{ creditCard: true }}
+        onFocus={this.onCreditCardFocus}
+        onChange={this.onCreditCardChange}
+      />
+    )
+  }
 }
 ```
 
@@ -185,42 +195,50 @@ First include the directive module:
 And in your model:
 
 ```js
-angular.module('app', ['cleave.js'])
+angular
+  .module('app', ['cleave.js'])
 
-.controller('AppController', function($scope) {
-    $scope.onCreditCardTypeChanged = function(type) {
-        $scope.model.creditCardType = type;
-    };
+  .controller('AppController', function ($scope) {
+    $scope.onCreditCardTypeChanged = function (type) {
+      $scope.model.creditCardType = type
+    }
 
     $scope.model = {
-        rawValue: ''
-    };
+      rawValue: '',
+    }
 
     $scope.options = {
-        creditCard: {
-            creditCard: true,
-            onCreditCardTypeChanged: $scope.onCreditCardTypeChanged
-        }
-    };
-});
+      creditCard: {
+        creditCard: true,
+        onCreditCardTypeChanged: $scope.onCreditCardTypeChanged,
+      },
+    }
+  })
 ```
 
 Then easily you can apply `cleave` directive to `input` field:
 
 ```html
 <div ng-controller="AppController">
-    <input ng-model="model.rawValue" ng-whatever="..." type="text" placeholder="Enter credit card number"
-        cleave="options.creditCard"/>
+  <input
+    ng-model="model.rawValue"
+    ng-whatever="..."
+    type="text"
+    placeholder="Enter credit card number"
+    cleave="options.creditCard"
+  />
 </div>
 ```
 
 More usage in documentation: [Angular directive usage](https://github.com/nosir/cleave.js/blob/master/doc/angularjs-directive-usage.md)
 
 ## Use in VueJs
+
 While this package does not have an official support for use in VueJs. This can be done in few simple steps.
 Please check [here](https://github.com/nosir/cleave.js/blob/master/doc/vue.md)
 
 ## jQuery fn usage
+
 Please check [here](https://github.com/nosir/cleave.js/issues/341)
 
 ## Playground
@@ -233,9 +251,9 @@ Please check [here](https://github.com/nosir/cleave.js/issues/341)
 ## Documentation
 
 - [JavaScript API](https://github.com/nosir/cleave.js/blob/master/doc/js-api.md)
-    - [Constructor](https://github.com/nosir/cleave.js/blob/master/doc/constructor.md)
-    - [Options](https://github.com/nosir/cleave.js/blob/master/doc/options.md)
-    - [Public methods](https://github.com/nosir/cleave.js/blob/master/doc/public-methods.md)
+  - [Constructor](https://github.com/nosir/cleave.js/blob/master/doc/constructor.md)
+  - [Options](https://github.com/nosir/cleave.js/blob/master/doc/options.md)
+  - [Public methods](https://github.com/nosir/cleave.js/blob/master/doc/public-methods.md)
 - [Phone lib addon](https://github.com/nosir/cleave.js/blob/master/doc/phone-lib-addon.md)
 - [ReactJS component usage](https://github.com/nosir/cleave.js/blob/master/doc/reactjs-component-usage.md)
 - [AngularJS directive usage](https://github.com/nosir/cleave.js/blob/master/doc/angularjs-directive-usage.md)
@@ -273,6 +291,7 @@ gulp publish
 > For contributors, please run `gulp publish` to ensure your PR passes tests and lint, also we have a [not in the plan](https://github.com/nosir/cleave.js/blob/master/doc/not-in-the-plan.md) list you may concern.
 
 ## Get in touch
+
 - Twitter: [@rison](https://twitter.com/rison)
 
 ## References
