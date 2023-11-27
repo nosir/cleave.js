@@ -1012,8 +1012,10 @@ var DefaultProperties = {
 
         // others
         target.swapHiddenInput = !!opts.swapHiddenInput;
-        
+
         target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;
+
+        target.hexadecimalOnly = target.creditCard || target.date || !!opts.hexadecimalOnly;
 
         target.uppercase = !!opts.uppercase;
         target.lowercase = !!opts.lowercase;
@@ -1354,6 +1356,9 @@ Cleave.prototype = {
 
         // strip non-numeric characters
         value = pps.numericOnly ? Util.strip(value, /[^\d]/g) : value;
+
+        // strip non-hexadecimal characters
+        value = pps.hexadecimalOnly ? Util.strip(value, /[^0-9a-fA-F]/g) : value;
 
         // convert case
         value = pps.uppercase ? value.toUpperCase() : value;

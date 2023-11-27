@@ -135,6 +135,17 @@ describe('Custom input field', function () {
         assert.equal(field.value, '123 45');
     });
 
+    it('should use hexadecimal only option', function () {
+        var cleave = new Cleave(field, {
+            blocks: [8, 4, 4, 4, 12],
+            delimiter: '-',
+            hexadecimalOnly: true,
+        });
+
+        cleave.setRawValue('0z50e8400ze29bz41d4za716x446655440000');
+        assert.equal(field.value, '050e8400-e29b-41d4-a716-446655440000');
+    });
+
     it('should use uppercase option', function () {
         var cleave = new Cleave(field, {
             uppercase: true,

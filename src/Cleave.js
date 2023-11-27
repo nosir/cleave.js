@@ -299,6 +299,9 @@ Cleave.prototype = {
         // strip non-numeric characters
         value = pps.numericOnly ? Util.strip(value, /[^\d]/g) : value;
 
+        // strip non-hexadecimal characters
+        value = pps.hexadecimalOnly ? Util.strip(value, /[^0-9a-fA-F]/g) : value;
+
         // convert case
         value = pps.uppercase ? value.toUpperCase() : value;
         value = pps.lowercase ? value.toLowerCase() : value;
