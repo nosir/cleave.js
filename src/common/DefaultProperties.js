@@ -6,6 +6,17 @@
  * Separate this, so react module can share the usage
  */
 var DefaultProperties = {
+
+    getDelimitersFromPattern: function(patternArray, delimiterToInsert) {
+        return patternArray.flatMap(function(value, index) {
+            if(index == 0)
+                return [];
+
+            return delimiterToInsert;
+        });
+    },
+
+
     // Maybe change to object-assign
     // for now just keep it as simple
     assign: function (target, opts) {
@@ -72,7 +83,14 @@ var DefaultProperties = {
                                 ' '))));
         target.delimiterLength = target.delimiter.length;
         target.delimiterLazyShow = !!opts.delimiterLazyShow;
-        target.delimiters = opts.delimiters || [];
+
+        target.delimiters = opts.delimiters ? opts.delimiters :
+            (target.date === true && target.time === true) ? [
+                    this.getDelimitersFromPattern(target.datePattern, '/'),
+                    ' ',
+                    this.getDelimitersFromPattern(target.timePattern, ':')
+                ].flat() :
+                    [];
 
         target.blocks = opts.blocks || [];
         target.blocksLength = target.blocks.length;

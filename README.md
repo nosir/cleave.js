@@ -18,7 +18,7 @@ Cleave.js has a simple purpose: to help you format input text content automatica
 
 - Credit card number formatting
 - Phone number formatting (i18n js lib separated for each country to reduce size)
-- Date formatting
+- Date and time formatting
 - Numeral formatting
 - Custom delimiter, prefix and blocks pattern
 - CommonJS / AMD mode
