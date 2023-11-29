@@ -357,7 +357,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        // convert case
 	        value = pps.uppercase ? value.toUpperCase() : value;
-	        value = pps.lowercase ? value.toLowerCase() : value;
+			value = pps.lowercase ? value.toLowerCase() : value;
+			value = pps.firstUppercase && value.length > 1 ? value[0].toUpperCase() + value.substring(1).toLowerCase() : value;
 
 	        // prevent from showing prefix when no immediate option enabled with empty input value
 	        if (pps.prefix) {
@@ -1679,7 +1680,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        target.uppercase = !!opts.uppercase;
 	        target.lowercase = !!opts.lowercase;
-
+	        target.firstUppercase = !!opts.firstUppercase;
+			
 	        target.prefix = (target.creditCard || target.date) ? '' : (opts.prefix || '');
 	        target.noImmediatePrefix = !!opts.noImmediatePrefix;
 	        target.prefixLength = target.prefix.length;
