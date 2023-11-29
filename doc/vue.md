@@ -16,7 +16,6 @@ Vue.directive('cleave', {
     update: (el) => {
         const event = new Event('input', {bubbles: true});
         setTimeout(function () {
-            el.value = el.cleave.properties.result
             el.dispatchEvent(event)
         }, 100);
     }
@@ -38,7 +37,6 @@ export default {
             update: (el) => {
                 const event = new Event('input', {bubbles: true});
                 setTimeout(function () {
-                    el.value = el.cleave.properties.result
                     el.dispatchEvent(event)
                 }, 100);
             }
