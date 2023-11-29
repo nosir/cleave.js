@@ -395,6 +395,7 @@
   },
   {
     "thousandsGroupStyle": "thousand",
+    "numeralDecimalPadding": false,
     "stripLeadingZeroes": false,
     "numbers": [
       [

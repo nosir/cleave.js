@@ -71,6 +71,17 @@ describe('Numeral input field', function () {
         assert.equal(field.value, '1,234.56');
     });
 
+    it('should pad decimals with zeros', function () {
+        var cleave = new Cleave(field, {
+            numeral:             true,
+            numeralDecimalScale: 4,
+            numeralDecimalPadding: true
+        });
+
+        cleave.setRawValue('-1234');
+        assert.equal(field.value, '1,234.0000');
+    });
+
     it('it should not strip leading zeroes', function () {
         var cleave = new Cleave(field, {
             numeral:             true,

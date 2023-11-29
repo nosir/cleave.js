@@ -34,6 +34,10 @@ describe('NumeralFormatter', function () {
             title.push('Positive Only: ' + numeral.numeralPositiveOnly);
         }
 
+        if (numeral.numeralDecimalPadding) {
+            title.push('Decimal Padding:' + numeral.numeralDecimalPadding);
+        }
+
         if (numeral.stripLeadingZeroes) {
             title.push('Strip leading zeroes:' + numeral.stripLeadingZeroes);
         }
@@ -57,6 +61,7 @@ describe('NumeralFormatter', function () {
                 numeral.numeralDecimalScale,
                 numeral.thousandsGroupStyle,
                 numeral.numeralPositiveOnly,
+                numeral.numeralDecimalPadding,
                 numeral.stripLeadingZeroes,
                 numeral.prefix,
                 numeral.signBeforePrefix,

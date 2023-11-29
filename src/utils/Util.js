@@ -29,24 +29,64 @@ var Util = {
         return new RegExp(delimiter.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1'), 'g');
     },
 
-    getNextCursorPosition: function (prevPos, oldValue, newValue, delimiter, delimiters) {
-      // If cursor was at the end of value, just place it back.
-      // Because new value could contain additional chars.
-      if (oldValue.length === prevPos) {
-          return newValue.length;
-      }
+    getNextCursorPosition: function (prevPos, oldValue, newValue, pps) {
+        // If cursor was at the end of value, just place it back.
+        // Because new value could contain additional chars.
+        if (oldValue.length === prevPos && !pps.numeralDecimalPadding) {
+            return newValue.length;
+        }
 
-      return prevPos + this.getPositionOffset(prevPos, oldValue, newValue, delimiter ,delimiters);
+        return prevPos + this.getPositionOffset(prevPos, oldValue, newValue, pps);
     },
 
-    getPositionOffset: function (prevPos, oldValue, newValue, delimiter, delimiters) {
+    getPositionOffset: function (prevPos, oldValue, newValue, pps) {
         var oldRawValue, newRawValue, lengthOffset;
 
-        oldRawValue = this.stripDelimiters(oldValue.slice(0, prevPos), delimiter, delimiters);
-        newRawValue = this.stripDelimiters(newValue.slice(0, prevPos), delimiter, delimiters);
+        oldRawValue = this.stripDelimiters(oldValue.slice(0, prevPos), pps.delimiter, pps.delimiters);
+        newRawValue = this.stripDelimiters(newValue.slice(0, prevPos), pps.delimiter, pps.delimiters);
         lengthOffset = oldRawValue.length - newRawValue.length;
 
-        return (lengthOffset !== 0) ? (lengthOffset / Math.abs(lengthOffset)) : 0;
+        if (pps.numeral && pps.numeralDecimalPadding && pps.numeralDecimalScale > 0) {
+            // in prefix
+            if (pps.prefix) {
+                if (!pps.tailPrefix) {
+                    if (prevPos <= pps.prefixLength) {
+                        return pps.prefixLength;
+                    }
+                }
+            }
+            const decimalMarkPos = newValue.indexOf(pps.numeralDecimalMark);
+            if (oldValue === '') {
+                return -prevPos + decimalMarkPos;
+            }
+            if (oldValue.charAt(prevPos) === pps.numeralDecimalMark) {
+                if (prevPos > 0 && oldValue.charAt(prevPos - 1) === pps.numeralDecimalMark) {
+                    return -prevPos + decimalMarkPos + 1;
+                }
+                else {
+                    return -prevPos + decimalMarkPos;
+                }
+            }
+            // on the left of decimal mark
+            if (prevPos < decimalMarkPos) {
+                return (lengthOffset !== 0) ? (lengthOffset / Math.abs(lengthOffset)) : 0;
+            }
+            if (prevPos == decimalMarkPos) {
+                return (lengthOffset !== 0) ? (lengthOffset / Math.abs(lengthOffset)) : 0;
+            }
+            else {
+                // on the right of decimal mark
+                if (prevPos <= decimalMarkPos + pps.numeralDecimalScale + 1) {
+                    return 0;
+                }
+                else {
+                    return -1;
+                }
+            }
+        }
+        else {
+            return (lengthOffset !== 0) ? (lengthOffset / Math.abs(lengthOffset)) : 0;
+        }
     },
 
     stripDelimiters: function (value, delimiter, delimiters) {
